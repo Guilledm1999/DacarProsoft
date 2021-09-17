@@ -1,0 +1,775 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DacarProsoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DacarProsoftEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="RegistrarNuevoUsuario">
+      <Parameter Name="nombres" Mode="In" Type="String" />
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="llave" Mode="In" Type="String" />
+      <Parameter Name="tipo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="spConsultaUsuarios" ReturnType="Collection(DacarProsoftModel.spConsultaUsuarios)" />
+    <EntitySet Name="MenuOpciones" EntityType="DacarProsoftModel.MenuOpciones" />
+    <EntitySet Name="Menus" EntityType="DacarProsoftModel.Menus" />
+    <EntitySet Name="TipoUsuario" EntityType="DacarProsoftModel.TipoUsuario" />
+    <EntitySet Name="Usuarios" EntityType="DacarProsoftModel.Usuarios" />
+    <AssociationSet Name="FK__MenuOpcio__MenuI__25869641" Association="DacarProsoftModel.FK__MenuOpcio__MenuI__25869641">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="MenuOpciones" EntitySet="MenuOpciones" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Usuarios__TipoUs__33D4B598" Association="DacarProsoftModel.FK__Usuarios__TipoUs__33D4B598">
+      <End Role="TipoUsuario" EntitySet="TipoUsuario" />
+      <End Role="Usuarios" EntitySet="Usuarios" />
+    </AssociationSet>
+    <EntitySet Name="Meses" EntityType="DacarProsoftModel.Meses" />
+    <EntitySet Name="EstadosOrdenProduccion" EntityType="DacarProsoftModel.EstadosOrdenProduccion" />
+    <EntitySet Name="Bodega" EntityType="DacarProsoftModel.Bodega" />
+    <EntitySet Name="TipoDocumento" EntityType="DacarProsoftModel.TipoDocumento" />
+    <EntitySet Name="TipoIngreso" EntityType="DacarProsoftModel.TipoIngreso" />
+    <EntitySet Name="Modelos" EntityType="DacarProsoftModel.Modelos" />
+    <EntitySet Name="Vehiculos" EntityType="DacarProsoftModel.Vehiculos" />
+    <EntitySet Name="Vendedores" EntityType="DacarProsoftModel.Vendedores" />
+    <EntitySet Name="TipoCliente" EntityType="DacarProsoftModel.TipoCliente" />
+    <EntitySet Name="Marcas" EntityType="DacarProsoftModel.Marcas" />
+    <EntitySet Name="IngresoMercanciasTipoDescripcion" EntityType="DacarProsoftModel.IngresoMercanciasTipoDescripcion" />
+    <EntitySet Name="DiasBusqueda" EntityType="DacarProsoftModel.DiasBusqueda" />
+    <EntitySet Name="Chatarra" EntityType="DacarProsoftModel.Chatarra" />
+    <EntitySet Name="PackingListDetalle" EntityType="DacarProsoftModel.PackingListDetalle" />
+    <FunctionImport Name="LoginUsuario" ReturnType="Collection(DacarProsoftModel.LoginUsuario_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="llave" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Accesos" EntityType="DacarProsoftModel.Accesos" />
+    <AssociationSet Name="FK__Accesos__MenuId__37A5467C" Association="DacarProsoftModel.FK__Accesos__MenuId__37A5467C">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="Accesos" EntitySet="Accesos" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Accesos__MenuId__4E88ABD4" Association="DacarProsoftModel.FK__Accesos__MenuId__4E88ABD4">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="Accesos" EntitySet="Accesos" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Accesos__TipoUsu__36B12243" Association="DacarProsoftModel.FK__Accesos__TipoUsu__36B12243">
+      <End Role="TipoUsuario" EntitySet="TipoUsuario" />
+      <End Role="Accesos" EntitySet="Accesos" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Accesos__TipoUsu__5070F446" Association="DacarProsoftModel.FK__Accesos__TipoUsu__5070F446">
+      <End Role="TipoUsuario" EntitySet="TipoUsuario" />
+      <End Role="Accesos" EntitySet="Accesos" />
+    </AssociationSet>
+    <EntitySet Name="Paises" EntityType="DacarProsoftModel.Paises" />
+    <EntitySet Name="PaisOrigen" EntityType="DacarProsoftModel.PaisOrigen" />
+    <EntitySet Name="PackingListCabecera" EntityType="DacarProsoftModel.PackingListCabecera" />
+    <AssociationSet Name="fk_PackingListDetalle" Association="DacarProsoftModel.fk_PackingListDetalle">
+      <End Role="PackingListCabecera" EntitySet="PackingListCabecera" />
+      <End Role="PackingListDetalle" EntitySet="PackingListDetalle" />
+    </AssociationSet>
+    <EntitySet Name="ChatarraPesos" EntityType="DacarProsoftModel.ChatarraPesos" />
+    <EntitySet Name="ChatarraDetalle" EntityType="DacarProsoftModel.ChatarraDetalle" />
+    <EntitySet Name="ChatarraDetalleIndividual" EntityType="DacarProsoftModel.ChatarraDetalleIndividual" />
+    <AssociationSet Name="fk_Chatarra" Association="DacarProsoftModel.fk_Chatarra">
+      <End Role="Chatarra" EntitySet="Chatarra" />
+      <End Role="ChatarraDetalle" EntitySet="ChatarraDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_ChatarraDetalle" Association="DacarProsoftModel.fk_ChatarraDetalle">
+      <End Role="Chatarra" EntitySet="Chatarra" />
+      <End Role="ChatarraDetalleIndividual" EntitySet="ChatarraDetalleIndividual" />
+    </AssociationSet>
+    <EntitySet Name="ControlCambios" EntityType="DacarProsoftModel.ControlCambios" />
+    <EntitySet Name="GrupoClientes" EntityType="DacarProsoftModel.GrupoClientes" />
+    <FunctionImport Name="spActualizarUsuario">
+      <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="usuario" Mode="In" Type="String" />
+      <Parameter Name="nombre" Mode="In" Type="String" />
+      <Parameter Name="clave" Mode="In" Type="String" />
+      <Parameter Name="tipoUsuario" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Packing" EntityType="DacarProsoftModel.Packing" />
+    <EntitySet Name="PackingDtl" EntityType="DacarProsoftModel.PackingDtl" />
+    <AssociationSet Name="fk_Packing" Association="DacarProsoftModel.fk_Packing">
+      <End Role="Packing" EntitySet="Packing" />
+      <End Role="PackingDtl" EntitySet="PackingDtl" />
+    </AssociationSet>
+    <EntitySet Name="PalletPacking" EntityType="DacarProsoftModel.PalletPacking" />
+    <AssociationSet Name="fk_PackingPallet" Association="DacarProsoftModel.fk_PackingPallet">
+      <End Role="Packing" EntitySet="Packing" />
+      <End Role="PalletPacking" EntitySet="PalletPacking" />
+    </AssociationSet>
+    <EntitySet Name="PalletPackingDetalle" EntityType="DacarProsoftModel.PalletPackingDetalle" />
+    <AssociationSet Name="fk_PalletPackingDetalle" Association="DacarProsoftModel.fk_PalletPackingDetalle">
+      <End Role="PalletPacking" EntitySet="PalletPacking" />
+      <End Role="PalletPackingDetalle" EntitySet="PalletPackingDetalle" />
+    </AssociationSet>
+    <EntitySet Name="DetalleGeneralPackingList" EntityType="DacarProsoftModel.DetalleGeneralPackingList" />
+    <EntitySet Name="SubMenuOpciones" EntityType="DacarProsoftModel.SubMenuOpciones" />
+    <FunctionImport Name="spLoginUsuarioPortal" ReturnType="Collection(DacarProsoftModel.spLoginUsuarioPortal_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="clave" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="spRegistrarNuevoUsuarioPortal">
+      <Parameter Name="nombre" Mode="In" Type="String" />
+      <Parameter Name="usuario" Mode="In" Type="String" />
+      <Parameter Name="clave" Mode="In" Type="String" />
+      <Parameter Name="referencia" Mode="In" Type="String" />
+      <Parameter Name="estado" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="UsuariosPortal" EntityType="DacarProsoftModel.UsuariosPortal" />
+    <EntitySet Name="PedidoClienteCabecera" EntityType="DacarProsoftModel.PedidoClienteCabecera" />
+    <EntitySet Name="PedidoClienteDetalleFinal" EntityType="DacarProsoftModel.PedidoClienteDetalleFinal" />
+    <EntitySet Name="PedidoClienteDetalle" EntityType="DacarProsoftModel.PedidoClienteDetalle" />
+    <AssociationSet Name="fk_detallePedido" Association="DacarProsoftModel.fk_detallePedido">
+      <End Role="PedidoClienteCabecera" EntitySet="PedidoClienteCabecera" />
+      <End Role="PedidoClienteDetalle" EntitySet="PedidoClienteDetalle" />
+    </AssociationSet>
+    <EntitySet Name="EstadosPedidos" EntityType="DacarProsoftModel.EstadosPedidos" />
+    <EntitySet Name="FechasPedidos" EntityType="DacarProsoftModel.FechasPedidos" />
+    <EntitySet Name="EstadosPedidosSelect" EntityType="DacarProsoftModel.EstadosPedidosSelect" />
+    <FunctionImport Name="spActualizarUsuarioPortal">
+      <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="usuario" Mode="In" Type="String" />
+      <Parameter Name="clave" Mode="In" Type="String" />
+      <Parameter Name="tipo" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="UrlImprimirPdfPallet" EntityType="DacarProsoftModel.UrlImprimirPdfPallet" />
+  </EntityContainer>
+  <ComplexType Name="spConsultaUsuarios">
+    <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+    <Property Type="String" Name="NombreCompleto" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="NombreUsuario" Nullable="false" MaxLength="15" />
+    <Property Type="Int32" Name="TipoUsuario" Nullable="false" />
+    <Property Type="String" Name="DescripcionTipoUsuario" Nullable="true" MaxLength="255" />
+  </ComplexType>
+  <EntityType Name="MenuOpciones">
+    <Key>
+      <PropertyRef Name="MenuOpcionesId" />
+    </Key>
+    <Property Name="MenuOpcionesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MenuId" Type="Int32" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="EstadoMenuOpciones" Type="Int32" />
+    <NavigationProperty Name="Menus" Relationship="DacarProsoftModel.FK__MenuOpcio__MenuI__25869641" FromRole="MenuOpciones" ToRole="Menus" />
+    <Property Name="Url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Menus">
+    <Key>
+      <PropertyRef Name="MenuId" />
+    </Key>
+    <Property Name="MenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreMenu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DescripcionMenu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EstadoMenu" Type="Int32" />
+    <NavigationProperty Name="MenuOpciones" Relationship="DacarProsoftModel.FK__MenuOpcio__MenuI__25869641" FromRole="Menus" ToRole="MenuOpciones" />
+    <Property Name="Url" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Accesos" Relationship="DacarProsoftModel.FK__Accesos__MenuId__37A5467C" FromRole="Menus" ToRole="Accesos" />
+    <NavigationProperty Name="Accesos1" Relationship="DacarProsoftModel.FK__Accesos__MenuId__4E88ABD4" FromRole="Menus" ToRole="Accesos" />
+  </EntityType>
+  <EntityType Name="TipoUsuario">
+    <Key>
+      <PropertyRef Name="TipoUsuarioId" />
+    </Key>
+    <Property Name="TipoUsuarioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DescripcionTipoUsuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Usuarios" Relationship="DacarProsoftModel.FK__Usuarios__TipoUs__33D4B598" FromRole="TipoUsuario" ToRole="Usuarios" />
+    <NavigationProperty Name="Accesos" Relationship="DacarProsoftModel.FK__Accesos__TipoUsu__36B12243" FromRole="TipoUsuario" ToRole="Accesos" />
+    <NavigationProperty Name="Accesos1" Relationship="DacarProsoftModel.FK__Accesos__TipoUsu__5070F446" FromRole="TipoUsuario" ToRole="Accesos" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreCompleto" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="NombreUsuario" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Contrasena" Type="Binary" Nullable="false" MaxLength="8000" FixedLength="false" />
+    <Property Name="TipoUsuario" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="TipoUsuario1" Relationship="DacarProsoftModel.FK__Usuarios__TipoUs__33D4B598" FromRole="Usuarios" ToRole="TipoUsuario" />
+  </EntityType>
+  <Association Name="FK__MenuOpcio__MenuI__25869641">
+    <End Type="DacarProsoftModel.Menus" Role="Menus" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.MenuOpciones" Role="MenuOpciones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="MenuId" />
+      </Principal>
+      <Dependent Role="MenuOpciones">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Usuarios__TipoUs__33D4B598">
+    <End Type="DacarProsoftModel.TipoUsuario" Role="TipoUsuario" Multiplicity="1" />
+    <End Type="DacarProsoftModel.Usuarios" Role="Usuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoUsuario">
+        <PropertyRef Name="TipoUsuarioId" />
+      </Principal>
+      <Dependent Role="Usuarios">
+        <PropertyRef Name="TipoUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Meses">
+    <Key>
+      <PropertyRef Name="MesId" />
+    </Key>
+    <Property Name="MesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Orden" Type="Int32" />
+  </EntityType>
+  <EntityType Name="EstadosOrdenProduccion">
+    <Key>
+      <PropertyRef Name="OrdenId" />
+    </Key>
+    <Property Name="OrdenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EstadoSap" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="DescripcionEstado" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Bodega">
+    <Key>
+      <PropertyRef Name="BodegaId" />
+    </Key>
+    <Property Name="BodegaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CodigoBodega" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DescripcionBodega" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DireccionBodega" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="TipoDocumento">
+    <Key>
+      <PropertyRef Name="TipoDocumentoId" />
+    </Key>
+    <Property Name="TipoDocumentoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="TipoIngreso">
+    <Key>
+      <PropertyRef Name="TipoIngresoId" />
+    </Key>
+    <Property Name="TipoIngresoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Modelos">
+    <Key>
+      <PropertyRef Name="ModeloID" />
+    </Key>
+    <Property Name="ModeloID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PesoTeorico" Type="Decimal" Precision="18" Scale="6" />
+  </EntityType>
+  <EntityType Name="Vehiculos">
+    <Key>
+      <PropertyRef Name="VehiculoID" />
+    </Key>
+    <Property Name="VehiculoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VendedorID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Vendedores">
+    <Key>
+      <PropertyRef Name="VendedorID" />
+    </Key>
+    <Property Name="VendedorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="TipoCliente">
+    <Key>
+      <PropertyRef Name="TipoClienteId" />
+    </Key>
+    <Property Name="TipoClienteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Marcas">
+    <Key>
+      <PropertyRef Name="MarcaID" />
+    </Key>
+    <Property Name="MarcaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="IngresoMercanciasTipoDescripcion">
+    <Key>
+      <PropertyRef Name="IngresosMercanciasTipoDescripcionId" />
+    </Key>
+    <Property Name="IngresosMercanciasTipoDescripcionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DescripcionBusqueda" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DiasBusqueda">
+    <Key>
+      <PropertyRef Name="DiasBusquedaId" />
+    </Key>
+    <Property Name="DiasBusquedaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NumeroDias" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Chatarra">
+    <Key>
+      <PropertyRef Name="ChatarraId" />
+    </Key>
+    <Property Name="ChatarraId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocEntry" Type="Int32" />
+    <Property Name="NumeroDocumento" Type="Int32" />
+    <Property Name="Fecha" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Identificacion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="Cliente" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="TipoIngreso" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Comentarios" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="BodegaId" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+    <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="ChatarraDetalle" Relationship="DacarProsoftModel.fk_Chatarra" FromRole="Chatarra" ToRole="ChatarraDetalle" />
+    <NavigationProperty Name="ChatarraDetalleIndividual" Relationship="DacarProsoftModel.fk_ChatarraDetalle" FromRole="Chatarra" ToRole="ChatarraDetalleIndividual" />
+    <Property Name="CardCode" Type="Int32" />
+    <Property Name="ClienteLinea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ClienteClase" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NumeroPedido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="PackingListDetalle">
+    <Key>
+      <PropertyRef Name="PackingListDetalleId" />
+    </Key>
+    <Property Name="PackingListDetalleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PackingListId" Type="Int32" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cantidad" Type="Int32" />
+    <NavigationProperty Name="PackingListCabecera" Relationship="DacarProsoftModel.fk_PackingListDetalle" FromRole="PackingListDetalle" ToRole="PackingListCabecera" />
+  </EntityType>
+  <ComplexType Name="LoginUsuario_Result">
+    <Property Type="String" Name="NombreCompleto" Nullable="false" MaxLength="30" />
+    <Property Type="Int32" Name="TipoUsuario" Nullable="false" />
+    <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Accesos">
+    <Key>
+      <PropertyRef Name="IdAccesos" />
+    </Key>
+    <Property Name="IdAccesos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TipoUsuarioId" Type="Int32" />
+    <Property Name="MenuId" Type="Int32" />
+    <Property Name="Estado" Type="Int32" />
+    <NavigationProperty Name="Menus" Relationship="DacarProsoftModel.FK__Accesos__MenuId__37A5467C" FromRole="Accesos" ToRole="Menus" />
+    <NavigationProperty Name="Menus1" Relationship="DacarProsoftModel.FK__Accesos__MenuId__4E88ABD4" FromRole="Accesos" ToRole="Menus" />
+    <NavigationProperty Name="TipoUsuario" Relationship="DacarProsoftModel.FK__Accesos__TipoUsu__36B12243" FromRole="Accesos" ToRole="TipoUsuario" />
+    <NavigationProperty Name="TipoUsuario1" Relationship="DacarProsoftModel.FK__Accesos__TipoUsu__5070F446" FromRole="Accesos" ToRole="TipoUsuario" />
+  </EntityType>
+  <Association Name="FK__Accesos__MenuId__37A5467C">
+    <End Type="DacarProsoftModel.Menus" Role="Menus" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.Accesos" Role="Accesos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="MenuId" />
+      </Principal>
+      <Dependent Role="Accesos">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Accesos__MenuId__4E88ABD4">
+    <End Type="DacarProsoftModel.Menus" Role="Menus" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.Accesos" Role="Accesos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="MenuId" />
+      </Principal>
+      <Dependent Role="Accesos">
+        <PropertyRef Name="MenuId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Accesos__TipoUsu__36B12243">
+    <End Type="DacarProsoftModel.TipoUsuario" Role="TipoUsuario" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.Accesos" Role="Accesos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoUsuario">
+        <PropertyRef Name="TipoUsuarioId" />
+      </Principal>
+      <Dependent Role="Accesos">
+        <PropertyRef Name="TipoUsuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Accesos__TipoUsu__5070F446">
+    <End Type="DacarProsoftModel.TipoUsuario" Role="TipoUsuario" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.Accesos" Role="Accesos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoUsuario">
+        <PropertyRef Name="TipoUsuarioId" />
+      </Principal>
+      <Dependent Role="Accesos">
+        <PropertyRef Name="TipoUsuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Paises">
+    <Key>
+      <PropertyRef Name="PaisId" />
+    </Key>
+    <Property Name="PaisId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DescripcionPais" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="PesoMaximoPermitido" Type="Decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="PaisOrigen">
+    <Key>
+      <PropertyRef Name="PaisOrigenId" />
+    </Key>
+    <Property Name="PaisOrigenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DescripcionPaisOrigen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="PackingListCabecera">
+    <Key>
+      <PropertyRef Name="PackingListId" />
+    </Key>
+    <Property Name="PackingListId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PalletNumber" Type="Int32" />
+    <Property Name="GrossWeight" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="NetWeight" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Orden" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Origen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Destino" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Volumen" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+    <Property Name="CodigoQr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="PackingListDetalle" Relationship="DacarProsoftModel.fk_PackingListDetalle" FromRole="PackingListCabecera" ToRole="PackingListDetalle" />
+  </EntityType>
+  <Association Name="fk_PackingListDetalle">
+    <End Type="DacarProsoftModel.PackingListCabecera" Role="PackingListCabecera" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.PackingListDetalle" Role="PackingListDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PackingListCabecera">
+        <PropertyRef Name="PackingListId" />
+      </Principal>
+      <Dependent Role="PackingListDetalle">
+        <PropertyRef Name="PackingListId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ChatarraPesos">
+    <Key>
+      <PropertyRef Name="ChatarraPesoId" />
+    </Key>
+    <Property Name="ChatarraPesoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocEntry" Type="Int32" />
+    <Property Name="PesoTeoricoTotalCalculado" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoBultoIngresado" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoAjustadoTotal" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Desviacion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="CantidadTotal" Type="Int32" />
+    <Property Name="ModoIngreso" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ChatarraDetalle">
+    <Key>
+      <PropertyRef Name="ChatarraDetalleId" />
+    </Key>
+    <Property Name="ChatarraDetalleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChatarraId" Type="Int32" />
+    <Property Name="DocEntry" Type="Int32" />
+    <Property Name="CodigoItem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Cantidad" Type="Int32" />
+    <Property Name="PesoTeoricoUnitario" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoTeoricoTotal" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoUnitarioAjustado" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoTotalAjustado" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="Chatarra" Relationship="DacarProsoftModel.fk_Chatarra" FromRole="ChatarraDetalle" ToRole="Chatarra" />
+  </EntityType>
+  <EntityType Name="ChatarraDetalleIndividual">
+    <Key>
+      <PropertyRef Name="ChatarraDetalleIndividual1" />
+    </Key>
+    <Property Name="ChatarraDetalleIndividual1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ChatarraId" Type="Int32" />
+    <Property Name="DocEntry" Type="Int32" />
+    <Property Name="CodigoItem" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Cantidad" Type="Int32" />
+    <Property Name="PesoTeoricoUnitario" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoTeoricoTotal" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoNetoIndividual" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoUnitarioAjustado" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoTotalAjustado" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DesviacionIndividual" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="Chatarra" Relationship="DacarProsoftModel.fk_ChatarraDetalle" FromRole="ChatarraDetalleIndividual" ToRole="Chatarra" />
+  </EntityType>
+  <Association Name="fk_Chatarra">
+    <End Type="DacarProsoftModel.Chatarra" Role="Chatarra" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.ChatarraDetalle" Role="ChatarraDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chatarra">
+        <PropertyRef Name="ChatarraId" />
+      </Principal>
+      <Dependent Role="ChatarraDetalle">
+        <PropertyRef Name="ChatarraId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_ChatarraDetalle">
+    <End Type="DacarProsoftModel.Chatarra" Role="Chatarra" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.ChatarraDetalleIndividual" Role="ChatarraDetalleIndividual" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chatarra">
+        <PropertyRef Name="ChatarraId" />
+      </Principal>
+      <Dependent Role="ChatarraDetalleIndividual">
+        <PropertyRef Name="ChatarraId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ControlCambios">
+    <Key>
+      <PropertyRef Name="ControlCambioId" />
+    </Key>
+    <Property Name="ControlCambioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Usuario" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Pass" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Int32" />
+  </EntityType>
+  <EntityType Name="GrupoClientes">
+    <Key>
+      <PropertyRef Name="GrupoClienteId" />
+    </Key>
+    <Property Name="GrupoClienteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupCode" Type="Int32" />
+    <Property Name="GroupName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Packing">
+    <Key>
+      <PropertyRef Name="PackingId" />
+    </Key>
+    <Property Name="PackingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NumeroDocumento" Type="Int32" />
+    <Property Name="NumeroOrden" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="NombreCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Origen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Destino" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CantidadPallet" Type="Int32" />
+    <NavigationProperty Name="PackingDtl" Relationship="DacarProsoftModel.fk_Packing" FromRole="Packing" ToRole="PackingDtl" />
+    <NavigationProperty Name="PalletPacking" Relationship="DacarProsoftModel.fk_PackingPallet" FromRole="Packing" ToRole="PalletPacking" />
+    <Property Name="Tipo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="DetalleIngresado" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="PackingDtl">
+    <Key>
+      <PropertyRef Name="PackingDtlId" />
+    </Key>
+    <Property Name="PackingDtlId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PackingId" Type="Int32" />
+    <Property Name="CodigoItem" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DescripcionItem" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="CantidadItem" Type="Int32" />
+    <NavigationProperty Name="Packing" Relationship="DacarProsoftModel.fk_Packing" FromRole="PackingDtl" ToRole="Packing" />
+  </EntityType>
+  <Association Name="fk_Packing">
+    <End Type="DacarProsoftModel.Packing" Role="Packing" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.PackingDtl" Role="PackingDtl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Packing">
+        <PropertyRef Name="PackingId" />
+      </Principal>
+      <Dependent Role="PackingDtl">
+        <PropertyRef Name="PackingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="PalletPacking">
+    <Key>
+      <PropertyRef Name="PalletPacking1" />
+    </Key>
+    <Property Name="PalletPacking1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PackingId" Type="Int32" />
+    <Property Name="PalletNumber" Type="Int32" />
+    <Property Name="LargoPallet" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AnchoPallet" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="AltoPallet" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="VolumenPallet" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoNeto" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoBruto" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="Packing" Relationship="DacarProsoftModel.fk_PackingPallet" FromRole="PalletPacking" ToRole="Packing" />
+    <NavigationProperty Name="PalletPackingDetalle" Relationship="DacarProsoftModel.fk_PalletPackingDetalle" FromRole="PalletPacking" ToRole="PalletPackingDetalle" />
+    <Property Name="CodigoQr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="fk_PackingPallet">
+    <End Type="DacarProsoftModel.Packing" Role="Packing" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.PalletPacking" Role="PalletPacking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Packing">
+        <PropertyRef Name="PackingId" />
+      </Principal>
+      <Dependent Role="PalletPacking">
+        <PropertyRef Name="PackingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="PalletPackingDetalle">
+    <Key>
+      <PropertyRef Name="PalletPackingDetalleId" />
+    </Key>
+    <Property Name="PalletPackingDetalleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PalletPacking" Type="Int32" />
+    <Property Name="PackingId" Type="Int32" />
+    <Property Name="ItemCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DescriptionCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="CantidadItem" Type="Int32" />
+    <NavigationProperty Name="PalletPacking1" Relationship="DacarProsoftModel.fk_PalletPackingDetalle" FromRole="PalletPackingDetalle" ToRole="PalletPacking" />
+  </EntityType>
+  <Association Name="fk_PalletPackingDetalle">
+    <End Type="DacarProsoftModel.PalletPacking" Role="PalletPacking" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.PalletPackingDetalle" Role="PalletPackingDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PalletPacking">
+        <PropertyRef Name="PalletPacking1" />
+      </Principal>
+      <Dependent Role="PalletPackingDetalle">
+        <PropertyRef Name="PalletPacking" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="DetalleGeneralPackingList">
+    <Key>
+      <PropertyRef Name="DetalleGeneralPackingListId" />
+    </Key>
+    <Property Name="DetalleGeneralPackingListId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PackingId" Type="Int32" />
+    <Property Name="ClientePackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ContenedorPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="FechaPackingList" Type="DateTime" Precision="3" />
+    <Property Name="ReservaPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="FacturaPedido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="PedidoPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="EmbarcacionPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="IntercambioEirPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ReferenciasPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ProductosPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="SubMenuOpciones">
+    <Key>
+      <PropertyRef Name="SubMenuOpcionesId" />
+    </Key>
+    <Property Name="SubMenuOpcionesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CodigoMenuOpciones" Type="Int32" />
+    <Property Name="NombreSubMenuOpciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="UrlSubmenuOpciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="EstadoSubmenuOpciones" Type="Int32" />
+  </EntityType>
+  <ComplexType Name="spLoginUsuarioPortal_Result">
+    <Property Type="String" Name="UsuarioPortal" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ReferenciaUsuario" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="UsuarioPortalId" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="UsuariosPortal">
+    <Key>
+      <PropertyRef Name="UsuarioPortalId" />
+    </Key>
+    <Property Name="UsuarioPortalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="UsuarioPortal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ClavePortal" Type="Binary" MaxLength="8000" FixedLength="false" />
+    <Property Name="ReferenciaUsuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EstadoUsuario" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="PedidoClienteCabecera">
+    <Key>
+      <PropertyRef Name="NumeroPedidoId" />
+    </Key>
+    <Property Name="NumeroPedidoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CardCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="NombreCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="FechaEmision" Type="DateTime" Precision="3" />
+    <Property Name="OrdenCompra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Pais" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Ciudad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="TerminoImportacion" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="FechaRequerida" Type="DateTime" Precision="3" />
+    <Property Name="EstadoPedido" Type="Int32" />
+    <NavigationProperty Name="PedidoClienteDetalle" Relationship="DacarProsoftModel.fk_detallePedido" FromRole="PedidoClienteCabecera" ToRole="PedidoClienteDetalle" />
+    <Property Name="FechaCargaLista" Type="DateTime" Precision="3" />
+    <Property Name="FechaDespachoPuerto" Type="DateTime" Precision="3" />
+    <Property Name="FechaZarpe" Type="DateTime" Precision="3" />
+    <Property Name="FechaArribo" Type="DateTime" Precision="3" />
+    <Property Name="FechaEntrega" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="PedidoClienteDetalleFinal">
+    <Key>
+      <PropertyRef Name="PedidoClienteDetalleFinal1" />
+    </Key>
+    <Property Name="PedidoClienteDetalleFinal1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PedidoClienteCabecera" Type="Int32" />
+    <Property Name="CantitadTotal" Type="Int32" />
+    <Property Name="PrecioFinalPedido" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoNetoFinalPedido" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoBrutoFinalPedido" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="FechaIngresadaSap" Type="DateTime" Precision="3" />
+    <Property Name="FechaNuevaDespacho" Type="DateTime" Precision="3" />
+    <Property Name="CantidadTotalNueva" Type="Int32" />
+  </EntityType>
+  <EntityType Name="PedidoClienteDetalle">
+    <Key>
+      <PropertyRef Name="PedidoClienteDetalleId" />
+    </Key>
+    <Property Name="PedidoClienteDetalleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NumeroPedidoId" Type="Int32" />
+    <Property Name="ItemCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ModeloBateria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Marca" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CardCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="NumeroParteCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EtiquetaDatosTecnicos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Polaridad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TipoTerminal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Cantidad" Type="Int32" />
+    <Property Name="CantidadConfirmada" Type="Int32" />
+    <Property Name="CantidadPiso" Type="Int32" />
+    <Property Name="PisoMaximo" Type="Int32" />
+    <Property Name="BateriasPallet" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CantidadPallets" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PrecioUnitario" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PrecioTotal" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoBateria" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoNeto" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PesoBruto" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="PedidoClienteCabecera" Relationship="DacarProsoftModel.fk_detallePedido" FromRole="PedidoClienteDetalle" ToRole="PedidoClienteCabecera" />
+  </EntityType>
+  <Association Name="fk_detallePedido">
+    <End Type="DacarProsoftModel.PedidoClienteCabecera" Role="PedidoClienteCabecera" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.PedidoClienteDetalle" Role="PedidoClienteDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PedidoClienteCabecera">
+        <PropertyRef Name="NumeroPedidoId" />
+      </Principal>
+      <Dependent Role="PedidoClienteDetalle">
+        <PropertyRef Name="NumeroPedidoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="EstadosPedidos">
+    <Key>
+      <PropertyRef Name="EstadoPedidoId" />
+    </Key>
+    <Property Name="EstadoPedidoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Codigo" Type="Int16" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="FechasPedidos">
+    <Key>
+      <PropertyRef Name="FechasPedidosId" />
+    </Key>
+    <Property Name="FechasPedidosId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DescripcionFecha" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="OrdenFecha" Type="Int32" />
+    <Property Name="EstadoFecha" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="EstadosPedidosSelect">
+    <Key>
+      <PropertyRef Name="EstadoPedidoSelectId" />
+    </Key>
+    <Property Name="EstadoPedidoSelectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Codigo" Type="Int16" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="UrlImprimirPdfPallet">
+    <Key>
+      <PropertyRef Name="UrlImprimirPdfPalletId" />
+    </Key>
+    <Property Name="UrlImprimirPdfPalletId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DireccionUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

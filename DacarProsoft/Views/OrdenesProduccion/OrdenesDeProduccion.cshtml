@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "OrdenesDeProduccion";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+
+@{
+    var estOrd = ViewBag.EstadoOrden;
+}
+<style>
+    .dx-datagrid {
+        font: 11px arial;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        /*background-color: #007bff ;*/
+        /*background-color: #3355FF;*/
+        color: black;
+    }
+</style>
+<br />
+<div class="card shadow align-top">
+    <div class="card-header">
+
+        <br />
+        <h2>Ordenes De Produccion</h2>
+        <br />
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <h6>Estado de Orden</h6>
+                    @Html.DropDownList("EstadoOrden", new SelectList(estOrd, "EstadoSap", "DescripcionEstado"), new { @class = "form-control", id = "EstadoOrden" })
+                </div>
+                
+                <div class="col-md-2">
+                    <button class="btn btn-primary" onclick="ConsultarOrdenPorEstado()">
+                        <i id="Cargar" class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <span class="btn-txt">Consultar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-primary collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div align="center">
+            <img id="cargaImg" src="~/Images/dacaritogif.gif" width="150" height="150" />
+        </div> 
+        <div id="tblOrdenesProduccion">
+           
+        </div>
+
+
+        <div class="modal" tabindex="-1" role="dialog" id="ModalDetalleOrden">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Detalle de Orden de fabricacion</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-3 col-form-label"><b>Tipo de Orden:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="NombreItem" id="txtSeriesName" autocomplete="off" readonly class="form-control">
+                                </div>
+                                <label for="psw" class="col-sm-3 col-form-label"><b>Item:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="NombreItem" id="txtItemName" autocomplete="off" readonly class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-3 col-form-label"><b>Tipo de Produccion:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="TipoProduccion" id="txtTipoProduccion" autocomplete="off" readonly class="form-control">
+                                </div>
+                                <label for="psw" class="col-sm-3 col-form-label"><b>Fecha de Orden:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="" id="txtCreacionOrden" autocomplete="off" readonly class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-3 col-form-label"><b>Estado de Orden:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="Estado" id="txtStatus" autocomplete="off" readonly class="form-control">
+                                </div>
+                                <label for="psw" class="col-sm-3 col-form-label"><b>Codigo de Item:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="" id="txtItemCode" autocomplete="off" readonly class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-3 col-form-label"><b>Cantidad Planificada:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="CantidadPlanificada" id="txtPlannedQty" autocomplete="off" readonly class="form-control">
+                                </div>
+                                <label for="psw" class="col-sm-3 col-form-label"><b>Cantidad Completada:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="" id="txtCmpltqty" autocomplete="off" readonly class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-3 col-form-label"><b>Cantidad Faltante:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="CantidadFaltante" id="txtRestante" autocomplete="off" readonly class="form-control">
+                                </div>
+                                <label for="psw" class="col-sm-3 col-form-label"><b>Linea de producción:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="" id="txtLinea" autocomplete="off" readonly class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-3 col-form-label"><b>Cantidad Base:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="CantidadBase" id="txtBaseQty" autocomplete="off" readonly class="form-control">
+                                </div>
+                               
+                                <label for="psw" class="col-sm-3 col-form-label"><b>Cantidad Emitida:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="" id="txtIssuedQty" autocomplete="off" readonly class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="email" class="col-sm-3 col-form-label"><b>Tipo de Producto:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="TipoProducto" id="txtWhsName" autocomplete="off" readonly class="form-control">
+                                </div>
+                                <label for="psw" class="col-sm-3 col-form-label"><b>Codigo de Producto:</b></label>
+                                <div class="col-sm-3">
+                                    <input type="text" name="" id="txtWhsCode" autocomplete="off" readonly class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="psw" class="col-sm-2 col-form-label"><b>Comentarios:</b></label>
+                                <div class="col-sm-10">
+                                    <textarea type="text" name="Comentarios" id="txtComments" autocomplete="off" readonly class="form-control"> </textarea>
+                                </div>
+                                </div>
+                        </form>
+</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+

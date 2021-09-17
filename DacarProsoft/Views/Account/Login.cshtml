@@ -1,0 +1,72 @@
+﻿<script>
+    //Script que impide el uso del botón atrás del navegador
+    window.location.hash = "no-back-button";
+    window.location.hash = "Again-No-back-button";
+    window.onhashchange = function () { window.location.hash = ""; }
+
+</script>
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Compartida/_LayoutPage1.cshtml";
+
+}
+@{
+    if (ViewBag.showSuccessAlert)
+    {
+        <script>
+            alert('Credenciales incorrectas');
+        </script>
+    }
+
+}
+
+<link href="~/Styles/css/font-awesome.css" rel="stylesheet" />
+<link href="~/Styles/css/style.css" rel="stylesheet" />
+
+<h1>DACAR PROSOFT 2.0</h1>
+<div class="clear-loading spinner">
+    <span></span>
+</div>
+<div class="w3ls-login box box--big">
+    <!-- form starts here -->
+    <form action="../Account/Verify" method="post">
+        <div class="agile-field-txt">
+            <label><i  aria-hidden="true"></i> Usuario </label>
+            <input type="text" name="NombreUsuario" placeholder="Ingrese su usuario" required="" />
+        </div>
+        <div class="agile-field-txt">
+            <label><i  aria-hidden="true"></i> Contraseña </label>
+            <input type="password" name="contrasena" placeholder="Ingrese su contraseña" required="" id="myInput" />
+            <div class="agile_label">
+                <input id="check3" name="check3" type="checkbox" value="show password" onclick="myFunction()">
+                <label class="check" for="check3">Ver Contraseña</label>
+            </div>
+            <div class="agile-right">
+                <!-- <a href="#">forgot password?</a>-->
+            </div>
+        </div>
+        <!-- script for show password -->
+        <script>
+				function myFunction() {
+					var x = document.getElementById("myInput");
+					if (x.type === "password") {
+						x.type = "text";
+					} else {
+						x.type = "password";
+					}
+				}
+        </script>
+        <!-- //end script -->
+        <input type="submit" value="LOGIN">
+    </form>
+</div>
+<!-- //form ends here -->
+<!--copyright-->
+<div class="copy-wthree">
+    <p>
+        © 2020 Dacar . All Rights Reserved | Design by Alexander Morán
+        <a href="http://bateriasdacar.com/" target="_blank">Industrias Dacar</a>
+    </p>
+</div>
+<!--//copyright-->
+

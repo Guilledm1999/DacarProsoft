@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "PedidosCancelados";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+
+<br />
+
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Pedidos Cancelados</h2>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="tblPedidosCancelada"></div>
+    </div>
+</div>
+
+
+
+<div id="ModalDetallePedidoCancelada" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b class="modal-title" id="lblNumberPalletNuevo">Detalle Pedido Cliente</b>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    @*<div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label"><b>Fecha Documento:</b></label>
+                            <div class="col-sm-2">
+                                <input id="txtFechaDocumentoAprobada" class="date-picker form-control" placeholder="dd-mm-yyyy" type="date" required="required" readonly onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                                <script>
+                                    function timeFunctionLong(input) {
+                                        setTimeout(function () {
+                                            input.type = 'text';
+                                        }, 60000);
+                                    }
+                                </script>
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                            <label for="email" class="col-sm-2 col-form-label"><b>Fecha Despacho:</b></label>
+                            <div class="col-sm-2">
+                                <input id="txtFechaDespachoAprobada" class="date-picker form-control" placeholder="dd-mm-yyyy" type="date" required="required" readonly onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                                <script>
+                                    function timeFunctionLong(input) {
+                                        setTimeout(function () {
+                                            input.type = 'text';
+                                        }, 60000);
+                                    }
+                                </script>
+                            </div>
+                        </div>*@
+                    @*<div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label"><b>Tipo Venta:</b></label>
+                            <div class="col-sm-2">
+                                <input type="text" name="TipoVenta" id="txtTipoVentaAprobada" class="form-control" readonly>
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                            <label for="email" class="col-sm-2 col-form-label"><b>Vendedor:</b></label>
+                            <div class="col-sm-2">
+                                <input type="text" name="Vendedor" id="txtVendedorAprobada" class="form-control" readonly>
+                            </div>
+                        </div>*@
+
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Cantidad Total:</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="CantidadTotal" id="txtCantidadPedidoCancelada" autocomplete="off" class="form-control" readonly>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Precio Final:</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PrecioFinal" id="txtPrecioFinalCancelada" autocomplete="off" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Peso Neto(kg):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PesoNeto" id="txtPesoNetoCancelada" autocomplete="off" class="form-control" readonly>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Peso Bruto(kg):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PesoBruto" id="txtPesoBrutoCancelada" autocomplete="off" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 col-sm-3 label-align" for="email">
+                            <b>  Observaciones:</b>
+
+                        </label>
+                        <div class="col-md-8 col-sm-2 ">
+                            <textarea id="txtObservacionesCancelada" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div id="tblDetallePedidoCancelada"> </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @*<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Registrar</a>*@
+                <!--<button type="button" class="btn btn-primary" id="RegistrarPedidoEnSap">Registrar en Sap</button>
+                <button type="button" class="btn btn-primary" id="CancelarPedido">Cancelar Pedido</button>-->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+

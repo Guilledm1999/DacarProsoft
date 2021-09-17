@@ -1,0 +1,498 @@
+﻿<link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "ListadoPackingList";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+@{
+    var pais = ViewBag.Paises;
+    var paisOrigen = ViewBag.PaisOrigen;
+}
+<br />
+
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Packing List Ingresados</h2>
+        <br />
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <h6>Busqueda:</h6>
+                    <select class="form-control" aria-label="Default select example" id="TipoBusqueda">
+                        <option value="1">Exportacion</option>
+                        <option value="2">Local</option>
+                        <option value="3">Facturas Reserva</option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-primary" onclick="ConsultarIngresosPacking()">
+                        <i class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <span class="btn-txt">Consultar</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="MensajeEliminacionCorecta" class="alert alert-danger collapse">
+            <button id="LinkClose11" type="button" class="close">&times;</button>
+            <strong>Eliminacion correcta!</strong>
+        </div>
+        <div id="MensajeEliminacionIncorecta" class="alert alert-danger collapse">
+            <button id="LinkClose12" type="button" class="close">&times;</button>
+            <strong>Error al Eliminar!</strong>
+        </div>
+        <div id="MensajeGuardado" class="alert alert-primary collapse">
+            <button id="LinkClose5" type="button" class="close">&times;</button>
+            <strong>Guardado Exitosamente!!</strong>
+        </div>
+        <div id="MensajeErrorGuardado" class="alert alert-danger collapse">
+            <button id="LinkClose6" type="button" class="close">&times;</button>
+            <strong>Error de Guardad0!!</strong>
+        </div>
+        <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
+            <button id="LinkClose7" type="button" class="close">&times;</button>
+            <strong>Error General!!</strong>
+        </div>
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose2" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="MensajeActulalizacionCorrecta" class="alert alert-primary collapse">
+            <button id="LinkClose9" type="button" class="close">&times;</button>
+            <strong>Actualizacion exitosa</strong>
+        </div>
+        <div id="MensajePackingCompletos" class="alert alert-danger collapse">
+            <button id="LinkClose10" type="button" class="close">&times;</button>
+            <strong>Pallets completos, no puede ingresar más!</strong>
+        </div>
+        <div id="tblIngresosdePacking"></div>
+    </div>
+</div>
+
+<div id="ModalListadoDePallets" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblPalletsIngresados">Pallets Ingresados</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="MensajeEliminacionCorecta" class="alert alert-danger collapse">
+                    <button id="LinkClose11" type="button" class="close">&times;</button>
+                    <strong>Eliminacion correcta!</strong>
+                </div>
+                <div id="MensajeEliminacionIncorecta" class="alert alert-danger collapse">
+                    <button id="LinkClose12" type="button" class="close">&times;</button>
+                    <strong>Error al Eliminar!</strong>
+                </div>
+                <div id="MensajeGuardado" class="alert alert-primary collapse">
+                    <button id="LinkClose5" type="button" class="close">&times;</button>
+                    <strong>Guardado Exitosamente!!</strong>
+                </div>
+                <div id="MensajeErrorGuardado" class="alert alert-danger collapse">
+                    <button id="LinkClose6" type="button" class="close">&times;</button>
+                    <strong>Error de Guardad0!!</strong>
+                </div>
+                <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
+                    <button id="LinkClose7" type="button" class="close">&times;</button>
+                    <strong>Error General!!</strong>
+                </div>
+                <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+                    <button id="LinkClose2" type="button" class="close">&times;</button>
+                    <strong>Error Inesperado!</strong>
+                </div>
+                <div id="MensajeActulalizacionCorrecta" class="alert alert-primary collapse">
+                    <button id="LinkClose9" type="button" class="close">&times;</button>
+                    <strong>Actualizacion exitosa</strong>
+                </div>
+                <div id="MensajePackingCompletos" class="alert alert-danger collapse">
+                    <button id="LinkClose10" type="button" class="close">&times;</button>
+                    <strong>Pallets completos, no puede ingresar más!</strong>
+                </div>
+                  <div id="tblListadoPalletsIngresados"> </div>
+                <br />
+                <div class="form-group row">
+                    <div class="col-sm-5">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary" id="DetallePackingList">Detalle Packing List</button>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+                </div>
+
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ModalPalletIngresado" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblNumberPallet">Pallet Number</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Largo(cm):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="Orden" id="txtLargoPallet" autocomplete="off" value="0" onchange="Volumen();" class="form-control">
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Ancho(cm):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PalletNumber" id="txtAnchoPallet" autocomplete="off" value="0" onchange="Volumen();" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Alto(cm):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="Orden" id="txtAltoPallet" autocomplete="off" value="0" onchange="Volumen();" class="form-control">
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Volumen(m³):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PalletNumber" id="txtVolumenPallet" value="0" onchange="Volumen();" autocomplete="off" readonly class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Peso Neto(kg):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="Orden" id="txtPesoNeto" autocomplete="off" class="form-control">
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Peso Bruto(kg):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PalletNumber" id="txtPesoBruto" autocomplete="off" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-8">
+                            <div id="MensajeEliminacionCorecta" class="alert alert-danger collapse">
+                                <button id="LinkClose11" type="button" class="close">&times;</button>
+                                <strong>Eliminacion correcta!</strong>
+                            </div>
+                            <div id="MensajeEliminacionIncorecta" class="alert alert-danger collapse">
+                                <button id="LinkClose12" type="button" class="close">&times;</button>
+                                <strong>Error al Eliminar!</strong>
+                            </div>
+                            <div id="MensajeGuardado" class="alert alert-primary collapse">
+                                <button id="LinkClose5" type="button" class="close">&times;</button>
+                                <strong>Guardado Exitosamente!!</strong>
+                            </div>
+                            <div id="MensajeErrorGuardado" class="alert alert-danger collapse">
+                                <button id="LinkClose6" type="button" class="close">&times;</button>
+                                <strong>Error de Guardad0!!</strong>
+                            </div>
+                            <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
+                                <button id="LinkClose7" type="button" class="close">&times;</button>
+                                <strong>Error General!!</strong>
+                            </div>
+                            <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+                                <button id="LinkClose2" type="button" class="close">&times;</button>
+                                <strong>Error Inesperado!</strong>
+                            </div>
+                            <div id="MensajeActulalizacionCorrecta" class="alert alert-primary collapse">
+                                <button id="LinkClose9" type="button" class="close">&times;</button>
+                                <strong>Actualizacion exitosa</strong>
+                            </div>
+                            <div id="MensajePackingCompletos" class="alert alert-danger collapse">
+                                <button id="LinkClose10" type="button" class="close">&times;</button>
+                                <strong>Pallets completos, no puede ingresar más!</strong>
+                            </div>
+                            <div id="tblDetallePalletTablaIngresado"> </div>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                    </div>
+</form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                @*<button type="button" class="btn btn-secondary" id="VizualizarPaking">Vizualizar</button>*@
+                <button type="button" class="btn btn-secondary" onclick="ModificarPallet()">Modificar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ModalPalletIngresoNuevo" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblNumberPalletNuevo">Pallet Number</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Largo(cm):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="Orden" id="txtNuevoLargoPallet" autocomplete="off" value="0" onchange="Volumen2();" class="form-control">
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Ancho(cm):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PalletNumber" id="txtNuevoAnchoPallet" autocomplete="off" value="0" onchange="Volumen2();" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Alto(cm):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="Orden" id="txtNuevoAltoPallet" autocomplete="off" value="0" onchange="Volumen2();" class="form-control">
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Volumen(m³):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PalletNumber" id="txtNuevoVolumenPallet" value="0" onchange="Volumen2();" autocomplete="off" readonly class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Peso Neto(kg):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="Orden" id="txtNuevoPesoNeto" autocomplete="off" class="form-control">
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Peso Bruto(kg):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PalletNumber" id="txtNuevoPesoBruto" autocomplete="off" class="form-control">
+                        </div>
+                    </div>
+                    <div id="MensajeEliminacionCorecta" class="alert alert-danger collapse">
+                        <button id="LinkClose11" type="button" class="close">&times;</button>
+                        <strong>Eliminacion correcta!</strong>
+                    </div>
+                    <div id="MensajeEliminacionIncorecta" class="alert alert-danger collapse">
+                        <button id="LinkClose12" type="button" class="close">&times;</button>
+                        <strong>Error al Eliminar!</strong>
+                    </div>
+                    <div id="MensajeGuardado" class="alert alert-primary collapse">
+                        <button id="LinkClose5" type="button" class="close">&times;</button>
+                        <strong>Guardado Exitosamente!!</strong>
+                    </div>
+                    <div id="MensajeErrorGuardado" class="alert alert-danger collapse">
+                        <button id="LinkClose6" type="button" class="close">&times;</button>
+                        <strong>Error de Guardad0!!</strong>
+                    </div>
+                    <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
+                        <button id="LinkClose7" type="button" class="close">&times;</button>
+                        <strong>Error General!!</strong>
+                    </div>
+                    <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+                        <button id="LinkClose2" type="button" class="close">&times;</button>
+                        <strong>Error Inesperado!</strong>
+                    </div>
+                    <div id="MensajeActulalizacionCorrecta" class="alert alert-primary collapse">
+                        <button id="LinkClose9" type="button" class="close">&times;</button>
+                        <strong>Actualizacion exitosa</strong>
+                    </div>
+                    <div id="MensajePackingCompletos" class="alert alert-danger collapse">
+                        <button id="LinkClose10" type="button" class="close">&times;</button>
+                        <strong>Pallets completos, no puede ingresar más!</strong>
+                    </div>
+                            <div id="tblDetallePalletTablaNueva"> </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                @*<button type="button" class="btn btn-secondary" id="VizualizarPaking2">Vizualizar</button>*@
+                <button type="button" class="btn btn-secondary" id="RegistrarPallet">Registrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Esta seguro de eliminar el Pallet?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @*<div class="modal-body">
+                <input type="text" name="NombreItem" id="ContrasenaIngresada" autocomplete="off" class="form-control">
+            </div>*@
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="AfirmacionEliminacion">Si</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalEliminarPacking" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Esta seguro de eliminar el Packing?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @*<div class="modal-body">
+                    <input type="text" name="NombreItem" id="ContrasenaIngresada" autocomplete="off" class="form-control">
+                </div>*@
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="AfirmacionEliminacionPacking">Si</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalAfirmacionFondo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Desea imprimir con etiqueta pre-impresa ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @*<div class="modal-body">
+                    <input type="text" name="NombreItem" id="ContrasenaIngresada" autocomplete="off" class="form-control">
+                </div>*@
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="AfirmacionEticketa">Si</button>
+                <button type="button" class="btn btn-primary" id="NgacionEticketa">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ModalDetallePackingList" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblDetallePackingList">DETALLE PACKING LIST</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Cliente:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtNombreDelCliente" autocomplete="off" readonly class="form-control">
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Contenedor:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtContenedorPackingList" autocomplete="off"  class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Fecha:</b></label>
+                        <div class="col-sm-3">
+                            <input type="date" id="txtFechaPacking" autocomplete="off" class="form-control">
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Reserva:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtBookingPacking" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Factura:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtFacturaPackingList" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>#Pedido:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtPedidoPackingList" autocomplete="off" readonly class="form-control" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Embarcacion:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtEmbarcacionPackingList" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Intercambio Eir:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtIntercambioEirPackingList" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Referencia:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtReferenciaPackingList" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Productos:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtProductosPackingList" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-8">
+                            <div id="tblDetallePackingListIngresados"> </div>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-8">
+                            <div id="tblItemsDetallePackingListIngresados"> </div>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="ImprimirRegistroPackingList">Imprimir</button>
+                <button type="button" class="btn btn-primary" id="RegistrarDetallePackingList">Registrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<input type="hidden" id="txtNumeroPalle" />
+<input type="hidden" id="txtIdPallet" />
+<input type="hidden" id="txtIdPacking" />
+

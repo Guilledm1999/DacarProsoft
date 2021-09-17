@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f8e82c6b3396462ea4acac122b5e85d1" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="SBODACARPRODModel.OCRD" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.vConsultaArticulos" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.VU_REPORTEPRODUCCION" Width="1.5" PointX="6.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.IGN1" Width="1.5" PointX="6.375" PointY="6.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.OIGN" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.OITM" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.OPDN" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.PDN1" Width="1.5" PointX="3.375" PointY="13.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.ORDR" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.RDR1" Width="1.5" PointX="16.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.vReporteGeneralVentasJO" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.C_SYP_CLASESN" Width="1.5" PointX="18.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.C_SYP_LINEASN" Width="1.5" PointX="18.375" PointY="3.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.OCRG" Width="1.5" PointX="18.375" PointY="6.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.INV1" Width="1.5" PointX="18.375" PointY="10.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.OINV" Width="1.5" PointX="20.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

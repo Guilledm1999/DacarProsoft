@@ -1,0 +1,158 @@
+﻿
+@{
+    ViewBag.Title = "ModificarIngresosChatarra";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+@{
+    var ani = ViewBag.anos;
+}
+@{
+    var desv = ViewBag.desviacion;
+}
+@{
+    var grupo = ViewBag.gruposClientes;
+}
+<br />
+
+
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Reporte Ingresos Chatarra</h2>
+        <br />
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <h6>Año de busqueda</h6>
+                    @Html.DropDownList("Anio", new SelectList(ani, "Value", "Text"), new { @class = "form-control", id = "anioClass" })
+                </div>
+                @*<div class="col-md-2">
+                    <h6>Tipo Cliente</h6>
+                    @Html.DropDownList("Grupo", new SelectList(grupo, "Value", "Text"), "--Todos--", new { @class = "form-control", id = "grupoCliente" })
+                </div>*@
+                <div class="col-md-2">
+                    <h6>  </h6>
+                    <button class="btn btn-primary" onclick="ConsultaDeIngresos()">
+                        <i class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <span class="btn-txt">Consultar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose2" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="MensajeActulalizacionCorrecta" class="alert alert-primary collapse">
+            <button id="LinkClose9" type="button" class="close">&times;</button>
+            <strong>Actualizacion exitosa</strong>
+        </div>
+        <div id="IngresosdeChatarras"></div>
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalDetalleChatarraModificacion">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="TituloIngreso">Modificar Ingresos Chatarra</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="ErrorContrasena" class="alert alert-danger collapse">
+                    <button id="LinkClose7" type="button" class="close">&times;</button>
+                    <strong>Contraseña incorrecta!</strong>
+                </div>
+                <div id="MensajeErrorGuardar" class="alert alert-danger collapse">
+                    <button id="LinkClose3" type="button" class="close">&times;</button>
+                    <strong>Error al guardar!</strong>
+                </div>
+               
+                <div id="MensajeIngresePeso" class="alert alert-danger collapse">
+                    <button id="LinkClose4" type="button" class="close">&times;</button>
+                    <strong>Ingrese Peso Bulto</strong>
+                </div>
+                <div id="MensajeErrorVariacion" class="alert alert-danger collapse">
+                    <button id="LinkClose5" type="button" class="close">&times;</button>
+                    <strong>La variacion no puede ser 0</strong>
+                </div>
+                <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+                    <button id="LinkClose2" type="button" class="close">&times;</button>
+                    <strong>Error Inesperado!</strong>
+                </div>
+                <div id="MensajeIngreseValores" class="alert alert-danger collapse">
+                    <button id="LinkClose" type="button" class="close">&times;</button>
+                    <strong>Ingrese valores o calcule</strong>
+                </div>
+                <div id="ChatarraDetalle"></div>
+                <div id="ChatarraDetalles2"></div>
+
+                <br />
+                <div class="form-group row">
+                 
+                    <label for="email" class="col-sm-3 col-form-label"><b>Bodega:</b></label>
+                    <div class="col-md-2">
+                        <input type="number" name="NombreItem" id="TipoBodega" autocomplete="off" readonly class="form-control">
+                    </div>
+
+                    <label for="email" class="col-sm-2 col-form-label" id="labelPesoNeto"><b>Peso Neto(kg):</b></label>
+                    <div class="col-sm-2">
+                        <input type="number" name="NombreItem" id="txtPesoNetoBulto" autocomplete="off" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-3 col-form-label"><b>Desviación: %</b></label>
+                    <div class="col-sm-2">
+                        <input type="number" name="NombreItem" id="txtCalPesoNetoBulto" autocomplete="off" readonly class="form-control">
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary" id="BtnCalcular">Calcular Desviación</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="txtSumaryPesos" />
+                <input type="hidden" id="txtSumaryPesosAjustados" />
+
+                <button type="button" class="btn btn-primary" id="BtnImprimir">Imprimir</button>
+                <button type="button" class="btn btn-primary" id="RegistrarModificacionChatarra">Actualizar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalIngresoContrasena" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary" >
+                <h5 class="modal-title" id="exampleModalLongTitle">Ingrese contraseña para actualizar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" name="NombreItem" id="ContrasenaIngresada" autocomplete="off" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="ComprobarContrasena">Validar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                </div>
+            </div>
+    </div>
+</div>
+
+
+@*<input type="hidden" id="txtSumaryPesos" />*@
+<input type="hidden" id="txtPesoIngresado" />
+<input type="hidden" id="txtPesoTeorico" />
+
+<input type="hidden" value="desv" id="valordesv" />
+
