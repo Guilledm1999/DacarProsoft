@@ -68,6 +68,12 @@ function ConsultarCabeceraOrdenVenta() {
         texto = "Y";
         urlCont = "../PackingList/ConsultaFacturaReservaListCabecera?factReserv=" + texto;
     }
+    if (valor == "4") {
+        variable = 2;
+        console.log("ingreso If 4");
+        texto = "N";
+        urlCont = "../PackingList/ConsultaFacturaReservaListCabecera?factReserv=" + texto;
+    }
 
     $.ajax({
         url: urlCont,

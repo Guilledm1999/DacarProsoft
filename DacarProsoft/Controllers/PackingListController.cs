@@ -1702,9 +1702,9 @@ namespace DacarProsoft.Controllers
             canvas2.Stroke();
 
 
-            Paragraph p3 = new Paragraph("" + Destino).SetFont(bold).SetFontSize(13).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
+            Paragraph p3 = new Paragraph("" + Destino).SetFont(bold).SetFontSize(12).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvas3 = new PdfCanvas(pdf.GetFirstPage());
-            iText.Kernel.Geom.Rectangle rect3 = new iText.Kernel.Geom.Rectangle(170, tercerFila, 107, 35);
+            iText.Kernel.Geom.Rectangle rect3 = new iText.Kernel.Geom.Rectangle(170, tercerFila, 107, 42);
 #pragma warning disable CS0618 // El tipo o el miembro están obsoletos
             new Canvas(canvas3, pdf, rect3)
 #pragma warning restore CS0618 // El tipo o el miembro están obsoletos
@@ -1712,7 +1712,7 @@ namespace DacarProsoft.Controllers
             //canvas.Rectangle(rect3);
             canvas3.Stroke();
 
-            Paragraph p4 = new Paragraph("" + Origen).SetFont(bold).SetFontSize(13).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
+            Paragraph p4 = new Paragraph("" + Origen).SetFont(bold).SetFontSize(12).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvas4 = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rect4 = new iText.Kernel.Geom.Rectangle(30, tercerFila, 110, 35);
 #pragma warning disable CS0618 // El tipo o el miembro están obsoletos
