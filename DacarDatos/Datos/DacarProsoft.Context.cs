@@ -68,6 +68,7 @@ namespace DacarDatos.Datos
         public virtual DbSet<FechasPedidos> FechasPedidos { get; set; }
         public virtual DbSet<EstadosPedidosSelect> EstadosPedidosSelect { get; set; }
         public virtual DbSet<UrlImprimirPdfPallet> UrlImprimirPdfPallet { get; set; }
+        public virtual DbSet<IngresoGarantias> IngresoGarantias { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {

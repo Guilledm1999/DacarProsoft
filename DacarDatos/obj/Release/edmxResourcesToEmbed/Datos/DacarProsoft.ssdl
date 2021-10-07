@@ -158,6 +158,22 @@
     <Property Name="GroupCode" Type="int" />
     <Property Name="GroupName" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="IngresoGarantias">
+    <Key>
+      <PropertyRef Name="IngresoGarantiaId" />
+    </Key>
+    <Property Name="IngresoGarantiaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cedula" Type="varchar" MaxLength="255" />
+    <Property Name="Nombre" Type="varchar" MaxLength="255" />
+    <Property Name="Apellido" Type="varchar" MaxLength="255" />
+    <Property Name="Email" Type="varchar" MaxLength="255" />
+    <Property Name="Distribuidor" Type="varchar" MaxLength="255" />
+    <Property Name="Ciudad" Type="varchar" MaxLength="255" />
+    <Property Name="ModeloBateria" Type="varchar" MaxLength="255" />
+    <Property Name="NumeroBateria" Type="varchar" MaxLength="255" />
+    <Property Name="NumeroGarantia" Type="varchar" MaxLength="255" />
+    <Property Name="RegistroGarantia" Type="datetime" />
+  </EntityType>
   <EntityType Name="IngresoMercanciasTipoDescripcion">
     <Key>
       <PropertyRef Name="IngresosMercanciasTipoDescripcionId" />
@@ -312,6 +328,7 @@
     <Property Name="Pais" Type="varchar" MaxLength="100" />
     <Property Name="Ciudad" Type="varchar" MaxLength="100" />
     <Property Name="Direccion" Type="varchar" MaxLength="255" />
+    <Property Name="CodigoPostal" Type="varchar" MaxLength="50" />
     <Property Name="TerminoImportacion" Type="varchar" MaxLength="25" />
     <Property Name="FechaRequerida" Type="datetime" />
     <Property Name="EstadoPedido" Type="int" />
@@ -427,6 +444,7 @@
     <Property Name="ClavePortal" Type="varbinary" MaxLength="8000" />
     <Property Name="ReferenciaUsuario" Type="varchar" MaxLength="100" />
     <Property Name="EstadoUsuario" Type="char" MaxLength="10" />
+    <Property Name="ImagenPerfil" Type="varchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="Vehiculos">
     <Key>
@@ -649,6 +667,7 @@
     <EntitySet Name="EstadosPedidosSelect" EntityType="Self.EstadosPedidosSelect" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FechasPedidos" EntityType="Self.FechasPedidos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoMercanciasTipoDescripcion" EntityType="Self.IngresoMercanciasTipoDescripcion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />

@@ -129,6 +129,7 @@
       <Parameter Name="tipo" Mode="In" Type="String" />
     </FunctionImport>
     <EntitySet Name="UrlImprimirPdfPallet" EntityType="DacarProsoftModel.UrlImprimirPdfPallet" />
+    <EntitySet Name="IngresoGarantias" EntityType="DacarProsoftModel.IngresoGarantias" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -661,6 +662,7 @@
     <Property Name="ClavePortal" Type="Binary" MaxLength="8000" FixedLength="false" />
     <Property Name="ReferenciaUsuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="EstadoUsuario" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="ImagenPerfil" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="PedidoClienteCabecera">
     <Key>
@@ -683,6 +685,7 @@
     <Property Name="FechaZarpe" Type="DateTime" Precision="3" />
     <Property Name="FechaArribo" Type="DateTime" Precision="3" />
     <Property Name="FechaEntrega" Type="DateTime" Precision="3" />
+    <Property Name="CodigoPostal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="PedidoClienteDetalleFinal">
     <Key>
@@ -771,5 +774,21 @@
     </Key>
     <Property Name="UrlImprimirPdfPalletId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="DireccionUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="IngresoGarantias">
+    <Key>
+      <PropertyRef Name="IngresoGarantiaId" />
+    </Key>
+    <Property Name="IngresoGarantiaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cedula" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Apellido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Distribuidor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Ciudad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ModeloBateria" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="NumeroBateria" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="NumeroGarantia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="RegistroGarantia" Type="DateTime" Precision="3" />
   </EntityType>
 </Schema>

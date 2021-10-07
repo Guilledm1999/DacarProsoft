@@ -20,5 +20,6 @@ namespace DacarDatos.Datos
         public byte[] ClavePortal { get; set; }
         public string ReferenciaUsuario { get; set; }
         public string EstadoUsuario { get; set; }
+        public string ImagenPerfil { get; set; }
     }
 }

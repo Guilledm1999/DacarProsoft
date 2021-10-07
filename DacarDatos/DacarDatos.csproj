@@ -181,6 +181,9 @@
     <Compile Include="Datos\IGN1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\IngresoGarantias.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\IngresoMercanciasTipoDescripcion.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>

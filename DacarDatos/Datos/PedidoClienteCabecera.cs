@@ -36,6 +36,7 @@ namespace DacarDatos.Datos
         public Nullable<System.DateTime> FechaZarpe { get; set; }
         public Nullable<System.DateTime> FechaArribo { get; set; }
         public Nullable<System.DateTime> FechaEntrega { get; set; }
+        public string CodigoPostal { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PedidoClienteDetalle> PedidoClienteDetalle { get; set; }
