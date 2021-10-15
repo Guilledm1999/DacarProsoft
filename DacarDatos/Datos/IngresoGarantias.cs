@@ -22,8 +22,13 @@ namespace DacarDatos.Datos
         public string Distribuidor { get; set; }
         public string Ciudad { get; set; }
         public string ModeloBateria { get; set; }
-        public string NumeroBateria { get; set; }
         public string NumeroGarantia { get; set; }
         public Nullable<System.DateTime> RegistroGarantia { get; set; }
+        public string Celular { get; set; }
+        public string Provincia { get; set; }
+        public string MarcaVehiculo { get; set; }
+        public string ModeloVehiculo { get; set; }
+        public Nullable<int> AnioFabricacion { get; set; }
+        public Nullable<decimal> KilometrajeVehiculo { get; set; }
     }
 }

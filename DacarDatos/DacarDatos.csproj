@@ -184,7 +184,22 @@
     <Compile Include="Datos\IngresoGarantias.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\IngresoInspeccionInicialDensidadCelda.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\IngresoMercanciasTipoDescripcion.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\IngresoRevisionGarantiaCabecera.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\IngresoRevisionGarantiaDiagnostico.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\IngresoRevisionGarantiaInspeccionInicial.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\IngresoRevisionGarantiaTrabajoRealizado.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\INV1.cs">

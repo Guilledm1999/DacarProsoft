@@ -262,6 +262,7 @@
     <Content Include="Images\fondoDc.png" />
     <Content Include="Images\Imagen1.png" />
     <Content Include="Images\LogoDacar.png" />
+    <Content Include="Images\MoldeBateria.png" />
     <Content Include="Images\packing.png" />
     <Content Include="Images\PackingNe.png" />
     <Content Include="Images\progress.gif" />
@@ -278,6 +279,7 @@
     <Content Include="scripts\General\Chatarra\IngresoChatarraSap.js" />
     <Content Include="scripts\General\CrearUsuario\ConsultarUsuariosPortal.js" />
     <Content Include="scripts\General\CrearUsuario\CrearUsuariosPortal.js" />
+    <Content Include="scripts\General\Garantias\IngresoGarantias.js" />
     <Content Include="scripts\General\LogisticaPedidos\LogisticaPedidos.js" />
     <Content Include="scripts\General\Modelos\IngresoModelos.js" />
     <Content Include="scripts\General\OrdenesProduccion\OrdenesDeProduccion.js" />
@@ -317,6 +319,7 @@
     <Compile Include="Controllers\ArticulosController.cs" />
     <Compile Include="Controllers\ChatarraController.cs" />
     <Compile Include="Controllers\CrearUsuarioController.cs" />
+    <Compile Include="Controllers\GarantiasController.cs" />
     <Compile Include="Controllers\LogisticaPedidosController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ModelosController.cs" />
@@ -540,6 +543,7 @@
     <Content Include="Views\Reportes\ReporteGeneralVentasExterior.cshtml" />
     <Content Include="Views\Reportes\ReporteDeControl.cshtml" />
     <Content Include="Views\Reportes\ReporteDeGarantias.cshtml" />
+    <Content Include="Views\Garantias\IngresoGarantias.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -550,7 +554,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\font-awesome-5.15.3\svgs\" />
-    <Folder Include="Views\Garantias\" />
+    <Folder Include="Images\ImagenesGarantias\Facturas\" />
+    <Folder Include="Images\ImagenesGarantias\Test\" />
     <Folder Include="Views\Inicio\" />
   </ItemGroup>
   <ItemGroup>

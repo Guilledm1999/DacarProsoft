@@ -69,6 +69,11 @@ namespace DacarDatos.Datos
         public virtual DbSet<EstadosPedidosSelect> EstadosPedidosSelect { get; set; }
         public virtual DbSet<UrlImprimirPdfPallet> UrlImprimirPdfPallet { get; set; }
         public virtual DbSet<IngresoGarantias> IngresoGarantias { get; set; }
+        public virtual DbSet<IngresoInspeccionInicialDensidadCelda> IngresoInspeccionInicialDensidadCelda { get; set; }
+        public virtual DbSet<IngresoRevisionGarantiaCabecera> IngresoRevisionGarantiaCabecera { get; set; }
+        public virtual DbSet<IngresoRevisionGarantiaDiagnostico> IngresoRevisionGarantiaDiagnostico { get; set; }
+        public virtual DbSet<IngresoRevisionGarantiaInspeccionInicial> IngresoRevisionGarantiaInspeccionInicial { get; set; }
+        public virtual DbSet<IngresoRevisionGarantiaTrabajoRealizado> IngresoRevisionGarantiaTrabajoRealizado { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {

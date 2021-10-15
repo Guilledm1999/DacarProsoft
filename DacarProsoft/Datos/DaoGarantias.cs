@@ -35,7 +35,7 @@ namespace DacarProsoft.Datos
                                        d.Distribuidor,
                                        d.Ciudad,
                                        d.ModeloBateria,
-                                       d.NumeroBateria,
+                                       //d.NumeroBateria,
                                        d.NumeroGarantia,
                                        d.RegistroGarantia,
 
@@ -55,7 +55,7 @@ namespace DacarProsoft.Datos
                            Distribuidor=x.Distribuidor,
                            Ciudad=x.Ciudad,
                            ModeloBateria=x.ModeloBateria,
-                           NumeroBateria=x.NumeroBateria,
+                           //NumeroBateria=x.NumeroBateria,
                            NumeroGarantia=x.NumeroGarantia,
                            RegistroGarantia= fechaRegistro
 
@@ -65,6 +65,206 @@ namespace DacarProsoft.Datos
 
                 }
 
+        }
+
+        public List<IngresoGarantias> ConsultarNumeroGarantia(string numeroGarantia)
+        {
+
+            //string fechaRegistro = null;
+
+            List<IngresoGarantias> lst = new List<IngresoGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = (from d in DB.IngresoGarantias
+                               where d.NumeroGarantia==numeroGarantia
+                               select new
+                               {
+                                  d.IngresoGarantiaId,
+                                  d.NumeroGarantia,
+                                  d.Cedula,
+                                  d.Nombre,
+                                  d.Apellido,
+                                  d.RegistroGarantia,
+                                  d.Provincia,
+                                  d.ModeloBateria
+                               });
+                foreach (var x in Listado)
+                {
+                    //DateTime fecha = Convert.ToDateTime(x.RegistroGarantia, CultureInfo.InvariantCulture);
+                    //fechaRegistro = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    lst.Add(new IngresoGarantias
+                    {
+                        IngresoGarantiaId = x.IngresoGarantiaId,
+                        Cedula = x.Cedula,
+                        Nombre = x.Nombre,
+                        Apellido = x.Apellido,                   
+                        NumeroGarantia = x.NumeroGarantia,
+                        RegistroGarantia = x.RegistroGarantia,
+                        Provincia=x.Provincia,
+                        ModeloBateria=x.ModeloBateria
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        // hay q modificarlo
+        public int IngresarRevisionGarantiaCabecera(string cliente, string cedula, string numeroGarantia, string numeroComprobante, string numeroRevision, string provincia, string direccion, string vendedor, string ImgFac, string marca,
+            string modelo, string lote, decimal prorrateo, int meses, DateTime fechaVenta, DateTime fechaIngreso, decimal porcentajeVenta, decimal voltaje, string ImgTest)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new IngresoRevisionGarantiaCabecera();
+                    result.Cliente = cliente;
+                    result.Cedula = cedula;
+                    result.NumeroGarantia = numeroGarantia;
+                    result.NumeroComprobante = numeroComprobante;
+                    result.NumeroRevision = numeroRevision;
+                    result.Provincia = provincia;
+                    result.Direccion = direccion;
+                    result.Vendedor = vendedor;
+                    result.FacturaCliente = ImgFac;
+                    result.TestBateria = ImgTest;
+                    result.Marca = marca;
+                    result.Modelo = modelo;
+                    result.Lote = lote;
+                    result.Prorrateo = prorrateo;
+                    result.Meses = meses;
+                    result.FechaVenta = fechaVenta;
+                    result.FechaIngreso = fechaIngreso;
+                    result.PorcentajeVenta = porcentajeVenta;
+                    result.Voltaje = voltaje;
+
+                    DB.IngresoRevisionGarantiaCabecera.Add(result);
+                    DB.SaveChanges();
+
+                    int resultId = result.IngresoRevisionGarantiaId;
+                    return resultId;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+
+        public int IngresarRevisionGarantiaInspeccionInicial(int RevisionDeGarantia, string InGolpeadaoRota, string InHinchada, string InBornesFlojos, string InBornesFundidos, string IngElectrolito, string InFugaEnCubierta, string InFugaEnBornes, int InCCA)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new IngresoRevisionGarantiaInspeccionInicial();
+                    result.IngresoRevisionGarantiaId = RevisionDeGarantia;
+                    result.GolpeadaORota = Convert.ToBoolean(InGolpeadaoRota);
+                    result.Hinchada = Convert.ToBoolean(InHinchada);
+                    result.BornesFlojosOHundidos = Convert.ToBoolean(InBornesFlojos);
+                    result.BornesFundidos = Convert.ToBoolean(InBornesFundidos);
+                    result.ElectrolitoErroneo = Convert.ToBoolean(IngElectrolito);
+                    result.FugaEnCubierta = Convert.ToBoolean(InFugaEnCubierta);
+                    result.FugaEnBornes = Convert.ToBoolean(InFugaEnBornes);
+                    result.CCA = InCCA;
+
+                    DB.IngresoRevisionGarantiaInspeccionInicial.Add(result);
+                    DB.SaveChanges();
+
+                    int resultId = result.IngresoRevisionGarantiaInspeccionInicialId;
+                    return resultId;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+
+        public bool IngresarRevisionGarantiaInspeccionInicialCeldas(int DetalleInspeccionInicialId, int InDcC1, int InDcC2, int InDcC3, int InDcC4, int InDcC5, int InDcC6)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new IngresoInspeccionInicialDensidadCelda();
+                    result.IngresoRevisionGarantiaInspeccionInicialId = DetalleInspeccionInicialId;
+                    result.C1 = InDcC1;
+                    result.C2 = InDcC2;
+                    result.C3 = InDcC3;
+                    result.C4 = InDcC4;
+                    result.C5 = InDcC5;
+                    result.C6 = InDcC6;
+
+                    DB.IngresoInspeccionInicialDensidadCelda.Add(result);
+                    DB.SaveChanges();
+                   
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public bool IngresarRevisionGarantiaTrabajoRealizado(int RevisionDeGarantia, string TrPruebaAltaResistencia, string TrCambioAcido, string TrRecargaBateria, string TrInspeccionEstructuraExt)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new IngresoRevisionGarantiaTrabajoRealizado();
+                    result.IngresoRevisionGarantiaId = RevisionDeGarantia;
+                    result.PruebaAltaResistencia = Convert.ToBoolean(TrPruebaAltaResistencia);
+                    result.CambioAcido = Convert.ToBoolean(TrCambioAcido);
+                    result.RecargaBateria = Convert.ToBoolean(TrRecargaBateria);
+                    result.InspeccionEstructuraExterna = Convert.ToBoolean(TrInspeccionEstructuraExt);
+                 
+
+                    DB.IngresoRevisionGarantiaTrabajoRealizado.Add(result);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public bool IngresarRevisionGarantiaDiagnostico(int RevisionDeGarantia, string DBateriaBuenEstado, string DPresentaFallosFabricacion, string DDentroPeriodo, string DUsoAdecuado, string DAplicaGarantia)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new IngresoRevisionGarantiaDiagnostico();
+                    result.IngresoRevisionGarantiaId = RevisionDeGarantia;
+                    result.BateriaEnBuenEstado = Convert.ToBoolean(DBateriaBuenEstado);
+                    result.PresentaFalloFabricacion = Convert.ToBoolean(DPresentaFallosFabricacion);
+                    result.DentroPeriodoGarantia = Convert.ToBoolean(DDentroPeriodo);
+                    result.AplicacionUsoAdecuado = Convert.ToBoolean(DUsoAdecuado);
+                    result.AplicaGarantia = Convert.ToBoolean(DAplicaGarantia);
+
+
+                    DB.IngresoRevisionGarantiaDiagnostico.Add(result);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
         }
     }
 }

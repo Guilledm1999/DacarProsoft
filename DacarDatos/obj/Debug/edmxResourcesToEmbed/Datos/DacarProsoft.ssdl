@@ -163,16 +163,34 @@
       <PropertyRef Name="IngresoGarantiaId" />
     </Key>
     <Property Name="IngresoGarantiaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Cedula" Type="varchar" MaxLength="255" />
-    <Property Name="Nombre" Type="varchar" MaxLength="255" />
-    <Property Name="Apellido" Type="varchar" MaxLength="255" />
-    <Property Name="Email" Type="varchar" MaxLength="255" />
-    <Property Name="Distribuidor" Type="varchar" MaxLength="255" />
-    <Property Name="Ciudad" Type="varchar" MaxLength="255" />
-    <Property Name="ModeloBateria" Type="varchar" MaxLength="255" />
-    <Property Name="NumeroBateria" Type="varchar" MaxLength="255" />
-    <Property Name="NumeroGarantia" Type="varchar" MaxLength="255" />
+    <Property Name="Cedula" Type="varchar" MaxLength="13" />
+    <Property Name="Nombre" Type="varchar" MaxLength="100" />
+    <Property Name="Apellido" Type="varchar" MaxLength="100" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Distribuidor" Type="varchar" MaxLength="100" />
+    <Property Name="Ciudad" Type="varchar" MaxLength="100" />
+    <Property Name="ModeloBateria" Type="varchar" MaxLength="100" />
+    <Property Name="NumeroGarantia" Type="varchar" MaxLength="100" />
     <Property Name="RegistroGarantia" Type="datetime" />
+    <Property Name="Celular" Type="varchar" MaxLength="20" />
+    <Property Name="Provincia" Type="varchar" MaxLength="100" />
+    <Property Name="MarcaVehiculo" Type="varchar" MaxLength="100" />
+    <Property Name="ModeloVehiculo" Type="varchar" MaxLength="100" />
+    <Property Name="AnioFabricacion" Type="int" />
+    <Property Name="KilometrajeVehiculo" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="IngresoInspeccionInicialDensidadCelda">
+    <Key>
+      <PropertyRef Name="IngresoInspeccionInicialDensidadCeldaId" />
+    </Key>
+    <Property Name="IngresoInspeccionInicialDensidadCeldaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IngresoRevisionGarantiaInspeccionInicialId" Type="int" />
+    <Property Name="C1" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="C2" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="C3" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="C4" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="C5" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="C6" Type="decimal" Precision="10" Scale="2" />
   </EntityType>
   <EntityType Name="IngresoMercanciasTipoDescripcion">
     <Key>
@@ -180,6 +198,69 @@
     </Key>
     <Property Name="IngresosMercanciasTipoDescripcionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DescripcionBusqueda" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="IngresoRevisionGarantiaCabecera">
+    <Key>
+      <PropertyRef Name="IngresoRevisionGarantiaId" />
+    </Key>
+    <Property Name="IngresoRevisionGarantiaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cliente" Type="varchar" MaxLength="100" />
+    <Property Name="Cedula" Type="varchar" MaxLength="13" />
+    <Property Name="NumeroGarantia" Type="varchar" MaxLength="25" />
+    <Property Name="NumeroComprobante" Type="varchar" MaxLength="25" />
+    <Property Name="NumeroRevision" Type="varchar" MaxLength="25" />
+    <Property Name="Provincia" Type="varchar" MaxLength="25" />
+    <Property Name="Direccion" Type="varchar" MaxLength="100" />
+    <Property Name="Vendedor" Type="varchar" MaxLength="50" />
+    <Property Name="FacturaCliente" Type="varchar" MaxLength="100" />
+    <Property Name="TestBateria" Type="varchar" MaxLength="100" />
+    <Property Name="Marca" Type="varchar" MaxLength="50" />
+    <Property Name="Modelo" Type="varchar" MaxLength="50" />
+    <Property Name="Lote" Type="varchar" MaxLength="30" />
+    <Property Name="FechaVenta" Type="datetime" />
+    <Property Name="FechaIngreso" Type="datetime" />
+    <Property Name="Prorrateo" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="Meses" Type="int" />
+    <Property Name="PorcentajeVenta" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="Voltaje" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="IngresoRevisionGarantiaDiagnostico">
+    <Key>
+      <PropertyRef Name="IngresoRevisionGarantiaDiagnosticoId" />
+    </Key>
+    <Property Name="IngresoRevisionGarantiaDiagnosticoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IngresoRevisionGarantiaId" Type="int" />
+    <Property Name="BateriaEnBuenEstado" Type="bit" />
+    <Property Name="PresentaFalloFabricacion" Type="bit" />
+    <Property Name="DentroPeriodoGarantia" Type="bit" />
+    <Property Name="AplicacionUsoAdecuado" Type="bit" />
+    <Property Name="AplicaGarantia" Type="bit" />
+  </EntityType>
+  <EntityType Name="IngresoRevisionGarantiaInspeccionInicial">
+    <Key>
+      <PropertyRef Name="IngresoRevisionGarantiaInspeccionInicialId" />
+    </Key>
+    <Property Name="IngresoRevisionGarantiaInspeccionInicialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IngresoRevisionGarantiaId" Type="int" />
+    <Property Name="GolpeadaORota" Type="bit" />
+    <Property Name="Hinchada" Type="bit" />
+    <Property Name="BornesFlojosOHundidos" Type="bit" />
+    <Property Name="BornesFundidos" Type="bit" />
+    <Property Name="ElectrolitoErroneo" Type="bit" />
+    <Property Name="FugaEnCubierta" Type="bit" />
+    <Property Name="FugaEnBornes" Type="bit" />
+    <Property Name="CCA" Type="int" />
+  </EntityType>
+  <EntityType Name="IngresoRevisionGarantiaTrabajoRealizado">
+    <Key>
+      <PropertyRef Name="IngresoRevisionGarantiaTrabajoRealizadoId" />
+    </Key>
+    <Property Name="IngresoRevisionGarantiaTrabajoRealizadoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IngresoRevisionGarantiaId" Type="int" />
+    <Property Name="PruebaAltaResistencia" Type="bit" />
+    <Property Name="CambioAcido" Type="bit" />
+    <Property Name="RecargaBateria" Type="bit" />
+    <Property Name="InspeccionEstructuraExterna" Type="bit" />
   </EntityType>
   <EntityType Name="Marcas">
     <Key>
@@ -533,6 +614,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_Asignatura">
+    <End Role="IngresoRevisionGarantiaCabecera" Type="Self.IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
+    <End Role="IngresoRevisionGarantiaInspeccionInicial" Type="Self.IngresoRevisionGarantiaInspeccionInicial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresoRevisionGarantiaCabecera">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Principal>
+      <Dependent Role="IngresoRevisionGarantiaInspeccionInicial">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_Chatarra">
     <End Role="Chatarra" Type="Self.Chatarra" Multiplicity="0..1" />
     <End Role="ChatarraDetalle" Type="Self.ChatarraDetalle" Multiplicity="*" />
@@ -554,6 +647,18 @@
       </Principal>
       <Dependent Role="ChatarraDetalleIndividual">
         <PropertyRef Name="ChatarraId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_DensidadCeldas">
+    <End Role="IngresoRevisionGarantiaInspeccionInicial" Type="Self.IngresoRevisionGarantiaInspeccionInicial" Multiplicity="0..1" />
+    <End Role="IngresoInspeccionInicialDensidadCelda" Type="Self.IngresoInspeccionInicialDensidadCelda" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresoRevisionGarantiaInspeccionInicial">
+        <PropertyRef Name="IngresoRevisionGarantiaInspeccionInicialId" />
+      </Principal>
+      <Dependent Role="IngresoInspeccionInicialDensidadCelda">
+        <PropertyRef Name="IngresoRevisionGarantiaInspeccionInicialId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -617,6 +722,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_RevisionGarantiaDiagnostico">
+    <End Role="IngresoRevisionGarantiaCabecera" Type="Self.IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
+    <End Role="IngresoRevisionGarantiaDiagnostico" Type="Self.IngresoRevisionGarantiaDiagnostico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresoRevisionGarantiaCabecera">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Principal>
+      <Dependent Role="IngresoRevisionGarantiaDiagnostico">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_RevisionGarantiaTrabajoRealizado">
+    <End Role="IngresoRevisionGarantiaCabecera" Type="Self.IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
+    <End Role="IngresoRevisionGarantiaTrabajoRealizado" Type="Self.IngresoRevisionGarantiaTrabajoRealizado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresoRevisionGarantiaCabecera">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Principal>
+      <Dependent Role="IngresoRevisionGarantiaTrabajoRealizado">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Function Name="LoginUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="username" Type="nvarchar" Mode="In" />
     <Parameter Name="llave" Type="nvarchar" Mode="In" />
@@ -668,7 +797,12 @@
     <EntitySet Name="FechasPedidos" EntityType="Self.FechasPedidos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IngresoInspeccionInicialDensidadCelda" EntityType="Self.IngresoInspeccionInicialDensidadCelda" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoMercanciasTipoDescripcion" EntityType="Self.IngresoMercanciasTipoDescripcion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IngresoRevisionGarantiaCabecera" EntityType="Self.IngresoRevisionGarantiaCabecera" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IngresoRevisionGarantiaDiagnostico" EntityType="Self.IngresoRevisionGarantiaDiagnostico" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="Self.IngresoRevisionGarantiaInspeccionInicial" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IngresoRevisionGarantiaTrabajoRealizado" EntityType="Self.IngresoRevisionGarantiaTrabajoRealizado" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
@@ -719,6 +853,10 @@
       <End Role="TipoUsuario" EntitySet="TipoUsuario" />
       <End Role="Usuarios" EntitySet="Usuarios" />
     </AssociationSet>
+    <AssociationSet Name="fk_Asignatura" Association="Self.fk_Asignatura">
+      <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
+      <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
+    </AssociationSet>
     <AssociationSet Name="fk_Chatarra" Association="Self.fk_Chatarra">
       <End Role="Chatarra" EntitySet="Chatarra" />
       <End Role="ChatarraDetalle" EntitySet="ChatarraDetalle" />
@@ -726,6 +864,10 @@
     <AssociationSet Name="fk_ChatarraDetalle" Association="Self.fk_ChatarraDetalle">
       <End Role="Chatarra" EntitySet="Chatarra" />
       <End Role="ChatarraDetalleIndividual" EntitySet="ChatarraDetalleIndividual" />
+    </AssociationSet>
+    <AssociationSet Name="fk_DensidadCeldas" Association="Self.fk_DensidadCeldas">
+      <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
+      <End Role="IngresoInspeccionInicialDensidadCelda" EntitySet="IngresoInspeccionInicialDensidadCelda" />
     </AssociationSet>
     <AssociationSet Name="fk_detallePedido" Association="Self.fk_detallePedido">
       <End Role="PedidoClienteCabecera" EntitySet="PedidoClienteCabecera" />
@@ -746,6 +888,14 @@
     <AssociationSet Name="fk_PalletPackingDetalle" Association="Self.fk_PalletPackingDetalle">
       <End Role="PalletPacking" EntitySet="PalletPacking" />
       <End Role="PalletPackingDetalle" EntitySet="PalletPackingDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_RevisionGarantiaDiagnostico" Association="Self.fk_RevisionGarantiaDiagnostico">
+      <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
+      <End Role="IngresoRevisionGarantiaDiagnostico" EntitySet="IngresoRevisionGarantiaDiagnostico" />
+    </AssociationSet>
+    <AssociationSet Name="fk_RevisionGarantiaTrabajoRealizado" Association="Self.fk_RevisionGarantiaTrabajoRealizado">
+      <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
+      <End Role="IngresoRevisionGarantiaTrabajoRealizado" EntitySet="IngresoRevisionGarantiaTrabajoRealizado" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
