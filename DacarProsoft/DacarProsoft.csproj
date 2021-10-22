@@ -366,6 +366,7 @@
     <Compile Include="Models\GarantiaDetalle.cs" />
     <Compile Include="Models\InfoPallets.cs" />
     <Compile Include="Models\InformacionClienteSap.cs" />
+    <Compile Include="Models\IngresoGarantiasModel.cs" />
     <Compile Include="Models\ItemsPackingList.cs" />
     <Compile Include="Models\ItemsPallet.cs" />
     <Compile Include="Models\MdlPdn1.cs" />

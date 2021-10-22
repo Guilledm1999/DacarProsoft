@@ -61,11 +61,11 @@
         <EntityTypeShape EntityType="DacarProsoftModel.UrlImprimirPdfPallet" Width="1.5" PointX="17.375" PointY="7.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoGarantias" Width="1.5" PointX="17.375" PointY="13.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoInspeccionInicialDensidadCelda" Width="1.5" PointX="23.875" PointY="15" />
-        <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Width="1.5" PointX="19.375" PointY="10.5" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaDiagnostico" Width="1.5" PointX="21.625" PointY="11.375" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" Width="1.5" PointX="21.625" PointY="14.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaTrabajoRealizado" Width="1.5" PointX="21.625" PointY="8.25" />
         <AssociationConnector Association="DacarProsoftModel.fk_DensidadCeldas" />
+        <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Width="1.5" PointX="19.375" PointY="19.5" />
         <AssociationConnector Association="DacarProsoftModel.fk_Asignatura" />
         <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" />
         <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" />

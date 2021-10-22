@@ -13,8 +13,9 @@ namespace DacarProsoft.Datos
 
         public List<GarantiaDetalle> ReporteGeneralPedidosExterior(DateTime FechaInicio, DateTime FechaFin)
         {
-          
-            DateTime nuevaFechaFin = FechaFin;
+            
+
+              DateTime nuevaFechaFin = FechaFin;
             nuevaFechaFin = nuevaFechaFin.AddDays(1);
 
             string fechaRegistro = null;
@@ -57,7 +58,7 @@ namespace DacarProsoft.Datos
                            ModeloBateria=x.ModeloBateria,
                            //NumeroBateria=x.NumeroBateria,
                            NumeroGarantia=x.NumeroGarantia,
-                           RegistroGarantia= fechaRegistro
+                           RegistroGarantia= fechaRegistro,
 
                     });
                     }
@@ -67,12 +68,46 @@ namespace DacarProsoft.Datos
 
         }
 
-        public List<IngresoGarantias> ConsultarNumeroGarantia(string numeroGarantia)
+        public int VerificarNumeroRevision(string numeroGarantia)
+        {
+            int result;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.IngresoRevisionGarantiaCabecera
+                                   where d.NumeroGarantia == numeroGarantia
+                                   orderby d.IngresoRevisionGarantiaId descending
+                                   select new
+                                   {
+                                       d.NumeroRevision
+                                   }).FirstOrDefault();
+
+                    if (Listado != null)
+                    {
+                        result = Listado.NumeroRevision.Value + 1;
+                    }
+                    else {
+                        result = 1;
+                    }
+
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+
+        public List<IngresoGarantiasModel> ConsultarNumeroGarantia(string numeroGarantia)
         {
 
             //string fechaRegistro = null;
 
-            List<IngresoGarantias> lst = new List<IngresoGarantias>();
+            List<IngresoGarantiasModel> lst = new List<IngresoGarantiasModel>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
 
@@ -91,18 +126,22 @@ namespace DacarProsoft.Datos
                                });
                 foreach (var x in Listado)
                 {
+                    var verificacionRevision = VerificarNumeroRevision(x.NumeroGarantia);
+
                     //DateTime fecha = Convert.ToDateTime(x.RegistroGarantia, CultureInfo.InvariantCulture);
                     //fechaRegistro = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-                    lst.Add(new IngresoGarantias
+                    lst.Add(new IngresoGarantiasModel
                     {
                         IngresoGarantiaId = x.IngresoGarantiaId,
                         Cedula = x.Cedula,
                         Nombre = x.Nombre,
                         Apellido = x.Apellido,                   
                         NumeroGarantia = x.NumeroGarantia,
-                        RegistroGarantia = x.RegistroGarantia,
+                        RegistroGarantia = x.RegistroGarantia.Value,
                         Provincia=x.Provincia,
-                        ModeloBateria=x.ModeloBateria
+                        ModeloBateria=x.ModeloBateria,
+                        NumeroRevision = verificacionRevision
+
                     });
                 }
                 return lst;
@@ -110,7 +149,6 @@ namespace DacarProsoft.Datos
             }
 
         }
-        // hay q modificarlo
         public int IngresarRevisionGarantiaCabecera(string cliente, string cedula, string numeroGarantia, string numeroComprobante, string numeroRevision, string provincia, string direccion, string vendedor, string ImgFac, string marca,
             string modelo, string lote, decimal prorrateo, int meses, DateTime fechaVenta, DateTime fechaIngreso, decimal porcentajeVenta, decimal voltaje, string ImgTest)
         {
@@ -123,7 +161,7 @@ namespace DacarProsoft.Datos
                     result.Cedula = cedula;
                     result.NumeroGarantia = numeroGarantia;
                     result.NumeroComprobante = numeroComprobante;
-                    result.NumeroRevision = numeroRevision;
+                    result.NumeroRevision = Convert.ToInt32(numeroRevision);
                     result.Provincia = provincia;
                     result.Direccion = direccion;
                     result.Vendedor = vendedor;

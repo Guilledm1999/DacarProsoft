@@ -208,7 +208,7 @@
     <Property Name="Cedula" Type="varchar" MaxLength="13" />
     <Property Name="NumeroGarantia" Type="varchar" MaxLength="25" />
     <Property Name="NumeroComprobante" Type="varchar" MaxLength="25" />
-    <Property Name="NumeroRevision" Type="varchar" MaxLength="25" />
+    <Property Name="NumeroRevision" Type="int" />
     <Property Name="Provincia" Type="varchar" MaxLength="25" />
     <Property Name="Direccion" Type="varchar" MaxLength="100" />
     <Property Name="Vendedor" Type="varchar" MaxLength="50" />

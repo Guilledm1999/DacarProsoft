@@ -213,7 +213,7 @@
           <Property Name="Cedula" Type="varchar" MaxLength="13" />
           <Property Name="NumeroGarantia" Type="varchar" MaxLength="25" />
           <Property Name="NumeroComprobante" Type="varchar" MaxLength="25" />
-          <Property Name="NumeroRevision" Type="varchar" MaxLength="25" />
+          <Property Name="NumeroRevision" Type="int" />
           <Property Name="Provincia" Type="varchar" MaxLength="25" />
           <Property Name="Direccion" Type="varchar" MaxLength="100" />
           <Property Name="Vendedor" Type="varchar" MaxLength="50" />
@@ -1038,7 +1038,6 @@
           <EntitySet Name="UrlImprimirPdfPallet" EntityType="DacarProsoftModel.UrlImprimirPdfPallet" />
           <EntitySet Name="IngresoGarantias" EntityType="DacarProsoftModel.IngresoGarantias" />
           <EntitySet Name="IngresoInspeccionInicialDensidadCelda" EntityType="DacarProsoftModel.IngresoInspeccionInicialDensidadCelda" />
-          <EntitySet Name="IngresoRevisionGarantiaCabecera" EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" />
           <EntitySet Name="IngresoRevisionGarantiaDiagnostico" EntityType="DacarProsoftModel.IngresoRevisionGarantiaDiagnostico" />
           <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" />
           <EntitySet Name="IngresoRevisionGarantiaTrabajoRealizado" EntityType="DacarProsoftModel.IngresoRevisionGarantiaTrabajoRealizado" />
@@ -1046,6 +1045,7 @@
             <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
             <End Role="IngresoInspeccionInicialDensidadCelda" EntitySet="IngresoInspeccionInicialDensidadCelda" />
           </AssociationSet>
+          <EntitySet Name="IngresoRevisionGarantiaCabecera" EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" />
           <AssociationSet Name="fk_Asignatura" Association="DacarProsoftModel.fk_Asignatura">
             <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
             <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
@@ -1738,34 +1738,6 @@
           <Property Name="C6" Type="Decimal" Precision="10" Scale="2" />
           <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_DensidadCeldas" FromRole="IngresoInspeccionInicialDensidadCelda" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
         </EntityType>
-        <EntityType Name="IngresoRevisionGarantiaCabecera">
-          <Key>
-            <PropertyRef Name="IngresoRevisionGarantiaId" />
-          </Key>
-          <Property Name="IngresoRevisionGarantiaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="NumeroGarantia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="NumeroComprobante" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="NumeroRevision" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="Provincia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Vendedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="FacturaCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="TestBateria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Lote" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="FechaVenta" Type="DateTime" Precision="3" />
-          <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
-          <Property Name="Prorrateo" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="Meses" Type="Int32" />
-          <Property Name="PorcentajeVenta" Type="Decimal" Precision="10" Scale="2" />
-          <Property Name="Voltaje" Type="Decimal" Precision="10" Scale="2" />
-          <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
-          <NavigationProperty Name="IngresoRevisionGarantiaDiagnostico" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaDiagnostico" />
-          <NavigationProperty Name="IngresoRevisionGarantiaTrabajoRealizado" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaTrabajoRealizado" />
-        </EntityType>
         <EntityType Name="IngresoRevisionGarantiaDiagnostico">
           <Key>
             <PropertyRef Name="IngresoRevisionGarantiaDiagnosticoId" />
@@ -1820,6 +1792,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="IngresoRevisionGarantiaCabecera">
+          <Key>
+            <PropertyRef Name="IngresoRevisionGarantiaId" />
+          </Key>
+          <Property Name="IngresoRevisionGarantiaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroGarantia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroComprobante" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroRevision" Type="Int32" />
+          <Property Name="Provincia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Vendedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FacturaCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TestBateria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Lote" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="FechaVenta" Type="DateTime" Precision="3" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
+          <Property Name="Prorrateo" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Meses" Type="Int32" />
+          <Property Name="PorcentajeVenta" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Voltaje" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
+          <NavigationProperty Name="IngresoRevisionGarantiaDiagnostico" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaDiagnostico" />
+          <NavigationProperty Name="IngresoRevisionGarantiaTrabajoRealizado" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaTrabajoRealizado" />
+        </EntityType>
         <Association Name="fk_Asignatura">
           <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
           <End Type="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" Role="IngresoRevisionGarantiaInspeccionInicial" Multiplicity="*" />
@@ -2417,32 +2417,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="IngresoRevisionGarantiaCabecera">
-            <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaCabecera">
-              <MappingFragment StoreEntitySet="IngresoRevisionGarantiaCabecera">
-                <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
-                <ScalarProperty Name="PorcentajeVenta" ColumnName="PorcentajeVenta" />
-                <ScalarProperty Name="Meses" ColumnName="Meses" />
-                <ScalarProperty Name="Prorrateo" ColumnName="Prorrateo" />
-                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
-                <ScalarProperty Name="FechaVenta" ColumnName="FechaVenta" />
-                <ScalarProperty Name="Lote" ColumnName="Lote" />
-                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
-                <ScalarProperty Name="Marca" ColumnName="Marca" />
-                <ScalarProperty Name="TestBateria" ColumnName="TestBateria" />
-                <ScalarProperty Name="FacturaCliente" ColumnName="FacturaCliente" />
-                <ScalarProperty Name="Vendedor" ColumnName="Vendedor" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-                <ScalarProperty Name="Provincia" ColumnName="Provincia" />
-                <ScalarProperty Name="NumeroRevision" ColumnName="NumeroRevision" />
-                <ScalarProperty Name="NumeroComprobante" ColumnName="NumeroComprobante" />
-                <ScalarProperty Name="NumeroGarantia" ColumnName="NumeroGarantia" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-                <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="IngresoRevisionGarantiaDiagnostico">
             <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaDiagnostico">
               <MappingFragment StoreEntitySet="IngresoRevisionGarantiaDiagnostico">
@@ -2481,6 +2455,32 @@
                 <ScalarProperty Name="PruebaAltaResistencia" ColumnName="PruebaAltaResistencia" />
                 <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
                 <ScalarProperty Name="IngresoRevisionGarantiaTrabajoRealizadoId" ColumnName="IngresoRevisionGarantiaTrabajoRealizadoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngresoRevisionGarantiaCabecera">
+            <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaCabecera">
+              <MappingFragment StoreEntitySet="IngresoRevisionGarantiaCabecera">
+                <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
+                <ScalarProperty Name="PorcentajeVenta" ColumnName="PorcentajeVenta" />
+                <ScalarProperty Name="Meses" ColumnName="Meses" />
+                <ScalarProperty Name="Prorrateo" ColumnName="Prorrateo" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="FechaVenta" ColumnName="FechaVenta" />
+                <ScalarProperty Name="Lote" ColumnName="Lote" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="TestBateria" ColumnName="TestBateria" />
+                <ScalarProperty Name="FacturaCliente" ColumnName="FacturaCliente" />
+                <ScalarProperty Name="Vendedor" ColumnName="Vendedor" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Provincia" ColumnName="Provincia" />
+                <ScalarProperty Name="NumeroRevision" ColumnName="NumeroRevision" />
+                <ScalarProperty Name="NumeroComprobante" ColumnName="NumeroComprobante" />
+                <ScalarProperty Name="NumeroGarantia" ColumnName="NumeroGarantia" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
