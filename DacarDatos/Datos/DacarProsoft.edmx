@@ -411,8 +411,8 @@
           <Property Name="NombreCliente" Type="varchar" MaxLength="100" />
           <Property Name="FechaEmision" Type="datetime" />
           <Property Name="OrdenCompra" Type="varchar" MaxLength="50" />
-          <Property Name="Pais" Type="varchar" MaxLength="100" />
-          <Property Name="Ciudad" Type="varchar" MaxLength="100" />
+          <Property Name="Sucursal" Type="varchar" MaxLength="100" />
+          <Property Name="PaisCiudad" Type="varchar" MaxLength="100" />
           <Property Name="Direccion" Type="varchar" MaxLength="255" />
           <Property Name="CodigoPostal" Type="varchar" MaxLength="50" />
           <Property Name="TerminoImportacion" Type="varchar" MaxLength="25" />
@@ -464,6 +464,7 @@
           <Property Name="Observaciones" Type="varchar" MaxLength="255" />
           <Property Name="FechaIngresadaSap" Type="datetime" />
           <Property Name="FechaNuevaDespacho" Type="datetime" />
+          <Property Name="NumeroContenedores" Type="int" />
         </EntityType>
         <EntityType Name="SubMenuOpciones">
           <Key>
@@ -531,6 +532,7 @@
           <Property Name="ReferenciaUsuario" Type="varchar" MaxLength="100" />
           <Property Name="EstadoUsuario" Type="char" MaxLength="10" />
           <Property Name="ImagenPerfil" Type="varchar" MaxLength="250" />
+          <Property Name="Validaciones" Type="bit" />
         </EntityType>
         <EntityType Name="Vehiculos">
           <Key>
@@ -773,6 +775,7 @@
           <Parameter Name="usuario" Type="nvarchar" Mode="In" />
           <Parameter Name="clave" Type="nvarchar" Mode="In" />
           <Parameter Name="tipo" Type="char" Mode="In" />
+          <Parameter Name="validar" Type="bit" Mode="In" />
         </Function>
         <Function Name="spConsultaUsuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="spLoginUsuarioPortal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -785,6 +788,7 @@
           <Parameter Name="clave" Type="varchar(max)" Mode="In" />
           <Parameter Name="referencia" Type="varchar" Mode="In" />
           <Parameter Name="estado" Type="char" Mode="In" />
+          <Parameter Name="validar" Type="bit" Mode="In" />
         </Function>
         <EntityContainer Name="DacarProsoftModelStoreContainer">
           <EntitySet Name="Accesos" EntityType="Self.Accesos" Schema="dbo" store:Type="Tables" />
@@ -1011,30 +1015,10 @@
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="clave" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spRegistrarNuevoUsuarioPortal">
-            <Parameter Name="nombre" Mode="In" Type="String" />
-            <Parameter Name="usuario" Mode="In" Type="String" />
-            <Parameter Name="clave" Mode="In" Type="String" />
-            <Parameter Name="referencia" Mode="In" Type="String" />
-            <Parameter Name="estado" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="UsuariosPortal" EntityType="DacarProsoftModel.UsuariosPortal" />
-          <EntitySet Name="PedidoClienteCabecera" EntityType="DacarProsoftModel.PedidoClienteCabecera" />
-          <EntitySet Name="PedidoClienteDetalleFinal" EntityType="DacarProsoftModel.PedidoClienteDetalleFinal" />
-          <EntitySet Name="PedidoClienteDetalle" EntityType="DacarProsoftModel.PedidoClienteDetalle" />
-          <AssociationSet Name="fk_detallePedido" Association="DacarProsoftModel.fk_detallePedido">
-            <End Role="PedidoClienteCabecera" EntitySet="PedidoClienteCabecera" />
-            <End Role="PedidoClienteDetalle" EntitySet="PedidoClienteDetalle" />
-          </AssociationSet>
           <EntitySet Name="EstadosPedidos" EntityType="DacarProsoftModel.EstadosPedidos" />
           <EntitySet Name="FechasPedidos" EntityType="DacarProsoftModel.FechasPedidos" />
           <EntitySet Name="EstadosPedidosSelect" EntityType="DacarProsoftModel.EstadosPedidosSelect" />
-          <FunctionImport Name="spActualizarUsuarioPortal">
-            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
-            <Parameter Name="usuario" Mode="In" Type="String" />
-            <Parameter Name="clave" Mode="In" Type="String" />
-            <Parameter Name="tipo" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="UrlImprimirPdfPallet" EntityType="DacarProsoftModel.UrlImprimirPdfPallet" />
           <EntitySet Name="IngresoGarantias" EntityType="DacarProsoftModel.IngresoGarantias" />
           <EntitySet Name="IngresoInspeccionInicialDensidadCelda" EntityType="DacarProsoftModel.IngresoInspeccionInicialDensidadCelda" />
@@ -1058,6 +1042,28 @@
             <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
             <End Role="IngresoRevisionGarantiaTrabajoRealizado" EntitySet="IngresoRevisionGarantiaTrabajoRealizado" />
           </AssociationSet>
+          <EntitySet Name="PedidoClienteCabecera" EntityType="DacarProsoftModel.PedidoClienteCabecera" />
+          <EntitySet Name="PedidoClienteDetalle" EntityType="DacarProsoftModel.PedidoClienteDetalle" />
+          <EntitySet Name="PedidoClienteDetalleFinal" EntityType="DacarProsoftModel.PedidoClienteDetalleFinal" />
+          <AssociationSet Name="fk_detallePedido" Association="DacarProsoftModel.fk_detallePedido">
+            <End Role="PedidoClienteCabecera" EntitySet="PedidoClienteCabecera" />
+            <End Role="PedidoClienteDetalle" EntitySet="PedidoClienteDetalle" />
+          </AssociationSet>
+          <FunctionImport Name="spActualizarUsuarioPortal">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="clave" Mode="In" Type="String" />
+            <Parameter Name="tipo" Mode="In" Type="String" />
+            <Parameter Name="validar" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spRegistrarNuevoUsuarioPortal">
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="usuario" Mode="In" Type="String" />
+            <Parameter Name="clave" Mode="In" Type="String" />
+            <Parameter Name="referencia" Mode="In" Type="String" />
+            <Parameter Name="estado" Mode="In" Type="String" />
+            <Parameter Name="validar" Mode="In" Type="Boolean" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1591,84 +1597,8 @@
           <Property Name="ReferenciaUsuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="EstadoUsuario" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
           <Property Name="ImagenPerfil" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Validaciones" Type="Boolean" />
         </EntityType>
-        <EntityType Name="PedidoClienteCabecera">
-          <Key>
-            <PropertyRef Name="NumeroPedidoId" />
-          </Key>
-          <Property Name="NumeroPedidoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CardCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="NombreCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FechaEmision" Type="DateTime" Precision="3" />
-          <Property Name="OrdenCompra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Pais" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Ciudad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="TerminoImportacion" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="FechaRequerida" Type="DateTime" Precision="3" />
-          <Property Name="EstadoPedido" Type="Int32" />
-          <NavigationProperty Name="PedidoClienteDetalle" Relationship="DacarProsoftModel.fk_detallePedido" FromRole="PedidoClienteCabecera" ToRole="PedidoClienteDetalle" />
-          <Property Name="FechaCargaLista" Type="DateTime" Precision="3" />
-          <Property Name="FechaDespachoPuerto" Type="DateTime" Precision="3" />
-          <Property Name="FechaZarpe" Type="DateTime" Precision="3" />
-          <Property Name="FechaArribo" Type="DateTime" Precision="3" />
-          <Property Name="FechaEntrega" Type="DateTime" Precision="3" />
-          <Property Name="CodigoPostal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="PedidoClienteDetalleFinal">
-          <Key>
-            <PropertyRef Name="PedidoClienteDetalleFinal1" />
-          </Key>
-          <Property Name="PedidoClienteDetalleFinal1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PedidoClienteCabecera" Type="Int32" />
-          <Property Name="CantitadTotal" Type="Int32" />
-          <Property Name="PrecioFinalPedido" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PesoNetoFinalPedido" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PesoBrutoFinalPedido" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="FechaIngresadaSap" Type="DateTime" Precision="3" />
-          <Property Name="FechaNuevaDespacho" Type="DateTime" Precision="3" />
-          <Property Name="CantidadTotalNueva" Type="Int32" />
-        </EntityType>
-        <EntityType Name="PedidoClienteDetalle">
-          <Key>
-            <PropertyRef Name="PedidoClienteDetalleId" />
-          </Key>
-          <Property Name="PedidoClienteDetalleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NumeroPedidoId" Type="Int32" />
-          <Property Name="ItemCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ModeloBateria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Marca" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CardCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NumeroParteCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="EtiquetaDatosTecnicos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Polaridad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="TipoTerminal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Cantidad" Type="Int32" />
-          <Property Name="CantidadConfirmada" Type="Int32" />
-          <Property Name="CantidadPiso" Type="Int32" />
-          <Property Name="PisoMaximo" Type="Int32" />
-          <Property Name="BateriasPallet" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CantidadPallets" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PrecioUnitario" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PrecioTotal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PesoBateria" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PesoNeto" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="PesoBruto" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="PedidoClienteCabecera" Relationship="DacarProsoftModel.fk_detallePedido" FromRole="PedidoClienteDetalle" ToRole="PedidoClienteCabecera" />
-        </EntityType>
-        <Association Name="fk_detallePedido">
-          <End Type="DacarProsoftModel.PedidoClienteCabecera" Role="PedidoClienteCabecera" Multiplicity="0..1" />
-          <End Type="DacarProsoftModel.PedidoClienteDetalle" Role="PedidoClienteDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PedidoClienteCabecera">
-              <PropertyRef Name="NumeroPedidoId" />
-            </Principal>
-            <Dependent Role="PedidoClienteDetalle">
-              <PropertyRef Name="NumeroPedidoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="EstadosPedidos">
           <Key>
             <PropertyRef Name="EstadoPedidoId" />
@@ -1853,6 +1783,84 @@
             </Principal>
             <Dependent Role="IngresoRevisionGarantiaTrabajoRealizado">
               <PropertyRef Name="IngresoRevisionGarantiaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PedidoClienteCabecera">
+          <Key>
+            <PropertyRef Name="NumeroPedidoId" />
+          </Key>
+          <Property Name="NumeroPedidoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardCode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEmision" Type="DateTime" Precision="3" />
+          <Property Name="OrdenCompra" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sucursal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PaisCiudad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoPostal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TerminoImportacion" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRequerida" Type="DateTime" Precision="3" />
+          <Property Name="EstadoPedido" Type="Int32" />
+          <Property Name="FechaCargaLista" Type="DateTime" Precision="3" />
+          <Property Name="FechaDespachoPuerto" Type="DateTime" Precision="3" />
+          <Property Name="FechaZarpe" Type="DateTime" Precision="3" />
+          <Property Name="FechaArribo" Type="DateTime" Precision="3" />
+          <Property Name="FechaEntrega" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PedidoClienteDetalle" Relationship="DacarProsoftModel.fk_detallePedido" FromRole="PedidoClienteCabecera" ToRole="PedidoClienteDetalle" />
+        </EntityType>
+        <EntityType Name="PedidoClienteDetalle">
+          <Key>
+            <PropertyRef Name="PedidoClienteDetalleId" />
+          </Key>
+          <Property Name="PedidoClienteDetalleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroPedidoId" Type="Int32" />
+          <Property Name="ItemCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ModeloBateria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Marca" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CardCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroParteCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EtiquetaDatosTecnicos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Polaridad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TipoTerminal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad" Type="Int32" />
+          <Property Name="CantidadConfirmada" Type="Int32" />
+          <Property Name="CantidadPiso" Type="Int32" />
+          <Property Name="PisoMaximo" Type="Int32" />
+          <Property Name="BateriasPallet" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CantidadPallets" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PrecioUnitario" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PrecioTotal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PesoBateria" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PesoNeto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PesoBruto" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="PedidoClienteCabecera" Relationship="DacarProsoftModel.fk_detallePedido" FromRole="PedidoClienteDetalle" ToRole="PedidoClienteCabecera" />
+        </EntityType>
+        <EntityType Name="PedidoClienteDetalleFinal">
+          <Key>
+            <PropertyRef Name="PedidoClienteDetalleFinal1" />
+          </Key>
+          <Property Name="PedidoClienteDetalleFinal1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PedidoClienteCabecera" Type="Int32" />
+          <Property Name="CantitadTotal" Type="Int32" />
+          <Property Name="CantidadTotalNueva" Type="Int32" />
+          <Property Name="PrecioFinalPedido" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PesoNetoFinalPedido" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PesoBrutoFinalPedido" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FechaIngresadaSap" Type="DateTime" Precision="3" />
+          <Property Name="FechaNuevaDespacho" Type="DateTime" Precision="3" />
+          <Property Name="NumeroContenedores" Type="Int32" />
+        </EntityType>
+        <Association Name="fk_detallePedido">
+          <End Type="DacarProsoftModel.PedidoClienteCabecera" Role="PedidoClienteCabecera" Multiplicity="0..1" />
+          <End Type="DacarProsoftModel.PedidoClienteDetalle" Role="PedidoClienteDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PedidoClienteCabecera">
+              <PropertyRef Name="NumeroPedidoId" />
+            </Principal>
+            <Dependent Role="PedidoClienteDetalle">
+              <PropertyRef Name="NumeroPedidoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2262,10 +2270,10 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spRegistrarNuevoUsuarioPortal" FunctionName="DacarProsoftModel.Store.spRegistrarNuevoUsuarioPortal" />
           <EntitySetMapping Name="UsuariosPortal">
             <EntityTypeMapping TypeName="DacarProsoftModel.UsuariosPortal">
               <MappingFragment StoreEntitySet="UsuariosPortal">
+                <ScalarProperty Name="Validaciones" ColumnName="Validaciones" />
                 <ScalarProperty Name="ImagenPerfil" ColumnName="ImagenPerfil" />
                 <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
                 <ScalarProperty Name="ReferenciaUsuario" ColumnName="ReferenciaUsuario" />
@@ -2273,72 +2281,6 @@
                 <ScalarProperty Name="UsuarioPortal" ColumnName="UsuarioPortal" />
                 <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
                 <ScalarProperty Name="UsuarioPortalId" ColumnName="UsuarioPortalId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PedidoClienteCabecera">
-            <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteCabecera">
-              <MappingFragment StoreEntitySet="PedidoClienteCabecera">
-                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
-                <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
-                <ScalarProperty Name="FechaArribo" ColumnName="FechaArribo" />
-                <ScalarProperty Name="FechaZarpe" ColumnName="FechaZarpe" />
-                <ScalarProperty Name="FechaDespachoPuerto" ColumnName="FechaDespachoPuerto" />
-                <ScalarProperty Name="FechaCargaLista" ColumnName="FechaCargaLista" />
-                <ScalarProperty Name="EstadoPedido" ColumnName="EstadoPedido" />
-                <ScalarProperty Name="FechaRequerida" ColumnName="FechaRequerida" />
-                <ScalarProperty Name="TerminoImportacion" ColumnName="TerminoImportacion" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
-                <ScalarProperty Name="Pais" ColumnName="Pais" />
-                <ScalarProperty Name="OrdenCompra" ColumnName="OrdenCompra" />
-                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
-                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
-                <ScalarProperty Name="CardCode" ColumnName="CardCode" />
-                <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PedidoClienteDetalleFinal">
-            <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalleFinal">
-              <MappingFragment StoreEntitySet="PedidoClienteDetalleFinal">
-                <ScalarProperty Name="CantidadTotalNueva" ColumnName="CantidadTotalNueva" />
-                <ScalarProperty Name="FechaNuevaDespacho" ColumnName="FechaNuevaDespacho" />
-                <ScalarProperty Name="FechaIngresadaSap" ColumnName="FechaIngresadaSap" />
-                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-                <ScalarProperty Name="PesoBrutoFinalPedido" ColumnName="PesoBrutoFinalPedido" />
-                <ScalarProperty Name="PesoNetoFinalPedido" ColumnName="PesoNetoFinalPedido" />
-                <ScalarProperty Name="PrecioFinalPedido" ColumnName="PrecioFinalPedido" />
-                <ScalarProperty Name="CantitadTotal" ColumnName="CantitadTotal" />
-                <ScalarProperty Name="PedidoClienteCabecera" ColumnName="PedidoClienteCabecera" />
-                <ScalarProperty Name="PedidoClienteDetalleFinal1" ColumnName="PedidoClienteDetalleFinal" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PedidoClienteDetalle">
-            <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalle">
-              <MappingFragment StoreEntitySet="PedidoClienteDetalle">
-                <ScalarProperty Name="PesoBruto" ColumnName="PesoBruto" />
-                <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
-                <ScalarProperty Name="PesoBateria" ColumnName="PesoBateria" />
-                <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
-                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
-                <ScalarProperty Name="CantidadPallets" ColumnName="CantidadPallets" />
-                <ScalarProperty Name="BateriasPallet" ColumnName="BateriasPallet" />
-                <ScalarProperty Name="PisoMaximo" ColumnName="PisoMaximo" />
-                <ScalarProperty Name="CantidadPiso" ColumnName="CantidadPiso" />
-                <ScalarProperty Name="CantidadConfirmada" ColumnName="CantidadConfirmada" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="TipoTerminal" ColumnName="TipoTerminal" />
-                <ScalarProperty Name="Polaridad" ColumnName="Polaridad" />
-                <ScalarProperty Name="EtiquetaDatosTecnicos" ColumnName="EtiquetaDatosTecnicos" />
-                <ScalarProperty Name="NumeroParteCliente" ColumnName="NumeroParteCliente" />
-                <ScalarProperty Name="CardCode" ColumnName="CardCode" />
-                <ScalarProperty Name="Marca" ColumnName="Marca" />
-                <ScalarProperty Name="ModeloBateria" ColumnName="ModeloBateria" />
-                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-                <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
-                <ScalarProperty Name="PedidoClienteDetalleId" ColumnName="PedidoClienteDetalleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2372,7 +2314,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="spActualizarUsuarioPortal" FunctionName="DacarProsoftModel.Store.spActualizarUsuarioPortal" />
           <EntitySetMapping Name="UrlImprimirPdfPallet">
             <EntityTypeMapping TypeName="DacarProsoftModel.UrlImprimirPdfPallet">
               <MappingFragment StoreEntitySet="UrlImprimirPdfPallet">
@@ -2484,6 +2425,75 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PedidoClienteCabecera">
+            <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteCabecera">
+              <MappingFragment StoreEntitySet="PedidoClienteCabecera">
+                <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+                <ScalarProperty Name="FechaArribo" ColumnName="FechaArribo" />
+                <ScalarProperty Name="FechaZarpe" ColumnName="FechaZarpe" />
+                <ScalarProperty Name="FechaDespachoPuerto" ColumnName="FechaDespachoPuerto" />
+                <ScalarProperty Name="FechaCargaLista" ColumnName="FechaCargaLista" />
+                <ScalarProperty Name="EstadoPedido" ColumnName="EstadoPedido" />
+                <ScalarProperty Name="FechaRequerida" ColumnName="FechaRequerida" />
+                <ScalarProperty Name="TerminoImportacion" ColumnName="TerminoImportacion" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="PaisCiudad" ColumnName="PaisCiudad" />
+                <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+                <ScalarProperty Name="OrdenCompra" ColumnName="OrdenCompra" />
+                <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+                <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PedidoClienteDetalle">
+            <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalle">
+              <MappingFragment StoreEntitySet="PedidoClienteDetalle">
+                <ScalarProperty Name="PesoBruto" ColumnName="PesoBruto" />
+                <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
+                <ScalarProperty Name="PesoBateria" ColumnName="PesoBateria" />
+                <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
+                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+                <ScalarProperty Name="CantidadPallets" ColumnName="CantidadPallets" />
+                <ScalarProperty Name="BateriasPallet" ColumnName="BateriasPallet" />
+                <ScalarProperty Name="PisoMaximo" ColumnName="PisoMaximo" />
+                <ScalarProperty Name="CantidadPiso" ColumnName="CantidadPiso" />
+                <ScalarProperty Name="CantidadConfirmada" ColumnName="CantidadConfirmada" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="TipoTerminal" ColumnName="TipoTerminal" />
+                <ScalarProperty Name="Polaridad" ColumnName="Polaridad" />
+                <ScalarProperty Name="EtiquetaDatosTecnicos" ColumnName="EtiquetaDatosTecnicos" />
+                <ScalarProperty Name="NumeroParteCliente" ColumnName="NumeroParteCliente" />
+                <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="ModeloBateria" ColumnName="ModeloBateria" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+                <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
+                <ScalarProperty Name="PedidoClienteDetalleId" ColumnName="PedidoClienteDetalleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PedidoClienteDetalleFinal">
+            <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalleFinal">
+              <MappingFragment StoreEntitySet="PedidoClienteDetalleFinal">
+                <ScalarProperty Name="NumeroContenedores" ColumnName="NumeroContenedores" />
+                <ScalarProperty Name="FechaNuevaDespacho" ColumnName="FechaNuevaDespacho" />
+                <ScalarProperty Name="FechaIngresadaSap" ColumnName="FechaIngresadaSap" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="PesoBrutoFinalPedido" ColumnName="PesoBrutoFinalPedido" />
+                <ScalarProperty Name="PesoNetoFinalPedido" ColumnName="PesoNetoFinalPedido" />
+                <ScalarProperty Name="PrecioFinalPedido" ColumnName="PrecioFinalPedido" />
+                <ScalarProperty Name="CantidadTotalNueva" ColumnName="CantidadTotalNueva" />
+                <ScalarProperty Name="CantitadTotal" ColumnName="CantitadTotal" />
+                <ScalarProperty Name="PedidoClienteCabecera" ColumnName="PedidoClienteCabecera" />
+                <ScalarProperty Name="PedidoClienteDetalleFinal1" ColumnName="PedidoClienteDetalleFinal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spActualizarUsuarioPortal" FunctionName="DacarProsoftModel.Store.spActualizarUsuarioPortal" />
+          <FunctionImportMapping FunctionImportName="spRegistrarNuevoUsuarioPortal" FunctionName="DacarProsoftModel.Store.spRegistrarNuevoUsuarioPortal" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

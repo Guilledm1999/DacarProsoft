@@ -51,10 +51,6 @@
         <EntityTypeShape EntityType="DacarProsoftModel.DetalleGeneralPackingList" Width="1.5" PointX="15.375" PointY="5.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.SubMenuOpciones" Width="1.5" PointX="0.75" PointY="16.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.UsuariosPortal" Width="1.5" PointX="7.375" PointY="0.75" />
-        <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteCabecera" Width="1.5" PointX="17.375" PointY="2" />
-        <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteDetalleFinal" Width="1.5" PointX="15.375" PointY="2.5" />
-        <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteDetalle" Width="1.5" PointX="19.625" PointY="1" />
-        <AssociationConnector Association="DacarProsoftModel.fk_detallePedido" />
         <EntityTypeShape EntityType="DacarProsoftModel.EstadosPedidos" Width="1.5" PointX="10.375" PointY="5.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.FechasPedidos" Width="1.5" PointX="12.375" PointY="4.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.EstadosPedidosSelect" Width="1.5" PointX="16.375" PointY="10.75" />
@@ -69,6 +65,10 @@
         <AssociationConnector Association="DacarProsoftModel.fk_Asignatura" />
         <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" />
         <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" />
+        <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteCabecera" Width="1.5" PointX="18.25" PointY="1.875" />
+        <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteDetalle" Width="1.5" PointX="20.5" PointY="1.5" />
+        <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteDetalleFinal" Width="1.5" PointX="15.25" PointY="1.125" />
+        <AssociationConnector Association="DacarProsoftModel.fk_detallePedido" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -406,8 +406,8 @@
     <Property Name="NombreCliente" Type="varchar" MaxLength="100" />
     <Property Name="FechaEmision" Type="datetime" />
     <Property Name="OrdenCompra" Type="varchar" MaxLength="50" />
-    <Property Name="Pais" Type="varchar" MaxLength="100" />
-    <Property Name="Ciudad" Type="varchar" MaxLength="100" />
+    <Property Name="Sucursal" Type="varchar" MaxLength="100" />
+    <Property Name="PaisCiudad" Type="varchar" MaxLength="100" />
     <Property Name="Direccion" Type="varchar" MaxLength="255" />
     <Property Name="CodigoPostal" Type="varchar" MaxLength="50" />
     <Property Name="TerminoImportacion" Type="varchar" MaxLength="25" />
@@ -459,6 +459,7 @@
     <Property Name="Observaciones" Type="varchar" MaxLength="255" />
     <Property Name="FechaIngresadaSap" Type="datetime" />
     <Property Name="FechaNuevaDespacho" Type="datetime" />
+    <Property Name="NumeroContenedores" Type="int" />
   </EntityType>
   <EntityType Name="SubMenuOpciones">
     <Key>
@@ -526,6 +527,7 @@
     <Property Name="ReferenciaUsuario" Type="varchar" MaxLength="100" />
     <Property Name="EstadoUsuario" Type="char" MaxLength="10" />
     <Property Name="ImagenPerfil" Type="varchar" MaxLength="250" />
+    <Property Name="Validaciones" Type="bit" />
   </EntityType>
   <EntityType Name="Vehiculos">
     <Key>
@@ -768,6 +770,7 @@
     <Parameter Name="usuario" Type="nvarchar" Mode="In" />
     <Parameter Name="clave" Type="nvarchar" Mode="In" />
     <Parameter Name="tipo" Type="char" Mode="In" />
+    <Parameter Name="validar" Type="bit" Mode="In" />
   </Function>
   <Function Name="spConsultaUsuarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="spLoginUsuarioPortal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -780,6 +783,7 @@
     <Parameter Name="clave" Type="varchar(max)" Mode="In" />
     <Parameter Name="referencia" Type="varchar" Mode="In" />
     <Parameter Name="estado" Type="char" Mode="In" />
+    <Parameter Name="validar" Type="bit" Mode="In" />
   </Function>
   <EntityContainer Name="DacarProsoftModelStoreContainer">
     <EntitySet Name="Accesos" EntityType="Self.Accesos" Schema="dbo" store:Type="Tables" />

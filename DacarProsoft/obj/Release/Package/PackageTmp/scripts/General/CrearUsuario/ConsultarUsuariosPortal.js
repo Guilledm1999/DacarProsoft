@@ -57,7 +57,7 @@ function ConsultarUsuariosPortal() {
                 columns: [
 
                     {
-                        dataField: "UsuarioPortalId", visible: false,
+                        dataField: "UsuarioPortalId", visible: false
                     },
                     {
                         dataField: "NombreCliente", caption: "Nombre Cliente"
@@ -65,7 +65,10 @@ function ConsultarUsuariosPortal() {
                         dataField: "UsuarioPortal", caption: "Usuario Portal"
                     }, {
                         dataField: "ReferenciaUsuario", caption: "Identificacion"
-                    }, {
+                    },
+                    {
+                        dataField: "Validaciones", caption: "Sin Validaciones"
+                    },{
                         caption: "Actions",
                         cellTemplate: function (container, options) {
                             var btn = "<button class='btn-primary' onclick='ModalEditarUsuario(" + JSON.stringify(options.data) + ")'>Editar</button>";
@@ -151,16 +154,23 @@ function ActualizarUsuarioPortal() {
         }, 3000); return;
     } 
     else {
+        var valVali = null;
+        if ($("#SelectValidaciones option:selected").val() == 0) {
+            valVali = true;
+
+        } else {
+            valVali = false;
+
+        }
+
         $.ajax({
             url: "../CrearUsuario/ActualizarUsuariosPortal",
             type: "POST",
             data: {
-                IdUsuarioPortal: usu.UsuarioPortalId, Usuario: $("#txtUsuario").val(), Clave: $("#txtContrasenia").val(), Tipo: $("#SelectEstadoUsuario option:selected").val()
+                IdUsuarioPortal: usu.UsuarioPortalId, Usuario: $("#txtUsuario").val(), Clave: $("#txtContrasenia").val(), Tipo: $("#SelectEstadoUsuario option:selected").val(), Validacion: valVali
             }, success: function (msg) {
-                console.log("esto devuelve mmsg" + msg);
 
                 if (msg == "True") {
-                    console.log("ingreso x verdadero");
 
                     ConsultarUsuariosPortal();
                     $("#ModalActualizarUsuario").modal("hide");

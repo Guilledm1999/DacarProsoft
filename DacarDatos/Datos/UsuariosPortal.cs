@@ -21,5 +21,6 @@ namespace DacarDatos.Datos
         public string ReferenciaUsuario { get; set; }
         public string EstadoUsuario { get; set; }
         public string ImagenPerfil { get; set; }
+        public Nullable<bool> Validaciones { get; set; }
     }
 }

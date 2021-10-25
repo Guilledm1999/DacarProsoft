@@ -88,6 +88,14 @@ function RegistrarUsuario(modelo) {
 
 
 $('#RegistrarUsuarioPortal').on("click", function (e) {
+    var valVali = null;
+    if ($("#SelectValidaciones option:selected").val() == 0) {
+        valVali = true;
+
+    } else {
+        valVali = false;
+
+    }
     $.ajax({
         url: "../CrearUsuario/IngresarUsuarioClientesSap",
         type: "POST",
@@ -96,6 +104,7 @@ $('#RegistrarUsuarioPortal').on("click", function (e) {
             Usuario: $("#txtUsuarioPortal").val(),
             Clave: $("#txtContrasenaPortal").val(),
             Referencia: referencia,
+            validacion: valVali
 
         }, success: function (msg) {
             if (msg == "True") {

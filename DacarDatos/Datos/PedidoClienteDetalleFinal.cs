@@ -17,12 +17,13 @@ namespace DacarDatos.Datos
         public int PedidoClienteDetalleFinal1 { get; set; }
         public Nullable<int> PedidoClienteCabecera { get; set; }
         public Nullable<int> CantitadTotal { get; set; }
+        public Nullable<int> CantidadTotalNueva { get; set; }
         public Nullable<decimal> PrecioFinalPedido { get; set; }
         public Nullable<decimal> PesoNetoFinalPedido { get; set; }
         public Nullable<decimal> PesoBrutoFinalPedido { get; set; }
         public string Observaciones { get; set; }
         public Nullable<System.DateTime> FechaIngresadaSap { get; set; }
         public Nullable<System.DateTime> FechaNuevaDespacho { get; set; }
-        public Nullable<int> CantidadTotalNueva { get; set; }
+        public Nullable<int> NumeroContenedores { get; set; }
     }
 }

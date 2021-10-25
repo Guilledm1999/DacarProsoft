@@ -401,10 +401,10 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="spRegistrarNuevoUsuarioPortal" FunctionName="DacarProsoftModel.Store.spRegistrarNuevoUsuarioPortal" />
     <EntitySetMapping Name="UsuariosPortal">
       <EntityTypeMapping TypeName="DacarProsoftModel.UsuariosPortal">
         <MappingFragment StoreEntitySet="UsuariosPortal">
+          <ScalarProperty Name="Validaciones" ColumnName="Validaciones" />
           <ScalarProperty Name="ImagenPerfil" ColumnName="ImagenPerfil" />
           <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
           <ScalarProperty Name="ReferenciaUsuario" ColumnName="ReferenciaUsuario" />
@@ -412,72 +412,6 @@
           <ScalarProperty Name="UsuarioPortal" ColumnName="UsuarioPortal" />
           <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
           <ScalarProperty Name="UsuarioPortalId" ColumnName="UsuarioPortalId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PedidoClienteCabecera">
-      <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteCabecera">
-        <MappingFragment StoreEntitySet="PedidoClienteCabecera">
-          <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
-          <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
-          <ScalarProperty Name="FechaArribo" ColumnName="FechaArribo" />
-          <ScalarProperty Name="FechaZarpe" ColumnName="FechaZarpe" />
-          <ScalarProperty Name="FechaDespachoPuerto" ColumnName="FechaDespachoPuerto" />
-          <ScalarProperty Name="FechaCargaLista" ColumnName="FechaCargaLista" />
-          <ScalarProperty Name="EstadoPedido" ColumnName="EstadoPedido" />
-          <ScalarProperty Name="FechaRequerida" ColumnName="FechaRequerida" />
-          <ScalarProperty Name="TerminoImportacion" ColumnName="TerminoImportacion" />
-          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-          <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
-          <ScalarProperty Name="Pais" ColumnName="Pais" />
-          <ScalarProperty Name="OrdenCompra" ColumnName="OrdenCompra" />
-          <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
-          <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
-          <ScalarProperty Name="CardCode" ColumnName="CardCode" />
-          <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PedidoClienteDetalleFinal">
-      <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalleFinal">
-        <MappingFragment StoreEntitySet="PedidoClienteDetalleFinal">
-          <ScalarProperty Name="CantidadTotalNueva" ColumnName="CantidadTotalNueva" />
-          <ScalarProperty Name="FechaNuevaDespacho" ColumnName="FechaNuevaDespacho" />
-          <ScalarProperty Name="FechaIngresadaSap" ColumnName="FechaIngresadaSap" />
-          <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-          <ScalarProperty Name="PesoBrutoFinalPedido" ColumnName="PesoBrutoFinalPedido" />
-          <ScalarProperty Name="PesoNetoFinalPedido" ColumnName="PesoNetoFinalPedido" />
-          <ScalarProperty Name="PrecioFinalPedido" ColumnName="PrecioFinalPedido" />
-          <ScalarProperty Name="CantitadTotal" ColumnName="CantitadTotal" />
-          <ScalarProperty Name="PedidoClienteCabecera" ColumnName="PedidoClienteCabecera" />
-          <ScalarProperty Name="PedidoClienteDetalleFinal1" ColumnName="PedidoClienteDetalleFinal" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PedidoClienteDetalle">
-      <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalle">
-        <MappingFragment StoreEntitySet="PedidoClienteDetalle">
-          <ScalarProperty Name="PesoBruto" ColumnName="PesoBruto" />
-          <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
-          <ScalarProperty Name="PesoBateria" ColumnName="PesoBateria" />
-          <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
-          <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
-          <ScalarProperty Name="CantidadPallets" ColumnName="CantidadPallets" />
-          <ScalarProperty Name="BateriasPallet" ColumnName="BateriasPallet" />
-          <ScalarProperty Name="PisoMaximo" ColumnName="PisoMaximo" />
-          <ScalarProperty Name="CantidadPiso" ColumnName="CantidadPiso" />
-          <ScalarProperty Name="CantidadConfirmada" ColumnName="CantidadConfirmada" />
-          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-          <ScalarProperty Name="TipoTerminal" ColumnName="TipoTerminal" />
-          <ScalarProperty Name="Polaridad" ColumnName="Polaridad" />
-          <ScalarProperty Name="EtiquetaDatosTecnicos" ColumnName="EtiquetaDatosTecnicos" />
-          <ScalarProperty Name="NumeroParteCliente" ColumnName="NumeroParteCliente" />
-          <ScalarProperty Name="CardCode" ColumnName="CardCode" />
-          <ScalarProperty Name="Marca" ColumnName="Marca" />
-          <ScalarProperty Name="ModeloBateria" ColumnName="ModeloBateria" />
-          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
-          <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
-          <ScalarProperty Name="PedidoClienteDetalleId" ColumnName="PedidoClienteDetalleId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -511,7 +445,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="spActualizarUsuarioPortal" FunctionName="DacarProsoftModel.Store.spActualizarUsuarioPortal" />
     <EntitySetMapping Name="UrlImprimirPdfPallet">
       <EntityTypeMapping TypeName="DacarProsoftModel.UrlImprimirPdfPallet">
         <MappingFragment StoreEntitySet="UrlImprimirPdfPallet">
@@ -623,5 +556,74 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PedidoClienteCabecera">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteCabecera">
+        <MappingFragment StoreEntitySet="PedidoClienteCabecera">
+          <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+          <ScalarProperty Name="FechaArribo" ColumnName="FechaArribo" />
+          <ScalarProperty Name="FechaZarpe" ColumnName="FechaZarpe" />
+          <ScalarProperty Name="FechaDespachoPuerto" ColumnName="FechaDespachoPuerto" />
+          <ScalarProperty Name="FechaCargaLista" ColumnName="FechaCargaLista" />
+          <ScalarProperty Name="EstadoPedido" ColumnName="EstadoPedido" />
+          <ScalarProperty Name="FechaRequerida" ColumnName="FechaRequerida" />
+          <ScalarProperty Name="TerminoImportacion" ColumnName="TerminoImportacion" />
+          <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="PaisCiudad" ColumnName="PaisCiudad" />
+          <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+          <ScalarProperty Name="OrdenCompra" ColumnName="OrdenCompra" />
+          <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+          <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+          <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+          <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PedidoClienteDetalle">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalle">
+        <MappingFragment StoreEntitySet="PedidoClienteDetalle">
+          <ScalarProperty Name="PesoBruto" ColumnName="PesoBruto" />
+          <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
+          <ScalarProperty Name="PesoBateria" ColumnName="PesoBateria" />
+          <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
+          <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+          <ScalarProperty Name="CantidadPallets" ColumnName="CantidadPallets" />
+          <ScalarProperty Name="BateriasPallet" ColumnName="BateriasPallet" />
+          <ScalarProperty Name="PisoMaximo" ColumnName="PisoMaximo" />
+          <ScalarProperty Name="CantidadPiso" ColumnName="CantidadPiso" />
+          <ScalarProperty Name="CantidadConfirmada" ColumnName="CantidadConfirmada" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="TipoTerminal" ColumnName="TipoTerminal" />
+          <ScalarProperty Name="Polaridad" ColumnName="Polaridad" />
+          <ScalarProperty Name="EtiquetaDatosTecnicos" ColumnName="EtiquetaDatosTecnicos" />
+          <ScalarProperty Name="NumeroParteCliente" ColumnName="NumeroParteCliente" />
+          <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+          <ScalarProperty Name="Marca" ColumnName="Marca" />
+          <ScalarProperty Name="ModeloBateria" ColumnName="ModeloBateria" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
+          <ScalarProperty Name="PedidoClienteDetalleId" ColumnName="PedidoClienteDetalleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PedidoClienteDetalleFinal">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalleFinal">
+        <MappingFragment StoreEntitySet="PedidoClienteDetalleFinal">
+          <ScalarProperty Name="NumeroContenedores" ColumnName="NumeroContenedores" />
+          <ScalarProperty Name="FechaNuevaDespacho" ColumnName="FechaNuevaDespacho" />
+          <ScalarProperty Name="FechaIngresadaSap" ColumnName="FechaIngresadaSap" />
+          <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+          <ScalarProperty Name="PesoBrutoFinalPedido" ColumnName="PesoBrutoFinalPedido" />
+          <ScalarProperty Name="PesoNetoFinalPedido" ColumnName="PesoNetoFinalPedido" />
+          <ScalarProperty Name="PrecioFinalPedido" ColumnName="PrecioFinalPedido" />
+          <ScalarProperty Name="CantidadTotalNueva" ColumnName="CantidadTotalNueva" />
+          <ScalarProperty Name="CantitadTotal" ColumnName="CantitadTotal" />
+          <ScalarProperty Name="PedidoClienteCabecera" ColumnName="PedidoClienteCabecera" />
+          <ScalarProperty Name="PedidoClienteDetalleFinal1" ColumnName="PedidoClienteDetalleFinal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spActualizarUsuarioPortal" FunctionName="DacarProsoftModel.Store.spActualizarUsuarioPortal" />
+    <FunctionImportMapping FunctionImportName="spRegistrarNuevoUsuarioPortal" FunctionName="DacarProsoftModel.Store.spRegistrarNuevoUsuarioPortal" />
   </EntityContainerMapping>
 </Mapping>

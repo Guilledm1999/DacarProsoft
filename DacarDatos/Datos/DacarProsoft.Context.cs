@@ -61,9 +61,6 @@ namespace DacarDatos.Datos
         public virtual DbSet<DetalleGeneralPackingList> DetalleGeneralPackingList { get; set; }
         public virtual DbSet<SubMenuOpciones> SubMenuOpciones { get; set; }
         public virtual DbSet<UsuariosPortal> UsuariosPortal { get; set; }
-        public virtual DbSet<PedidoClienteCabecera> PedidoClienteCabecera { get; set; }
-        public virtual DbSet<PedidoClienteDetalleFinal> PedidoClienteDetalleFinal { get; set; }
-        public virtual DbSet<PedidoClienteDetalle> PedidoClienteDetalle { get; set; }
         public virtual DbSet<EstadosPedidos> EstadosPedidos { get; set; }
         public virtual DbSet<FechasPedidos> FechasPedidos { get; set; }
         public virtual DbSet<EstadosPedidosSelect> EstadosPedidosSelect { get; set; }
@@ -74,6 +71,9 @@ namespace DacarDatos.Datos
         public virtual DbSet<IngresoRevisionGarantiaInspeccionInicial> IngresoRevisionGarantiaInspeccionInicial { get; set; }
         public virtual DbSet<IngresoRevisionGarantiaTrabajoRealizado> IngresoRevisionGarantiaTrabajoRealizado { get; set; }
         public virtual DbSet<IngresoRevisionGarantiaCabecera> IngresoRevisionGarantiaCabecera { get; set; }
+        public virtual DbSet<PedidoClienteCabecera> PedidoClienteCabecera { get; set; }
+        public virtual DbSet<PedidoClienteDetalle> PedidoClienteDetalle { get; set; }
+        public virtual DbSet<PedidoClienteDetalleFinal> PedidoClienteDetalleFinal { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {
@@ -152,7 +152,32 @@ namespace DacarDatos.Datos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spLoginUsuarioPortal_Result>("spLoginUsuarioPortal", usernameParameter, claveParameter);
         }
     
-        public virtual int spRegistrarNuevoUsuarioPortal(string nombre, string usuario, string clave, string referencia, string estado)
+        public virtual int spActualizarUsuarioPortal(Nullable<int> idUsuario, string usuario, string clave, string tipo, Nullable<bool> validar)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            var claveParameter = clave != null ?
+                new ObjectParameter("clave", clave) :
+                new ObjectParameter("clave", typeof(string));
+    
+            var tipoParameter = tipo != null ?
+                new ObjectParameter("tipo", tipo) :
+                new ObjectParameter("tipo", typeof(string));
+    
+            var validarParameter = validar.HasValue ?
+                new ObjectParameter("validar", validar) :
+                new ObjectParameter("validar", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spActualizarUsuarioPortal", idUsuarioParameter, usuarioParameter, claveParameter, tipoParameter, validarParameter);
+        }
+    
+        public virtual int spRegistrarNuevoUsuarioPortal(string nombre, string usuario, string clave, string referencia, string estado, Nullable<bool> validar)
         {
             var nombreParameter = nombre != null ?
                 new ObjectParameter("nombre", nombre) :
@@ -174,28 +199,11 @@ namespace DacarDatos.Datos
                 new ObjectParameter("estado", estado) :
                 new ObjectParameter("estado", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spRegistrarNuevoUsuarioPortal", nombreParameter, usuarioParameter, claveParameter, referenciaParameter, estadoParameter);
-        }
+            var validarParameter = validar.HasValue ?
+                new ObjectParameter("validar", validar) :
+                new ObjectParameter("validar", typeof(bool));
     
-        public virtual int spActualizarUsuarioPortal(Nullable<int> idUsuario, string usuario, string clave, string tipo)
-        {
-            var idUsuarioParameter = idUsuario.HasValue ?
-                new ObjectParameter("IdUsuario", idUsuario) :
-                new ObjectParameter("IdUsuario", typeof(int));
-    
-            var usuarioParameter = usuario != null ?
-                new ObjectParameter("usuario", usuario) :
-                new ObjectParameter("usuario", typeof(string));
-    
-            var claveParameter = clave != null ?
-                new ObjectParameter("clave", clave) :
-                new ObjectParameter("clave", typeof(string));
-    
-            var tipoParameter = tipo != null ?
-                new ObjectParameter("tipo", tipo) :
-                new ObjectParameter("tipo", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spActualizarUsuarioPortal", idUsuarioParameter, usuarioParameter, claveParameter, tipoParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spRegistrarNuevoUsuarioPortal", nombreParameter, usuarioParameter, claveParameter, referenciaParameter, estadoParameter, validarParameter);
         }
     }
 }

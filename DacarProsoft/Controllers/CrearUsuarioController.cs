@@ -137,12 +137,12 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-        public bool IngresarUsuarioClientesSap(string NombreCliente, string Usuario, string Clave, string Referencia)
+        public bool IngresarUsuarioClientesSap(string NombreCliente, string Usuario, string Clave, string Referencia, bool validacion)
         {
             try
             {
                 daousuario = new DaoUsuarios();
-                var Result = daousuario.ingresarUsuariosPortal(NombreCliente,Usuario,Clave,Referencia);
+                var Result = daousuario.ingresarUsuariosPortal(NombreCliente,Usuario,Clave,Referencia, validacion);
                 return Result;
 
             }
@@ -205,11 +205,11 @@ namespace DacarProsoft.Controllers
         }
 
         [HttpPost]
-        public bool ActualizarUsuariosPortal(int IdUsuarioPortal, string Usuario, string Clave, string Tipo)
+        public bool ActualizarUsuariosPortal(int IdUsuarioPortal, string Usuario, string Clave, string Tipo, bool Validacion)
         {
 
             daousuario = new DaoUsuarios();
-            bool actualizar = daousuario.ActualizacionUsuariosPortal(IdUsuarioPortal, Usuario, Clave, Tipo);
+            bool actualizar = daousuario.ActualizacionUsuariosPortal(IdUsuarioPortal, Usuario, Clave, Tipo, Validacion);
             return actualizar;
 
         }

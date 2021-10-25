@@ -214,7 +214,7 @@ namespace DacarProsoft.Datos
             }
         }
 
-        public bool ingresarUsuariosPortal(String Nombre, String Usuario, String Contrasena, string Referencia)
+        public bool ingresarUsuariosPortal(string Nombre, string Usuario, string Contrasena, string Referencia, bool Validacion)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -223,7 +223,7 @@ namespace DacarProsoft.Datos
                     var consultar = ConsultarExiistenciaUsuarioCliente(Referencia);
                     if (consultar == false)
                     {
-                        DB.spRegistrarNuevoUsuarioPortal(Nombre, Usuario, Contrasena, Referencia, "1");
+                        DB.spRegistrarNuevoUsuarioPortal(Nombre, Usuario, Contrasena, Referencia, "1", Validacion);
                         return true;
                     }
                     else {
@@ -251,7 +251,8 @@ namespace DacarProsoft.Datos
                                              d.NombreCliente,
                                              d.UsuarioPortal,
                                              d.ReferenciaUsuario,
-                                             d.EstadoUsuario
+                                             d.EstadoUsuario,
+                                             d.Validaciones
                                          };
                 foreach (var x in ListadoUsuariosPortal)
                 {
@@ -264,7 +265,9 @@ namespace DacarProsoft.Datos
                       NombreCliente=x.NombreCliente,
                       UsuarioPortal=x.UsuarioPortal,
                       ReferenciaUsuario=x.ReferenciaUsuario,
-                      EstadoUsuario=x.EstadoUsuario
+                      EstadoUsuario=x.EstadoUsuario,
+                      Validaciones=x.Validaciones
+                      
                     });
                     //}
                 }
@@ -284,7 +287,7 @@ namespace DacarProsoft.Datos
 
         }
 
-        public bool ActualizacionUsuariosPortal(int IdUsuarioPortal, string Usuario, string Clave, string tipo)
+        public bool ActualizacionUsuariosPortal(int IdUsuarioPortal, string Usuario, string Clave, string tipo, bool validacion)
         {
 
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -295,7 +298,7 @@ namespace DacarProsoft.Datos
                     var consultar = ConsultarExiistenciaUsuarioEnbase(IdUsuarioPortal, Usuario);
                     if (consultar == false)
                     {
-                        DB.spActualizarUsuarioPortal(IdUsuarioPortal, Usuario, Clave,tipo);
+                        DB.spActualizarUsuarioPortal(IdUsuarioPortal, Usuario, Clave, tipo, validacion);
                         return true;
                     }
                     else
