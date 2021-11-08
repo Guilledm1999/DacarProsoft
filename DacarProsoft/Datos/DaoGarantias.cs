@@ -11,12 +11,12 @@ namespace DacarProsoft.Datos
     public class DaoGarantias
     {
 
-        public List<GarantiaDetalle> ReporteGeneralPedidosExterior(DateTime FechaInicio, DateTime FechaFin)
+        public List<GarantiaDetalle> ReporteGeneralPedidosExterior(/*DateTime FechaInicio, DateTime FechaFin*/)
         {
             
 
-              DateTime nuevaFechaFin = FechaFin;
-            nuevaFechaFin = nuevaFechaFin.AddDays(1);
+             // DateTime nuevaFechaFin = FechaFin;
+           // nuevaFechaFin = nuevaFechaFin.AddDays(1);
 
             string fechaRegistro = null;
 
@@ -25,7 +25,8 @@ namespace DacarProsoft.Datos
                 {
 
                     var Listado = (from d in DB.IngresoGarantias
-                                   where d.RegistroGarantia >= FechaInicio && d.RegistroGarantia <= nuevaFechaFin
+                                       // where d.RegistroGarantia >= FechaInicio && d.RegistroGarantia <= nuevaFechaFin
+                                   orderby d.IngresoGarantiaId descending
                                    select new
                                    {
                                        d.IngresoGarantiaId,
@@ -141,6 +142,78 @@ namespace DacarProsoft.Datos
                         Provincia=x.Provincia,
                         ModeloBateria=x.ModeloBateria,
                         NumeroRevision = verificacionRevision
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        public List<RevisionesTecnicasGarantias> ConsultarRevisionesTecnicas()
+        {
+            string fechaVenta = null;
+            string fechaRegistro = null;
+
+            List<RevisionesTecnicasGarantias> lst = new List<RevisionesTecnicasGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = (from d in DB.IngresoRevisionGarantiaCabecera
+                               select new
+                               {
+                                   d.IngresoRevisionGarantiaId,
+                                   d.Cliente,
+                                   d.Cedula,
+                                   d.NumeroGarantia,
+                                   d.NumeroComprobante,
+                                   d.NumeroRevision,
+                                   d.Provincia,
+                                   d.Direccion,
+                                   d.Vendedor,
+                                   d.FacturaCliente,
+                                   d.TestBateria,
+                                   d.Marca,
+                                   d.Modelo,
+                                   d.Lote,
+                                   d.FechaVenta,
+                                   d.FechaIngreso,
+                                   d.Prorrateo,
+                                   d.Meses,
+                                   d.PorcentajeVenta,
+                                   d.Voltaje
+                               });
+                foreach (var x in Listado)
+                {
+
+                    DateTime fecha = Convert.ToDateTime(x.FechaIngreso, CultureInfo.InvariantCulture);
+                    fechaRegistro = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                    DateTime fecha2 = Convert.ToDateTime(x.FechaVenta, CultureInfo.InvariantCulture);
+                    fechaVenta = fecha2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                    lst.Add(new RevisionesTecnicasGarantias
+                    {
+                        IngresoRevisionGarantiaId=x.IngresoRevisionGarantiaId,
+                        Cliente=x.Cliente,
+                        Cedula=x.Cedula,
+                        NumeroGarantia=x.NumeroGarantia,
+                        NumeroComprobante=x.NumeroComprobante,
+                        NumeroRevision=x.NumeroRevision.Value,
+                        Provincia=x.Provincia,
+                        Direccion=x.Direccion,
+                        Vendedor=x.Vendedor,
+                        FacturaCliente=x.FacturaCliente,
+                        TestBateria=x.TestBateria,
+                        Marca=x.Marca,
+                        Modelo=x.Modelo,
+                        Lote=x.Lote,
+                        FechaVenta= fechaVenta,
+                        FechaIngreso= fechaRegistro,
+                        Prorrateo=x.Prorrateo.Value,
+                        Meses=x.Meses.Value,
+                        PorcentajeVenta=x.PorcentajeVenta.Value,
+                        Voltaje=x.Voltaje.Value
 
                     });
                 }
@@ -302,6 +375,30 @@ namespace DacarProsoft.Datos
                     Console.WriteLine(ex.Message);
                     return false;
                 }
+            }
+        }
+
+        public List<ModelosMarcasPropias> ConsultarReferenciasModelosMarcasPropias()
+        {
+            List<ModelosMarcasPropias> lst = new List<ModelosMarcasPropias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.ModelosMarcasPropias
+                               select new
+                               {
+                                   d.ModelosMarcasPropiasId,
+                                   d.Referencia
+                               }).ToList();
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelosMarcasPropias
+                    {
+                        ModelosMarcasPropiasId = x.ModelosMarcasPropiasId,
+                        Referencia = x.Referencia
+                    });
+                }
+                return lst;
             }
         }
     }

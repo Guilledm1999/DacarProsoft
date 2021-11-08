@@ -223,6 +223,9 @@
     <Compile Include="Datos\Modelos.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\ModelosMarcasPropias.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\OCRD.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>

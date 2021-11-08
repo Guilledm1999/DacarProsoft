@@ -1,4 +1,7 @@
 ﻿$(document).ready(function () {
+
+    PedidosRecibidos();
+
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
         event.preventDefault();
@@ -20,7 +23,6 @@ function ConsultarReporte() {
     $(".loading-icon").removeClass("hide");
     $(".btn").attr("disabled", true);
     $(".btn-txt").text("Espere...");
-
     //var txtFechaInicio = document.getElementById('txtFechaInicio').value;
     //var txtFechaFin = document.getElementById('txtFechaFin').value;
 
@@ -35,17 +37,16 @@ function ConsultarReporte() {
             $("#MensajeIngreseTodosLosCampos").fadeOut(1500);
         }, 3000); return;
     }
-
     else {
         PedidosRecibidos();
     }
 }
 
 function PedidosRecibidos() {
-    var fechaInicio = $('#txtFechaInicio').val();
-    var fechaFin = $('#txtFechaFin').val();
+    //var fechaInicio = $('#txtFechaInicio').val();
+    //var fechaFin = $('#txtFechaFin').val();
     $.ajax({
-        url: "../Reportes/ReporteGeneralDeGarantias?FechaInicio=" + fechaInicio + "&FechaFin=" + fechaFin,
+        url: "../Reportes/ReporteGeneralDeGarantias"/*?FechaInicio=" + fechaInicio + "&FechaFin=" + fechaFin*/,
         type: "GET"
         , success: function (msg) {
             //ItemsPedidoCliente = msg;  
@@ -67,7 +68,7 @@ function PedidosRecibidos() {
                     placeholder: "Buscar..."
                 },
                 headerFilter: {
-                    visible: false
+                    visible: true
                 },
                 pager: {
                     visible: true,
@@ -122,9 +123,9 @@ function PedidosRecibidos() {
                     {
                         dataField: "ModeloBateria", caption: "Modelo Bateria", alignment: "left"
                     },
-                    {
-                        dataField: "NumeroBateria", caption: "Numero Bateria", alignment: "left"
-                    },
+                    //{
+                    //    dataField: "NumeroBateria", caption: "Numero Bateria", alignment: "left"
+                    //},
                     {
                         dataField: "NumeroGarantia", caption: "Numero Garantia", alignment: "left", allowFiltering: false
                     },

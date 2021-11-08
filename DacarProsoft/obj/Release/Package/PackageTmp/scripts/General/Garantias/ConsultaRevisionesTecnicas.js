@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    PedidosRecibidos();
+    RevisionesTecnicas();
 
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
@@ -38,21 +38,21 @@ function ConsultarReporte() {
         }, 3000); return;
     }
     else {
-        PedidosRecibidos();
+        RevisionesTecnicas();
     }
 }
 
-function PedidosRecibidos() {
+function RevisionesTecnicas() {
     //var fechaInicio = $('#txtFechaInicio').val();
     //var fechaFin = $('#txtFechaFin').val();
     $.ajax({
-        url: "../Reportes/ReporteGeneralDeGarantias"/*?FechaInicio=" + fechaInicio + "&FechaFin=" + fechaFin*/,
+        url: "../Garantias/ConsultarRevisionesTecnica"/*?FechaInicio=" + fechaInicio + "&FechaFin=" + fechaFin*/,
         type: "GET"
         , success: function (msg) {
             //ItemsPedidoCliente = msg;  
-            $("#tblReporteGarantias").dxDataGrid({
+            $("#tblReporteRevisionesTecnicas").dxDataGrid({
                 dataSource: msg,
-                keyExpr: 'IngresoGarantiaId',
+                keyExpr: 'IngresoRevisionGarantiaId',
                 showBorders: true,
                 columnAutoWidth: false,
                 showBorders: true,
@@ -92,45 +92,72 @@ function PedidosRecibidos() {
                         autoFilterEnabled: true
                     }).then(function () {
                         workbook.xlsx.writeBuffer().then(function (buffer) {
-                            saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'GarantiasIngresadas.xlsx');
+                            saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'RevisionesTecnicas.xlsx');
                         });
                     });
                     e.cancel = true;
                 },
                 columns: [
 
-                    { dataField: "IngresoGarantiaId", visible: false },
+                    { dataField: "IngresoRevisionGarantiaId", visible: false },
                     {
                         dataField: "Cedula", caption: "Cedula", alignment: "left", headerFilter: {
                             allowSearch: true
                         }
                     },
                     {
-                        dataField: "Nombre", caption: "Nombre", alignment: "left"
+                        dataField: "Cliente", caption: "Cliente", alignment: "left"
                     },
                     {
-                        dataField: "Apellido", caption: "Apellido", alignment: "left"
+                        dataField: "NumeroGarantia", caption: "Numero Garantia", alignment: "left"
                     },
                     {
-                        dataField: "Email", caption: "Email", alignment: "left"
+                        dataField: "NumeroComprobante", caption: "Numero Comprobante", alignment: "left"
                     },
                     {
-                        dataField: "Distribuidor", caption: "Distribuidor", alignment: "left"
+                        dataField: "NumeroRevision", caption: "Numero Revision", alignment: "left"
                     },
                     {
-                        dataField: "Ciudad", caption: "Ciudad", alignment: "left", allowFiltering: false
+                        dataField: "Provincia", caption: "Provincia", alignment: "left", allowFiltering: false
                     },
                     {
-                        dataField: "ModeloBateria", caption: "Modelo Bateria", alignment: "left"
-                    },
-                    //{
-                    //    dataField: "NumeroBateria", caption: "Numero Bateria", alignment: "left"
-                    //},
-                    {
-                        dataField: "NumeroGarantia", caption: "Numero Garantia", alignment: "left", allowFiltering: false
+                        dataField: "Direccion", caption: "Direccion", alignment: "left"
                     },
                     {
-                        dataField: "RegistroGarantia", caption: "Registro Garantia", alignment: "left", dataType: "date"
+                        dataField: "Vendedor", caption: "Vendedor", alignment: "left"
+                    },
+                    {
+                        dataField: "FacturaCliente", caption: "Numero Garantia", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "TestBateria", caption: "Numero Garantia", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "Marca", caption: "Marca", alignment: "left", allowFiltering: false
+                    },
+                    {
+                        dataField: "Modelo", caption: "Modelo", alignment: "left", allowFiltering: false
+                    },
+                    {
+                        dataField: "Lote", caption: "Lote", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "Prorrateo", caption: "Prorrateo", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "Meses", caption: "Meses", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "PorcentajeVenta", caption: "Porcentaje Venta", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "Voltaje", caption: "Voltaje", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "FechaVenta", caption: "Fecha Venta", alignment: "left", dataType: "date"
+                    },
+                    {
+                        dataField: "FechaIngreso", caption: "Fecha Ingreso", alignment: "left", dataType: "date"
                     }
                 ],
             });

@@ -74,6 +74,7 @@ namespace DacarDatos.Datos
         public virtual DbSet<PedidoClienteCabecera> PedidoClienteCabecera { get; set; }
         public virtual DbSet<PedidoClienteDetalle> PedidoClienteDetalle { get; set; }
         public virtual DbSet<PedidoClienteDetalleFinal> PedidoClienteDetalleFinal { get; set; }
+        public virtual DbSet<ModelosMarcasPropias> ModelosMarcasPropias { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {

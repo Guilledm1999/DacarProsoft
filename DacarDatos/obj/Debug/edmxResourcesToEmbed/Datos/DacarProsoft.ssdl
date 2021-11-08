@@ -307,6 +307,15 @@
     <Property Name="Nombre" Type="varchar" MaxLength="100" />
     <Property Name="PesoTeorico" Type="decimal" Precision="18" Scale="6" />
   </EntityType>
+  <EntityType Name="ModelosMarcasPropias">
+    <Key>
+      <PropertyRef Name="ModelosMarcasPropiasId" />
+    </Key>
+    <Property Name="ModelosMarcasPropiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Referencia" Type="varchar" MaxLength="255" />
+    <Property Name="Grupo" Type="varchar" MaxLength="255" />
+    <Property Name="Linea" Type="int" />
+  </EntityType>
   <EntityType Name="Packing">
     <Key>
       <PropertyRef Name="PackingId" />
@@ -812,6 +821,7 @@
     <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Meses" EntityType="Self.Meses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Modelos" EntityType="Self.Modelos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ModelosMarcasPropias" EntityType="Self.ModelosMarcasPropias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Packing" EntityType="Self.Packing" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PackingDtl" EntityType="Self.PackingDtl" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PackingListCabecera" EntityType="Self.PackingListCabecera" Schema="dbo" store:Type="Tables" />

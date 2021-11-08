@@ -272,21 +272,22 @@ function validarIngresos() {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (inputFileImage1.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    } if (inputFileImage2.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
     }
+    if (inputFileImage1.length == 0) {
+            $("#MensajeCompleteCampos").show('fade');
+            setTimeout(function () {
+                $("#MensajeCompleteCampos").fadeOut(1500);
+            }, 3000);
+            return;
 
-
+    } if (inputFileImage2.length == 0) {
+            $("#MensajeCompleteCampos").show('fade');
+            setTimeout(function () {
+                $("#MensajeCompleteCampos").fadeOut(1500);
+            }, 3000);
+            return;
+        }
+    
     if ($('input[name=inlineRadioOptions1]:checked').length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -390,39 +391,37 @@ function validarIngresos() {
 
 }
 
-
-
 $('#btnRegistrarRevision').on("click", function (e) {
-
-    
-    if (document.getElementById("ImgFacturaIngresada").files.length == 0 && document.getElementById("ImgTestIngresada").files.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    }
-    else {
-        if (ValiExt == "True") {
-            if (ValiPes == "True") {
-                validarIngresos();
-                //    RegistrarRevisionGarantiaCabecera();
-            }
-            else {
-                $("#PesoImgSobrepasado").show('fade');
+   
+        if (document.getElementById("ImgFacturaIngresada").files.length == 0 && document.getElementById("ImgTestIngresada").files.length == 0) {
+            $("#MensajeCompleteCampos").show('fade');
+            setTimeout(function () {
+                $("#MensajeCompleteCampos").fadeOut(1500);
+            }, 3000);
+            return;
+        }
+        else {
+            if (ValiExt == "True") {
+                if (ValiPes == "True") {
+                    validarIngresos();
+                    //    RegistrarRevisionGarantiaCabecera();
+                }
+                else {
+                    $("#PesoImgSobrepasado").show('fade');
+                    setTimeout(function () {
+                        $("#PesoImgSobrepasado").fadeOut(1500);
+                    }, 3000); return;
+                }
+            } else {
+                $("#ArchivoImagenIncorrecto").show('fade');
                 setTimeout(function () {
-                    $("#PesoImgSobrepasado").fadeOut(1500);
+                    $("#ArchivoImagenIncorrecto").fadeOut(1500);
                 }, 3000); return;
             }
-        } else {
-            $("#ArchivoImagenIncorrecto").show('fade');
-            setTimeout(function () {
-                $("#ArchivoImagenIncorrecto").fadeOut(1500);
-            }, 3000); return;
         }
-    }
-
    
+
+
 });
 
 function ValidarTipoImagen(obj) {

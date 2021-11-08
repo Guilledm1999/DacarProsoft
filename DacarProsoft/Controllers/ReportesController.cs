@@ -134,12 +134,12 @@ namespace DacarProsoft.Controllers
             }
         }
 
-        public JsonResult ReporteGeneralDeGarantias(DateTime FechaInicio, DateTime FechaFin)
+        public JsonResult ReporteGeneralDeGarantias(/*DateTime FechaInicio, DateTime FechaFin*/)
         {
             try
             {
                 daoGarantias = new DaoGarantias();
-                var Result = daoGarantias.ReporteGeneralPedidosExterior(FechaInicio, FechaFin);
+                var Result = daoGarantias.ReporteGeneralPedidosExterior(/*FechaInicio, FechaFin*/);
                 return Json(Result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

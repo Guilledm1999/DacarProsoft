@@ -42,7 +42,8 @@
         </div>
         <div id="MensajeGarantiaNoEncontrada" class="alert alert-danger collapse">
             <button id="LinkClose3" type="button" class="close">&times;</button>
-            <strong>Numero de garantia no encontrado!</strong>
+            <strong>Numero de garantia no encontrado, ingrese los datos manualmente!</strong>
+
         </div>
         <div id="MensajeCompleteCampos" class="alert alert-danger collapse">
             <button id="LinkClose5" type="button" class="close">&times;</button>
@@ -138,7 +139,9 @@
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Modelo:</b></label>
                     <div class="col-md-1">
-                        <input type="text" name="NombreItem" id="txtModelo" autocomplete="off" class="form-control" readonly placeholder="Modelo">
+                            <select class="form-control" aria-label="Default select example" id="txtModelo">
+                            </select>
+                            @*<input type="text" name="NombreItem" id="txtModelo" autocomplete="off" class="form-control" readonly placeholder="Modelo">*@
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Lote:</b></label>
                     <div class="col-md-1">

@@ -625,5 +625,15 @@
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="spActualizarUsuarioPortal" FunctionName="DacarProsoftModel.Store.spActualizarUsuarioPortal" />
     <FunctionImportMapping FunctionImportName="spRegistrarNuevoUsuarioPortal" FunctionName="DacarProsoftModel.Store.spRegistrarNuevoUsuarioPortal" />
+    <EntitySetMapping Name="ModelosMarcasPropias">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ModelosMarcasPropias">
+        <MappingFragment StoreEntitySet="ModelosMarcasPropias">
+          <ScalarProperty Name="Linea" ColumnName="Linea" />
+          <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+          <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+          <ScalarProperty Name="ModelosMarcasPropiasId" ColumnName="ModelosMarcasPropiasId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

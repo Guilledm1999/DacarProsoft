@@ -289,6 +289,7 @@
     <Content Include="scripts\General\Pedidos\PedidosConfirmados.js" />
     <Content Include="scripts\General\Pedidos\PedidosExterior.js" />
     <Content Include="scripts\General\Principal\Principal.js" />
+    <Content Include="scripts\General\Garantias\ConsultaRevisionesTecnicas.js" />
     <Content Include="scripts\General\Reportes\ReporteDeGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteGeneralVentasExterior.js" />
     <Content Include="scripts\General\Reportes\ReporteDeControl.js" />
@@ -386,6 +387,7 @@
     <Compile Include="Models\IngresosChatarras.cs" />
     <Compile Include="Models\ReporteGeneralDeControl.cs" />
     <Compile Include="Models\ReporteGeneralPedidosExterior.cs" />
+    <Compile Include="Models\RevisionesTecnicasGarantias.cs" />
     <Compile Include="Models\SubMenu.cs" />
     <Compile Include="Models\Ventas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -545,6 +547,7 @@
     <Content Include="Views\Reportes\ReporteDeControl.cshtml" />
     <Content Include="Views\Reportes\ReporteDeGarantias.cshtml" />
     <Content Include="Views\Garantias\IngresoGarantias.cshtml" />
+    <Content Include="Views\Garantias\ConsultaRevisionesTecnicas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -153,6 +153,7 @@
       <Parameter Name="estado" Mode="In" Type="String" />
       <Parameter Name="validar" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <EntitySet Name="ModelosMarcasPropias" EntityType="DacarProsoftModel.ModelosMarcasPropias" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -953,4 +954,13 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="ModelosMarcasPropias">
+    <Key>
+      <PropertyRef Name="ModelosMarcasPropiasId" />
+    </Key>
+    <Property Name="ModelosMarcasPropiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Referencia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Grupo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Linea" Type="Int32" />
+  </EntityType>
 </Schema>

@@ -312,6 +312,15 @@
           <Property Name="Nombre" Type="varchar" MaxLength="100" />
           <Property Name="PesoTeorico" Type="decimal" Precision="18" Scale="6" />
         </EntityType>
+        <EntityType Name="ModelosMarcasPropias">
+          <Key>
+            <PropertyRef Name="ModelosMarcasPropiasId" />
+          </Key>
+          <Property Name="ModelosMarcasPropiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Referencia" Type="varchar" MaxLength="255" />
+          <Property Name="Grupo" Type="varchar" MaxLength="255" />
+          <Property Name="Linea" Type="int" />
+        </EntityType>
         <EntityType Name="Packing">
           <Key>
             <PropertyRef Name="PackingId" />
@@ -817,6 +826,7 @@
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Meses" EntityType="Self.Meses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Modelos" EntityType="Self.Modelos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ModelosMarcasPropias" EntityType="Self.ModelosMarcasPropias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Packing" EntityType="Self.Packing" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackingDtl" EntityType="Self.PackingDtl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackingListCabecera" EntityType="Self.PackingListCabecera" Schema="dbo" store:Type="Tables" />
@@ -1064,6 +1074,7 @@
             <Parameter Name="estado" Mode="In" Type="String" />
             <Parameter Name="validar" Mode="In" Type="Boolean" />
           </FunctionImport>
+          <EntitySet Name="ModelosMarcasPropias" EntityType="DacarProsoftModel.ModelosMarcasPropias" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1864,6 +1875,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ModelosMarcasPropias">
+          <Key>
+            <PropertyRef Name="ModelosMarcasPropiasId" />
+          </Key>
+          <Property Name="ModelosMarcasPropiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Referencia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Grupo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Linea" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2494,6 +2514,16 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spActualizarUsuarioPortal" FunctionName="DacarProsoftModel.Store.spActualizarUsuarioPortal" />
           <FunctionImportMapping FunctionImportName="spRegistrarNuevoUsuarioPortal" FunctionName="DacarProsoftModel.Store.spRegistrarNuevoUsuarioPortal" />
+          <EntitySetMapping Name="ModelosMarcasPropias">
+            <EntityTypeMapping TypeName="DacarProsoftModel.ModelosMarcasPropias">
+              <MappingFragment StoreEntitySet="ModelosMarcasPropias">
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+                <ScalarProperty Name="ModelosMarcasPropiasId" ColumnName="ModelosMarcasPropiasId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

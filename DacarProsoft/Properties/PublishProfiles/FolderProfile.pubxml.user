@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\inetpub\Prosoft</_PublishTargetUrl>
-    <History>True|2021-10-19T15:11:49.6670558Z;True|2021-09-09T13:50:13.9879846-05:00;True|2021-09-08T14:13:10.1751551-05:00;True|2021-09-07T12:10:47.9270152-05:00;True|2021-09-03T17:11:17.7269782-05:00;True|2021-09-03T15:25:10.7379271-05:00;True|2021-09-03T12:54:09.2239179-05:00;True|2021-09-01T17:43:08.1706531-05:00;True|2021-08-27T08:39:59.9160621-05:00;True|2021-08-26T11:54:31.5350719-05:00;True|2021-08-25T11:27:37.5952191-05:00;True|2021-08-24T09:11:39.9609352-05:00;True|2021-08-11T14:46:35.1226347-05:00;True|2021-08-11T14:37:08.4330286-05:00;True|2021-08-11T11:17:14.8114749-05:00;True|2021-08-03T14:47:47.8942924-05:00;True|2021-07-26T14:58:59.8406911-05:00;True|2021-07-26T14:22:23.7219171-05:00;True|2021-07-22T12:36:50.9419740-05:00;</History>
+    <History>True|2021-10-30T14:23:01.5066709Z;True|2021-10-19T10:11:49.6670558-05:00;True|2021-09-09T13:50:13.9879846-05:00;True|2021-09-08T14:13:10.1751551-05:00;True|2021-09-07T12:10:47.9270152-05:00;True|2021-09-03T17:11:17.7269782-05:00;True|2021-09-03T15:25:10.7379271-05:00;True|2021-09-03T12:54:09.2239179-05:00;True|2021-09-01T17:43:08.1706531-05:00;True|2021-08-27T08:39:59.9160621-05:00;True|2021-08-26T11:54:31.5350719-05:00;True|2021-08-25T11:27:37.5952191-05:00;True|2021-08-24T09:11:39.9609352-05:00;True|2021-08-11T14:46:35.1226347-05:00;True|2021-08-11T14:37:08.4330286-05:00;True|2021-08-11T11:17:14.8114749-05:00;True|2021-08-03T14:47:47.8942924-05:00;True|2021-07-26T14:58:59.8406911-05:00;True|2021-07-26T14:22:23.7219171-05:00;True|2021-07-22T12:36:50.9419740-05:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">
@@ -33,19 +33,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/16/2017 06:51:42</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll">
-      <publishTime>10/19/2021 10:11:45</publishTime>
+      <publishTime>10/25/2021 17:46:56</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll.config">
-      <publishTime>09/20/2021 14:22:46</publishTime>
+      <publishTime>10/25/2021 15:33:56</publishTime>
     </File>
     <File Include="bin/DacarDatos.pdb">
-      <publishTime>10/19/2021 10:11:45</publishTime>
+      <publishTime>10/25/2021 17:46:56</publishTime>
     </File>
     <File Include="bin/DacarProsoft.dll">
-      <publishTime>10/19/2021 10:11:48</publishTime>
+      <publishTime>11/04/2021 11:14:37</publishTime>
     </File>
     <File Include="bin/DacarProsoft.pdb">
-      <publishTime>10/19/2021 10:11:48</publishTime>
+      <publishTime>11/04/2021 11:14:37</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/11/2015 18:43:42</publishTime>
@@ -798,16 +798,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="scripts/General/CrearUsuario/ConsultarUsuariosPortal.js">
-      <publishTime>09/09/2021 12:08:44</publishTime>
+      <publishTime>10/25/2021 17:40:59</publishTime>
     </File>
     <File Include="scripts/General/CrearUsuario/CrearUsuarios.js">
       <publishTime>09/09/2021 10:54:53</publishTime>
     </File>
     <File Include="scripts/General/CrearUsuario/CrearUsuariosPortal.js">
-      <publishTime>08/23/2021 11:02:46</publishTime>
+      <publishTime>10/25/2021 17:41:22</publishTime>
+    </File>
+    <File Include="scripts/General/Garantias/ConsultaRevisionesTecnicas.js">
+      <publishTime>10/30/2021 11:26:53</publishTime>
     </File>
     <File Include="scripts/General/Garantias/IngresoGarantias.js">
-      <publishTime>10/19/2021 09:57:53</publishTime>
+      <publishTime>10/30/2021 12:11:50</publishTime>
     </File>
     <File Include="scripts/General/LogisticaPedidos/LogisticaPedidos.js">
       <publishTime>01/13/2021 14:27:07</publishTime>
@@ -840,7 +843,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/09/2021 16:23:03</publishTime>
     </File>
     <File Include="scripts/General/Reportes/ReporteDeGarantias.js">
-      <publishTime>10/04/2021 08:51:13</publishTime>
+      <publishTime>10/26/2021 13:06:55</publishTime>
     </File>
     <File Include="scripts/General/Reportes/ReporteGeneralVentasExterior.js">
       <publishTime>09/09/2021 10:04:41</publishTime>
@@ -927,13 +930,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/11/2021 15:52:20</publishTime>
     </File>
     <File Include="Views/CrearUsuario/ConsultarUsuariosPortal.cshtml">
-      <publishTime>09/09/2021 11:51:00</publishTime>
+      <publishTime>10/25/2021 16:49:14</publishTime>
     </File>
     <File Include="Views/CrearUsuario/CrearUsuarios.cshtml">
       <publishTime>03/30/2021 11:47:29</publishTime>
     </File>
     <File Include="Views/CrearUsuario/CrearUsuariosPortal.cshtml">
-      <publishTime>08/23/2021 08:26:06</publishTime>
+      <publishTime>10/25/2021 17:38:53</publishTime>
+    </File>
+    <File Include="Views/Garantias/ConsultaRevisionesTecnicas.cshtml">
+      <publishTime>10/30/2021 09:42:16</publishTime>
     </File>
     <File Include="Views/Garantias/IngresoGarantias.cshtml">
       <publishTime>10/19/2021 10:11:10</publishTime>
@@ -972,7 +978,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/09/2021 10:54:11</publishTime>
     </File>
     <File Include="Views/Reportes/ReporteDeGarantias.cshtml">
-      <publishTime>10/04/2021 08:19:50</publishTime>
+      <publishTime>10/30/2021 09:41:53</publishTime>
     </File>
     <File Include="Views/Reportes/ReporteGeneralVentasExterior.cshtml">
       <publishTime>06/09/2021 15:14:54</publishTime>
@@ -990,7 +996,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/12/2020 13:04:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/19/2021 10:11:48</publishTime>
+      <publishTime>11/04/2021 11:14:38</publishTime>
     </File>
   </ItemGroup>
 </Project>

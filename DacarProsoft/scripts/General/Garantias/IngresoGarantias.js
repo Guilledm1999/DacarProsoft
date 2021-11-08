@@ -1,14 +1,15 @@
-﻿var extensionesValidas = ".png, .gif, .jpeg, .jpg";
-var pesoPermitido = 1024;
-var ValiExt = "False";
-var ValiPes = "False";
-var valorIdNumeroRevision = null;
-
+﻿
 $(document).ready(function () {
     ocultarDiv();
     //var x = document.getElementById("ContenidoDiv");
     //x.style.display === "none";
 });
+
+var extensionesValidas = ".png, .gif, .jpeg, .jpg";
+var pesoPermitido = 1024;
+var ValiExt = "False";
+var ValiPes = "False";
+var valorIdNumeroRevision = null;
 
 function ocultarDiv() {
     $(".loading-icon").css("display", "none");
@@ -72,6 +73,25 @@ function ConsultarGarantia() {
     ConsultarNumeroGarantia();   
 }
 
+
+function CargarModelosBaterias() {
+        $("#txtModelo").empty();
+        $("#txtModelo").append('<option value="">--Escoja--</option>');
+        $.ajax({
+            type: 'POST',
+            url: "../Garantias/ConsultarModelosBaterias",
+            dataType: 'json',
+            data: { id: $("#txtMarcasPropias option:selected").val() },
+            success: function (articulos) {
+                $.each(articulos, function (i, articulo) {
+                    $("#txtModelo").append('<option value="' + articulo.Value + '">' +
+                        articulo.Text + '</option>');
+                });
+            },
+        })
+   
+}
+
 function ConsultarNumeroGarantia() {
     $.ajax({
         url: "../Garantias/ConsultarNumeroGarantia",
@@ -79,20 +99,54 @@ function ConsultarNumeroGarantia() {
         data: {
             numero: $("#txtNumeroGarantia").val()
         }, success: function (msg) {
+            
             if (Object.keys(msg).length === 0) {
+                document.getElementById("txtModelo").disabled = false;
+
+                $("#txtCliente").val("");
+                $("#txtCedula").val("");
+                $("#txtProvincia").val("");
+                $("#txtNumeroGarantiaObtenido").val("");
+                //$("#txtModelo").val("");
+                $("#txtNumeroRevision").val("");
+
+                CargarModelosBaterias();
                 $("#MensajeGarantiaNoEncontrada").show('fade');
                 setTimeout(function () {
                     $("#MensajeGarantiaNoEncontrada").fadeOut(1500);
                 }, 3000);
+
+                document.getElementById("txtCliente").readOnly = false;
+                document.getElementById("txtCedula").readOnly = false;
+                document.getElementById("txtProvincia").readOnly = false;
+                document.getElementById("txtNumeroGarantiaObtenido").readOnly = false;
+                //document.getElementById("txtModelo").readOnly = false;
+                document.getElementById("txtNumeroRevision").readOnly = false;
+                $("#ContenidoDiv").show();
+
             } else {
+                $("#txtModelo").empty();
+
+                document.getElementById("txtCliente").readOnly = true;
+                document.getElementById("txtCedula").readOnly = true;
+                document.getElementById("txtProvincia").readOnly = true;
+                document.getElementById("txtNumeroGarantiaObtenido").readOnly = true;
+                //document.getElementById("txtModelo").readOnly = true;
+                document.getElementById("txtNumeroRevision").readOnly = true;
+
+                $("#txtModelo").append('<option value="' + 1 + '">' +
+                    msg[0]['ModeloBateria'] + '</option>');
+                document.getElementById("txtModelo").disabled = true;
+
+
                 $("#ContenidoDiv").show();
                 $("#txtCliente").val(msg[0]['Nombre'] + " " + msg[0]['Apellido']);
+                //$("#txtCliente").prop("disabled", true);
                 $("#txtCedula").val(msg[0]['Cedula']);
                 $("#txtProvincia").val(msg[0]['Provincia']);
                 $("#txtNumeroGarantiaObtenido").val(msg[0]['NumeroGarantia']);
-                $("#txtModelo").val(msg[0]['ModeloBateria']);
+                //$("#txtModelo").val(msg[0]['ModeloBateria']);
                 $("#txtNumeroRevision").val(msg[0]['NumeroRevision']);
-
             }
         },
         error: function (msg) {
@@ -115,7 +169,7 @@ function validarIngresos() {
     var valor6 =$("#txtProvincia").val();
     var valor7 =$("#txtDireccion").val();
     var valor8 =$("#txtVendedor").val();
-    var valor9 =$("#txtModelo").val();
+    //var valor9 =$("#txtModelo").val();
     var valor10 =$("#txtLote").val();
     var valor11 =$("#txtProrrateo").val();
     var valor12 =$("#txtMeses").val();
@@ -132,6 +186,14 @@ function validarIngresos() {
     var valor23 =$("#txtNumeroGarantia").val();
     var inputFileImage1 = $("#ImgFacturaIngresada")[0].files[0];
     var inputFileImage2 = $("#ImgTestIngresada")[0].files[0];
+
+    if ($("#txtModelo option:selected").text() == "--Escoja--") {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
 
     if (valor1.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
@@ -182,12 +244,13 @@ function validarIngresos() {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (valor9.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
+    //} if (valor9.length == 0) {
+    //    $("#MensajeCompleteCampos").show('fade');
+    //    setTimeout(function () {
+    //        $("#MensajeCompleteCampos").fadeOut(1500);
+    //    }, 3000);
+    //    return;
+        //
     } if (valor10.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -272,21 +335,22 @@ function validarIngresos() {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (inputFileImage1.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    } if (inputFileImage2.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
     }
+    if (inputFileImage1.length == 0) {
+            $("#MensajeCompleteCampos").show('fade');
+            setTimeout(function () {
+                $("#MensajeCompleteCampos").fadeOut(1500);
+            }, 3000);
+            return;
 
-
+    } if (inputFileImage2.length == 0) {
+            $("#MensajeCompleteCampos").show('fade');
+            setTimeout(function () {
+                $("#MensajeCompleteCampos").fadeOut(1500);
+            }, 3000);
+            return;
+        }
+    
     if ($('input[name=inlineRadioOptions1]:checked').length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -390,39 +454,37 @@ function validarIngresos() {
 
 }
 
-
-
 $('#btnRegistrarRevision').on("click", function (e) {
-
-    
-    if (document.getElementById("ImgFacturaIngresada").files.length == 0 && document.getElementById("ImgTestIngresada").files.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    }
-    else {
-        if (ValiExt == "True") {
-            if (ValiPes == "True") {
-                validarIngresos();
-                //    RegistrarRevisionGarantiaCabecera();
-            }
-            else {
-                $("#PesoImgSobrepasado").show('fade');
+   
+        if (document.getElementById("ImgFacturaIngresada").files.length == 0 && document.getElementById("ImgTestIngresada").files.length == 0) {
+            $("#MensajeCompleteCampos").show('fade');
+            setTimeout(function () {
+                $("#MensajeCompleteCampos").fadeOut(1500);
+            }, 3000);
+            return;
+        }
+        else {
+            if (ValiExt == "True") {
+                if (ValiPes == "True") {
+                    validarIngresos();
+                    //    RegistrarRevisionGarantiaCabecera();
+                }
+                else {
+                    $("#PesoImgSobrepasado").show('fade');
+                    setTimeout(function () {
+                        $("#PesoImgSobrepasado").fadeOut(1500);
+                    }, 3000); return;
+                }
+            } else {
+                $("#ArchivoImagenIncorrecto").show('fade');
                 setTimeout(function () {
-                    $("#PesoImgSobrepasado").fadeOut(1500);
+                    $("#ArchivoImagenIncorrecto").fadeOut(1500);
                 }, 3000); return;
             }
-        } else {
-            $("#ArchivoImagenIncorrecto").show('fade');
-            setTimeout(function () {
-                $("#ArchivoImagenIncorrecto").fadeOut(1500);
-            }, 3000); return;
         }
-    }
-
    
+
+
 });
 
 function ValidarTipoImagen(obj) {
@@ -475,7 +537,7 @@ function RegistrarRevisionGarantiaCabecera() {
     formdata.append("vendedor", $("#txtVendedor").val());
     formdata.append("ImgFac", inputFileImage1);
     formdata.append("marca", $("#txtMarca").val());
-    formdata.append("modelo", $("#txtModelo").val());
+    formdata.append("modelo", $("#txtModelo option:selected").text());
     formdata.append("lote", $("#txtLote").val());
     formdata.append("prorrateo", $("#txtProrrateo").val());
     formdata.append("meses", $("#txtMeses").val());
@@ -561,7 +623,7 @@ function vaciarInputs() {
     $("#txtProvincia").val("");
     $("#txtDireccion").val("");
     $("#txtVendedor").val("");
-    $("#txtModelo").val("");
+    //$("#txtModelo").val("");
     $("#txtLote").val("");
     $("#txtProrrateo").val("");
     $("#txtMeses").val("");

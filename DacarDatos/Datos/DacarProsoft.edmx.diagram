@@ -69,6 +69,7 @@
         <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteDetalle" Width="1.5" PointX="20.5" PointY="1.5" />
         <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteDetalleFinal" Width="1.5" PointX="15.25" PointY="1.125" />
         <AssociationConnector Association="DacarProsoftModel.fk_detallePedido" />
+        <EntityTypeShape EntityType="DacarProsoftModel.ModelosMarcasPropias" Width="1.5" PointX="8.375" PointY="18.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
