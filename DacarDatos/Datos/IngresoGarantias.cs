@@ -30,5 +30,6 @@ namespace DacarDatos.Datos
         public string ModeloVehiculo { get; set; }
         public Nullable<int> AnioFabricacion { get; set; }
         public Nullable<decimal> KilometrajeVehiculo { get; set; }
+        public string NumeroFactura { get; set; }
     }
 }

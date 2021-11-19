@@ -440,6 +440,7 @@
     <EntitySet Name="OCRG" EntityType="SBODACARPRODModel.OCRG" />
     <EntitySet Name="INV1" EntityType="SBODACARPRODModel.INV1" />
     <EntitySet Name="OINV" EntityType="SBODACARPRODModel.OINV" />
+    <EntitySet Name="OSLP" EntityType="SBODACARPRODModel.OSLP" />
   </EntityContainer>
   <EntityType Name="VU_REPORTEPRODUCCION">
     <Key>
@@ -785,6 +786,8 @@
     <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="OIGN">
     <Key>
@@ -2562,6 +2565,8 @@
     <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="ORDR">
     <Key>
@@ -3440,6 +3445,8 @@
     <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="vReporteGeneralVentasJO">
     <Key>
@@ -3833,6 +3840,8 @@
     <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="OINV">
     <Key>
@@ -4391,5 +4400,24 @@
     <Property Name="U_DC_KILOS" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="U_DC_COMISION" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="U_DC_PRODUCTOS" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="OSLP">
+    <Key>
+      <PropertyRef Name="SlpCode" />
+    </Key>
+    <Property Name="SlpCode" Type="Int32" Nullable="false" />
+    <Property Name="SlpName" Type="String" Nullable="false" MaxLength="155" FixedLength="false" Unicode="true" />
+    <Property Name="Memo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Commission" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="GroupCode" Type="Int16" />
+    <Property Name="Locked" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="DataSource" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="UserSign" Type="Int16" />
+    <Property Name="EmpID" Type="Int32" />
+    <Property Name="Active" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Mobil" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

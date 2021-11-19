@@ -17,5 +17,9 @@ namespace DacarProsoft.Models
         public string Provincia { get; set; }
         public string ModeloVehiculo { get; set; }
         public int NumeroRevision { get; set; }
+        public int NumeroCombrobante { get; set; }
+        public string NumeroFactura { get; set; }
+
+
     }
 }

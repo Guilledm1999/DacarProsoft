@@ -402,6 +402,20 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public JsonResult ConsultaFacturaReservaListCabeceraCancelada(String factReserv)
+        {
+            try
+            {
+                daoOrdenesVentas = new DaoOrdenesVentas();
+                var Result = daoOrdenesVentas.ListadoCabeceraFacturasReservaSapCanceladas(factReserv);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
 
         public JsonResult ConsultaOrdenVentaDetalle(int DocEntry)
         {

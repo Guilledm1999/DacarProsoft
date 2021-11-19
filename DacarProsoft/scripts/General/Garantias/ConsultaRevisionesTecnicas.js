@@ -54,7 +54,7 @@ function RevisionesTecnicas() {
                 dataSource: msg,
                 keyExpr: 'IngresoRevisionGarantiaId',
                 showBorders: true,
-                columnAutoWidth: false,
+                columnAutoWidth: true,
                 showBorders: true,
                 paging: {
                     pageSize: 10
@@ -115,7 +115,7 @@ function RevisionesTecnicas() {
                         dataField: "NumeroComprobante", caption: "Numero Comprobante", alignment: "left"
                     },
                     {
-                        dataField: "NumeroRevision", caption: "Numero Revision", alignment: "left"
+                        dataField: "NumeroRevision", caption: "Numero Factura", alignment: "left"
                     },
                     {
                         dataField: "Provincia", caption: "Provincia", alignment: "left", allowFiltering: false
@@ -133,7 +133,7 @@ function RevisionesTecnicas() {
                         dataField: "TestBateria", caption: "Numero Garantia", alignment: "left", allowFiltering: false, visible: false
                     },
                     {
-                        dataField: "Marca", caption: "Marca", alignment: "left", allowFiltering: false
+                        dataField: "Marca", caption: "Marca", alignment: "left", allowFiltering: false, visible: false
                     },
                     {
                         dataField: "Modelo", caption: "Modelo", alignment: "left", allowFiltering: false
@@ -154,10 +154,33 @@ function RevisionesTecnicas() {
                         dataField: "Voltaje", caption: "Voltaje", alignment: "left", allowFiltering: false, visible: false
                     },
                     {
+                        dataField: "ModoIngreso", caption: "Modo Ingreso", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "AplicaGarantia", caption: "Aplica Garantia", alignment: "left"
+                    },
+                    {
                         dataField: "FechaVenta", caption: "Fecha Venta", alignment: "left", dataType: "date"
                     },
                     {
                         dataField: "FechaIngreso", caption: "Fecha Ingreso", alignment: "left", dataType: "date"
+                    },
+                    {
+                        caption: "Acciones",
+
+                        cellTemplate: function (container, options) {
+
+                            var btnFactura = "<button class='btn-primary' onclick='ModalObtenerFactura(" + JSON.stringify(options.data) + ")'>Factura</button>";
+                            var lblEspacio = "<a> </a>"
+                            var btnTest = "<button class='btn-primary' onclick='ModalObtenerTest(" + JSON.stringify(options.data) + ")'>Test</button>";
+                            var btnDetalle = "<button class='btn-success' onclick='ModalObtenerDetalle(" + JSON.stringify(options.data) + ")'>Detalle</button>";
+
+
+
+                            $("<div>")
+                                .append($(btnFactura), $(lblEspacio), $(btnTest), $(lblEspacio), $(btnDetalle))
+                                .appendTo(container);
+                        }
                     }
                 ],
             });
@@ -174,4 +197,189 @@ function RevisionesTecnicas() {
         }
     })
 
+}
+
+function ModalObtenerFactura(modelo) {
+    document.getElementById("ImagenFactura").src = "../Images/ImagenesGarantias/Facturas/"+ modelo.FacturaCliente;
+    $("#ModalFactura").modal("show");
+}
+
+function ModalObtenerTest(modelo) {
+    document.getElementById("ImagenTest").src = "../Images/ImagenesGarantias/Test/" + modelo.TestBateria;
+    $("#ModalTest").modal("show");
+}
+
+function ModalObtenerDetalle(modelo) {
+    ObtenerInspeccionInicial(modelo.IngresoRevisionGarantiaId);
+    ObtenerDiagnostico(modelo.IngresoRevisionGarantiaId);
+    ObtenerTrabajoRealizado(modelo.IngresoRevisionGarantiaId);
+
+    $("#ModalDetalleRevision").modal("show");
+}
+
+
+function ObtenerInspeccionInicial(IdCabeceraRevisionGarantia) {
+    $.ajax({
+        url: "../Garantias/ConsultarInspeccionInicial",
+        type: "POST",
+        data: {
+            IdCabeceraInspeccion: IdCabeceraRevisionGarantia
+        },success: function (msg) {
+            //ItemsPedidoCliente = msg;  
+            $("#tblInspeccionInicial").dxDataGrid({
+                dataSource: msg,
+                keyExpr: 'IngresoRevisionGarantiaInspeccionInicialId',
+                showBorders: true,
+                columnAutoWidth: true,
+                showBorders: true,
+                paging: {
+                    pageSize: 10
+                },
+                columns: [{
+                    caption: 'Inspeccion Inicial', alignment: 'center',
+                    columns: [
+                        {
+                            dataField: "IngresoRevisionGarantiaInspeccionInicialId", visible: false
+                        },
+                        {
+                            dataField: "GolpeadaORota", caption: "Golpeada o Rota"
+                        }, {
+                            dataField: "Hinchada", caption: "Hinchada"
+                        }, {
+                            dataField: "BornesFlojosOHundidos", caption: "Bornes Flojos o Hundidos"
+                        },
+                        {
+                            dataField: "BornesFundidos", caption: "Bornes Fundidos"
+                        },
+
+                        {
+                            dataField: "ElectrolitoErroneo", caption: "Electrolito Erroneo"
+                        }, {
+                            dataField: "FugaEnCubierta", caption: "Fuga en cubierta"
+                        }, {
+                            dataField: "FugaEnBornes", caption: "Fuga en bornes"
+                        },
+                        {
+                            dataField: "CCA", caption: "CCA", alignment: 'center',
+                        }
+                    ]
+                }
+                ]
+                ,
+            });
+        },
+        error: function (msg) {
+            $(".btn").attr("disabled", false);
+            $(".btn-txt").text("Consultar");
+            $("#MensajeErrorInesperado").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorInesperado").fadeOut(1500);
+            }, 3000); return;
+        }
+    })
+}
+
+function ObtenerDiagnostico(IdCabeceraRevisionGarantia) {
+    $.ajax({
+        url: "../Garantias/ConsultarDiagnostico",
+        type: "POST",
+        data: {
+            IdCabeceraInspeccion: IdCabeceraRevisionGarantia
+        }, success: function (msg) {
+            //ItemsPedidoCliente = msg;  
+            $("#tblDiagnostico").dxDataGrid({
+                dataSource: msg,
+                keyExpr: 'IngresoRevisionGarantiaDiagnosticoId',
+                showBorders: true,
+                columnAutoWidth: true,
+                showBorders: true,
+                paging: {
+                    pageSize: 10
+                },
+                columns: [{
+                    caption: 'Diagnostico', alignment: 'center',
+                columns: [
+
+                    {
+                        dataField: "IngresoRevisionGarantiaDiagnosticoId", visible: false
+                    },
+                    {
+                        dataField: "BateriaEnBuenEstado", caption: "Bateria en Buen Estado"
+                    }, {
+                        dataField: "PresentaFalloFabricacion", caption: "Presenta Fallo Fabricacion"
+                    }, {
+                        dataField: "DentroPeriodoGarantia", caption: "Dentro Periodo Garantia"
+                    },
+                    {
+                        dataField: "AplicacionUsoAdecuado", caption: "Aplicacion Uso Adecuado"
+                    },
+
+                    {
+                        dataField: "AplicaGarantia", caption: "Aplica Garantia"
+                    }
+                    ]
+                }
+                ]                    ,
+            });
+        },
+        error: function (msg) {
+            $(".btn").attr("disabled", false);
+            $(".btn-txt").text("Consultar");
+            $("#MensajeErrorInesperado").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorInesperado").fadeOut(1500);
+            }, 3000); return;
+        }
+    })
+}
+
+function ObtenerTrabajoRealizado(IdCabeceraRevisionGarantia) {
+    $.ajax({
+        url: "../Garantias/ConsultarTrabajoRealizado",
+        type: "POST",
+        data: {
+            IdCabeceraInspeccion: IdCabeceraRevisionGarantia
+        }, success: function (msg) {
+            //ItemsPedidoCliente = msg;  
+            $("#tblTrabajoRealizado").dxDataGrid({
+                dataSource: msg,
+                keyExpr: 'IngresoRevisionGarantiaTrabajoRealizadoId',
+                showBorders: true,
+                columnAutoWidth: true,
+                showBorders: true,
+                paging: {
+                    pageSize: 10
+                },
+                columns: [{
+                    caption: 'Trabajo Realizado', alignment: 'center',
+                columns: [
+
+                    {
+                        dataField: "IngresoRevisionGarantiaTrabajoRealizadoId", visible: false
+                    },
+                    {
+                        dataField: "PruebaAltaResistencia", caption: "Prueba Alta Resistencia"
+                    }, {
+                        dataField: "CambioAcido", caption: "Cambio Acido"
+                    }, {
+                        dataField: "RecargaBateria", caption: "Recarga Bateria"
+                    },
+                    {
+                        dataField: "InspeccionEstructuraExterna", caption: "Inspeccion Estructura Externa"
+                    },
+
+                    ]
+                }
+                ]                    ,
+            });
+        },
+        error: function (msg) {
+            $(".btn").attr("disabled", false);
+            $(".btn-txt").text("Consultar");
+            $("#MensajeErrorInesperado").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorInesperado").fadeOut(1500);
+            }, 3000); return;
+        }
+    })
 }

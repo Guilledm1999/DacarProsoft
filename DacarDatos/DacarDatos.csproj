@@ -247,6 +247,9 @@
     <Compile Include="Datos\ORDR.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\OSLP.cs">
+      <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\Packing.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
@@ -283,8 +286,14 @@
     <Compile Include="Datos\PedidoClienteDetalleFinal.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\ProvinciasEcuador.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\RDR1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\SecuencialRevisionTecnica.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaUsuarios.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>

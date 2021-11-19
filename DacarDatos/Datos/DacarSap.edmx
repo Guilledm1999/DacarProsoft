@@ -338,6 +338,8 @@
           <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
           <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
           <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
+          <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="INV1">
           <Key>
@@ -658,6 +660,8 @@
           <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
           <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
           <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
+          <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="OCRD">
           <Key>
@@ -3657,6 +3661,25 @@
           <Property Name="U_DC_COMISION" Type="nvarchar" MaxLength="30" />
           <Property Name="U_DC_PRODUCTOS" Type="nvarchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="OSLP">
+          <Key>
+            <PropertyRef Name="SlpCode" />
+          </Key>
+          <Property Name="SlpCode" Type="int" Nullable="false" />
+          <Property Name="SlpName" Type="nvarchar" MaxLength="155" Nullable="false" />
+          <Property Name="Memo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Commission" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="GroupCode" Type="smallint" />
+          <Property Name="Locked" Type="char" MaxLength="1" />
+          <Property Name="DataSource" Type="char" MaxLength="1" />
+          <Property Name="UserSign" Type="smallint" />
+          <Property Name="EmpID" Type="int" />
+          <Property Name="Active" Type="char" MaxLength="1" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Mobil" Type="nvarchar" MaxLength="50" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="PDN1">
           <Key>
             <PropertyRef Name="DocEntry" />
@@ -3976,6 +3999,8 @@
           <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
           <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
           <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
+          <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="RDR1">
           <Key>
@@ -4296,6 +4321,8 @@
           <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
           <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
           <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
+          <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
+          <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.vConsultaArticulos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -4397,6 +4424,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySet Name="OITM" EntityType="Self.OITM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OPDN" EntityType="Self.OPDN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ORDR" EntityType="Self.ORDR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OSLP" EntityType="Self.OSLP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PDN1" EntityType="Self.PDN1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RDR1" EntityType="Self.RDR1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vConsultaArticulos" EntityType="Self.vConsultaArticulos" store:Type="Views" store:Schema="dbo">
@@ -4918,6 +4946,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySet Name="OCRG" EntityType="SBODACARPRODModel.OCRG" />
           <EntitySet Name="INV1" EntityType="SBODACARPRODModel.INV1" />
           <EntitySet Name="OINV" EntityType="SBODACARPRODModel.OINV" />
+          <EntitySet Name="OSLP" EntityType="SBODACARPRODModel.OSLP" />
         </EntityContainer>
         <EntityType Name="VU_REPORTEPRODUCCION">
           <Key>
@@ -5263,6 +5292,8 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OIGN">
           <Key>
@@ -7040,6 +7071,8 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ORDR">
           <Key>
@@ -7918,6 +7951,8 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vReporteGeneralVentasJO">
           <Key>
@@ -8311,6 +8346,8 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OINV">
           <Key>
@@ -8870,6 +8907,25 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <Property Name="U_DC_COMISION" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="U_DC_PRODUCTOS" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="OSLP">
+          <Key>
+            <PropertyRef Name="SlpCode" />
+          </Key>
+          <Property Name="SlpCode" Type="Int32" Nullable="false" />
+          <Property Name="SlpName" Type="String" Nullable="false" MaxLength="155" FixedLength="false" Unicode="true" />
+          <Property Name="Memo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Commission" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="GroupCode" Type="Int16" />
+          <Property Name="Locked" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DataSource" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UserSign" Type="Int16" />
+          <Property Name="EmpID" Type="Int32" />
+          <Property Name="Active" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Mobil" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9328,6 +9384,8 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySetMapping Name="IGN1">
             <EntityTypeMapping TypeName="SBODACARPRODModel.IGN1">
               <MappingFragment StoreEntitySet="IGN1">
+                <ScalarProperty Name="U_DC_PESOREAL" ColumnName="U_DC_PESOREAL" />
+                <ScalarProperty Name="U_DC_PESOBRUTO" ColumnName="U_DC_PESOBRUTO" />
                 <ScalarProperty Name="U_DC_PROMO" ColumnName="U_DC_PROMO" />
                 <ScalarProperty Name="U_NOMBRECUENTA" ColumnName="U_NOMBRECUENTA" />
                 <ScalarProperty Name="U_SYP_CODART" ColumnName="U_SYP_CODART" />
@@ -11108,6 +11166,8 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySetMapping Name="PDN1">
             <EntityTypeMapping TypeName="SBODACARPRODModel.PDN1">
               <MappingFragment StoreEntitySet="PDN1">
+                <ScalarProperty Name="U_DC_PESOREAL" ColumnName="U_DC_PESOREAL" />
+                <ScalarProperty Name="U_DC_PESOBRUTO" ColumnName="U_DC_PESOBRUTO" />
                 <ScalarProperty Name="U_DC_PROMO" ColumnName="U_DC_PROMO" />
                 <ScalarProperty Name="U_NOMBRECUENTA" ColumnName="U_NOMBRECUENTA" />
                 <ScalarProperty Name="U_SYP_CODART" ColumnName="U_SYP_CODART" />
@@ -11987,6 +12047,8 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySetMapping Name="RDR1">
             <EntityTypeMapping TypeName="SBODACARPRODModel.RDR1">
               <MappingFragment StoreEntitySet="RDR1">
+                <ScalarProperty Name="U_DC_PESOREAL" ColumnName="U_DC_PESOREAL" />
+                <ScalarProperty Name="U_DC_PESOBRUTO" ColumnName="U_DC_PESOBRUTO" />
                 <ScalarProperty Name="U_DC_PROMO" ColumnName="U_DC_PROMO" />
                 <ScalarProperty Name="U_NOMBRECUENTA" ColumnName="U_NOMBRECUENTA" />
                 <ScalarProperty Name="U_SYP_CODART" ColumnName="U_SYP_CODART" />
@@ -12381,6 +12443,8 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySetMapping Name="INV1">
             <EntityTypeMapping TypeName="SBODACARPRODModel.INV1">
               <MappingFragment StoreEntitySet="INV1">
+                <ScalarProperty Name="U_DC_PESOREAL" ColumnName="U_DC_PESOREAL" />
+                <ScalarProperty Name="U_DC_PESOBRUTO" ColumnName="U_DC_PESOBRUTO" />
                 <ScalarProperty Name="U_DC_PROMO" ColumnName="U_DC_PROMO" />
                 <ScalarProperty Name="U_NOMBRECUENTA" ColumnName="U_NOMBRECUENTA" />
                 <ScalarProperty Name="U_SYP_CODART" ColumnName="U_SYP_CODART" />
@@ -13254,6 +13318,26 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
                 <ScalarProperty Name="DocType" ColumnName="DocType" />
                 <ScalarProperty Name="DocNum" ColumnName="DocNum" />
                 <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OSLP">
+            <EntityTypeMapping TypeName="SBODACARPRODModel.OSLP">
+              <MappingFragment StoreEntitySet="OSLP">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Mobil" ColumnName="Mobil" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="UserSign" ColumnName="UserSign" />
+                <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+                <ScalarProperty Name="Locked" ColumnName="Locked" />
+                <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+                <ScalarProperty Name="Commission" ColumnName="Commission" />
+                <ScalarProperty Name="Memo" ColumnName="Memo" />
+                <ScalarProperty Name="SlpName" ColumnName="SlpName" />
+                <ScalarProperty Name="SlpCode" ColumnName="SlpCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

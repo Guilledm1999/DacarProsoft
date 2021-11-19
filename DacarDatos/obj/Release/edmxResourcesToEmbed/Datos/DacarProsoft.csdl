@@ -112,25 +112,7 @@
     <EntitySet Name="IngresoGarantias" EntityType="DacarProsoftModel.IngresoGarantias" />
     <EntitySet Name="IngresoInspeccionInicialDensidadCelda" EntityType="DacarProsoftModel.IngresoInspeccionInicialDensidadCelda" />
     <EntitySet Name="IngresoRevisionGarantiaDiagnostico" EntityType="DacarProsoftModel.IngresoRevisionGarantiaDiagnostico" />
-    <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" />
     <EntitySet Name="IngresoRevisionGarantiaTrabajoRealizado" EntityType="DacarProsoftModel.IngresoRevisionGarantiaTrabajoRealizado" />
-    <AssociationSet Name="fk_DensidadCeldas" Association="DacarProsoftModel.fk_DensidadCeldas">
-      <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
-      <End Role="IngresoInspeccionInicialDensidadCelda" EntitySet="IngresoInspeccionInicialDensidadCelda" />
-    </AssociationSet>
-    <EntitySet Name="IngresoRevisionGarantiaCabecera" EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" />
-    <AssociationSet Name="fk_Asignatura" Association="DacarProsoftModel.fk_Asignatura">
-      <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
-      <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
-    </AssociationSet>
-    <AssociationSet Name="fk_RevisionGarantiaDiagnostico" Association="DacarProsoftModel.fk_RevisionGarantiaDiagnostico">
-      <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
-      <End Role="IngresoRevisionGarantiaDiagnostico" EntitySet="IngresoRevisionGarantiaDiagnostico" />
-    </AssociationSet>
-    <AssociationSet Name="fk_RevisionGarantiaTrabajoRealizado" Association="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado">
-      <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
-      <End Role="IngresoRevisionGarantiaTrabajoRealizado" EntitySet="IngresoRevisionGarantiaTrabajoRealizado" />
-    </AssociationSet>
     <EntitySet Name="PedidoClienteCabecera" EntityType="DacarProsoftModel.PedidoClienteCabecera" />
     <EntitySet Name="PedidoClienteDetalle" EntityType="DacarProsoftModel.PedidoClienteDetalle" />
     <EntitySet Name="PedidoClienteDetalleFinal" EntityType="DacarProsoftModel.PedidoClienteDetalleFinal" />
@@ -153,6 +135,27 @@
       <Parameter Name="estado" Mode="In" Type="String" />
       <Parameter Name="validar" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <EntitySet Name="ModelosMarcasPropias" EntityType="DacarProsoftModel.ModelosMarcasPropias" />
+    <EntitySet Name="ProvinciasEcuador" EntityType="DacarProsoftModel.ProvinciasEcuador" />
+    <EntitySet Name="SecuencialRevisionTecnica" EntityType="DacarProsoftModel.SecuencialRevisionTecnica" />
+    <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" />
+    <AssociationSet Name="fk_DensidadCeldas" Association="DacarProsoftModel.fk_DensidadCeldas">
+      <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
+      <End Role="IngresoInspeccionInicialDensidadCelda" EntitySet="IngresoInspeccionInicialDensidadCelda" />
+    </AssociationSet>
+    <EntitySet Name="IngresoRevisionGarantiaCabecera" EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" />
+    <AssociationSet Name="fk_Asignatura" Association="DacarProsoftModel.fk_Asignatura">
+      <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
+      <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
+    </AssociationSet>
+    <AssociationSet Name="fk_RevisionGarantiaDiagnostico" Association="DacarProsoftModel.fk_RevisionGarantiaDiagnostico">
+      <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
+      <End Role="IngresoRevisionGarantiaDiagnostico" EntitySet="IngresoRevisionGarantiaDiagnostico" />
+    </AssociationSet>
+    <AssociationSet Name="fk_RevisionGarantiaTrabajoRealizado" Association="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado">
+      <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
+      <End Role="IngresoRevisionGarantiaTrabajoRealizado" EntitySet="IngresoRevisionGarantiaTrabajoRealizado" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -742,6 +745,7 @@
     <Property Name="ModeloVehiculo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="AnioFabricacion" Type="Int32" />
     <Property Name="KilometrajeVehiculo" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="NumeroFactura" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="IngresoInspeccionInicialDensidadCelda">
     <Key>
@@ -770,23 +774,6 @@
     <Property Name="AplicaGarantia" Type="Boolean" />
     <NavigationProperty Name="IngresoRevisionGarantiaCabecera" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaDiagnostico" ToRole="IngresoRevisionGarantiaCabecera" />
   </EntityType>
-  <EntityType Name="IngresoRevisionGarantiaInspeccionInicial">
-    <Key>
-      <PropertyRef Name="IngresoRevisionGarantiaInspeccionInicialId" />
-    </Key>
-    <Property Name="IngresoRevisionGarantiaInspeccionInicialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="IngresoRevisionGarantiaId" Type="Int32" />
-    <Property Name="GolpeadaORota" Type="Boolean" />
-    <Property Name="Hinchada" Type="Boolean" />
-    <Property Name="BornesFlojosOHundidos" Type="Boolean" />
-    <Property Name="BornesFundidos" Type="Boolean" />
-    <Property Name="ElectrolitoErroneo" Type="Boolean" />
-    <Property Name="FugaEnCubierta" Type="Boolean" />
-    <Property Name="FugaEnBornes" Type="Boolean" />
-    <Property Name="CCA" Type="Int32" />
-    <NavigationProperty Name="IngresoInspeccionInicialDensidadCelda" Relationship="DacarProsoftModel.fk_DensidadCeldas" FromRole="IngresoRevisionGarantiaInspeccionInicial" ToRole="IngresoInspeccionInicialDensidadCelda" />
-    <NavigationProperty Name="IngresoRevisionGarantiaCabecera" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaInspeccionInicial" ToRole="IngresoRevisionGarantiaCabecera" />
-  </EntityType>
   <EntityType Name="IngresoRevisionGarantiaTrabajoRealizado">
     <Key>
       <PropertyRef Name="IngresoRevisionGarantiaTrabajoRealizadoId" />
@@ -799,82 +786,6 @@
     <Property Name="InspeccionEstructuraExterna" Type="Boolean" />
     <NavigationProperty Name="IngresoRevisionGarantiaCabecera" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaTrabajoRealizado" ToRole="IngresoRevisionGarantiaCabecera" />
   </EntityType>
-  <Association Name="fk_DensidadCeldas">
-    <End Type="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" Role="IngresoRevisionGarantiaInspeccionInicial" Multiplicity="0..1" />
-    <End Type="DacarProsoftModel.IngresoInspeccionInicialDensidadCelda" Role="IngresoInspeccionInicialDensidadCelda" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IngresoRevisionGarantiaInspeccionInicial">
-        <PropertyRef Name="IngresoRevisionGarantiaInspeccionInicialId" />
-      </Principal>
-      <Dependent Role="IngresoInspeccionInicialDensidadCelda">
-        <PropertyRef Name="IngresoRevisionGarantiaInspeccionInicialId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="IngresoRevisionGarantiaCabecera">
-    <Key>
-      <PropertyRef Name="IngresoRevisionGarantiaId" />
-    </Key>
-    <Property Name="IngresoRevisionGarantiaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-    <Property Name="NumeroGarantia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="NumeroComprobante" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="NumeroRevision" Type="Int32" />
-    <Property Name="Provincia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-    <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Vendedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="FacturaCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="TestBateria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Lote" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-    <Property Name="FechaVenta" Type="DateTime" Precision="3" />
-    <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
-    <Property Name="Prorrateo" Type="Decimal" Precision="10" Scale="2" />
-    <Property Name="Meses" Type="Int32" />
-    <Property Name="PorcentajeVenta" Type="Decimal" Precision="10" Scale="2" />
-    <Property Name="Voltaje" Type="Decimal" Precision="10" Scale="2" />
-    <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
-    <NavigationProperty Name="IngresoRevisionGarantiaDiagnostico" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaDiagnostico" />
-    <NavigationProperty Name="IngresoRevisionGarantiaTrabajoRealizado" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaTrabajoRealizado" />
-  </EntityType>
-  <Association Name="fk_Asignatura">
-    <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
-    <End Type="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" Role="IngresoRevisionGarantiaInspeccionInicial" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IngresoRevisionGarantiaCabecera">
-        <PropertyRef Name="IngresoRevisionGarantiaId" />
-      </Principal>
-      <Dependent Role="IngresoRevisionGarantiaInspeccionInicial">
-        <PropertyRef Name="IngresoRevisionGarantiaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_RevisionGarantiaDiagnostico">
-    <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
-    <End Type="DacarProsoftModel.IngresoRevisionGarantiaDiagnostico" Role="IngresoRevisionGarantiaDiagnostico" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IngresoRevisionGarantiaCabecera">
-        <PropertyRef Name="IngresoRevisionGarantiaId" />
-      </Principal>
-      <Dependent Role="IngresoRevisionGarantiaDiagnostico">
-        <PropertyRef Name="IngresoRevisionGarantiaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_RevisionGarantiaTrabajoRealizado">
-    <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
-    <End Type="DacarProsoftModel.IngresoRevisionGarantiaTrabajoRealizado" Role="IngresoRevisionGarantiaTrabajoRealizado" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="IngresoRevisionGarantiaCabecera">
-        <PropertyRef Name="IngresoRevisionGarantiaId" />
-      </Principal>
-      <Dependent Role="IngresoRevisionGarantiaTrabajoRealizado">
-        <PropertyRef Name="IngresoRevisionGarantiaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="PedidoClienteCabecera">
     <Key>
       <PropertyRef Name="NumeroPedidoId" />
@@ -950,6 +861,125 @@
       </Principal>
       <Dependent Role="PedidoClienteDetalle">
         <PropertyRef Name="NumeroPedidoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ModelosMarcasPropias">
+    <Key>
+      <PropertyRef Name="ModelosMarcasPropiasId" />
+    </Key>
+    <Property Name="ModelosMarcasPropiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Referencia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Grupo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Linea" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ProvinciasEcuador">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="provincia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="SecuencialRevisionTecnica">
+    <Key>
+      <PropertyRef Name="SecuencialRevisionTecnicaId" />
+    </Key>
+    <Property Name="SecuencialRevisionTecnicaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InicioSecuencia" Type="Int32" />
+  </EntityType>
+  <EntityType Name="IngresoRevisionGarantiaInspeccionInicial">
+    <Key>
+      <PropertyRef Name="IngresoRevisionGarantiaInspeccionInicialId" />
+    </Key>
+    <Property Name="IngresoRevisionGarantiaInspeccionInicialId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IngresoRevisionGarantiaId" Type="Int32" />
+    <Property Name="GolpeadaORota" Type="Boolean" />
+    <Property Name="Hinchada" Type="Boolean" />
+    <Property Name="BornesFlojosOHundidos" Type="Boolean" />
+    <Property Name="BornesFundidos" Type="Boolean" />
+    <Property Name="ElectrolitoErroneo" Type="Boolean" />
+    <Property Name="FugaEnCubierta" Type="Boolean" />
+    <Property Name="FugaEnBornes" Type="Boolean" />
+    <Property Name="CCA" Type="Int32" />
+    <Property Name="RevisionesPeriodicas" Type="Boolean" />
+    <NavigationProperty Name="IngresoInspeccionInicialDensidadCelda" Relationship="DacarProsoftModel.fk_DensidadCeldas" FromRole="IngresoRevisionGarantiaInspeccionInicial" ToRole="IngresoInspeccionInicialDensidadCelda" />
+    <NavigationProperty Name="IngresoRevisionGarantiaCabecera" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaInspeccionInicial" ToRole="IngresoRevisionGarantiaCabecera" />
+  </EntityType>
+  <Association Name="fk_DensidadCeldas">
+    <End Type="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" Role="IngresoRevisionGarantiaInspeccionInicial" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.IngresoInspeccionInicialDensidadCelda" Role="IngresoInspeccionInicialDensidadCelda" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresoRevisionGarantiaInspeccionInicial">
+        <PropertyRef Name="IngresoRevisionGarantiaInspeccionInicialId" />
+      </Principal>
+      <Dependent Role="IngresoInspeccionInicialDensidadCelda">
+        <PropertyRef Name="IngresoRevisionGarantiaInspeccionInicialId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="IngresoRevisionGarantiaCabecera">
+    <Key>
+      <PropertyRef Name="IngresoRevisionGarantiaId" />
+    </Key>
+    <Property Name="IngresoRevisionGarantiaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+    <Property Name="NumeroGarantia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="NumeroComprobante" Type="Int32" />
+    <Property Name="NumeroRevision" Type="Int32" />
+    <Property Name="Provincia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Vendedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FacturaCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TestBateria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Lote" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="FechaVenta" Type="DateTime" Precision="3" />
+    <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
+    <Property Name="Prorrateo" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Meses" Type="Int32" />
+    <Property Name="PorcentajeVenta" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Voltaje" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="ModoIngreso" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="AplicaGarantia" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
+    <NavigationProperty Name="IngresoRevisionGarantiaDiagnostico" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaDiagnostico" />
+    <NavigationProperty Name="IngresoRevisionGarantiaTrabajoRealizado" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaTrabajoRealizado" />
+  </EntityType>
+  <Association Name="fk_Asignatura">
+    <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" Role="IngresoRevisionGarantiaInspeccionInicial" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresoRevisionGarantiaCabecera">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Principal>
+      <Dependent Role="IngresoRevisionGarantiaInspeccionInicial">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_RevisionGarantiaDiagnostico">
+    <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.IngresoRevisionGarantiaDiagnostico" Role="IngresoRevisionGarantiaDiagnostico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresoRevisionGarantiaCabecera">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Principal>
+      <Dependent Role="IngresoRevisionGarantiaDiagnostico">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_RevisionGarantiaTrabajoRealizado">
+    <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.IngresoRevisionGarantiaTrabajoRealizado" Role="IngresoRevisionGarantiaTrabajoRealizado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresoRevisionGarantiaCabecera">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
+      </Principal>
+      <Dependent Role="IngresoRevisionGarantiaTrabajoRealizado">
+        <PropertyRef Name="IngresoRevisionGarantiaId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

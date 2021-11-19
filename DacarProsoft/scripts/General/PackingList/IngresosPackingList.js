@@ -74,6 +74,12 @@ function ConsultarCabeceraOrdenVenta() {
         texto = "N";
         urlCont = "../PackingList/ConsultaFacturaReservaListCabecera?factReserv=" + texto;
     }
+    if (valor == "5") {
+        variable = 2;
+        console.log("ingreso If 3");
+        texto = "Y";
+        urlCont = "../PackingList/ConsultaFacturaReservaListCabeceraCancelada?factReserv=" + texto;
+    }
 
     $.ajax({
         url: urlCont,
@@ -822,3 +828,4 @@ function CierraPopup() {
     $('body').removeClass('modal-open');//eliminamos la clase del body para poder hacer scroll
     $('.modal-backdrop').remove();//eliminamos el backdrop del modal
 }
+

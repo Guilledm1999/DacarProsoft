@@ -333,6 +333,8 @@
     <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
     <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
     <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
+    <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
+    <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="INV1">
     <Key>
@@ -653,6 +655,8 @@
     <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
     <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
     <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
+    <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
+    <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="OCRD">
     <Key>
@@ -3652,6 +3656,25 @@
     <Property Name="U_DC_COMISION" Type="nvarchar" MaxLength="30" />
     <Property Name="U_DC_PRODUCTOS" Type="nvarchar" MaxLength="10" />
   </EntityType>
+  <EntityType Name="OSLP">
+    <Key>
+      <PropertyRef Name="SlpCode" />
+    </Key>
+    <Property Name="SlpCode" Type="int" Nullable="false" />
+    <Property Name="SlpName" Type="nvarchar" MaxLength="155" Nullable="false" />
+    <Property Name="Memo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Commission" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="GroupCode" Type="smallint" />
+    <Property Name="Locked" Type="char" MaxLength="1" />
+    <Property Name="DataSource" Type="char" MaxLength="1" />
+    <Property Name="UserSign" Type="smallint" />
+    <Property Name="EmpID" Type="int" />
+    <Property Name="Active" Type="char" MaxLength="1" />
+    <Property Name="Telephone" Type="nvarchar" MaxLength="20" />
+    <Property Name="Mobil" Type="nvarchar" MaxLength="50" />
+    <Property Name="Fax" Type="nvarchar" MaxLength="20" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="PDN1">
     <Key>
       <PropertyRef Name="DocEntry" />
@@ -3971,6 +3994,8 @@
     <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
     <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
     <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
+    <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
+    <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="RDR1">
     <Key>
@@ -4291,6 +4316,8 @@
     <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
     <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
     <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
+    <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
+    <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.vConsultaArticulos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -4392,6 +4419,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
     <EntitySet Name="OITM" EntityType="Self.OITM" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OPDN" EntityType="Self.OPDN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ORDR" EntityType="Self.ORDR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OSLP" EntityType="Self.OSLP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PDN1" EntityType="Self.PDN1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RDR1" EntityType="Self.RDR1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="vConsultaArticulos" EntityType="Self.vConsultaArticulos" store:Type="Views" store:Schema="dbo">

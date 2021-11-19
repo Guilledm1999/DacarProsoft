@@ -456,6 +456,7 @@
     <EntitySetMapping Name="IngresoGarantias">
       <EntityTypeMapping TypeName="DacarProsoftModel.IngresoGarantias">
         <MappingFragment StoreEntitySet="IngresoGarantias">
+          <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
           <ScalarProperty Name="KilometrajeVehiculo" ColumnName="KilometrajeVehiculo" />
           <ScalarProperty Name="AnioFabricacion" ColumnName="AnioFabricacion" />
           <ScalarProperty Name="ModeloVehiculo" ColumnName="ModeloVehiculo" />
@@ -502,22 +503,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="IngresoRevisionGarantiaInspeccionInicial">
-      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial">
-        <MappingFragment StoreEntitySet="IngresoRevisionGarantiaInspeccionInicial">
-          <ScalarProperty Name="CCA" ColumnName="CCA" />
-          <ScalarProperty Name="FugaEnBornes" ColumnName="FugaEnBornes" />
-          <ScalarProperty Name="FugaEnCubierta" ColumnName="FugaEnCubierta" />
-          <ScalarProperty Name="ElectrolitoErroneo" ColumnName="ElectrolitoErroneo" />
-          <ScalarProperty Name="BornesFundidos" ColumnName="BornesFundidos" />
-          <ScalarProperty Name="BornesFlojosOHundidos" ColumnName="BornesFlojosOHundidos" />
-          <ScalarProperty Name="Hinchada" ColumnName="Hinchada" />
-          <ScalarProperty Name="GolpeadaORota" ColumnName="GolpeadaORota" />
-          <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
-          <ScalarProperty Name="IngresoRevisionGarantiaInspeccionInicialId" ColumnName="IngresoRevisionGarantiaInspeccionInicialId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="IngresoRevisionGarantiaTrabajoRealizado">
       <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaTrabajoRealizado">
         <MappingFragment StoreEntitySet="IngresoRevisionGarantiaTrabajoRealizado">
@@ -527,32 +512,6 @@
           <ScalarProperty Name="PruebaAltaResistencia" ColumnName="PruebaAltaResistencia" />
           <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
           <ScalarProperty Name="IngresoRevisionGarantiaTrabajoRealizadoId" ColumnName="IngresoRevisionGarantiaTrabajoRealizadoId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="IngresoRevisionGarantiaCabecera">
-      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaCabecera">
-        <MappingFragment StoreEntitySet="IngresoRevisionGarantiaCabecera">
-          <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
-          <ScalarProperty Name="PorcentajeVenta" ColumnName="PorcentajeVenta" />
-          <ScalarProperty Name="Meses" ColumnName="Meses" />
-          <ScalarProperty Name="Prorrateo" ColumnName="Prorrateo" />
-          <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
-          <ScalarProperty Name="FechaVenta" ColumnName="FechaVenta" />
-          <ScalarProperty Name="Lote" ColumnName="Lote" />
-          <ScalarProperty Name="Modelo" ColumnName="Modelo" />
-          <ScalarProperty Name="Marca" ColumnName="Marca" />
-          <ScalarProperty Name="TestBateria" ColumnName="TestBateria" />
-          <ScalarProperty Name="FacturaCliente" ColumnName="FacturaCliente" />
-          <ScalarProperty Name="Vendedor" ColumnName="Vendedor" />
-          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-          <ScalarProperty Name="Provincia" ColumnName="Provincia" />
-          <ScalarProperty Name="NumeroRevision" ColumnName="NumeroRevision" />
-          <ScalarProperty Name="NumeroComprobante" ColumnName="NumeroComprobante" />
-          <ScalarProperty Name="NumeroGarantia" ColumnName="NumeroGarantia" />
-          <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
-          <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -632,6 +591,67 @@
           <ScalarProperty Name="Grupo" ColumnName="Grupo" />
           <ScalarProperty Name="Referencia" ColumnName="Referencia" />
           <ScalarProperty Name="ModelosMarcasPropiasId" ColumnName="ModelosMarcasPropiasId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProvinciasEcuador">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ProvinciasEcuador">
+        <MappingFragment StoreEntitySet="ProvinciasEcuador">
+          <ScalarProperty Name="provincia" ColumnName="provincia" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SecuencialRevisionTecnica">
+      <EntityTypeMapping TypeName="DacarProsoftModel.SecuencialRevisionTecnica">
+        <MappingFragment StoreEntitySet="SecuencialRevisionTecnica">
+          <ScalarProperty Name="InicioSecuencia" ColumnName="InicioSecuencia" />
+          <ScalarProperty Name="SecuencialRevisionTecnicaId" ColumnName="SecuencialRevisionTecnicaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresoRevisionGarantiaInspeccionInicial">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial">
+        <MappingFragment StoreEntitySet="IngresoRevisionGarantiaInspeccionInicial">
+          <ScalarProperty Name="RevisionesPeriodicas" ColumnName="RevisionesPeriodicas" />
+          <ScalarProperty Name="CCA" ColumnName="CCA" />
+          <ScalarProperty Name="FugaEnBornes" ColumnName="FugaEnBornes" />
+          <ScalarProperty Name="FugaEnCubierta" ColumnName="FugaEnCubierta" />
+          <ScalarProperty Name="ElectrolitoErroneo" ColumnName="ElectrolitoErroneo" />
+          <ScalarProperty Name="BornesFundidos" ColumnName="BornesFundidos" />
+          <ScalarProperty Name="BornesFlojosOHundidos" ColumnName="BornesFlojosOHundidos" />
+          <ScalarProperty Name="Hinchada" ColumnName="Hinchada" />
+          <ScalarProperty Name="GolpeadaORota" ColumnName="GolpeadaORota" />
+          <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
+          <ScalarProperty Name="IngresoRevisionGarantiaInspeccionInicialId" ColumnName="IngresoRevisionGarantiaInspeccionInicialId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresoRevisionGarantiaCabecera">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaCabecera">
+        <MappingFragment StoreEntitySet="IngresoRevisionGarantiaCabecera">
+          <ScalarProperty Name="AplicaGarantia" ColumnName="AplicaGarantia" />
+          <ScalarProperty Name="ModoIngreso" ColumnName="ModoIngreso" />
+          <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
+          <ScalarProperty Name="PorcentajeVenta" ColumnName="PorcentajeVenta" />
+          <ScalarProperty Name="Meses" ColumnName="Meses" />
+          <ScalarProperty Name="Prorrateo" ColumnName="Prorrateo" />
+          <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+          <ScalarProperty Name="FechaVenta" ColumnName="FechaVenta" />
+          <ScalarProperty Name="Lote" ColumnName="Lote" />
+          <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+          <ScalarProperty Name="Marca" ColumnName="Marca" />
+          <ScalarProperty Name="TestBateria" ColumnName="TestBateria" />
+          <ScalarProperty Name="FacturaCliente" ColumnName="FacturaCliente" />
+          <ScalarProperty Name="Vendedor" ColumnName="Vendedor" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Provincia" ColumnName="Provincia" />
+          <ScalarProperty Name="NumeroRevision" ColumnName="NumeroRevision" />
+          <ScalarProperty Name="NumeroComprobante" ColumnName="NumeroComprobante" />
+          <ScalarProperty Name="NumeroGarantia" ColumnName="NumeroGarantia" />
+          <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+          <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

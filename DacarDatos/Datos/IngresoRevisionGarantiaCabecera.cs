@@ -26,7 +26,7 @@ namespace DacarDatos.Datos
         public string Cliente { get; set; }
         public string Cedula { get; set; }
         public string NumeroGarantia { get; set; }
-        public string NumeroComprobante { get; set; }
+        public Nullable<int> NumeroComprobante { get; set; }
         public Nullable<int> NumeroRevision { get; set; }
         public string Provincia { get; set; }
         public string Direccion { get; set; }
@@ -42,6 +42,8 @@ namespace DacarDatos.Datos
         public Nullable<int> Meses { get; set; }
         public Nullable<decimal> PorcentajeVenta { get; set; }
         public Nullable<decimal> Voltaje { get; set; }
+        public string ModoIngreso { get; set; }
+        public string AplicaGarantia { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngresoRevisionGarantiaInspeccionInicial> IngresoRevisionGarantiaInspeccionInicial { get; set; }

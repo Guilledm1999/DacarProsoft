@@ -58,18 +58,20 @@
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoGarantias" Width="1.5" PointX="17.375" PointY="13.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoInspeccionInicialDensidadCelda" Width="1.5" PointX="23.875" PointY="15" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaDiagnostico" Width="1.5" PointX="21.625" PointY="11.375" />
-        <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" Width="1.5" PointX="21.625" PointY="14.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaTrabajoRealizado" Width="1.5" PointX="21.625" PointY="8.25" />
-        <AssociationConnector Association="DacarProsoftModel.fk_DensidadCeldas" />
-        <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Width="1.5" PointX="19.375" PointY="19.5" />
-        <AssociationConnector Association="DacarProsoftModel.fk_Asignatura" />
-        <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" />
-        <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" />
         <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteCabecera" Width="1.5" PointX="18.25" PointY="1.875" />
         <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteDetalle" Width="1.5" PointX="20.5" PointY="1.5" />
         <EntityTypeShape EntityType="DacarProsoftModel.PedidoClienteDetalleFinal" Width="1.5" PointX="15.25" PointY="1.125" />
         <AssociationConnector Association="DacarProsoftModel.fk_detallePedido" />
         <EntityTypeShape EntityType="DacarProsoftModel.ModelosMarcasPropias" Width="1.5" PointX="8.375" PointY="18.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.ProvinciasEcuador" Width="1.5" PointX="18.375" PointY="10.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.SecuencialRevisionTecnica" Width="1.5" PointX="10.375" PointY="18.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" Width="1.5" PointX="21.625" PointY="20.375" />
+        <AssociationConnector Association="DacarProsoftModel.fk_DensidadCeldas" />
+        <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Width="1.5" PointX="19.375" PointY="19.125" />
+        <AssociationConnector Association="DacarProsoftModel.fk_Asignatura" />
+        <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" />
+        <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

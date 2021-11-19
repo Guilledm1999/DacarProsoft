@@ -453,6 +453,8 @@
     <EntitySetMapping Name="IGN1">
       <EntityTypeMapping TypeName="SBODACARPRODModel.IGN1">
         <MappingFragment StoreEntitySet="IGN1">
+          <ScalarProperty Name="U_DC_PESOREAL" ColumnName="U_DC_PESOREAL" />
+          <ScalarProperty Name="U_DC_PESOBRUTO" ColumnName="U_DC_PESOBRUTO" />
           <ScalarProperty Name="U_DC_PROMO" ColumnName="U_DC_PROMO" />
           <ScalarProperty Name="U_NOMBRECUENTA" ColumnName="U_NOMBRECUENTA" />
           <ScalarProperty Name="U_SYP_CODART" ColumnName="U_SYP_CODART" />
@@ -2233,6 +2235,8 @@
     <EntitySetMapping Name="PDN1">
       <EntityTypeMapping TypeName="SBODACARPRODModel.PDN1">
         <MappingFragment StoreEntitySet="PDN1">
+          <ScalarProperty Name="U_DC_PESOREAL" ColumnName="U_DC_PESOREAL" />
+          <ScalarProperty Name="U_DC_PESOBRUTO" ColumnName="U_DC_PESOBRUTO" />
           <ScalarProperty Name="U_DC_PROMO" ColumnName="U_DC_PROMO" />
           <ScalarProperty Name="U_NOMBRECUENTA" ColumnName="U_NOMBRECUENTA" />
           <ScalarProperty Name="U_SYP_CODART" ColumnName="U_SYP_CODART" />
@@ -3112,6 +3116,8 @@
     <EntitySetMapping Name="RDR1">
       <EntityTypeMapping TypeName="SBODACARPRODModel.RDR1">
         <MappingFragment StoreEntitySet="RDR1">
+          <ScalarProperty Name="U_DC_PESOREAL" ColumnName="U_DC_PESOREAL" />
+          <ScalarProperty Name="U_DC_PESOBRUTO" ColumnName="U_DC_PESOBRUTO" />
           <ScalarProperty Name="U_DC_PROMO" ColumnName="U_DC_PROMO" />
           <ScalarProperty Name="U_NOMBRECUENTA" ColumnName="U_NOMBRECUENTA" />
           <ScalarProperty Name="U_SYP_CODART" ColumnName="U_SYP_CODART" />
@@ -3506,6 +3512,8 @@
     <EntitySetMapping Name="INV1">
       <EntityTypeMapping TypeName="SBODACARPRODModel.INV1">
         <MappingFragment StoreEntitySet="INV1">
+          <ScalarProperty Name="U_DC_PESOREAL" ColumnName="U_DC_PESOREAL" />
+          <ScalarProperty Name="U_DC_PESOBRUTO" ColumnName="U_DC_PESOBRUTO" />
           <ScalarProperty Name="U_DC_PROMO" ColumnName="U_DC_PROMO" />
           <ScalarProperty Name="U_NOMBRECUENTA" ColumnName="U_NOMBRECUENTA" />
           <ScalarProperty Name="U_SYP_CODART" ColumnName="U_SYP_CODART" />
@@ -4379,6 +4387,26 @@
           <ScalarProperty Name="DocType" ColumnName="DocType" />
           <ScalarProperty Name="DocNum" ColumnName="DocNum" />
           <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OSLP">
+      <EntityTypeMapping TypeName="SBODACARPRODModel.OSLP">
+        <MappingFragment StoreEntitySet="OSLP">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="Mobil" ColumnName="Mobil" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+          <ScalarProperty Name="UserSign" ColumnName="UserSign" />
+          <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+          <ScalarProperty Name="Locked" ColumnName="Locked" />
+          <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+          <ScalarProperty Name="Commission" ColumnName="Commission" />
+          <ScalarProperty Name="Memo" ColumnName="Memo" />
+          <ScalarProperty Name="SlpName" ColumnName="SlpName" />
+          <ScalarProperty Name="SlpCode" ColumnName="SlpCode" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

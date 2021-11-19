@@ -76,7 +76,60 @@ namespace DacarProsoft.Datos
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
                 var ListadoCabeceraOrdenesVentas = from d in DB.OINV 
-                                                   where d.isIns == FactRese && d.DocDate >= fechaCorte && d.DocDate <= fechaActual && d.DocStatus== "O"
+                                                   where d.isIns == FactRese && d.DocDate >= fechaCorte && d.DocDate <= fechaActual && d.DocStatus == "O" /*&& d.DocStatus == "C"*/
+                                                   orderby d.DocDate descending
+                                                   //d.U_SYP_EXPORTACION == Exportacion &&
+                                                   //d.U_SYP_EXPORTACION == Exportacion &&
+
+                                                   select new
+                                                   {
+                                                       d.DocEntry,
+                                                       d.DocNum,
+                                                       d.DocDate,
+                                                       d.TaxDate,
+                                                       d.CardCode,
+                                                       d.CardName,
+                                                       d.DocTotal,
+                                                       d.U_SYP_NUMOCCL
+                                                   };
+
+                foreach (var x in ListadoCabeceraOrdenesVentas)
+                {
+                    var busqueda = BusquedaLocal(x.DocNum.Value);
+                    if (busqueda == false)
+                    {
+                        DateTime fechaCont = Convert.ToDateTime(x.DocDate, CultureInfo.InvariantCulture);
+                        string fechaContabilizacion = fechaCont.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        DateTime fechaDoc = Convert.ToDateTime(x.TaxDate, CultureInfo.InvariantCulture);
+                        string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                        lst.Add(new CabeceraOrdenVenta
+                        {
+                            DocEntry = x.DocEntry,
+                            DocNum = x.DocNum.Value,
+                            DocDate = fechaContabilizacion,
+                            TaxDate = fechaDocumento,
+                            CardCode = x.CardCode,
+                            CardName = x.CardName,
+                            NumeroOrden = x.U_SYP_NUMOCCL,
+                            DocTotal = x.DocTotal.Value,
+                        });
+                    }
+                }
+                return lst;
+            }
+        }
+        public List<CabeceraOrdenVenta> ListadoCabeceraFacturasReservaSapCanceladas(string FactRese)
+        {
+            var dias = BusquedaxDias();
+            DateTime fechaActual = DateTime.Now;
+            DateTime fechaCorte = fechaActual.AddDays(-(dias));
+
+            List<CabeceraOrdenVenta> lst = new List<CabeceraOrdenVenta>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                var ListadoCabeceraOrdenesVentas = from d in DB.OINV
+                                                   where d.isIns == FactRese && d.DocDate >= fechaCorte && d.DocDate <= fechaActual  && d.DocStatus == "C"
                                                    orderby d.DocDate descending
                                                    //d.U_SYP_EXPORTACION == Exportacion &&
                                                    //d.U_SYP_EXPORTACION == Exportacion &&

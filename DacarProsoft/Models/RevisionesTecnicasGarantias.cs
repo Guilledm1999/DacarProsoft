@@ -11,7 +11,7 @@ namespace DacarProsoft.Models
         public string Cliente { get; set; }
         public string Cedula { get; set; }
         public string NumeroGarantia { get; set; }
-        public string NumeroComprobante { get; set; }
+        public int NumeroComprobante { get; set; }
         public int NumeroRevision { get; set; }
         public string Provincia { get; set; }
         public string Direccion { get; set; }
@@ -27,6 +27,9 @@ namespace DacarProsoft.Models
         public int Meses { get; set; }
         public decimal PorcentajeVenta { get; set; }
         public decimal Voltaje { get; set; }
+        public string ModoIngreso { get; set; }
+        public string AplicaGarantia { get; set; }
+
 
     }
 }

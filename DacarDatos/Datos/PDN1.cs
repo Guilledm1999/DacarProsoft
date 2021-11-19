@@ -328,5 +328,7 @@ namespace DacarDatos.Datos
         public string U_SYP_CODART { get; set; }
         public string U_NOMBRECUENTA { get; set; }
         public string U_DC_PROMO { get; set; }
+        public string U_DC_PESOBRUTO { get; set; }
+        public string U_DC_PESOREAL { get; set; }
     }
 }

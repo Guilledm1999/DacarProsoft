@@ -109,3 +109,4 @@ C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.csproj.CoreCompil
 C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.csproj.CopyComplete
 C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.dll
 C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.pdb
+C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.csproj.AssemblyReference.cache

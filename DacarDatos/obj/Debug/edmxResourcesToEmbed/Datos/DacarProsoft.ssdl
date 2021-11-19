@@ -178,6 +178,7 @@
     <Property Name="ModeloVehiculo" Type="varchar" MaxLength="100" />
     <Property Name="AnioFabricacion" Type="int" />
     <Property Name="KilometrajeVehiculo" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="NumeroFactura" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="IngresoInspeccionInicialDensidadCelda">
     <Key>
@@ -207,7 +208,7 @@
     <Property Name="Cliente" Type="varchar" MaxLength="100" />
     <Property Name="Cedula" Type="varchar" MaxLength="13" />
     <Property Name="NumeroGarantia" Type="varchar" MaxLength="25" />
-    <Property Name="NumeroComprobante" Type="varchar" MaxLength="25" />
+    <Property Name="NumeroComprobante" Type="int" />
     <Property Name="NumeroRevision" Type="int" />
     <Property Name="Provincia" Type="varchar" MaxLength="25" />
     <Property Name="Direccion" Type="varchar" MaxLength="100" />
@@ -223,6 +224,8 @@
     <Property Name="Meses" Type="int" />
     <Property Name="PorcentajeVenta" Type="decimal" Precision="10" Scale="2" />
     <Property Name="Voltaje" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="ModoIngreso" Type="varchar" MaxLength="25" />
+    <Property Name="AplicaGarantia" Type="varchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="IngresoRevisionGarantiaDiagnostico">
     <Key>
@@ -250,6 +253,7 @@
     <Property Name="FugaEnCubierta" Type="bit" />
     <Property Name="FugaEnBornes" Type="bit" />
     <Property Name="CCA" Type="int" />
+    <Property Name="RevisionesPeriodicas" Type="bit" />
   </EntityType>
   <EntityType Name="IngresoRevisionGarantiaTrabajoRealizado">
     <Key>
@@ -469,6 +473,20 @@
     <Property Name="FechaIngresadaSap" Type="datetime" />
     <Property Name="FechaNuevaDespacho" Type="datetime" />
     <Property Name="NumeroContenedores" Type="int" />
+  </EntityType>
+  <EntityType Name="ProvinciasEcuador">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="provincia" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="SecuencialRevisionTecnica">
+    <Key>
+      <PropertyRef Name="SecuencialRevisionTecnicaId" />
+    </Key>
+    <Property Name="SecuencialRevisionTecnicaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InicioSecuencia" Type="int" />
   </EntityType>
   <EntityType Name="SubMenuOpciones">
     <Key>
@@ -833,6 +851,8 @@
     <EntitySet Name="PedidoClienteCabecera" EntityType="Self.PedidoClienteCabecera" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PedidoClienteDetalle" EntityType="Self.PedidoClienteDetalle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PedidoClienteDetalleFinal" EntityType="Self.PedidoClienteDetalleFinal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProvinciasEcuador" EntityType="Self.ProvinciasEcuador" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SecuencialRevisionTecnica" EntityType="Self.SecuencialRevisionTecnica" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubMenuOpciones" EntityType="Self.SubMenuOpciones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoCliente" EntityType="Self.TipoCliente" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />

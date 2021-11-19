@@ -5,9 +5,8 @@
 }
 
 @{ 
-
+    var vendedores=ViewBag.Vendedores;
     DateTime fecha = DateTime.Now;
-
     var fechaActual = fecha.ToString("dd/MM/yyyy");
 }
 <br />
@@ -19,7 +18,6 @@
                 <div class="col-md-2">
                     <input type="text" name="NombreItem" id="txtNumeroGarantia" autocomplete="off" class="form-control" placeholder="Numero Garantia">
                 </div>
-
                 <div class="col-md-2">
                     <button class="btn btn-primary" onclick="ConsultarGarantia()">
                         <i id="Cargar" class="loading-icon fa fa-spinner fa-spin hide"></i>
@@ -42,7 +40,8 @@
         </div>
         <div id="MensajeGarantiaNoEncontrada" class="alert alert-danger collapse">
             <button id="LinkClose3" type="button" class="close">&times;</button>
-            <strong>Numero de garantia no encontrado!</strong>
+            <strong>Numero de garantia no encontrado, ingrese los datos manualmente!</strong>
+
         </div>
         <div id="MensajeCompleteCampos" class="alert alert-danger collapse">
             <button id="LinkClose5" type="button" class="close">&times;</button>
@@ -58,6 +57,18 @@
             <button id="LinkMjsArchivoIncorrecto" type="button" class="close">&times;</button>
             <strong>
                 El archivo no es una imagen!
+            </strong>
+        </div>
+        <div id="NoCumpleParaGarantia" class="alert alert-danger collapse">
+            <button id="LinkMjsNoCumpleGarantia" type="button" class="close">&times;</button>
+            <strong>
+                No cumple con los requisitos para aplicar la garantia!
+            </strong>
+        </div>
+        <div id="CumpleParaGarantia" class="alert alert-success collapse">
+            <button id="LinkMjsCumpleGarantia" type="button" class="close">&times;</button>
+            <strong>
+                Cumple con los requisitos para aplicar la garantia!
             </strong>
         </div>
     </div>
@@ -81,7 +92,7 @@
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Cedula:</b></label>
                     <div class="col-md-1">
-                        <input type="text" name="NombreItem" id="txtCedula" autocomplete="off" class="form-control" readonly placeholder="Cedula">
+                        <input type="number" name="NombreItem" id="txtCedula" maxlength="13" autocomplete="off" class="form-control" readonly placeholder="Cedula">
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b># Garantia:</b></label>
@@ -93,15 +104,17 @@
                     <div class="col-md-1">
                         <input type="text" name="NombreItem" id="txtNumeroComprobante" autocomplete="off" class="form-control"  placeholder="# Comprobante" >
                     </div>
-                    <label for="email" class="col-sm-1 col-form-label"><b>#Revision:</b></label>
+                    <label for="email" class="col-sm-1 col-form-label"><b>#Factura:</b></label>
                     <div class="col-md-1">
-                        <input type="text" name="NombreItem" id="txtNumeroRevision" autocomplete="off" class="form-control" readonly placeholder="# Revision">
+                        <input type="text" name="NombreItem" id="txtNumeroFactura" autocomplete="off" class="form-control" readonly placeholder="# Factura">
                     </div>
                 </div>
                 <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Provincia:</b></label>
                     <div class="col-md-2">
-                        <input type="text" name="NombreItem" id="txtProvincia" autocomplete="off" class="form-control" readonly placeholder="Provincia">
+                        <select class="form-control" aria-label="Default select example" id="txtProvincia">
+                        </select>
+                        @*<input type="text" name="NombreItem" id="txtProvincia" autocomplete="off" class="form-control" readonly placeholder="Provincia">*@
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Direccion:</b></label>
@@ -110,7 +123,8 @@
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Vendedor:</b></label>
                     <div class="col-md-1">
-                        <input type="text" name="NombreItem" id="txtVendedor" autocomplete="off" class="form-control" placeholder="Vendedor">
+                        @Html.DropDownList("TipoDeIngreso", new SelectList(vendedores, "SlpCode", "Memo"), new { @class = "form-control", id = "txtVendedor" })
+                        @*<input type="text" name="NombreItem" id="txtVendedor" autocomplete="off" class="form-control" placeholder="Vendedor">*@
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Factura:</b></label>
@@ -138,7 +152,9 @@
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Modelo:</b></label>
                     <div class="col-md-1">
-                        <input type="text" name="NombreItem" id="txtModelo" autocomplete="off" class="form-control" readonly placeholder="Modelo">
+                            <select class="form-control" aria-label="Default select example" id="txtModelo">
+                            </select>
+                            @*<input type="text" name="NombreItem" id="txtModelo" autocomplete="off" class="form-control" readonly placeholder="Modelo">*@
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Lote:</b></label>
                     <div class="col-md-1">
@@ -200,6 +216,15 @@
                         <div class="col-md-12">
                             <ul class="list-group">
                                 <li class="list-group-item active">Inspeccion Inicial</li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Revisiones Periódicas
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio1" value="true">
+                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio1" value="false">
+                                        <label class="form-check-label" for="inlineRadio1">No</label>
+                                    </div>
+                                </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Golpeada o Rota
                                     <div class="form-check form-check-inline">
@@ -372,7 +397,7 @@
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
                                 </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @*<li class="list-group-item d-flex justify-content-between align-items-center">
                                     Aplica Garantia
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="true">
@@ -380,7 +405,7 @@
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="false">
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
-                                </li>
+                                </li>*@
                             </ul>
                         </div>
                     </div>

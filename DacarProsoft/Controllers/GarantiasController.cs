@@ -25,6 +25,10 @@ namespace DacarProsoft.Controllers
                 ViewBag.MenuAcceso = Session["Menu"];
 
                 daoUtilitarios = new DaoUtilitarios();
+                daoGarantias = new DaoGarantias();
+
+                var datvendedor = daoGarantias.ConsultarVendedores();
+                ViewBag.Vendedores = datvendedor;
 
                 var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
                 ViewBag.MenuPrincipal = datMenu;
@@ -59,12 +63,18 @@ namespace DacarProsoft.Controllers
         public JsonResult ConsultarModelosBaterias()
         {
             daoGarantias = new DaoGarantias();
-
-            var cantones = daoGarantias.ConsultarReferenciasModelosMarcasPropias();
-            return Json(new SelectList(cantones, "ModelosMarcasPropiasId", "Referencia"));
+            var modelos = daoGarantias.ConsultarReferenciasModelosMarcasPropias();
+            return Json(new SelectList(modelos, "ModelosMarcasPropiasId", "Referencia"));
         }
 
-        public int RegistrarRevisionDeGarantiaCabecera(string cliente, string cedula, string numeroGarantia, string numeroComprobante, string numeroRevision, string provincia, string direccion, string vendedor, HttpPostedFileBase ImgFac, string marca,
+        public JsonResult ConsultarProvincias()
+        {
+            daoGarantias = new DaoGarantias();
+            var provincia = daoGarantias.ConsultarProvincias();
+            return Json(new SelectList(provincia, "id", "provincia"));
+        }
+
+        public int RegistrarRevisionDeGarantiaCabecera(string cliente, string cedula, string numeroGarantia, int numeroComprobante, string numeroFactura, string provincia, string direccion, string vendedor, HttpPostedFileBase ImgFac, string marca,
             string modelo, string lote, decimal prorrateo, int meses, DateTime fechaVenta, DateTime fechaIngreso, decimal porcentajeVenta, decimal voltaje, HttpPostedFileBase ImgTest)
         {
             try
@@ -73,21 +83,21 @@ namespace DacarProsoft.Controllers
                             
                 string filename = Path.GetExtension(ImgFac.FileName);
 
-                var destinationPath = Path.Combine(Server.MapPath("~/Images/ImagenesGarantias/Facturas/"), numeroRevision+"-"+numeroGarantia+"-"+cedula);
+                var destinationPath = Path.Combine(Server.MapPath("~/Images/ImagenesGarantias/Facturas/"), numeroFactura + "-"+numeroGarantia+"-"+cedula);
                 ImgFac.SaveAs(destinationPath + filename);
 
-                string destinoImg1 = numeroRevision + "-" + numeroGarantia + "-" + cedula + filename;
+                string destinoImg1 = numeroFactura + "-" + numeroGarantia + "-" + cedula + filename;
 
                 string filename2 = Path.GetExtension(ImgTest.FileName);
 
-                var destinationPath2 = Path.Combine(Server.MapPath("~/Images/ImagenesGarantias/Test/"), numeroRevision + "-" + numeroGarantia + "-" + cedula);
+                var destinationPath2 = Path.Combine(Server.MapPath("~/Images/ImagenesGarantias/Test/"), numeroFactura + "-" + numeroGarantia + "-" + cedula);
                 ImgTest.SaveAs(destinationPath2 + filename2);
 
-                string destinoImg2 = numeroRevision + "-" + numeroGarantia + "-" + cedula + filename;
+                string destinoImg2 = numeroFactura + "-" + numeroGarantia + "-" + cedula + filename2;
                 
 
 
-                var Result = daoGarantias.IngresarRevisionGarantiaCabecera(cliente,  cedula,  numeroGarantia,  numeroComprobante,  numeroRevision,  provincia,  direccion,  vendedor, destinoImg1,  marca,
+                var Result = daoGarantias.IngresarRevisionGarantiaCabecera(cliente,  cedula,  numeroGarantia,  numeroComprobante, numeroFactura,  provincia,  direccion,  vendedor, destinoImg1,  marca,
                 modelo,  lote,  prorrateo,  meses,  fechaVenta,  fechaIngreso,  porcentajeVenta,  voltaje, destinoImg2);
                 return Result;
             }
@@ -97,18 +107,42 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-        public bool RegistrarRevisionDeGarantiaDetalle(int RevisionId, string InGolpeadaoRota, string InHinchada, string InBornesFlojos, string InBornesFundidos, string IngElectrolito, string InFugaEnCubierta, string InFugaEnBornes,int InDcC1,
+        public bool RegistrarRevisionDeGarantiaDetalle(int RevisionId, string InGolpeadaoRota, string InHinchada, string InBornesFlojos, string InBornesFundidos, string IngElectrolito, string InFugaEnCubierta, string InFugaEnBornes,string InRevisionesPeriodicas, int InDcC1,
             int InDcC2, int InDcC3, int InDcC4, int InDcC5, int InDcC6, int InCCA, string TrPruebaAltaResistencia, string TrCambioAcido, string TrRecargaBateria, string TrInspeccionEstructuraExt, string DBateriaBuenEstado, string DPresentaFallosFabricacion,
-       string DDentroPeriodo, string DUsoAdecuado, string DAplicaGarantia)
+       string DDentroPeriodo, string DUsoAdecuado/*, string DAplicaGarantia*/, bool AplicaGarantia, bool IngresoManual)
         {
+            string valor;
+            string valor2;
+            string valor3;
+
+            if (AplicaGarantia == true)
+            {
+                valor = "No Aplica";
+                valor3 = "false";
+            }
+            else {
+                valor = "Si Aplica";
+                valor3 = "true";
+            }
+            if (IngresoManual == true)
+            {
+                valor2 = "Manual";
+            }
+            else
+            {
+                valor2 = "Automatico";
+
+            }
             try
             {
                 daoGarantias = new DaoGarantias();
 
-                var Result = daoGarantias.IngresarRevisionGarantiaInspeccionInicial(RevisionId, InGolpeadaoRota, InHinchada, InBornesFlojos, InBornesFundidos, IngElectrolito, InFugaEnCubierta, InFugaEnBornes, InCCA);
+                var Result = daoGarantias.IngresarRevisionGarantiaInspeccionInicial(RevisionId, InGolpeadaoRota, InHinchada, InBornesFlojos, InBornesFundidos, IngElectrolito, InFugaEnCubierta, InFugaEnBornes, InCCA, InRevisionesPeriodicas);
                 var Result2 = daoGarantias.IngresarRevisionGarantiaInspeccionInicialCeldas(Result, InDcC1, InDcC2, InDcC3, InDcC4, InDcC5, InDcC6);
                 var Result3 = daoGarantias.IngresarRevisionGarantiaTrabajoRealizado(RevisionId, TrPruebaAltaResistencia, TrCambioAcido, TrRecargaBateria, TrInspeccionEstructuraExt);
-                var Result4 = daoGarantias.IngresarRevisionGarantiaDiagnostico(RevisionId, DBateriaBuenEstado, DPresentaFallosFabricacion, DDentroPeriodo, DUsoAdecuado, DAplicaGarantia);
+                var Result4 = daoGarantias.IngresarRevisionGarantiaDiagnostico(RevisionId, DBateriaBuenEstado, DPresentaFallosFabricacion, DDentroPeriodo, DUsoAdecuado, valor3);
+                var Result5 = daoGarantias.ActualizarRegistroCabecera(RevisionId, valor, valor2);
+
 
 
                 if (Result2==true && Result!=0 && Result3==true && Result4==true) {
@@ -159,6 +193,77 @@ namespace DacarProsoft.Controllers
             {
                 daoGarantias = new DaoGarantias();
                 var Result = daoGarantias.ConsultarRevisionesTecnicas();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public int ObtenerNumeroComprobante()
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                int secuencial = daoGarantias.ObtenerNumeroSecuencial();
+                int NumeroComprobante = daoGarantias.ObtenerNumeroCombrobante(secuencial);
+                return NumeroComprobante;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ConsultarInspeccionInicial(int IdCabeceraInspeccion)
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.ConsultaInspeccionInicial(IdCabeceraInspeccion);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ConsultarInspeccionInicialDensidadCelda(int IdIngresoGarantiaInspeccionInicial)
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.ConsultaInspeccionInicialDensidadCelda(IdIngresoGarantiaInspeccionInicial);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ConsultarDiagnostico(int IdCabeceraInspeccion)
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.ConsultaDiagnostico(IdCabeceraInspeccion);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ConsultarTrabajoRealizado(int IdCabeceraInspeccion)
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.ConsultaTrabajoRealizado(IdCabeceraInspeccion);
                 return Json(Result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

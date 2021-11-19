@@ -102,10 +102,67 @@ namespace DacarProsoft.Datos
                 }
             }
         }
+        public int ObtenerNumeroSecuencial()
+        {
+            int result;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.SecuencialRevisionTecnica
+                                   select new
+                                   {
+                                       d.InicioSecuencia
+                                   }).FirstOrDefault();
+
+                    
+                        result = Listado.InicioSecuencia.Value;
+                 
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+        public int ObtenerNumeroCombrobante(int valor)
+        {
+            int result;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.IngresoRevisionGarantiaCabecera
+                                   orderby d.IngresoRevisionGarantiaId descending
+                                   select new
+                                   {
+                                       d.NumeroComprobante
+                                   }).FirstOrDefault();
+
+                    if (Listado != null)
+                    {
+                        result = Listado.NumeroComprobante.Value + 1;
+                    }
+                    else
+                    {
+                        result =valor + 1;
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
 
         public List<IngresoGarantiasModel> ConsultarNumeroGarantia(string numeroGarantia)
         {
-
+            int ValorSecuencial = ObtenerNumeroSecuencial();
+            int NumeroCombrobante = ObtenerNumeroCombrobante(ValorSecuencial);
             //string fechaRegistro = null;
 
             List<IngresoGarantiasModel> lst = new List<IngresoGarantiasModel>();
@@ -123,7 +180,8 @@ namespace DacarProsoft.Datos
                                   d.Apellido,
                                   d.RegistroGarantia,
                                   d.Provincia,
-                                  d.ModeloBateria
+                                  d.ModeloBateria,
+                                  d.NumeroFactura
                                });
                 foreach (var x in Listado)
                 {
@@ -141,14 +199,41 @@ namespace DacarProsoft.Datos
                         RegistroGarantia = x.RegistroGarantia.Value,
                         Provincia=x.Provincia,
                         ModeloBateria=x.ModeloBateria,
-                        NumeroRevision = verificacionRevision
-
+                        NumeroRevision = verificacionRevision,
+                        NumeroCombrobante= NumeroCombrobante,
+                        NumeroFactura=x.NumeroFactura
                     });
                 }
                 return lst;
 
             }
 
+        }
+        public List<OSLP> ConsultarVendedores()
+        {     
+            List<OSLP> lst = new List<OSLP>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+
+                var Listado = (from d in DB.OSLP
+                               where d.Memo!= null && d.Memo != "NULL"
+                               select new
+                               {
+                                 d.SlpCode,
+                                 d.Memo
+                               });
+                foreach (var x in Listado)
+                {
+                  
+                    lst.Add(new OSLP
+                    {
+                     SlpCode=x.SlpCode,
+                     Memo=x.Memo
+                    });
+                }
+                return lst;
+
+            }
         }
         public List<RevisionesTecnicasGarantias> ConsultarRevisionesTecnicas()
         {
@@ -160,7 +245,9 @@ namespace DacarProsoft.Datos
             {
 
                 var Listado = (from d in DB.IngresoRevisionGarantiaCabecera
+                               orderby d.IngresoRevisionGarantiaId descending
                                select new
+              
                                {
                                    d.IngresoRevisionGarantiaId,
                                    d.Cliente,
@@ -181,7 +268,9 @@ namespace DacarProsoft.Datos
                                    d.Prorrateo,
                                    d.Meses,
                                    d.PorcentajeVenta,
-                                   d.Voltaje
+                                   d.Voltaje,
+                                   d.ModoIngreso,
+                                   d.AplicaGarantia
                                });
                 foreach (var x in Listado)
                 {
@@ -198,7 +287,7 @@ namespace DacarProsoft.Datos
                         Cliente=x.Cliente,
                         Cedula=x.Cedula,
                         NumeroGarantia=x.NumeroGarantia,
-                        NumeroComprobante=x.NumeroComprobante,
+                        NumeroComprobante=x.NumeroComprobante.Value,
                         NumeroRevision=x.NumeroRevision.Value,
                         Provincia=x.Provincia,
                         Direccion=x.Direccion,
@@ -213,7 +302,9 @@ namespace DacarProsoft.Datos
                         Prorrateo=x.Prorrateo.Value,
                         Meses=x.Meses.Value,
                         PorcentajeVenta=x.PorcentajeVenta.Value,
-                        Voltaje=x.Voltaje.Value
+                        Voltaje=x.Voltaje.Value,
+                        ModoIngreso=x.ModoIngreso,
+                        AplicaGarantia=x.AplicaGarantia
 
                     });
                 }
@@ -222,7 +313,7 @@ namespace DacarProsoft.Datos
             }
 
         }
-        public int IngresarRevisionGarantiaCabecera(string cliente, string cedula, string numeroGarantia, string numeroComprobante, string numeroRevision, string provincia, string direccion, string vendedor, string ImgFac, string marca,
+        public int IngresarRevisionGarantiaCabecera(string cliente, string cedula, string numeroGarantia, int numeroComprobante, string numeroRevision, string provincia, string direccion, string vendedor, string ImgFac, string marca,
             string modelo, string lote, decimal prorrateo, int meses, DateTime fechaVenta, DateTime fechaIngreso, decimal porcentajeVenta, decimal voltaje, string ImgTest)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -264,7 +355,33 @@ namespace DacarProsoft.Datos
             }
         }
 
-        public int IngresarRevisionGarantiaInspeccionInicial(int RevisionDeGarantia, string InGolpeadaoRota, string InHinchada, string InBornesFlojos, string InBornesFundidos, string IngElectrolito, string InFugaEnCubierta, string InFugaEnBornes, int InCCA)
+        public bool ActualizarRegistroCabecera(int IngresoRevisionGarantiaId, string AplicaGarantia, string RegistroManual)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var query = (from a in DB.IngresoRevisionGarantiaCabecera
+                                 where a.IngresoRevisionGarantiaId == IngresoRevisionGarantiaId
+                                 select a).FirstOrDefault();
+
+                    query.AplicaGarantia = AplicaGarantia;
+                    query.ModoIngreso = RegistroManual;
+
+
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public int IngresarRevisionGarantiaInspeccionInicial(int RevisionDeGarantia, string InGolpeadaoRota, string InHinchada, string InBornesFlojos, string InBornesFundidos, string IngElectrolito, string InFugaEnCubierta, string InFugaEnBornes, int InCCA, string InRevisionesPeriodicas)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -280,6 +397,7 @@ namespace DacarProsoft.Datos
                     result.FugaEnCubierta = Convert.ToBoolean(InFugaEnCubierta);
                     result.FugaEnBornes = Convert.ToBoolean(InFugaEnBornes);
                     result.CCA = InCCA;
+                    result.RevisionesPeriodicas = Convert.ToBoolean(InRevisionesPeriodicas);
 
                     DB.IngresoRevisionGarantiaInspeccionInicial.Add(result);
                     DB.SaveChanges();
@@ -396,6 +514,170 @@ namespace DacarProsoft.Datos
                     {
                         ModelosMarcasPropiasId = x.ModelosMarcasPropiasId,
                         Referencia = x.Referencia
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<ProvinciasEcuador> ConsultarProvincias()
+        {
+            List<ProvinciasEcuador> lst = new List<ProvinciasEcuador>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.ProvinciasEcuador
+                               select new
+                               {
+                                   d.id,
+                                   d.provincia
+                               }).ToList();
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ProvinciasEcuador
+                    {
+                        id = x.id,
+                        provincia = x.provincia
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<IngresoRevisionGarantiaInspeccionInicial> ConsultaInspeccionInicial(int IdCabeceraInspeccion)
+        {
+            List<IngresoRevisionGarantiaInspeccionInicial> lst = new List<IngresoRevisionGarantiaInspeccionInicial>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.IngresoRevisionGarantiaInspeccionInicial
+                               where d.IngresoRevisionGarantiaId==IdCabeceraInspeccion
+                               select new
+                               {
+                                   d.IngresoRevisionGarantiaInspeccionInicialId,
+                                   d.GolpeadaORota,
+                                   d.Hinchada,
+                                   d.BornesFlojosOHundidos,
+                                   d.BornesFundidos,
+                                   d.ElectrolitoErroneo,
+                                   d.FugaEnCubierta,
+                                   d.FugaEnBornes,
+                                   d.CCA
+
+                               }).ToList();
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new IngresoRevisionGarantiaInspeccionInicial
+                    {
+                                   IngresoRevisionGarantiaInspeccionInicialId=x.IngresoRevisionGarantiaInspeccionInicialId,
+                                   GolpeadaORota=x.GolpeadaORota,
+                                   Hinchada=x.Hinchada,
+                                   BornesFlojosOHundidos=x.BornesFlojosOHundidos,
+                                   BornesFundidos=x.BornesFundidos,
+                                   ElectrolitoErroneo=x.ElectrolitoErroneo,
+                                   FugaEnCubierta=x.FugaEnCubierta,
+                                   FugaEnBornes=x.FugaEnBornes,
+                                   CCA=x.CCA
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<IngresoRevisionGarantiaDiagnostico> ConsultaDiagnostico(int IdCabeceraInspeccion)
+        {
+            List<IngresoRevisionGarantiaDiagnostico> lst = new List<IngresoRevisionGarantiaDiagnostico>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.IngresoRevisionGarantiaDiagnostico
+                               where d.IngresoRevisionGarantiaId == IdCabeceraInspeccion
+                               select new
+                               {
+                                  d.IngresoRevisionGarantiaDiagnosticoId,
+                                  d.BateriaEnBuenEstado,
+                                  d.PresentaFalloFabricacion,
+                                  d.DentroPeriodoGarantia,
+                                  d.AplicacionUsoAdecuado,
+                                  d.AplicaGarantia
+
+                               }).ToList();
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new IngresoRevisionGarantiaDiagnostico
+                    {
+                      IngresoRevisionGarantiaDiagnosticoId=x.IngresoRevisionGarantiaDiagnosticoId,
+                      BateriaEnBuenEstado=x.BateriaEnBuenEstado,
+                      PresentaFalloFabricacion=x.PresentaFalloFabricacion,
+                      DentroPeriodoGarantia=x.DentroPeriodoGarantia,
+                      AplicacionUsoAdecuado=x.AplicacionUsoAdecuado,
+                      AplicaGarantia=x.AplicaGarantia
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<IngresoRevisionGarantiaTrabajoRealizado> ConsultaTrabajoRealizado(int IdCabeceraInspeccion)
+        {
+            List<IngresoRevisionGarantiaTrabajoRealizado> lst = new List<IngresoRevisionGarantiaTrabajoRealizado>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.IngresoRevisionGarantiaTrabajoRealizado
+                               where d.IngresoRevisionGarantiaId == IdCabeceraInspeccion
+                               select new
+                               {
+                                   d.IngresoRevisionGarantiaTrabajoRealizadoId,
+                                   d.PruebaAltaResistencia,
+                                   d.CambioAcido,
+                                   d.RecargaBateria,
+                                   d.InspeccionEstructuraExterna
+
+
+                               }).ToList();
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new IngresoRevisionGarantiaTrabajoRealizado
+                    {
+                        IngresoRevisionGarantiaTrabajoRealizadoId=x.IngresoRevisionGarantiaTrabajoRealizadoId,
+                        PruebaAltaResistencia=x.PruebaAltaResistencia,
+                        CambioAcido=x.CambioAcido,
+                        RecargaBateria=x.RecargaBateria,
+                        InspeccionEstructuraExterna=x.InspeccionEstructuraExterna
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<IngresoInspeccionInicialDensidadCelda> ConsultaInspeccionInicialDensidadCelda(int IdIngresoGarantiaInspeccionInicial)
+        {
+            List<IngresoInspeccionInicialDensidadCelda> lst = new List<IngresoInspeccionInicialDensidadCelda>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.IngresoInspeccionInicialDensidadCelda
+                               where d.IngresoRevisionGarantiaInspeccionInicialId == IdIngresoGarantiaInspeccionInicial
+                               select new
+                               {
+                               
+                                   d.IngresoInspeccionInicialDensidadCeldaId,
+                                   d.C1,
+                                   d.C2,
+                                   d.C3,
+                                   d.C4,
+                                   d.C5,
+                                   d.C6
+
+
+                               }).ToList();
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new IngresoInspeccionInicialDensidadCelda
+                    {
+                        IngresoInspeccionInicialDensidadCeldaId=x.IngresoInspeccionInicialDensidadCeldaId,
+                        C1=x.C1,
+                        C2=x.C2,
+                        C3=x.C3,
+                        C4=x.C4,
+                        C5=x.C5,
+                        C6=x.C6
                     });
                 }
                 return lst;

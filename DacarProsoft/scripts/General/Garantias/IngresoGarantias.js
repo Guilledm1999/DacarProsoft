@@ -10,6 +10,8 @@ var pesoPermitido = 1024;
 var ValiExt = "False";
 var ValiPes = "False";
 var valorIdNumeroRevision = null;
+var AplicaGarantia = false;
+var IngresoManual = false;
 
 function ocultarDiv() {
     $(".loading-icon").css("display", "none");
@@ -55,7 +57,13 @@ $('#LinkClose5').on("click", function (e) {
     $("#MensajeCompleteCampos").hide('fade');
 });
 
+$('#LinkMjsNoCumpleGarantia').on("click", function (e) {
+    $("#NoCumpleParaGarantia").hide('fade');
+});
 
+$('#LinkMjsCumpleGarantia').on("click", function (e) {
+    $("#CumpleParaGarantia").hide('fade');
+});
 
 
 function ConsultarGarantia() {
@@ -88,11 +96,39 @@ function CargarModelosBaterias() {
                         articulo.Text + '</option>');
                 });
             },
-        })
-   
+        }) 
+}
+function CargarProvincia() {
+    $("#txtProvincia").empty();
+    $("#txtProvincia").append('<option value="">--Escoja--</option>');
+    $.ajax({
+        type: 'POST',
+        url: "../Garantias/ConsultarProvincias",
+        dataType: 'json',
+        data: { id: $("#txtMarcasPropias option:selected").val() },
+        success: function (Meses) {
+            $.each(Meses, function (i, mese) {
+                $("#txtProvincia").append('<option value="' + mese.Value + '">' +
+                    mese.Text + '</option>');
+            });
+        },
+    })
+}
+
+function CargarNumeroComprobante() {
+  
+    $.ajax({
+        type: 'POST',
+        url: "../Garantias/ObtenerNumeroComprobante",
+        success: function (msg) {
+            document.getElementById("txtNumeroComprobante").readOnly = true;
+            $("#txtNumeroComprobante").val(msg);
+        },
+    })
 }
 
 function ConsultarNumeroGarantia() {
+    IngresoManual = false;
     $.ajax({
         url: "../Garantias/ConsultarNumeroGarantia",
         type: "POST",
@@ -101,15 +137,19 @@ function ConsultarNumeroGarantia() {
         }, success: function (msg) {
             
             if (Object.keys(msg).length === 0) {
-                document.getElementById("txtModelo").disabled = false;
 
+                IngresoManual = true;
+                CargarNumeroComprobante();
+                document.getElementById("txtModelo").disabled = false;
+                document.getElementById("txtProvincia").disabled = false;
                 $("#txtCliente").val("");
                 $("#txtCedula").val("");
                 $("#txtProvincia").val("");
                 $("#txtNumeroGarantiaObtenido").val("");
                 //$("#txtModelo").val("");
-                $("#txtNumeroRevision").val("");
+                $("#txtNumeroFactura").val("");
 
+                CargarProvincia();
                 CargarModelosBaterias();
                 $("#MensajeGarantiaNoEncontrada").show('fade');
                 setTimeout(function () {
@@ -121,32 +161,42 @@ function ConsultarNumeroGarantia() {
                 document.getElementById("txtProvincia").readOnly = false;
                 document.getElementById("txtNumeroGarantiaObtenido").readOnly = false;
                 //document.getElementById("txtModelo").readOnly = false;
-                document.getElementById("txtNumeroRevision").readOnly = false;
+                document.getElementById("txtNumeroFactura").readOnly = false;
                 $("#ContenidoDiv").show();
 
             } else {
+                IngresoManual = false;
+
                 $("#txtModelo").empty();
+                $("#txtProvincia").empty();
+
 
                 document.getElementById("txtCliente").readOnly = true;
                 document.getElementById("txtCedula").readOnly = true;
                 document.getElementById("txtProvincia").readOnly = true;
                 document.getElementById("txtNumeroGarantiaObtenido").readOnly = true;
                 //document.getElementById("txtModelo").readOnly = true;
-                document.getElementById("txtNumeroRevision").readOnly = true;
+                document.getElementById("txtNumeroFactura").readOnly = true;
+                document.getElementById("txtNumeroComprobante").readOnly = true;
 
                 $("#txtModelo").append('<option value="' + 1 + '">' +
                     msg[0]['ModeloBateria'] + '</option>');
                 document.getElementById("txtModelo").disabled = true;
 
+                $("#txtProvincia").append('<option value="' + 1 + '">' +
+                    msg[0]['Provincia'] + '</option>');
+                document.getElementById("txtProvincia").disabled = true;
 
                 $("#ContenidoDiv").show();
                 $("#txtCliente").val(msg[0]['Nombre'] + " " + msg[0]['Apellido']);
+                $("#txtNumeroComprobante").val(msg[0]['NumeroCombrobante']);
+
                 //$("#txtCliente").prop("disabled", true);
                 $("#txtCedula").val(msg[0]['Cedula']);
-                $("#txtProvincia").val(msg[0]['Provincia']);
+                //$("#txtProvincia").val(msg[0]['Provincia']);
                 $("#txtNumeroGarantiaObtenido").val(msg[0]['NumeroGarantia']);
                 //$("#txtModelo").val(msg[0]['ModeloBateria']);
-                $("#txtNumeroRevision").val(msg[0]['NumeroRevision']);
+                $("#txtNumeroFactura").val(msg[0]['NumeroFactura']);
             }
         },
         error: function (msg) {
@@ -165,10 +215,10 @@ function validarIngresos() {
     var valor2 =$("#txtCedula").val();
     var valor3 =$("#txtNumeroGarantiaObtenido").val();
     var valor4 =$("#txtNumeroComprobante").val();
-    var valor5 =$("#txtNumeroRevision").val();
-    var valor6 =$("#txtProvincia").val();
+    var valor5 = $("#txtNumeroFactura").val();
+    //var valor6 =$("#txtProvincia").val();
     var valor7 =$("#txtDireccion").val();
-    var valor8 =$("#txtVendedor").val();
+    //var valor8 =$("#txtVendedor").val();
     //var valor9 =$("#txtModelo").val();
     var valor10 =$("#txtLote").val();
     var valor11 =$("#txtProrrateo").val();
@@ -194,7 +244,14 @@ function validarIngresos() {
         }, 3000);
         return;
     }
-
+    if ($("#txtProvincia option:selected").text() == "--Escoja--") {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    
     if (valor1.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -226,32 +283,36 @@ function validarIngresos() {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (valor6.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    } if (valor7.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    } if (valor8.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    //} if (valor9.length == 0) {
+       
+    } //if (valor6.length == 0) {
     //    $("#MensajeCompleteCampos").show('fade');
     //    setTimeout(function () {
     //        $("#MensajeCompleteCampos").fadeOut(1500);
     //    }, 3000);
     //    return;
-        //
-    } if (valor10.length == 0) {
+    //}
+    if (valor7.length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    //if (valor8.length == 0) {
+    //    $("#MensajeCompleteCampos").show('fade');
+    //    setTimeout(function () {
+    //        $("#MensajeCompleteCampos").fadeOut(1500);
+    //    }, 3000);
+    //    return;
+    ////} if (valor9.length == 0) {
+    ////    $("#MensajeCompleteCampos").show('fade');
+    ////    setTimeout(function () {
+    ////        $("#MensajeCompleteCampos").fadeOut(1500);
+    ////    }, 3000);
+    ////    return;
+    //    //
+    //}
+    if (valor10.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
@@ -349,7 +410,7 @@ function validarIngresos() {
                 $("#MensajeCompleteCampos").fadeOut(1500);
             }, 3000);
             return;
-        }
+    }
     
     if ($('input[name=inlineRadioOptions1]:checked').length == 0) {
         $("#MensajeCompleteCampos").show('fade');
@@ -400,13 +461,15 @@ function validarIngresos() {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if ($('input[name=inlineRadioOptions9]:checked').length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    } if ($('input[name=inlineRadioOptions10]:checked').length == 0) {
+    }
+    //if ($('input[name=inlineRadioOptions9]:checked').length == 0) {
+    //    $("#MensajeCompleteCampos").show('fade');
+    //    setTimeout(function () {
+    //        $("#MensajeCompleteCampos").fadeOut(1500);
+    //    }, 3000);
+    //    return;
+    //}
+    if ($('input[name=inlineRadioOptions10]:checked').length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
@@ -448,14 +511,17 @@ function validarIngresos() {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
+    } if ($('input[name=inlineRadioOptions17]:checked').length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
     }
-
     RegistrarRevisionGarantiaCabecera();
-
 }
 
 $('#btnRegistrarRevision').on("click", function (e) {
-   
         if (document.getElementById("ImgFacturaIngresada").files.length == 0 && document.getElementById("ImgTestIngresada").files.length == 0) {
             $("#MensajeCompleteCampos").show('fade');
             setTimeout(function () {
@@ -482,9 +548,6 @@ $('#btnRegistrarRevision').on("click", function (e) {
                 }, 3000); return;
             }
         }
-   
-
-
 });
 
 function ValidarTipoImagen(obj) {
@@ -531,10 +594,10 @@ function RegistrarRevisionGarantiaCabecera() {
     formdata.append("cedula", $("#txtCedula").val());
     formdata.append("numeroGarantia", $("#txtNumeroGarantiaObtenido").val());
     formdata.append("numeroComprobante", $("#txtNumeroComprobante").val());
-    formdata.append("numeroRevision", $("#txtNumeroRevision").val());
-    formdata.append("provincia", $("#txtProvincia").val());
+    formdata.append("numeroFactura", $("#txtNumeroFactura").val());
+    formdata.append("provincia", $("#txtProvincia option:selected").text());
     formdata.append("direccion", $("#txtDireccion").val());
-    formdata.append("vendedor", $("#txtVendedor").val());
+    formdata.append("vendedor", $("#txtVendedor option:selected").text());
     formdata.append("ImgFac", inputFileImage1);
     formdata.append("marca", $("#txtMarca").val());
     formdata.append("modelo", $("#txtModelo option:selected").text());
@@ -547,7 +610,6 @@ function RegistrarRevisionGarantiaCabecera() {
     formdata.append("voltaje", $("#txtVoltaje").val());
     formdata.append("ImgTest", inputFileImage2);
 
-
     $.ajax({
         url: '../Garantias/RegistrarRevisionDeGarantiaCabecera',
         data: formdata,
@@ -555,15 +617,13 @@ function RegistrarRevisionGarantiaCabecera() {
         processData: false,
         contentType: false,
         success: function (respuesta) {
-
-            valorIdNumeroRevision = respuesta;
-            
+            valorIdNumeroRevision = respuesta;         
             if (valorIdNumeroRevision == "0") {
                 $("#MensajeErrorGeneral").show('fade');
                 setTimeout(function () {
                     $("#MensajeErrorGeneral").fadeOut(1500);
                 }, 3000); return;
-            } else {  
+            } else {
                 RegistrarRevisionGarantiaDetalle(valorIdNumeroRevision);
             }
         },
@@ -574,17 +634,57 @@ function RegistrarRevisionGarantiaCabecera() {
 }
 
 function RegistrarRevisionGarantiaDetalle(valor) {
+    AplicaGarantia = false;
+
+    if ($('input:radio[name=inlineRadioOptions17]:checked').val() == "true") {
+        console.log("Entro check 1");
+        AplicaGarantia = true;
+    }
+    if ($('input:radio[name=inlineRadioOptions10]:checked').val() == "true") {
+        console.log("Entro check 2");
+        AplicaGarantia = true;
+    }
+    if ($('input:radio[name=inlineRadioOptions11]:checked').val() == "true") {
+        console.log("Entro check 3");
+        AplicaGarantia = true;
+    }
+    if ($('input:radio[name=inlineRadioOptions12]:checked').val() == "true") {
+        console.log("Entro check 4");
+        AplicaGarantia = true;
+    }
+    if ($('input:radio[name=inlineRadioOptions13]:checked').val() == "true") {
+        console.log("Entro check 5");
+        AplicaGarantia = true;
+    }
+    if ($('input:radio[name=inlineRadioOptions14]:checked').val() == "true") {
+        console.log("Entro check 6");
+        AplicaGarantia = true;
+    }
+
     $.ajax({
         url: '../Garantias/RegistrarRevisionDeGarantiaDetalle',
         data: {
             RevisionId: valor, InGolpeadaoRota: $('input:radio[name=inlineRadioOptions10]:checked').val(), InHinchada: $('input:radio[name=inlineRadioOptions11]:checked').val(), InBornesFlojos: $('input:radio[name=inlineRadioOptions12]:checked').val(), InBornesFundidos: $('input:radio[name=inlineRadioOptions13]:checked').val(), IngElectrolito: $('input:radio[name=inlineRadioOptions14]:checked').val(), InFugaEnCubierta: $('input:radio[name=inlineRadioOptions15]:checked').val(),
-            InFugaEnBornes: $('input:radio[name=inlineRadioOptions16]:checked').val(), InDcC1: $("#txtCelda1").val(), InDcC2: $("#txtCelda2").val(), InDcC3: $("#txtCelda3").val(), InDcC4: $("#txtCelda4").val(), InDcC5: $("#txtCelda5").val(), InDcC6: $("#txtCelda6").val(),
+            InFugaEnBornes: $('input:radio[name=inlineRadioOptions16]:checked').val(), InRevisionesPeriodicas: $('input:radio[name=inlineRadioOptions17]:checked').val(), InDcC1: $("#txtCelda1").val(), InDcC2: $("#txtCelda2").val(), InDcC3: $("#txtCelda3").val(), InDcC4: $("#txtCelda4").val(), InDcC5: $("#txtCelda5").val(), InDcC6: $("#txtCelda6").val(),
             InCCA: $("#txtCca").val(), TrPruebaAltaResistencia: $('input:radio[name=inlineRadioOptions1]:checked').val(), TrCambioAcido: $('input:radio[name=inlineRadioOptions2]:checked').val(), TrRecargaBateria: $('input:radio[name=inlineRadioOptions3]:checked').val(), TrInspeccionEstructuraExt: $('input:radio[name=inlineRadioOptions4]:checked').val(), DBateriaBuenEstado: $('input:radio[name=inlineRadioOptions5]:checked').val(), DPresentaFallosFabricacion: $('input:radio[name=inlineRadioOptions6]:checked').val(),
-            DDentroPeriodo: $('input:radio[name=inlineRadioOptions7]:checked').val(), DUsoAdecuado: $('input:radio[name=inlineRadioOptions8]:checked').val(), DAplicaGarantia: $('input:radio[name=inlineRadioOptions9]:checked').val(),
+            DDentroPeriodo: $('input:radio[name=inlineRadioOptions7]:checked').val(), DUsoAdecuado: $('input:radio[name=inlineRadioOptions8]:checked').val(), /*DAplicaGarantia: $('input:radio[name=inlineRadioOptions9]:checked').val(),*/ AplicaGarantia: AplicaGarantia, IngresoManual: IngresoManual
         },
         type: 'post',
         success: function (respuesta) {
             if (respuesta == "True") {
+
+                if (AplicaGarantia==true) {
+                    $("#NoCumpleParaGarantia").show('fade');
+                    setTimeout(function () {
+                        $("#NoCumpleParaGarantia").fadeOut(1500);
+                    }, 3000);
+                }
+                else {
+                    $("#CumpleParaGarantia").show('fade');
+                    setTimeout(function () {
+                        $("#CumpleParaGarantia").fadeOut(1500);
+                    }, 3000);
+                }
 
                 $("#MensajeGuardadoExitoso").show('fade');
                 setTimeout(function () {
@@ -619,10 +719,10 @@ function vaciarInputs() {
     $("#txtCedula").val("");
     $("#txtNumeroGarantiaObtenido").val("");
     $("#txtNumeroComprobante").val("");
-    $("#txtNumeroRevision").val("");
-    $("#txtProvincia").val("");
+    $("#txtNumeroFactura").val("");
+    //$("#txtProvincia").val("");
     $("#txtDireccion").val("");
-    $("#txtVendedor").val("");
+    //$("#txtVendedor").val("");
     //$("#txtModelo").val("");
     $("#txtLote").val("");
     $("#txtProrrateo").val("");
@@ -639,7 +739,6 @@ function vaciarInputs() {
     $("#txtCca").val("");
     $("#txtNumeroGarantia").val("");
 
-
     document.querySelectorAll('[name=inlineRadioOptions1]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions2]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions3]').forEach((x) => x.checked = false);
@@ -648,7 +747,7 @@ function vaciarInputs() {
     document.querySelectorAll('[name=inlineRadioOptions6]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions7]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions8]').forEach((x) => x.checked = false);
-    document.querySelectorAll('[name=inlineRadioOptions9]').forEach((x) => x.checked = false);
+    //document.querySelectorAll('[name=inlineRadioOptions9]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions10]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions11]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions12]').forEach((x) => x.checked = false);
@@ -656,4 +755,6 @@ function vaciarInputs() {
     document.querySelectorAll('[name=inlineRadioOptions14]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions15]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions16]').forEach((x) => x.checked = false);
+    document.querySelectorAll('[name=inlineRadioOptions17]').forEach((x) => x.checked = false);
+
 }

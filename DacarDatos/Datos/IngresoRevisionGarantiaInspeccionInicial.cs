@@ -30,6 +30,7 @@ namespace DacarDatos.Datos
         public Nullable<bool> FugaEnCubierta { get; set; }
         public Nullable<bool> FugaEnBornes { get; set; }
         public Nullable<int> CCA { get; set; }
+        public Nullable<bool> RevisionesPeriodicas { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngresoInspeccionInicialDensidadCelda> IngresoInspeccionInicialDensidadCelda { get; set; }
