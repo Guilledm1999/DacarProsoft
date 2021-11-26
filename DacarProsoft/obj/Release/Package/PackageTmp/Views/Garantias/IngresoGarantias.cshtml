@@ -12,7 +12,7 @@
 <br />
 <div class="card shadow align-top">
     <div class="card-header">
-        <h2>Revision de Garantia</h2>
+        <h2>Ingreso por  Garantia</h2>
         <div class="form-group">
             <div class="row">
                 <div class="col-md-2">
@@ -90,16 +90,15 @@
                         <input type="text" name="NombreItem" id="txtCliente" autocomplete="off" class="form-control" readonly placeholder="Cliente">
                     </div>
 
-                    <label for="email" class="col-sm-1 col-form-label"><b>Cedula:</b></label>
+                    <label for="email" class="col-sm-1 col-form-label"><b>Cédula:</b></label>
                     <div class="col-md-1">
-                        <input type="number" name="NombreItem" id="txtCedula" maxlength="13" autocomplete="off" class="form-control" readonly placeholder="Cedula">
+                        <input type="number" name="NombreItem" id="txtCedula" maxlength="13" autocomplete="off" class="form-control" readonly placeholder="Cédula">
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b># Garantia:</b></label>
                     <div class="col-md-1">
                         <input type="text" name="NombreItem" id="txtNumeroGarantiaObtenido" autocomplete="off" class="form-control" readonly placeholder="# Garantia">
                     </div>
-
                     <label for="email" class="col-sm-1 col-form-label"><b># Comprobante:</b></label>
                     <div class="col-md-1">
                         <input type="text" name="NombreItem" id="txtNumeroComprobante" autocomplete="off" class="form-control"  placeholder="# Comprobante" >
@@ -117,9 +116,9 @@
                         @*<input type="text" name="NombreItem" id="txtProvincia" autocomplete="off" class="form-control" readonly placeholder="Provincia">*@
                     </div>
 
-                    <label for="email" class="col-sm-1 col-form-label"><b>Direccion:</b></label>
+                    <label for="email" class="col-sm-1 col-form-label"><b>Ciudad:</b></label>
                     <div class="col-md-3">
-                        <input type="text" name="NombreItem" id="txtDireccion" autocomplete="off" class="form-control" placeholder="Direccion">
+                        <input type="text" name="NombreItem" id="txtDireccion" autocomplete="off" class="form-control" placeholder="Ciudad">
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Vendedor:</b></label>
                     <div class="col-md-1">
@@ -152,27 +151,38 @@
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Modelo:</b></label>
                     <div class="col-md-1">
-                            <select class="form-control" aria-label="Default select example" id="txtModelo">
-                            </select>
-                            @*<input type="text" name="NombreItem" id="txtModelo" autocomplete="off" class="form-control" readonly placeholder="Modelo">*@
+                        <select class="form-control" aria-label="Default select example" id="txtModelo" onchange="CalcularProrrateo();">
+                        </select>
+                        @*<input type="text" name="NombreItem" id="txtModelo" autocomplete="off" class="form-control" readonly placeholder="Modelo">*@
                     </div>
-                    <label for="email" class="col-sm-1 col-form-label"><b>Lote:</b></label>
+                    <label for="email" class="col-sm-1 col-form-label"><b>Lote Produccion:</b></label>
                     <div class="col-md-1">
                         <input type="text" name="NombreItem" id="txtLote" autocomplete="off" class="form-control" placeholder="Lote">
                     </div>
-                    <label for="email" class="col-sm-1 col-form-label"><b>Prorrateo:</b></label>
+                    <label for="email" class="col-sm-1 col-form-label"><b>$ Pvp Venta:</b></label>
                     <div class="col-md-1">
-                        <input type="number" name="NombreItem" id="txtProrrateo" autocomplete="off" class="form-control" placeholder="% Prorrateo">
+                        <input type="number" name="NombreItem" id="txtPorcentajeVentas" autocomplete="off" class="form-control" placeholder="$ Pvp Venta" onchange="CalcularProrrateo();">
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Meses:</b></label>
                     <div class="col-md-1">
-                        <input type="number" name="NombreItem" id="txtMeses" autocomplete="off" class="form-control" placeholder="Meses">
+                        @*<select class="form-control" aria-label="Default select example" id="txtMeses" onchange="CalcularProrrateo();">
+                            @{
+                                for (int i = 1; i <= 24; i++)
+                                {
+                                    <option value=@i>@i</option>
+
+                                }
+                            }
+                        </select>*@
+                        <input type="number" name="NombreItem" id="txtMeses" autocomplete="off" class="form-control" placeholder="# Meses" readonly>
                     </div>
                 </div>
                 <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Fecha Venta:</b></label>
                     <div class="col-md-2">
-                        <input id="txtFechaVenta" class="date-picker form-control" placeholder="dd/mm/yyyy" type="text" required="required" onfocus="this.type='date'" onmouseout="timeFunctionLong(this)">
+                        @*<input id="txtFechaVenta" class="date-picker form-control" placeholder="dd/mm/yyyy" type="text" required="required" onfocus="this.type='date'" onmouseout="timeFunctionLong(this)">*@
+                        <input id="txtFechaVenta" class="date-picker form-control" placeholder="dd/mm/yyyy" type="text" required="required" onfocus="this.type='date'" onchange="CalcularProrrateo();">
+
                         <script>
                             function timeFunctionLong(input) {
                                 setTimeout(function () {
@@ -192,9 +202,9 @@
                             }
                         </script>
                     </div>
-                    <label for="email" class="col-sm-1 col-form-label"><b>% Venta</b></label>
+                    <label for="email" class="col-sm-1 col-form-label"><b>%Prorrateo:</b></label>
                     <div class="col-md-1">
-                        <input type="number" name="NombreItem" id="txtPorcentajeVentas" autocomplete="off" class="form-control" placeholder="% Venta">
+                        <input type="number" name="NombreItem" id="txtProrrateo" autocomplete="off" class="form-control" placeholder="% Prorrateo" readonly>
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Voltaje</b></label>
                     <div class="col-md-1">
@@ -219,54 +229,54 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Revisiones Periódicas
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio1" value="true">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio1" value="true" onchange="ValidarGarantia();">
                                         <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio1" value="false">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions17" id="inlineRadio1" value="false" onchange="ValidarGarantia();">
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Golpeada o Rota
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions10" id="inlineRadio1" value="true">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions10" id="inlineRadio1" value="true" onchange="ValidarGarantia();">
                                         <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions10" id="inlineRadio1" value="false">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions10" id="inlineRadio1" value="false" onchange="ValidarGarantia();">
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Hinchada
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions11" id="inlineRadio1" value="true">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions11" id="inlineRadio1" value="true" onchange="ValidarGarantia();">
                                         <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions11" id="inlineRadio1" value="false">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions11" id="inlineRadio1" value="false" onchange="ValidarGarantia();">
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Bornes Flojos o Hundidos
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions12" id="inlineRadio1" value="true">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions12" id="inlineRadio1" value="true" onchange="ValidarGarantia();">
                                         <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions12" id="inlineRadio1" value="false">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions12" id="inlineRadio1" value="false" onchange="ValidarGarantia();">
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Bornes Fundidos
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions13" id="inlineRadio1" value="true">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions13" id="inlineRadio1" value="true" onchange="ValidarGarantia();">
                                         <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions13" id="inlineRadio1" value="false">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions13" id="inlineRadio1" value="false" onchange="ValidarGarantia();">
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Electrolito Erroneo
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions14" id="inlineRadio1" value="true">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions14" id="inlineRadio1" value="true" onchange="ValidarGarantia();">
                                         <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions14" id="inlineRadio1" value="false">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions14" id="inlineRadio1" value="false" onchange="ValidarGarantia();">
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
                                 </li>
@@ -314,111 +324,115 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <img src="~/Images/MoldeBateria.png" style="max-width:100%;width:auto;height:auto;"/>
+                    <div class="col-md-4">                      
+                                <img src="~/Images/MoldeBateria.png" style="max-width:100%;width:auto;height:auto;" />                   
+                                    <div align="center" style="padding:0px 10px 0px 10px">
+                                        <input type="text" style="text-align: center; font-weight: bold" name="NombreItem" id="txtMsjGarantia" autocomplete="off" class="form-control" readonly>
+                                    </div>
+                               
                     </div>
-                    <div class="col-md-4">
-                        <div class="col-md-12">
-                            <ul class="list-group">
-                                <li class="list-group-item active">Trabajo Realizado</li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Prueba Alta Resistencia
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio1" value="true">
-                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio1" value="false">
-                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Cambio Acido
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio1" value="true">
-                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio1" value="false">
-                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Recarga Bateria
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio1" value="true">
-                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio1" value="false">
-                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Inspeccion Estructura Externa
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio1" value="true">
-                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio1" value="false">
-                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                </li>
+                        <div class="col-md-4">
+                            <div class="col-md-12">
+                                <ul class="list-group">
+                                    <li class="list-group-item active">Trabajo Realizado</li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Prueba Alta Resistencia
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio1" value="true">
+                                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio1" value="false">
+                                            <label class="form-check-label" for="inlineRadio1">No</label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Cambio Acido
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio1" value="true">
+                                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio1" value="false">
+                                            <label class="form-check-label" for="inlineRadio1">No</label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Recarga Bateria
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio1" value="true">
+                                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions3" id="inlineRadio1" value="false">
+                                            <label class="form-check-label" for="inlineRadio1">No</label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Inspeccion Estructura Externa
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio1" value="true">
+                                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions4" id="inlineRadio1" value="false">
+                                            <label class="form-check-label" for="inlineRadio1">No</label>
+                                        </div>
+                                    </li>
 
-                            </ul>
-                            <ul class="list-group">
-                                <li class="list-group-item active">Diagnostico</li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Bateria en Buen Estado
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions5" id="inlineRadio1" value="true">
-                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions5" id="inlineRadio1" value="false">
-                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Presenta Falla de Fabricacion
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions6" id="inlineRadio1" value="true">
-                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions6" id="inlineRadio1" value="false">
-                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Dentro del Periodo de Garantia
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions7" id="inlineRadio1" value="true">
-                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions7" id="inlineRadio1" value="false">
-                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Aplicacion y Uso Adecuado
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio1" value="true">
-                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio1" value="false">
-                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                </li>
-                                @*<li class="list-group-item d-flex justify-content-between align-items-center">
-                                    Aplica Garantia
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="true">
-                                        <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="false">
-                                        <label class="form-check-label" for="inlineRadio1">No</label>
-                                    </div>
-                                </li>*@
-                            </ul>
+                                </ul>
+                                <ul class="list-group">
+                                    <li class="list-group-item active">Diagnostico</li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Bateria en Buen Estado
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions5" id="inlineRadio1" value="true">
+                                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions5" id="inlineRadio1" value="false">
+                                            <label class="form-check-label" for="inlineRadio1">No</label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Presenta Falla de Fabricacion
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions6" id="inlineRadio1" value="true">
+                                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions6" id="inlineRadio1" value="false">
+                                            <label class="form-check-label" for="inlineRadio1">No</label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Dentro del Periodo de Garantia
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions7" id="inlineRadio1" value="true">
+                                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions7" id="inlineRadio1" value="false">
+                                            <label class="form-check-label" for="inlineRadio1">No</label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Aplicacion y Uso Adecuado
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio1" value="true">
+                                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio1" value="false">
+                                            <label class="form-check-label" for="inlineRadio1">No</label>
+                                        </div>
+                                    </li>
+                                    @*<li class="list-group-item d-flex justify-content-between align-items-center">
+                        Aplica Garantia
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="true">
+                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="false">
+                            <label class="form-check-label" for="inlineRadio1">No</label>
                         </div>
+                    </li>*@
+                                </ul>
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-2">
+
+        </div>*@
+
                     </div>
-
-                    @*<div class="col-md-2">
-
-                    </div>*@
-
-                </div>
             </div>
             <div align="center">
                 <button type="button" id="btnRegistrarRevision" class="btn btn-primary">Registrar</button>
-                <button type="button" id="btnprueba" class="btn btn-primary">prueba</button>
+                @*<button type="button" id="btnprueba" class="btn btn-primary">prueba</button>*@
 
             </div>
         </div>

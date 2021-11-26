@@ -4410,5 +4410,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ITM1">
+      <EntityTypeMapping TypeName="SBODACARPRODModel.ITM1">
+        <MappingFragment StoreEntitySet="ITM1">
+          <ScalarProperty Name="PriceType" ColumnName="PriceType" />
+          <ScalarProperty Name="UomEntry" ColumnName="UomEntry" />
+          <ScalarProperty Name="BasePLNum" ColumnName="BasePLNum" />
+          <ScalarProperty Name="Ovrwrite2" ColumnName="Ovrwrite2" />
+          <ScalarProperty Name="Ovrwrite1" ColumnName="Ovrwrite1" />
+          <ScalarProperty Name="Currency2" ColumnName="Currency2" />
+          <ScalarProperty Name="AddPrice2" ColumnName="AddPrice2" />
+          <ScalarProperty Name="Currency1" ColumnName="Currency1" />
+          <ScalarProperty Name="AddPrice1" ColumnName="AddPrice1" />
+          <ScalarProperty Name="ObjType" ColumnName="ObjType" />
+          <ScalarProperty Name="LogInstanc" ColumnName="LogInstanc" />
+          <ScalarProperty Name="Factor" ColumnName="Factor" />
+          <ScalarProperty Name="Ovrwritten" ColumnName="Ovrwritten" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="PriceList" ColumnName="PriceList" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

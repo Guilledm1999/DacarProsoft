@@ -19,6 +19,7 @@ namespace DacarProsoft.Models
         public int NumeroRevision { get; set; }
         public int NumeroCombrobante { get; set; }
         public string NumeroFactura { get; set; }
+        public decimal ValorBateria { get; set; }
 
 
     }

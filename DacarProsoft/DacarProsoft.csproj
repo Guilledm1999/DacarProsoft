@@ -363,6 +363,7 @@
     <Compile Include="Models\DetalleGeneralDePackingListcs.cs" />
     <Compile Include="Models\DetalleOrdenVenta.cs" />
     <Compile Include="Models\DetallePallet.cs" />
+    <Compile Include="Models\DetalleProrrateo.cs" />
     <Compile Include="Models\EventoPagina .cs" />
     <Compile Include="Models\GarantiaDetalle.cs" />
     <Compile Include="Models\InfoPallets.cs" />

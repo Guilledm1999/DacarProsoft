@@ -205,6 +205,9 @@
     <Compile Include="Datos\INV1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\ITM1.cs">
+      <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\LoginUsuario_Result.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>

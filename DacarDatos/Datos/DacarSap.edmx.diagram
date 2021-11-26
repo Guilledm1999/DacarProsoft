@@ -22,6 +22,7 @@
         <EntityTypeShape EntityType="SBODACARPRODModel.INV1" Width="1.5" PointX="18.375" PointY="10.75" />
         <EntityTypeShape EntityType="SBODACARPRODModel.OINV" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="SBODACARPRODModel.OSLP" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="SBODACARPRODModel.ITM1" Width="1.5" PointX="22.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

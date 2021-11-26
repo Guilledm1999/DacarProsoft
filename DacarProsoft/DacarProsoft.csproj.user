@@ -11,8 +11,8 @@
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <WebStackScaffolding_DbContextTypeFullName>DacarProsoft.Datos.DacarProsoftEntities3</WebStackScaffolding_DbContextTypeFullName>
     <ProjectView>ShowAllFiles</ProjectView>
-    <NameOfLastUsedPublishProfile>C:\RepositorioGit\DacarProsoft\DacarProsoft\Properties\PublishProfiles\FolderProfile1.pubxml</NameOfLastUsedPublishProfile>
-    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <NameOfLastUsedPublishProfile>C:\RepositorioGit\DacarProsoft\DacarProsoft\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
+    <LastActiveSolutionConfig>Release|Any CPU</LastActiveSolutionConfig>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />

@@ -441,6 +441,7 @@
     <EntitySet Name="INV1" EntityType="SBODACARPRODModel.INV1" />
     <EntitySet Name="OINV" EntityType="SBODACARPRODModel.OINV" />
     <EntitySet Name="OSLP" EntityType="SBODACARPRODModel.OSLP" />
+    <EntitySet Name="ITM1" EntityType="SBODACARPRODModel.ITM1" />
   </EntityContainer>
   <EntityType Name="VU_REPORTEPRODUCCION">
     <Key>
@@ -4419,5 +4420,28 @@
     <Property Name="Mobil" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ITM1">
+    <Key>
+      <PropertyRef Name="ItemCode" />
+      <PropertyRef Name="PriceList" />
+    </Key>
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PriceList" Type="Int16" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Ovrwritten" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Factor" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="LogInstanc" Type="Int32" />
+    <Property Name="ObjType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="AddPrice1" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="Currency1" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="AddPrice2" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="Currency2" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="Ovrwrite1" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Ovrwrite2" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="BasePLNum" Type="Int16" />
+    <Property Name="UomEntry" Type="Int32" />
+    <Property Name="PriceType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
   </EntityType>
 </Schema>

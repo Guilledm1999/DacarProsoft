@@ -74,9 +74,11 @@ namespace DacarProsoft.Controllers
             return Json(new SelectList(provincia, "id", "provincia"));
         }
 
-        public int RegistrarRevisionDeGarantiaCabecera(string cliente, string cedula, string numeroGarantia, int numeroComprobante, string numeroFactura, string provincia, string direccion, string vendedor, HttpPostedFileBase ImgFac, string marca,
-            string modelo, string lote, decimal prorrateo, int meses, DateTime fechaVenta, DateTime fechaIngreso, decimal porcentajeVenta, decimal voltaje, HttpPostedFileBase ImgTest)
+        public int RegistrarRevisionDeGarantiaCabecera(string cliente, string cedula, string numeroGarantia, string numeroComprobante, string numeroFactura, string provincia, string direccion, string vendedor, HttpPostedFileBase ImgFac, string marca,
+            string modelo, string lote, string prorrateo, string meses, string fechaVenta, string fechaIngreso, string porcentajeVenta, string voltaje, HttpPostedFileBase ImgTest)
         {
+            string filename2 = null;
+            string destinoImg2 = null;
             try
             {
                 daoGarantias = new DaoGarantias();
@@ -88,14 +90,12 @@ namespace DacarProsoft.Controllers
 
                 string destinoImg1 = numeroFactura + "-" + numeroGarantia + "-" + cedula + filename;
 
-                string filename2 = Path.GetExtension(ImgTest.FileName);
-
-                var destinationPath2 = Path.Combine(Server.MapPath("~/Images/ImagenesGarantias/Test/"), numeroFactura + "-" + numeroGarantia + "-" + cedula);
-                ImgTest.SaveAs(destinationPath2 + filename2);
-
-                string destinoImg2 = numeroFactura + "-" + numeroGarantia + "-" + cedula + filename2;
-                
-
+                if (ImgTest!=null) {
+                    filename2 = Path.GetExtension(ImgTest.FileName);
+                    var destinationPath2 = Path.Combine(Server.MapPath("~/Images/ImagenesGarantias/Test/"), numeroFactura + "-" + numeroGarantia + "-" + cedula);
+                    ImgTest.SaveAs(destinationPath2 + filename2);
+                    destinoImg2 = numeroFactura + "-" + numeroGarantia + "-" + cedula + filename2;
+                }
 
                 var Result = daoGarantias.IngresarRevisionGarantiaCabecera(cliente,  cedula,  numeroGarantia,  numeroComprobante, numeroFactura,  provincia,  direccion,  vendedor, destinoImg1,  marca,
                 modelo,  lote,  prorrateo,  meses,  fechaVenta,  fechaIngreso,  porcentajeVenta,  voltaje, destinoImg2);
@@ -265,6 +265,36 @@ namespace DacarProsoft.Controllers
                 daoGarantias = new DaoGarantias();
                 var Result = daoGarantias.ConsultaTrabajoRealizado(IdCabeceraInspeccion);
                 return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public JsonResult ConsultarProrrateo(int MarcaPropiasId, string MarcaPropiasTexto, decimal PvpVentas, DateTime FechaIngreso, DateTime FechaVenta)
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.ConsultaInfoProrrateo(MarcaPropiasId, MarcaPropiasTexto,PvpVentas, FechaIngreso, FechaVenta);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public decimal ConsultarValorBateria(string MarcaPropiasTexto)
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.ObtenerPrecioBateria(MarcaPropiasTexto);
+                return Result;
             }
             catch (Exception ex)
             {

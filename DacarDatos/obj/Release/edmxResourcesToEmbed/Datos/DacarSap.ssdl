@@ -658,6 +658,29 @@
     <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
     <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="ITM1">
+    <Key>
+      <PropertyRef Name="ItemCode" />
+      <PropertyRef Name="PriceList" />
+    </Key>
+    <Property Name="ItemCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PriceList" Type="smallint" Nullable="false" />
+    <Property Name="Price" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="Currency" Type="nvarchar" MaxLength="3" />
+    <Property Name="Ovrwritten" Type="char" MaxLength="1" />
+    <Property Name="Factor" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="LogInstanc" Type="int" />
+    <Property Name="ObjType" Type="nvarchar" MaxLength="20" />
+    <Property Name="AddPrice1" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="Currency1" Type="nvarchar" MaxLength="3" />
+    <Property Name="AddPrice2" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="Currency2" Type="nvarchar" MaxLength="3" />
+    <Property Name="Ovrwrite1" Type="char" MaxLength="1" />
+    <Property Name="Ovrwrite2" Type="char" MaxLength="1" />
+    <Property Name="BasePLNum" Type="smallint" />
+    <Property Name="UomEntry" Type="int" />
+    <Property Name="PriceType" Type="char" MaxLength="1" />
+  </EntityType>
   <EntityType Name="OCRD">
     <Key>
       <PropertyRef Name="CardCode" />
@@ -4412,6 +4435,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
     <EntitySet Name="@SYP_LINEASN" EntityType="Self.@SYP_LINEASN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IGN1" EntityType="Self.IGN1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="INV1" EntityType="Self.INV1" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ITM1" EntityType="Self.ITM1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OCRD" EntityType="Self.OCRD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OCRG" EntityType="Self.OCRG" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OIGN" EntityType="Self.OIGN" Schema="dbo" store:Type="Tables" />

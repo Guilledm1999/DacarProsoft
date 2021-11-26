@@ -63,8 +63,8 @@ function ConsultarCabeceraIngresosChatarra() {
            ConfigDev.paging = {
                pageSize: 10
            },
-              ConfigDev.filterRow = { visible: false },
-               ConfigDev.filterPanel = { visible: false },
+              ConfigDev.filterRow = { visible: true },
+               ConfigDev.filterPanel = { visible: true },
                ConfigDev.headerFilter = { visible: true },
            ConfigDev.columns = [
                 { dataField: "DocEntry", visible: false },
@@ -78,7 +78,10 @@ function ConsultarCabeceraIngresosChatarra() {
                       }
                   },
                { dataField: "DocNum", caption: "# Documento" },
-                { dataField: "NumeroPedido", caption: "Pedido" },
+               {
+                   dataField: "NumeroPedido", caption: "Pedido", headerFilter: {
+                       allowSearch: true
+                   } },
                 { dataField: "DocDate", caption: "Fecha Documento", },
                 { dataField: "GrupoName", caption: "Tipo Cliente" },
                 { dataField: "ClienteClase", caption: "Cliente Clase" },

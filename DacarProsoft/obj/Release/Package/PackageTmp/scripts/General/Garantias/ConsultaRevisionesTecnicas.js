@@ -115,7 +115,7 @@ function RevisionesTecnicas() {
                         dataField: "NumeroComprobante", caption: "Numero Comprobante", alignment: "left"
                     },
                     {
-                        dataField: "NumeroRevision", caption: "Numero Revision", alignment: "left"
+                        dataField: "NumeroRevision", caption: "Numero Factura", alignment: "left"
                     },
                     {
                         dataField: "Provincia", caption: "Provincia", alignment: "left", allowFiltering: false
@@ -152,6 +152,12 @@ function RevisionesTecnicas() {
                     },
                     {
                         dataField: "Voltaje", caption: "Voltaje", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "ModoIngreso", caption: "Modo Ingreso", alignment: "left", allowFiltering: false, visible: false
+                    },
+                    {
+                        dataField: "AplicaGarantia", caption: "Aplica Garantia", alignment: "left"
                     },
                     {
                         dataField: "FechaVenta", caption: "Fecha Venta", alignment: "left", dataType: "date"

@@ -158,9 +158,56 @@ namespace DacarProsoft.Datos
                 }
             }
         }
+        public decimal ObtenerPrecioBateria(string  Referencia)
+        {
+            string cadena= Referencia;
+
+            //cadena = Referencia.Replace(" ", "-");
+            cadena = cadena.Replace("\n","");
+
+            if (cadena.Substring(0, 1) == "D")
+            {
+                cadena = cadena + "-BS";
+            }
+            if (cadena== "31-DC-100 (S-2000)") {
+                cadena = "MIL-31-DC-100";
+            }
+            decimal result;
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                try
+                {
+                    var Listado = (from d in DB.OITM join
+                                   e in DB.ITM1 on d.ItemCode equals e.ItemCode
+                                   where d.ItemName == cadena && e.PriceList==1 
+                                   orderby d.ItemCode ascending
+                                   select new
+                                   {
+                                       d.ItemCode,
+                                       e.Price
+                                   }).FirstOrDefault();
+
+                    if (Listado != null)
+                    {
+                        result = Listado.Price.Value;
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
 
         public List<IngresoGarantiasModel> ConsultarNumeroGarantia(string numeroGarantia)
         {
+            decimal valorBateria=0;
             int ValorSecuencial = ObtenerNumeroSecuencial();
             int NumeroCombrobante = ObtenerNumeroCombrobante(ValorSecuencial);
             //string fechaRegistro = null;
@@ -186,7 +233,10 @@ namespace DacarProsoft.Datos
                 foreach (var x in Listado)
                 {
                     var verificacionRevision = VerificarNumeroRevision(x.NumeroGarantia);
-
+                    if (x.ModeloBateria!=null && x.ModeloBateria !="") {
+                        valorBateria = ObtenerPrecioBateria(x.ModeloBateria);
+                    }
+                    
                     //DateTime fecha = Convert.ToDateTime(x.RegistroGarantia, CultureInfo.InvariantCulture);
                     //fechaRegistro = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                     lst.Add(new IngresoGarantiasModel
@@ -201,7 +251,8 @@ namespace DacarProsoft.Datos
                         ModeloBateria=x.ModeloBateria,
                         NumeroRevision = verificacionRevision,
                         NumeroCombrobante= NumeroCombrobante,
-                        NumeroFactura=x.NumeroFactura
+                        NumeroFactura=x.NumeroFactura,
+                        ValorBateria=valorBateria
                     });
                 }
                 return lst;
@@ -313,8 +364,8 @@ namespace DacarProsoft.Datos
             }
 
         }
-        public int IngresarRevisionGarantiaCabecera(string cliente, string cedula, string numeroGarantia, int numeroComprobante, string numeroRevision, string provincia, string direccion, string vendedor, string ImgFac, string marca,
-            string modelo, string lote, decimal prorrateo, int meses, DateTime fechaVenta, DateTime fechaIngreso, decimal porcentajeVenta, decimal voltaje, string ImgTest)
+        public int IngresarRevisionGarantiaCabecera(string cliente, string cedula, string numeroGarantia, string numeroComprobante, string numeroRevision, string provincia, string direccion, string vendedor, string ImgFac, string marca,
+            string modelo, string lote, string prorrateo, string meses, string fechaVenta, string fechaIngreso, string porcentajeVenta, string voltaje, string ImgTest)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -324,7 +375,7 @@ namespace DacarProsoft.Datos
                     result.Cliente = cliente;
                     result.Cedula = cedula;
                     result.NumeroGarantia = numeroGarantia;
-                    result.NumeroComprobante = numeroComprobante;
+                    result.NumeroComprobante = Convert.ToInt32(numeroComprobante);
                     result.NumeroRevision = Convert.ToInt32(numeroRevision);
                     result.Provincia = provincia;
                     result.Direccion = direccion;
@@ -334,12 +385,12 @@ namespace DacarProsoft.Datos
                     result.Marca = marca;
                     result.Modelo = modelo;
                     result.Lote = lote;
-                    result.Prorrateo = prorrateo;
-                    result.Meses = meses;
-                    result.FechaVenta = fechaVenta;
-                    result.FechaIngreso = fechaIngreso;
-                    result.PorcentajeVenta = porcentajeVenta;
-                    result.Voltaje = voltaje;
+                    result.Prorrateo = Convert.ToDecimal(prorrateo);
+                    result.Meses = Convert.ToInt32(meses);
+                    result.FechaVenta = Convert.ToDateTime(fechaVenta);
+                    result.FechaIngreso = Convert.ToDateTime(fechaIngreso);
+                    result.PorcentajeVenta = Convert.ToDecimal(porcentajeVenta);
+                    result.Voltaje = Convert.ToDecimal(voltaje);
 
                     DB.IngresoRevisionGarantiaCabecera.Add(result);
                     DB.SaveChanges();
@@ -502,6 +553,7 @@ namespace DacarProsoft.Datos
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
                 var Listado = (from d in DB.ModelosMarcasPropias
+                               orderby d.Referencia ascending
                                select new
                                {
                                    d.ModelosMarcasPropiasId,
@@ -682,6 +734,595 @@ namespace DacarProsoft.Datos
                 }
                 return lst;
             }
+        }
+
+        public int ConsultarLineaMarca(int MarcaPropiasId) {
+            int val = 0;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.ModelosMarcasPropias
+                               where d.ModelosMarcasPropiasId == MarcaPropiasId
+                               select new
+                               {
+
+                                   d.Linea
+
+
+                               }).FirstOrDefault();
+                val = Listado.Linea.Value;
+
+                return val;
+            }
+        }
+        public List<DetalleProrrateo> ConsultaInfoProrrateo(int MarcaPropiasId, string MarcaPropiasTexto, decimal PvpVentas, DateTime FechaIngreso, DateTime FechaVenta)
+        {
+           decimal ValorBateria = ObtenerPrecioBateria(MarcaPropiasTexto);
+
+           int Meses = (FechaIngreso.Month - FechaVenta.Month) + 12 * (FechaIngreso.Year - FechaVenta.Year);
+
+
+            List<DetalleProrrateo> lst = new List<DetalleProrrateo>();
+            int Linea = 0;
+            decimal valorPorcentaje = 0;
+            //decimal valorProrrateo =0;
+            Linea = ConsultarLineaMarca(MarcaPropiasId);
+
+            if (Linea==1) {
+                if (MarcaPropiasTexto.Substring(0, 3) == "ECO")
+                {
+                    if (Meses <= 9)
+                    {
+                        valorPorcentaje = 100;
+                    }
+                    if (Meses == 10)
+                    {
+                        valorPorcentaje = 50;
+                    }
+                    if (Meses == 11)
+                    {
+                        valorPorcentaje = 45;
+                    }
+                    if (Meses == 12)
+                    {
+                        valorPorcentaje = 40;
+                    }
+                    if (Meses == 13)
+                    {
+                        valorPorcentaje = 35;
+                    }
+                    if (Meses == 14)
+                    {
+                        valorPorcentaje = 30;
+                    }
+                    if (Meses == 15)
+                    {
+                        valorPorcentaje = 25;
+                    }
+                    if (Meses >= 16)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                    if (Meses <= 0)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                }
+                if (MarcaPropiasTexto.Substring(0, 2) == "TX")
+                {
+                    if (Meses <= 9)
+                    {
+                        valorPorcentaje = 100;
+                    }
+                    if (Meses == 10)
+                    {
+                        valorPorcentaje = 50;
+                    }
+                    if (Meses == 11)
+                    {
+                        valorPorcentaje = 45;
+                    }
+                    if (Meses == 12)
+                    {
+                        valorPorcentaje = 40;
+                    }
+                    if (Meses == 13)
+                    {
+                        valorPorcentaje = 35;
+                    }
+                    if (Meses == 14)
+                    {
+                        valorPorcentaje = 30;
+                    }
+                    if (Meses == 15)
+                    {
+                        valorPorcentaje = 25;
+                    }
+                    if (Meses >= 16)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                    if (Meses <= 0)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                }
+                if (MarcaPropiasTexto.Substring(0, 2) == "BP")
+                {
+                    if (Meses <= 12)
+                    {
+                        valorPorcentaje = 100;
+                    }
+                    if (Meses == 13)
+                    {
+                        valorPorcentaje = 58;
+                    }
+                    if (Meses == 14)
+                    {
+                        valorPorcentaje = 55;
+                    }
+                    if (Meses == 15)
+                    {
+                        valorPorcentaje = 52;
+                    }
+                    if (Meses == 16)
+                    {
+                        valorPorcentaje = 49;
+                    }
+                    if (Meses == 17)
+                    {
+                        valorPorcentaje = 46;
+                    }
+                    if (Meses == 18)
+                    {
+                        valorPorcentaje = 42;
+                    }
+                    if (Meses == 19)
+                    {
+                        valorPorcentaje = 39;
+                    }
+                    if (Meses == 20)
+                    {
+                        valorPorcentaje = 36;
+                    }
+                    if (Meses == 21)
+                    {
+                        valorPorcentaje = 33;
+                    }
+                    if (Meses == 22)
+                    {
+                        valorPorcentaje = 30;
+                    }
+                    if (Meses == 23)
+                    {
+                        valorPorcentaje = 26;
+                    }
+                    if (Meses == 24)
+                    {
+                        valorPorcentaje = 23;
+                    }
+                    if (Meses >= 25)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                    if (Meses <= 0)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                }
+                if(MarcaPropiasTexto.Substring(0, 3) != "ECO" && MarcaPropiasTexto.Substring(0, 2) != "TX" && MarcaPropiasTexto.Substring(0, 2) != "BP") {
+                    if (Meses <= 10)
+                    {
+                        valorPorcentaje = 100;
+                    }
+                    if (Meses == 11)
+                    {
+                        valorPorcentaje = 54;
+                    }
+                    if (Meses == 12)
+                    {
+                        valorPorcentaje = 49;
+                    }
+                    if (Meses == 13)
+                    {
+                        valorPorcentaje = 45;
+                    }
+                    if (Meses == 14)
+                    {
+                        valorPorcentaje = 41;
+                    }
+                    if (Meses == 15)
+                    {
+                        valorPorcentaje = 37;
+                    }
+                    if (Meses == 16)
+                    {
+                        valorPorcentaje = 33;
+                    }
+                    if (Meses == 17)
+                    {
+                        valorPorcentaje = 28;
+                    }
+                    if (Meses == 18)
+                    {
+                        valorPorcentaje = 24;
+                    }
+                    if (Meses >= 19)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                    if (Meses <= 0)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                }          
+
+            }
+            if (Linea == 2)
+            {
+                if (Meses <= 12)
+                {
+                    valorPorcentaje = 100;
+                }
+                if (Meses == 13)
+                {
+                    valorPorcentaje = 48;
+                }
+                if (Meses == 14)
+                {
+                    valorPorcentaje = 44;
+                }
+                if (Meses == 15)
+                {
+                    valorPorcentaje = 40;
+                }
+                if (Meses == 16)
+                {
+                    valorPorcentaje = 36;
+                }
+                if (Meses == 17)
+                {
+                    valorPorcentaje = 32;
+                }
+                if (Meses == 18)
+                {
+                    valorPorcentaje = 28;
+                }
+                if (Meses == 19)
+                {
+                    valorPorcentaje = 24;
+                }
+                if (Meses == 20)
+                {
+                    valorPorcentaje = 20;
+                }
+                if (Meses == 21)
+                {
+                    valorPorcentaje = 16;
+                }
+                if (Meses == 22)
+                {
+                    valorPorcentaje = 12;
+                }
+                if (Meses == 23)
+                {
+                    valorPorcentaje = 8;
+                }
+                if (Meses == 24)
+                {
+                    valorPorcentaje = 4;
+                }
+                if (Meses >= 25)
+                {
+                    valorPorcentaje = 0;
+                }
+                if (Meses <= 0)
+                {
+                    valorPorcentaje = 0;
+                }
+            }
+            if (Linea == 3)
+            {
+                if (MarcaPropiasTexto.Substring(0, 2) == "GC")
+                {
+                    if (Meses <= 6)
+                    {
+                        valorPorcentaje = 100;
+                    }
+                    if (Meses == 7)
+                    {
+                        valorPorcentaje = 52;
+                    }
+                    if (Meses == 8)
+                    {
+                        valorPorcentaje = 45;
+                    }
+                    if (Meses == 9)
+                    {
+                        valorPorcentaje = 38;
+                    }
+                    if (Meses == 10)
+                    {
+                        valorPorcentaje = 31;
+                    }
+                    if (Meses == 11)
+                    {
+                        valorPorcentaje = 24;
+                    }
+                    if (Meses == 12)
+                    {
+                        valorPorcentaje = 17;
+                    }
+
+                    if (Meses >= 13)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                    if (Meses <= 0)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                }
+                else {
+                    if (Meses <= 6)
+                    {
+                        valorPorcentaje = 100;
+                    }
+                    if (Meses == 7)
+                    {
+                        valorPorcentaje = 65;
+                    }
+                    if (Meses == 8)
+                    {
+                        valorPorcentaje = 60;
+                    }
+                    if (Meses == 9)
+                    {
+                        valorPorcentaje = 55;
+                    }
+                    if (Meses == 10)
+                    {
+                        valorPorcentaje = 50;
+                    }
+                    if (Meses == 11)
+                    {
+                        valorPorcentaje = 45;
+                    }
+                    if (Meses == 12)
+                    {
+                        valorPorcentaje = 40;
+                    }
+                    if (Meses == 13)
+                    {
+                        valorPorcentaje = 35;
+                    }
+                    if (Meses == 14)
+                    {
+                        valorPorcentaje = 30;
+                    }
+                    if (Meses == 15)
+                    {
+                        valorPorcentaje = 25;
+                    }
+                    if (Meses == 16)
+                    {
+                        valorPorcentaje = 20;
+                    }
+                    if (Meses == 17)
+                    {
+                        valorPorcentaje = 15;
+                    }
+                    if (Meses == 18)
+                    {
+                        valorPorcentaje = 10;
+                    }
+                    if (Meses >= 19)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                    if (Meses <= 0)
+                    {
+                        valorPorcentaje = 0;
+                    }
+
+                }
+
+            }
+            if (Linea == 4)
+            {
+                if (Meses <= 6)
+                {
+                    valorPorcentaje = 100;
+                }
+                if (Meses == 7)
+                {
+                    valorPorcentaje = 65;
+                }
+                if (Meses == 8)
+                {
+                    valorPorcentaje = 60;
+                }
+                if (Meses == 9)
+                {
+                    valorPorcentaje = 55;
+                }
+                if (Meses == 10)
+                {
+                    valorPorcentaje = 50;
+                }
+                if (Meses == 11)
+                {
+                    valorPorcentaje = 45;
+                }
+                if (Meses == 12)
+                {
+                    valorPorcentaje = 40;
+                }
+                if (Meses == 13)
+                {
+                    valorPorcentaje = 35;
+                }
+                if (Meses == 14)
+                {
+                    valorPorcentaje = 30;
+                }
+                if (Meses == 15)
+                {
+                    valorPorcentaje = 25;
+                }
+                if (Meses == 16)
+                {
+                    valorPorcentaje = 20;
+                }
+                if (Meses == 17)
+                {
+                    valorPorcentaje = 15;
+                }
+                if (Meses == 18)
+                {
+                    valorPorcentaje = 10;
+                }
+                if (Meses >= 19)
+                {
+                    valorPorcentaje = 0;
+                }
+                if (Meses <= 0)
+                {
+                    valorPorcentaje = 0;
+                }
+            }
+            if (Linea == 5)
+            {
+                if (MarcaPropiasTexto.Substring(0, 2) == "BP")
+                {
+                    if (Meses <= 6)
+                    {
+                        valorPorcentaje = 100;
+                    }
+                    if (Meses == 7)
+                    {
+                        valorPorcentaje = 57;
+                    }
+                    if (Meses == 8)
+                    {
+                        valorPorcentaje = 51;
+                    }
+                    if (Meses == 9)
+                    {
+                        valorPorcentaje = 45;
+                    }
+                    if (Meses == 10)
+                    {
+                        valorPorcentaje = 38;
+                    }
+                    if (Meses == 11)
+                    {
+                        valorPorcentaje = 32;
+                    }
+                    if (Meses == 12)
+                    {
+                        valorPorcentaje = 26;
+                    }
+
+                    if (Meses >= 13)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                    if (Meses <= 0)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                }
+                else
+                {
+                    if (Meses <= 6)
+                    {
+                        valorPorcentaje = 100;
+                    }
+                    if (Meses == 7)
+                    {
+                        valorPorcentaje = 57;
+                    }
+                    if (Meses == 8)
+                    {
+                        valorPorcentaje = 51;
+                    }
+                    if (Meses == 9)
+                    {
+                        valorPorcentaje = 45;
+                    }
+                    if (Meses == 10)
+                    {
+                        valorPorcentaje = 38;
+                    }
+                    if (Meses == 11)
+                    {
+                        valorPorcentaje = 32;
+                    }
+                    if (Meses == 12)
+                    {
+                        valorPorcentaje = 26;
+                    }
+
+                    if (Meses >= 13)
+                    {
+                        valorPorcentaje = 0;
+                    }
+                    if (Meses <= 0)
+                    {
+                        valorPorcentaje = 0;
+                    }
+
+                }
+            }
+            if (Linea == 6)
+            {
+                if (Meses <= 6)
+                {
+                    valorPorcentaje = 100;
+                }
+                if (Meses == 7)
+                {
+                    valorPorcentaje = 52;
+                }
+                if (Meses == 8)
+                {
+                    valorPorcentaje = 45;
+                }
+                if (Meses == 9)
+                {
+                    valorPorcentaje = 38;
+                }
+                if (Meses == 10)
+                {
+                    valorPorcentaje = 31;
+                }
+                if (Meses == 11)
+                {
+                    valorPorcentaje = 24;
+                }
+                if (Meses == 12)
+                {
+                    valorPorcentaje = 17;
+                }
+
+                if (Meses >= 13)
+                {
+                    valorPorcentaje = 0;
+                }
+                if (Meses <= 0)
+                {
+                    valorPorcentaje = 0;
+                }
+            }
+
+            lst.Add(new DetalleProrrateo
+            {
+              PorcentajeProrrateo=Convert.ToInt32(valorPorcentaje),
+              MesesGarantia=Meses,
+              ValorBateria= ValorBateria
+            });
+
+            return lst;
         }
     }
 }

@@ -663,6 +663,29 @@
           <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
           <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="ITM1">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="PriceList" />
+          </Key>
+          <Property Name="ItemCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PriceList" Type="smallint" Nullable="false" />
+          <Property Name="Price" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="3" />
+          <Property Name="Ovrwritten" Type="char" MaxLength="1" />
+          <Property Name="Factor" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="LogInstanc" Type="int" />
+          <Property Name="ObjType" Type="nvarchar" MaxLength="20" />
+          <Property Name="AddPrice1" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="Currency1" Type="nvarchar" MaxLength="3" />
+          <Property Name="AddPrice2" Type="numeric" Precision="19" Scale="6" />
+          <Property Name="Currency2" Type="nvarchar" MaxLength="3" />
+          <Property Name="Ovrwrite1" Type="char" MaxLength="1" />
+          <Property Name="Ovrwrite2" Type="char" MaxLength="1" />
+          <Property Name="BasePLNum" Type="smallint" />
+          <Property Name="UomEntry" Type="int" />
+          <Property Name="PriceType" Type="char" MaxLength="1" />
+        </EntityType>
         <EntityType Name="OCRD">
           <Key>
             <PropertyRef Name="CardCode" />
@@ -4417,6 +4440,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySet Name="@SYP_LINEASN" EntityType="Self.@SYP_LINEASN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IGN1" EntityType="Self.IGN1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="INV1" EntityType="Self.INV1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ITM1" EntityType="Self.ITM1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OCRD" EntityType="Self.OCRD" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OCRG" EntityType="Self.OCRG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OIGN" EntityType="Self.OIGN" Schema="dbo" store:Type="Tables" />
@@ -4947,6 +4971,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySet Name="INV1" EntityType="SBODACARPRODModel.INV1" />
           <EntitySet Name="OINV" EntityType="SBODACARPRODModel.OINV" />
           <EntitySet Name="OSLP" EntityType="SBODACARPRODModel.OSLP" />
+          <EntitySet Name="ITM1" EntityType="SBODACARPRODModel.ITM1" />
         </EntityContainer>
         <EntityType Name="VU_REPORTEPRODUCCION">
           <Key>
@@ -8925,6 +8950,29 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <Property Name="Mobil" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ITM1">
+          <Key>
+            <PropertyRef Name="ItemCode" />
+            <PropertyRef Name="PriceList" />
+          </Key>
+          <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PriceList" Type="Int16" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="Currency" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Ovrwritten" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Factor" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="LogInstanc" Type="Int32" />
+          <Property Name="ObjType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="AddPrice1" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="Currency1" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="AddPrice2" Type="Decimal" Precision="19" Scale="6" />
+          <Property Name="Currency2" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="Ovrwrite1" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Ovrwrite2" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="BasePLNum" Type="Int16" />
+          <Property Name="UomEntry" Type="Int32" />
+          <Property Name="PriceType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -13338,6 +13386,29 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
                 <ScalarProperty Name="Memo" ColumnName="Memo" />
                 <ScalarProperty Name="SlpName" ColumnName="SlpName" />
                 <ScalarProperty Name="SlpCode" ColumnName="SlpCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ITM1">
+            <EntityTypeMapping TypeName="SBODACARPRODModel.ITM1">
+              <MappingFragment StoreEntitySet="ITM1">
+                <ScalarProperty Name="PriceType" ColumnName="PriceType" />
+                <ScalarProperty Name="UomEntry" ColumnName="UomEntry" />
+                <ScalarProperty Name="BasePLNum" ColumnName="BasePLNum" />
+                <ScalarProperty Name="Ovrwrite2" ColumnName="Ovrwrite2" />
+                <ScalarProperty Name="Ovrwrite1" ColumnName="Ovrwrite1" />
+                <ScalarProperty Name="Currency2" ColumnName="Currency2" />
+                <ScalarProperty Name="AddPrice2" ColumnName="AddPrice2" />
+                <ScalarProperty Name="Currency1" ColumnName="Currency1" />
+                <ScalarProperty Name="AddPrice1" ColumnName="AddPrice1" />
+                <ScalarProperty Name="ObjType" ColumnName="ObjType" />
+                <ScalarProperty Name="LogInstanc" ColumnName="LogInstanc" />
+                <ScalarProperty Name="Factor" ColumnName="Factor" />
+                <ScalarProperty Name="Ovrwritten" ColumnName="Ovrwritten" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PriceList" ColumnName="PriceList" />
+                <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
