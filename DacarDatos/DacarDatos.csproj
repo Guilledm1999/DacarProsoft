@@ -103,7 +103,19 @@
     <Compile Include="Datos\Accesos.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\AnalisisRegistrosGarantias.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\AreaResponsableGarantias.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\Bodega.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CantonesEcuador.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CausalesGarantias.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\Chatarra.cs">

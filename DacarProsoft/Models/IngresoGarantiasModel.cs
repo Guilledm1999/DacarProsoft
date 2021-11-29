@@ -15,6 +15,7 @@ namespace DacarProsoft.Models
         public string NumeroGarantia { get; set; }
         public DateTime RegistroGarantia { get; set; }
         public string Provincia { get; set; }
+        public string Ciudad { get; set; }
         public string ModeloVehiculo { get; set; }
         public int NumeroRevision { get; set; }
         public int NumeroCombrobante { get; set; }

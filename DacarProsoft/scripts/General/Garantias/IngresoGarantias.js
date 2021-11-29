@@ -67,6 +67,27 @@ $('#LinkMjsCumpleGarantia').on("click", function (e) {
     $("#CumpleParaGarantia").hide('fade');
 });
 
+function CargarCantones() {
+    if ($("#txtProvincia").val() != null && $("#txtProvincia").val() != "") {
+        $("#txtDireccion").empty();
+        $("#txtDireccion").append('<option value="">--Seleccione el cantón--</option>');
+        $.ajax({
+            type: 'POST',
+            url: "../Garantias/CantonesEcuador",
+            dataType: 'json',
+            data: { id: $("#txtProvincia").val() },
+            success: function (articulos) {
+                $.each(articulos, function (i, articulo) {
+                    $("#txtDireccion").append('<option value="' + articulo.Value + '">' +
+                        articulo.Text + '</option>');
+                });
+            },
+        })
+    } else {
+        $("#txtDireccion").empty();
+        $("#txtDireccion").append('<option value="">--Seleccione el cantón--</option>');
+    }
+}
 
 function ConsultarGarantia() {
     var numeroGarantia = document.getElementById('txtNumeroGarantia').value;
@@ -139,12 +160,16 @@ function ConsultarNumeroGarantia() {
             if (Object.keys(msg).length === 0) {
 
                 IngresoManual = true;
-                CargarNumeroComprobante();
+                //CargarNumeroComprobante();
                 document.getElementById("txtModelo").disabled = false;
                 document.getElementById("txtProvincia").disabled = false;
+                document.getElementById("txtDireccion").disabled = false;
+
                 $("#txtCliente").val("");
                 $("#txtCedula").val("");
                 $("#txtProvincia").val("");
+
+                CargarCantones();
                 $("#txtNumeroGarantiaObtenido").val("");
                 //$("#txtModelo").val("");
                 $("#txtNumeroFactura").val("");
@@ -173,6 +198,8 @@ function ConsultarNumeroGarantia() {
 
                 $("#txtModelo").empty();
                 $("#txtProvincia").empty();
+                $("#txtDireccion").empty();
+
 
 
                 document.getElementById("txtCliente").readOnly = true;
@@ -181,7 +208,7 @@ function ConsultarNumeroGarantia() {
                 document.getElementById("txtNumeroGarantiaObtenido").readOnly = true;
                 //document.getElementById("txtModelo").readOnly = true;
                 document.getElementById("txtNumeroFactura").readOnly = true;
-                document.getElementById("txtNumeroComprobante").readOnly = true;
+                //document.getElementById("txtNumeroComprobante").readOnly = true;
                 document.getElementById("txtPorcentajeVentas").readOnly = true;
 
 
@@ -193,9 +220,15 @@ function ConsultarNumeroGarantia() {
                     msg[0]['Provincia'] + '</option>');
                 document.getElementById("txtProvincia").disabled = true;
 
+                $("#txtDireccion").append('<option value="' + 1 + '">' +
+                    msg[0]['Ciudad'] + '</option>');
+                document.getElementById("txtDireccion").disabled = true;
+
+
+
                 $("#ContenidoDiv").show();
                 $("#txtCliente").val(msg[0]['Nombre'] + " " + msg[0]['Apellido']);
-                $("#txtNumeroComprobante").val(msg[0]['NumeroCombrobante']);
+                //$("#txtNumeroComprobante").val(msg[0]['NumeroCombrobante']);
 
                 //$("#txtCliente").prop("disabled", true);
                 $("#txtCedula").val(msg[0]['Cedula']);
@@ -229,7 +262,7 @@ function validarIngresos() {
     var valor4 =$("#txtNumeroComprobante").val();
     var valor5 = $("#txtNumeroFactura").val();
     //var valor6 =$("#txtProvincia").val();
-    var valor7 =$("#txtDireccion").val();
+    //var valor7 =$("#txtDireccion").val();
     //var valor8 =$("#txtVendedor").val();
     //var valor9 =$("#txtModelo").val();
     var valor10 =$("#txtLote").val();
@@ -257,6 +290,14 @@ function validarIngresos() {
         return;
     }
     if ($("#txtProvincia option:selected").text() == "--Escoja--") {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+
+    if ($("#txtDireccion option:selected").text() == "--Seleccione el cantón--") {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
@@ -303,13 +344,13 @@ function validarIngresos() {
     //    }, 3000);
     //    return;
     //}
-    if (valor7.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    }
+    //if (valor7.length == 0) {
+    //    $("#MensajeCompleteCampos").show('fade');
+    //    setTimeout(function () {
+    //        $("#MensajeCompleteCampos").fadeOut(1500);
+    //    }, 3000);
+    //    return;
+    //}
     //if (valor8.length == 0) {
     //    $("#MensajeCompleteCampos").show('fade');
     //    setTimeout(function () {
@@ -612,7 +653,7 @@ function RegistrarRevisionGarantiaCabecera() {
     formdata.append("numeroComprobante", $("#txtNumeroComprobante").val());
     formdata.append("numeroFactura", $("#txtNumeroFactura").val());
     formdata.append("provincia", $("#txtProvincia option:selected").text());
-    formdata.append("direccion", $("#txtDireccion").val());
+    formdata.append("direccion", $("#txtDireccion option:selected").text());
     formdata.append("vendedor", $("#txtVendedor option:selected").text());
     formdata.append("ImgFac", inputFileImage1);
     formdata.append("marca", $("#txtMarca").val());
@@ -793,7 +834,7 @@ function vaciarInputs() {
     $("#txtNumeroComprobante").val("");
     $("#txtNumeroFactura").val("");
     //$("#txtProvincia").val("");
-    $("#txtDireccion").val("");
+    //$("#txtDireccion").val("");
     //$("#txtVendedor").val("");
     //$("#txtModelo").val("");
     $("#txtLote").val("");

@@ -76,7 +76,11 @@ namespace DacarDatos.Datos
         public virtual DbSet<ProvinciasEcuador> ProvinciasEcuador { get; set; }
         public virtual DbSet<SecuencialRevisionTecnica> SecuencialRevisionTecnica { get; set; }
         public virtual DbSet<IngresoRevisionGarantiaInspeccionInicial> IngresoRevisionGarantiaInspeccionInicial { get; set; }
+        public virtual DbSet<CantonesEcuador> CantonesEcuador { get; set; }
         public virtual DbSet<IngresoRevisionGarantiaCabecera> IngresoRevisionGarantiaCabecera { get; set; }
+        public virtual DbSet<AreaResponsableGarantias> AreaResponsableGarantias { get; set; }
+        public virtual DbSet<CausalesGarantias> CausalesGarantias { get; set; }
+        public virtual DbSet<AnalisisRegistrosGarantias> AnalisisRegistrosGarantias { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {

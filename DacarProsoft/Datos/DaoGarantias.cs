@@ -69,39 +69,39 @@ namespace DacarProsoft.Datos
 
         }
 
-        public int VerificarNumeroRevision(string numeroGarantia)
-        {
-            int result;
-            using (DacarProsoftEntities DB = new DacarProsoftEntities())
-            {
-                try
-                {
-                    var Listado = (from d in DB.IngresoRevisionGarantiaCabecera
-                                   where d.NumeroGarantia == numeroGarantia
-                                   orderby d.IngresoRevisionGarantiaId descending
-                                   select new
-                                   {
-                                       d.NumeroRevision
-                                   }).FirstOrDefault();
+        //public int VerificarNumeroRevision(string numeroGarantia)
+        //{
+        //    int result;
+        //    using (DacarProsoftEntities DB = new DacarProsoftEntities())
+        //    {
+        //        try
+        //        {
+        //            var Listado = (from d in DB.IngresoRevisionGarantiaCabecera
+        //                           where d.NumeroGarantia == numeroGarantia
+        //                           orderby d.IngresoRevisionGarantiaId descending
+        //                           select new
+        //                           {
+        //                               d.NumeroRevision
+        //                           }).FirstOrDefault();
 
-                    if (Listado != null)
-                    {
-                        result = Listado.NumeroRevision.Value + 1;
-                    }
-                    else {
-                        result = 1;
-                    }
+        //            if (Listado != null)
+        //            {
+        //                result = Listado.NumeroRevision.Value + 1;
+        //            }
+        //            else {
+        //                result = 1;
+        //            }
 
 
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return 0;
-                }
-            }
-        }
+        //            return result;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine(ex.Message);
+        //            return 0;
+        //        }
+        //    }
+        //}
         public int ObtenerNumeroSecuencial()
         {
             int result;
@@ -227,12 +227,13 @@ namespace DacarProsoft.Datos
                                   d.Apellido,
                                   d.RegistroGarantia,
                                   d.Provincia,
+                                  d.Ciudad,
                                   d.ModeloBateria,
                                   d.NumeroFactura
                                });
                 foreach (var x in Listado)
                 {
-                    var verificacionRevision = VerificarNumeroRevision(x.NumeroGarantia);
+                    //var verificacionRevision = VerificarNumeroRevision(x.NumeroGarantia);
                     if (x.ModeloBateria!=null && x.ModeloBateria !="") {
                         valorBateria = ObtenerPrecioBateria(x.ModeloBateria);
                     }
@@ -248,8 +249,9 @@ namespace DacarProsoft.Datos
                         NumeroGarantia = x.NumeroGarantia,
                         RegistroGarantia = x.RegistroGarantia.Value,
                         Provincia=x.Provincia,
+                        Ciudad=x.Ciudad,
                         ModeloBateria=x.ModeloBateria,
-                        NumeroRevision = verificacionRevision,
+                        //NumeroRevision = verificacionRevision,
                         NumeroCombrobante= NumeroCombrobante,
                         NumeroFactura=x.NumeroFactura,
                         ValorBateria=valorBateria
@@ -305,7 +307,7 @@ namespace DacarProsoft.Datos
                                    d.Cedula,
                                    d.NumeroGarantia,
                                    d.NumeroComprobante,
-                                   d.NumeroRevision,
+                                   d.NumeroFactura,
                                    d.Provincia,
                                    d.Direccion,
                                    d.Vendedor,
@@ -339,7 +341,7 @@ namespace DacarProsoft.Datos
                         Cedula=x.Cedula,
                         NumeroGarantia=x.NumeroGarantia,
                         NumeroComprobante=x.NumeroComprobante.Value,
-                        NumeroRevision=x.NumeroRevision.Value,
+                        NumeroRevision=x.NumeroFactura.Value,
                         Provincia=x.Provincia,
                         Direccion=x.Direccion,
                         Vendedor=x.Vendedor,
@@ -376,7 +378,7 @@ namespace DacarProsoft.Datos
                     result.Cedula = cedula;
                     result.NumeroGarantia = numeroGarantia;
                     result.NumeroComprobante = Convert.ToInt32(numeroComprobante);
-                    result.NumeroRevision = Convert.ToInt32(numeroRevision);
+                    result.NumeroFactura = Convert.ToInt32(numeroRevision);
                     result.Provincia = provincia;
                     result.Direccion = direccion;
                     result.Vendedor = vendedor;
@@ -547,6 +549,30 @@ namespace DacarProsoft.Datos
             }
         }
 
+        public List<CantonesEcuador> ConsultarCantones(int idProvincia)
+        {
+            List<CantonesEcuador> lst = new List<CantonesEcuador>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.CantonesEcuador
+                               where d.id_provincia == idProvincia
+                               select new
+                               {
+                                   d.id,
+                                   d.canton
+                               }).ToList();
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new CantonesEcuador
+                    {
+                        id = x.id,
+                        canton = x.canton
+                    });
+                }
+                return lst;
+            }
+        }
         public List<ModelosMarcasPropias> ConsultarReferenciasModelosMarcasPropias()
         {
             List<ModelosMarcasPropias> lst = new List<ModelosMarcasPropias>();

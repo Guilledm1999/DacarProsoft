@@ -1,0 +1,710 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DacarProsoftModelStoreContainer" CdmEntityContainer="DacarProsoftEntities">
+    <FunctionImportMapping FunctionImportName="RegistrarNuevoUsuario" FunctionName="DacarProsoftModel.Store.RegistrarNuevoUsuario" />
+    <FunctionImportMapping FunctionImportName="spConsultaUsuarios" FunctionName="DacarProsoftModel.Store.spConsultaUsuarios">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DacarProsoftModel.spConsultaUsuarios">
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+          <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+          <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+          <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+          <ScalarProperty Name="DescripcionTipoUsuario" ColumnName="DescripcionTipoUsuario" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="MenuOpciones">
+      <EntityTypeMapping TypeName="DacarProsoftModel.MenuOpciones">
+        <MappingFragment StoreEntitySet="MenuOpciones">
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="EstadoMenuOpciones" ColumnName="EstadoMenuOpciones" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+          <ScalarProperty Name="MenuOpcionesId" ColumnName="MenuOpcionesId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Menus">
+        <MappingFragment StoreEntitySet="Menus">
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="EstadoMenu" ColumnName="EstadoMenu" />
+          <ScalarProperty Name="DescripcionMenu" ColumnName="DescripcionMenu" />
+          <ScalarProperty Name="NombreMenu" ColumnName="NombreMenu" />
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoUsuario">
+      <EntityTypeMapping TypeName="DacarProsoftModel.TipoUsuario">
+        <MappingFragment StoreEntitySet="TipoUsuario">
+          <ScalarProperty Name="DescripcionTipoUsuario" ColumnName="DescripcionTipoUsuario" />
+          <ScalarProperty Name="TipoUsuarioId" ColumnName="TipoUsuarioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuarios">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Usuarios">
+        <MappingFragment StoreEntitySet="Usuarios">
+          <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+          <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+          <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+          <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Meses">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Meses">
+        <MappingFragment StoreEntitySet="Meses">
+          <ScalarProperty Name="Orden" ColumnName="Orden" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="MesId" ColumnName="MesId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EstadosOrdenProduccion">
+      <EntityTypeMapping TypeName="DacarProsoftModel.EstadosOrdenProduccion">
+        <MappingFragment StoreEntitySet="EstadosOrdenProduccion">
+          <ScalarProperty Name="DescripcionEstado" ColumnName="DescripcionEstado" />
+          <ScalarProperty Name="EstadoSap" ColumnName="EstadoSap" />
+          <ScalarProperty Name="OrdenId" ColumnName="OrdenId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bodega">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Bodega">
+        <MappingFragment StoreEntitySet="Bodega">
+          <ScalarProperty Name="DireccionBodega" ColumnName="DireccionBodega" />
+          <ScalarProperty Name="DescripcionBodega" ColumnName="DescripcionBodega" />
+          <ScalarProperty Name="CodigoBodega" ColumnName="CodigoBodega" />
+          <ScalarProperty Name="BodegaId" ColumnName="BodegaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoDocumento">
+      <EntityTypeMapping TypeName="DacarProsoftModel.TipoDocumento">
+        <MappingFragment StoreEntitySet="TipoDocumento">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="TipoDocumentoId" ColumnName="TipoDocumentoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoIngreso">
+      <EntityTypeMapping TypeName="DacarProsoftModel.TipoIngreso">
+        <MappingFragment StoreEntitySet="TipoIngreso">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="TipoIngresoId" ColumnName="TipoIngresoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Modelos">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Modelos">
+        <MappingFragment StoreEntitySet="Modelos">
+          <ScalarProperty Name="PesoTeorico" ColumnName="PesoTeorico" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="ModeloID" ColumnName="ModeloID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vehiculos">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Vehiculos">
+        <MappingFragment StoreEntitySet="Vehiculos">
+          <ScalarProperty Name="VendedorID" ColumnName="VendedorID" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="VehiculoID" ColumnName="VehiculoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vendedores">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Vendedores">
+        <MappingFragment StoreEntitySet="Vendedores">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="VendedorID" ColumnName="VendedorID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoCliente">
+      <EntityTypeMapping TypeName="DacarProsoftModel.TipoCliente">
+        <MappingFragment StoreEntitySet="TipoCliente">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="TipoClienteId" ColumnName="TipoClienteId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Marcas">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Marcas">
+        <MappingFragment StoreEntitySet="Marcas">
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="MarcaID" ColumnName="MarcaID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresoMercanciasTipoDescripcion">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoMercanciasTipoDescripcion">
+        <MappingFragment StoreEntitySet="IngresoMercanciasTipoDescripcion">
+          <ScalarProperty Name="DescripcionBusqueda" ColumnName="DescripcionBusqueda" />
+          <ScalarProperty Name="IngresosMercanciasTipoDescripcionId" ColumnName="IngresosMercanciasTipoDescripcionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DiasBusqueda">
+      <EntityTypeMapping TypeName="DacarProsoftModel.DiasBusqueda">
+        <MappingFragment StoreEntitySet="DiasBusqueda">
+          <ScalarProperty Name="NumeroDias" ColumnName="NumeroDias" />
+          <ScalarProperty Name="DiasBusquedaId" ColumnName="DiasBusquedaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Chatarra">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Chatarra">
+        <MappingFragment StoreEntitySet="Chatarra">
+          <ScalarProperty Name="NumeroPedido" ColumnName="NumeroPedido" />
+          <ScalarProperty Name="ClienteClase" ColumnName="ClienteClase" />
+          <ScalarProperty Name="ClienteLinea" ColumnName="ClienteLinea" />
+          <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="BodegaId" ColumnName="BodegaId" />
+          <ScalarProperty Name="Comentarios" ColumnName="Comentarios" />
+          <ScalarProperty Name="TipoIngreso" ColumnName="TipoIngreso" />
+          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+          <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+          <ScalarProperty Name="ChatarraId" ColumnName="ChatarraId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PackingListDetalle">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PackingListDetalle">
+        <MappingFragment StoreEntitySet="PackingListDetalle">
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="PackingListId" ColumnName="PackingListId" />
+          <ScalarProperty Name="PackingListDetalleId" ColumnName="PackingListDetalleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="LoginUsuario" FunctionName="DacarProsoftModel.Store.LoginUsuario">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DacarProsoftModel.LoginUsuario_Result">
+          <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+          <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Accesos">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Accesos">
+        <MappingFragment StoreEntitySet="Accesos">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+          <ScalarProperty Name="TipoUsuarioId" ColumnName="TipoUsuarioId" />
+          <ScalarProperty Name="IdAccesos" ColumnName="IdAccesos" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paises">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Paises">
+        <MappingFragment StoreEntitySet="Paises">
+          <ScalarProperty Name="PesoMaximoPermitido" ColumnName="PesoMaximoPermitido" />
+          <ScalarProperty Name="DescripcionPais" ColumnName="DescripcionPais" />
+          <ScalarProperty Name="PaisId" ColumnName="PaisId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaisOrigen">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PaisOrigen">
+        <MappingFragment StoreEntitySet="PaisOrigen">
+          <ScalarProperty Name="DescripcionPaisOrigen" ColumnName="DescripcionPaisOrigen" />
+          <ScalarProperty Name="PaisOrigenId" ColumnName="PaisOrigenId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PackingListCabecera">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PackingListCabecera">
+        <MappingFragment StoreEntitySet="PackingListCabecera">
+          <ScalarProperty Name="CodigoQr" ColumnName="CodigoQr" />
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="Volumen" ColumnName="Volumen" />
+          <ScalarProperty Name="Destino" ColumnName="Destino" />
+          <ScalarProperty Name="Origen" ColumnName="Origen" />
+          <ScalarProperty Name="Orden" ColumnName="Orden" />
+          <ScalarProperty Name="Customer" ColumnName="Customer" />
+          <ScalarProperty Name="NetWeight" ColumnName="NetWeight" />
+          <ScalarProperty Name="GrossWeight" ColumnName="GrossWeight" />
+          <ScalarProperty Name="PalletNumber" ColumnName="PalletNumber" />
+          <ScalarProperty Name="PackingListId" ColumnName="PackingListId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChatarraPesos">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ChatarraPesos">
+        <MappingFragment StoreEntitySet="ChatarraPesos">
+          <ScalarProperty Name="ModoIngreso" ColumnName="ModoIngreso" />
+          <ScalarProperty Name="CantidadTotal" ColumnName="CantidadTotal" />
+          <ScalarProperty Name="Desviacion" ColumnName="Desviacion" />
+          <ScalarProperty Name="PesoAjustadoTotal" ColumnName="PesoAjustadoTotal" />
+          <ScalarProperty Name="PesoBultoIngresado" ColumnName="PesoBultoIngresado" />
+          <ScalarProperty Name="PesoTeoricoTotalCalculado" ColumnName="PesoTeoricoTotalCalculado" />
+          <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+          <ScalarProperty Name="ChatarraPesoId" ColumnName="ChatarraPesoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChatarraDetalle">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ChatarraDetalle">
+        <MappingFragment StoreEntitySet="ChatarraDetalle">
+          <ScalarProperty Name="PesoTotalAjustado" ColumnName="PesoTotalAjustado" />
+          <ScalarProperty Name="PesoUnitarioAjustado" ColumnName="PesoUnitarioAjustado" />
+          <ScalarProperty Name="PesoTeoricoTotal" ColumnName="PesoTeoricoTotal" />
+          <ScalarProperty Name="PesoTeoricoUnitario" ColumnName="PesoTeoricoUnitario" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="CodigoItem" ColumnName="CodigoItem" />
+          <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+          <ScalarProperty Name="ChatarraId" ColumnName="ChatarraId" />
+          <ScalarProperty Name="ChatarraDetalleId" ColumnName="ChatarraDetalleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChatarraDetalleIndividual">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ChatarraDetalleIndividual">
+        <MappingFragment StoreEntitySet="ChatarraDetalleIndividual">
+          <ScalarProperty Name="DesviacionIndividual" ColumnName="DesviacionIndividual" />
+          <ScalarProperty Name="PesoTotalAjustado" ColumnName="PesoTotalAjustado" />
+          <ScalarProperty Name="PesoUnitarioAjustado" ColumnName="PesoUnitarioAjustado" />
+          <ScalarProperty Name="PesoNetoIndividual" ColumnName="PesoNetoIndividual" />
+          <ScalarProperty Name="PesoTeoricoTotal" ColumnName="PesoTeoricoTotal" />
+          <ScalarProperty Name="PesoTeoricoUnitario" ColumnName="PesoTeoricoUnitario" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="CodigoItem" ColumnName="CodigoItem" />
+          <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+          <ScalarProperty Name="ChatarraId" ColumnName="ChatarraId" />
+          <ScalarProperty Name="ChatarraDetalleIndividual1" ColumnName="ChatarraDetalleIndividual" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ControlCambios">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ControlCambios">
+        <MappingFragment StoreEntitySet="ControlCambios">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Pass" ColumnName="Pass" />
+          <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+          <ScalarProperty Name="ControlCambioId" ColumnName="ControlCambioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GrupoClientes">
+      <EntityTypeMapping TypeName="DacarProsoftModel.GrupoClientes">
+        <MappingFragment StoreEntitySet="GrupoClientes">
+          <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+          <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+          <ScalarProperty Name="GrupoClienteId" ColumnName="GrupoClienteId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spActualizarUsuario" FunctionName="DacarProsoftModel.Store.spActualizarUsuario" />
+    <EntitySetMapping Name="Packing">
+      <EntityTypeMapping TypeName="DacarProsoftModel.Packing">
+        <MappingFragment StoreEntitySet="Packing">
+          <ScalarProperty Name="DetalleIngresado" ColumnName="DetalleIngresado" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="CantidadPallet" ColumnName="CantidadPallet" />
+          <ScalarProperty Name="Destino" ColumnName="Destino" />
+          <ScalarProperty Name="Origen" ColumnName="Origen" />
+          <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+          <ScalarProperty Name="NumeroOrden" ColumnName="NumeroOrden" />
+          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+          <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PackingDtl">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PackingDtl">
+        <MappingFragment StoreEntitySet="PackingDtl">
+          <ScalarProperty Name="CantidadItem" ColumnName="CantidadItem" />
+          <ScalarProperty Name="DescripcionItem" ColumnName="DescripcionItem" />
+          <ScalarProperty Name="CodigoItem" ColumnName="CodigoItem" />
+          <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+          <ScalarProperty Name="PackingDtlId" ColumnName="PackingDtlId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PalletPacking">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PalletPacking">
+        <MappingFragment StoreEntitySet="PalletPacking">
+          <ScalarProperty Name="CodigoQr" ColumnName="CodigoQr" />
+          <ScalarProperty Name="PesoBruto" ColumnName="PesoBruto" />
+          <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
+          <ScalarProperty Name="VolumenPallet" ColumnName="VolumenPallet" />
+          <ScalarProperty Name="AltoPallet" ColumnName="AltoPallet" />
+          <ScalarProperty Name="AnchoPallet" ColumnName="AnchoPallet" />
+          <ScalarProperty Name="LargoPallet" ColumnName="LargoPallet" />
+          <ScalarProperty Name="PalletNumber" ColumnName="PalletNumber" />
+          <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+          <ScalarProperty Name="PalletPacking1" ColumnName="PalletPacking" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PalletPackingDetalle">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PalletPackingDetalle">
+        <MappingFragment StoreEntitySet="PalletPackingDetalle">
+          <ScalarProperty Name="CantidadItem" ColumnName="CantidadItem" />
+          <ScalarProperty Name="DescriptionCode" ColumnName="DescriptionCode" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+          <ScalarProperty Name="PalletPacking" ColumnName="PalletPacking" />
+          <ScalarProperty Name="PalletPackingDetalleId" ColumnName="PalletPackingDetalleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DetalleGeneralPackingList">
+      <EntityTypeMapping TypeName="DacarProsoftModel.DetalleGeneralPackingList">
+        <MappingFragment StoreEntitySet="DetalleGeneralPackingList">
+          <ScalarProperty Name="ProductosPackingList" ColumnName="ProductosPackingList" />
+          <ScalarProperty Name="ReferenciasPackingList" ColumnName="ReferenciasPackingList" />
+          <ScalarProperty Name="IntercambioEirPackingList" ColumnName="IntercambioEirPackingList" />
+          <ScalarProperty Name="EmbarcacionPackingList" ColumnName="EmbarcacionPackingList" />
+          <ScalarProperty Name="PedidoPackingList" ColumnName="PedidoPackingList" />
+          <ScalarProperty Name="FacturaPedido" ColumnName="FacturaPedido" />
+          <ScalarProperty Name="ReservaPackingList" ColumnName="ReservaPackingList" />
+          <ScalarProperty Name="FechaPackingList" ColumnName="FechaPackingList" />
+          <ScalarProperty Name="ContenedorPackingList" ColumnName="ContenedorPackingList" />
+          <ScalarProperty Name="ClientePackingList" ColumnName="ClientePackingList" />
+          <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+          <ScalarProperty Name="DetalleGeneralPackingListId" ColumnName="DetalleGeneralPackingListId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubMenuOpciones">
+      <EntityTypeMapping TypeName="DacarProsoftModel.SubMenuOpciones">
+        <MappingFragment StoreEntitySet="SubMenuOpciones">
+          <ScalarProperty Name="EstadoSubmenuOpciones" ColumnName="EstadoSubmenuOpciones" />
+          <ScalarProperty Name="UrlSubmenuOpciones" ColumnName="UrlSubmenuOpciones" />
+          <ScalarProperty Name="NombreSubMenuOpciones" ColumnName="NombreSubMenuOpciones" />
+          <ScalarProperty Name="CodigoMenuOpciones" ColumnName="CodigoMenuOpciones" />
+          <ScalarProperty Name="SubMenuOpcionesId" ColumnName="SubMenuOpcionesId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spLoginUsuarioPortal" FunctionName="DacarProsoftModel.Store.spLoginUsuarioPortal">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DacarProsoftModel.spLoginUsuarioPortal_Result">
+          <ScalarProperty Name="UsuarioPortal" ColumnName="UsuarioPortal" />
+          <ScalarProperty Name="ReferenciaUsuario" ColumnName="ReferenciaUsuario" />
+          <ScalarProperty Name="UsuarioPortalId" ColumnName="UsuarioPortalId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="UsuariosPortal">
+      <EntityTypeMapping TypeName="DacarProsoftModel.UsuariosPortal">
+        <MappingFragment StoreEntitySet="UsuariosPortal">
+          <ScalarProperty Name="Validaciones" ColumnName="Validaciones" />
+          <ScalarProperty Name="ImagenPerfil" ColumnName="ImagenPerfil" />
+          <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
+          <ScalarProperty Name="ReferenciaUsuario" ColumnName="ReferenciaUsuario" />
+          <ScalarProperty Name="ClavePortal" ColumnName="ClavePortal" />
+          <ScalarProperty Name="UsuarioPortal" ColumnName="UsuarioPortal" />
+          <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+          <ScalarProperty Name="UsuarioPortalId" ColumnName="UsuarioPortalId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EstadosPedidos">
+      <EntityTypeMapping TypeName="DacarProsoftModel.EstadosPedidos">
+        <MappingFragment StoreEntitySet="EstadosPedidos">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="EstadoPedidoId" ColumnName="EstadoPedidoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FechasPedidos">
+      <EntityTypeMapping TypeName="DacarProsoftModel.FechasPedidos">
+        <MappingFragment StoreEntitySet="FechasPedidos">
+          <ScalarProperty Name="EstadoFecha" ColumnName="EstadoFecha" />
+          <ScalarProperty Name="OrdenFecha" ColumnName="OrdenFecha" />
+          <ScalarProperty Name="DescripcionFecha" ColumnName="DescripcionFecha" />
+          <ScalarProperty Name="FechasPedidosId" ColumnName="FechasPedidosId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EstadosPedidosSelect">
+      <EntityTypeMapping TypeName="DacarProsoftModel.EstadosPedidosSelect">
+        <MappingFragment StoreEntitySet="EstadosPedidosSelect">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="EstadoPedidoSelectId" ColumnName="EstadoPedidoSelectId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UrlImprimirPdfPallet">
+      <EntityTypeMapping TypeName="DacarProsoftModel.UrlImprimirPdfPallet">
+        <MappingFragment StoreEntitySet="UrlImprimirPdfPallet">
+          <ScalarProperty Name="DireccionUrl" ColumnName="DireccionUrl" />
+          <ScalarProperty Name="UrlImprimirPdfPalletId" ColumnName="UrlImprimirPdfPalletId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresoGarantias">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoGarantias">
+        <MappingFragment StoreEntitySet="IngresoGarantias">
+          <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
+          <ScalarProperty Name="KilometrajeVehiculo" ColumnName="KilometrajeVehiculo" />
+          <ScalarProperty Name="AnioFabricacion" ColumnName="AnioFabricacion" />
+          <ScalarProperty Name="ModeloVehiculo" ColumnName="ModeloVehiculo" />
+          <ScalarProperty Name="MarcaVehiculo" ColumnName="MarcaVehiculo" />
+          <ScalarProperty Name="Provincia" ColumnName="Provincia" />
+          <ScalarProperty Name="Celular" ColumnName="Celular" />
+          <ScalarProperty Name="RegistroGarantia" ColumnName="RegistroGarantia" />
+          <ScalarProperty Name="NumeroGarantia" ColumnName="NumeroGarantia" />
+          <ScalarProperty Name="ModeloBateria" ColumnName="ModeloBateria" />
+          <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+          <ScalarProperty Name="Distribuidor" ColumnName="Distribuidor" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+          <ScalarProperty Name="IngresoGarantiaId" ColumnName="IngresoGarantiaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresoInspeccionInicialDensidadCelda">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoInspeccionInicialDensidadCelda">
+        <MappingFragment StoreEntitySet="IngresoInspeccionInicialDensidadCelda">
+          <ScalarProperty Name="C6" ColumnName="C6" />
+          <ScalarProperty Name="C5" ColumnName="C5" />
+          <ScalarProperty Name="C4" ColumnName="C4" />
+          <ScalarProperty Name="C3" ColumnName="C3" />
+          <ScalarProperty Name="C2" ColumnName="C2" />
+          <ScalarProperty Name="C1" ColumnName="C1" />
+          <ScalarProperty Name="IngresoRevisionGarantiaInspeccionInicialId" ColumnName="IngresoRevisionGarantiaInspeccionInicialId" />
+          <ScalarProperty Name="IngresoInspeccionInicialDensidadCeldaId" ColumnName="IngresoInspeccionInicialDensidadCeldaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresoRevisionGarantiaDiagnostico">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaDiagnostico">
+        <MappingFragment StoreEntitySet="IngresoRevisionGarantiaDiagnostico">
+          <ScalarProperty Name="AplicaGarantia" ColumnName="AplicaGarantia" />
+          <ScalarProperty Name="AplicacionUsoAdecuado" ColumnName="AplicacionUsoAdecuado" />
+          <ScalarProperty Name="DentroPeriodoGarantia" ColumnName="DentroPeriodoGarantia" />
+          <ScalarProperty Name="PresentaFalloFabricacion" ColumnName="PresentaFalloFabricacion" />
+          <ScalarProperty Name="BateriaEnBuenEstado" ColumnName="BateriaEnBuenEstado" />
+          <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
+          <ScalarProperty Name="IngresoRevisionGarantiaDiagnosticoId" ColumnName="IngresoRevisionGarantiaDiagnosticoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresoRevisionGarantiaTrabajoRealizado">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaTrabajoRealizado">
+        <MappingFragment StoreEntitySet="IngresoRevisionGarantiaTrabajoRealizado">
+          <ScalarProperty Name="InspeccionEstructuraExterna" ColumnName="InspeccionEstructuraExterna" />
+          <ScalarProperty Name="RecargaBateria" ColumnName="RecargaBateria" />
+          <ScalarProperty Name="CambioAcido" ColumnName="CambioAcido" />
+          <ScalarProperty Name="PruebaAltaResistencia" ColumnName="PruebaAltaResistencia" />
+          <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
+          <ScalarProperty Name="IngresoRevisionGarantiaTrabajoRealizadoId" ColumnName="IngresoRevisionGarantiaTrabajoRealizadoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PedidoClienteCabecera">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteCabecera">
+        <MappingFragment StoreEntitySet="PedidoClienteCabecera">
+          <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+          <ScalarProperty Name="FechaArribo" ColumnName="FechaArribo" />
+          <ScalarProperty Name="FechaZarpe" ColumnName="FechaZarpe" />
+          <ScalarProperty Name="FechaDespachoPuerto" ColumnName="FechaDespachoPuerto" />
+          <ScalarProperty Name="FechaCargaLista" ColumnName="FechaCargaLista" />
+          <ScalarProperty Name="EstadoPedido" ColumnName="EstadoPedido" />
+          <ScalarProperty Name="FechaRequerida" ColumnName="FechaRequerida" />
+          <ScalarProperty Name="TerminoImportacion" ColumnName="TerminoImportacion" />
+          <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="PaisCiudad" ColumnName="PaisCiudad" />
+          <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+          <ScalarProperty Name="OrdenCompra" ColumnName="OrdenCompra" />
+          <ScalarProperty Name="FechaEmision" ColumnName="FechaEmision" />
+          <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+          <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+          <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PedidoClienteDetalle">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalle">
+        <MappingFragment StoreEntitySet="PedidoClienteDetalle">
+          <ScalarProperty Name="PesoBruto" ColumnName="PesoBruto" />
+          <ScalarProperty Name="PesoNeto" ColumnName="PesoNeto" />
+          <ScalarProperty Name="PesoBateria" ColumnName="PesoBateria" />
+          <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
+          <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+          <ScalarProperty Name="CantidadPallets" ColumnName="CantidadPallets" />
+          <ScalarProperty Name="BateriasPallet" ColumnName="BateriasPallet" />
+          <ScalarProperty Name="PisoMaximo" ColumnName="PisoMaximo" />
+          <ScalarProperty Name="CantidadPiso" ColumnName="CantidadPiso" />
+          <ScalarProperty Name="CantidadConfirmada" ColumnName="CantidadConfirmada" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="TipoTerminal" ColumnName="TipoTerminal" />
+          <ScalarProperty Name="Polaridad" ColumnName="Polaridad" />
+          <ScalarProperty Name="EtiquetaDatosTecnicos" ColumnName="EtiquetaDatosTecnicos" />
+          <ScalarProperty Name="NumeroParteCliente" ColumnName="NumeroParteCliente" />
+          <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+          <ScalarProperty Name="Marca" ColumnName="Marca" />
+          <ScalarProperty Name="ModeloBateria" ColumnName="ModeloBateria" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="NumeroPedidoId" ColumnName="NumeroPedidoId" />
+          <ScalarProperty Name="PedidoClienteDetalleId" ColumnName="PedidoClienteDetalleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PedidoClienteDetalleFinal">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalleFinal">
+        <MappingFragment StoreEntitySet="PedidoClienteDetalleFinal">
+          <ScalarProperty Name="NumeroContenedores" ColumnName="NumeroContenedores" />
+          <ScalarProperty Name="FechaNuevaDespacho" ColumnName="FechaNuevaDespacho" />
+          <ScalarProperty Name="FechaIngresadaSap" ColumnName="FechaIngresadaSap" />
+          <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+          <ScalarProperty Name="PesoBrutoFinalPedido" ColumnName="PesoBrutoFinalPedido" />
+          <ScalarProperty Name="PesoNetoFinalPedido" ColumnName="PesoNetoFinalPedido" />
+          <ScalarProperty Name="PrecioFinalPedido" ColumnName="PrecioFinalPedido" />
+          <ScalarProperty Name="CantidadTotalNueva" ColumnName="CantidadTotalNueva" />
+          <ScalarProperty Name="CantitadTotal" ColumnName="CantitadTotal" />
+          <ScalarProperty Name="PedidoClienteCabecera" ColumnName="PedidoClienteCabecera" />
+          <ScalarProperty Name="PedidoClienteDetalleFinal1" ColumnName="PedidoClienteDetalleFinal" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spActualizarUsuarioPortal" FunctionName="DacarProsoftModel.Store.spActualizarUsuarioPortal" />
+    <FunctionImportMapping FunctionImportName="spRegistrarNuevoUsuarioPortal" FunctionName="DacarProsoftModel.Store.spRegistrarNuevoUsuarioPortal" />
+    <EntitySetMapping Name="ModelosMarcasPropias">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ModelosMarcasPropias">
+        <MappingFragment StoreEntitySet="ModelosMarcasPropias">
+          <ScalarProperty Name="Linea" ColumnName="Linea" />
+          <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+          <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+          <ScalarProperty Name="ModelosMarcasPropiasId" ColumnName="ModelosMarcasPropiasId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProvinciasEcuador">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ProvinciasEcuador">
+        <MappingFragment StoreEntitySet="ProvinciasEcuador">
+          <ScalarProperty Name="provincia" ColumnName="provincia" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SecuencialRevisionTecnica">
+      <EntityTypeMapping TypeName="DacarProsoftModel.SecuencialRevisionTecnica">
+        <MappingFragment StoreEntitySet="SecuencialRevisionTecnica">
+          <ScalarProperty Name="InicioSecuencia" ColumnName="InicioSecuencia" />
+          <ScalarProperty Name="SecuencialRevisionTecnicaId" ColumnName="SecuencialRevisionTecnicaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresoRevisionGarantiaInspeccionInicial">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial">
+        <MappingFragment StoreEntitySet="IngresoRevisionGarantiaInspeccionInicial">
+          <ScalarProperty Name="RevisionesPeriodicas" ColumnName="RevisionesPeriodicas" />
+          <ScalarProperty Name="CCA" ColumnName="CCA" />
+          <ScalarProperty Name="FugaEnBornes" ColumnName="FugaEnBornes" />
+          <ScalarProperty Name="FugaEnCubierta" ColumnName="FugaEnCubierta" />
+          <ScalarProperty Name="ElectrolitoErroneo" ColumnName="ElectrolitoErroneo" />
+          <ScalarProperty Name="BornesFundidos" ColumnName="BornesFundidos" />
+          <ScalarProperty Name="BornesFlojosOHundidos" ColumnName="BornesFlojosOHundidos" />
+          <ScalarProperty Name="Hinchada" ColumnName="Hinchada" />
+          <ScalarProperty Name="GolpeadaORota" ColumnName="GolpeadaORota" />
+          <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
+          <ScalarProperty Name="IngresoRevisionGarantiaInspeccionInicialId" ColumnName="IngresoRevisionGarantiaInspeccionInicialId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CantonesEcuador">
+      <EntityTypeMapping TypeName="DacarProsoftModel.CantonesEcuador">
+        <MappingFragment StoreEntitySet="CantonesEcuador">
+          <ScalarProperty Name="id_provincia" ColumnName="id_provincia" />
+          <ScalarProperty Name="canton" ColumnName="canton" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresoRevisionGarantiaCabecera">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaCabecera">
+        <MappingFragment StoreEntitySet="IngresoRevisionGarantiaCabecera">
+          <ScalarProperty Name="AplicaGarantia" ColumnName="AplicaGarantia" />
+          <ScalarProperty Name="ModoIngreso" ColumnName="ModoIngreso" />
+          <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
+          <ScalarProperty Name="PorcentajeVenta" ColumnName="PorcentajeVenta" />
+          <ScalarProperty Name="Meses" ColumnName="Meses" />
+          <ScalarProperty Name="Prorrateo" ColumnName="Prorrateo" />
+          <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+          <ScalarProperty Name="FechaVenta" ColumnName="FechaVenta" />
+          <ScalarProperty Name="Lote" ColumnName="Lote" />
+          <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+          <ScalarProperty Name="Marca" ColumnName="Marca" />
+          <ScalarProperty Name="TestBateria" ColumnName="TestBateria" />
+          <ScalarProperty Name="FacturaCliente" ColumnName="FacturaCliente" />
+          <ScalarProperty Name="Vendedor" ColumnName="Vendedor" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Provincia" ColumnName="Provincia" />
+          <ScalarProperty Name="NumeroFactura" ColumnName="NumeroFactura" />
+          <ScalarProperty Name="NumeroComprobante" ColumnName="NumeroComprobante" />
+          <ScalarProperty Name="NumeroGarantia" ColumnName="NumeroGarantia" />
+          <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+          <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AreaResponsableGarantias">
+      <EntityTypeMapping TypeName="DacarProsoftModel.AreaResponsableGarantias">
+        <MappingFragment StoreEntitySet="AreaResponsableGarantias">
+          <ScalarProperty Name="CodigoArea" ColumnName="CodigoArea" />
+          <ScalarProperty Name="DescripcionAreaResponsable" ColumnName="DescripcionAreaResponsable" />
+          <ScalarProperty Name="AreaResponsableGarantiasId" ColumnName="AreaResponsableGarantiasId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CausalesGarantias">
+      <EntityTypeMapping TypeName="DacarProsoftModel.CausalesGarantias">
+        <MappingFragment StoreEntitySet="CausalesGarantias">
+          <ScalarProperty Name="IdentificadorAreaResponsable" ColumnName="IdentificadorAreaResponsable" />
+          <ScalarProperty Name="DescripcionCausales" ColumnName="DescripcionCausales" />
+          <ScalarProperty Name="CausalesGarantiasId" ColumnName="CausalesGarantiasId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AnalisisRegistrosGarantias">
+      <EntityTypeMapping TypeName="DacarProsoftModel.AnalisisRegistrosGarantias">
+        <MappingFragment StoreEntitySet="AnalisisRegistrosGarantias">
+          <ScalarProperty Name="FechaRegistroAnalisis" ColumnName="FechaRegistroAnalisis" />
+          <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+          <ScalarProperty Name="AreaResponsable" ColumnName="AreaResponsable" />
+          <ScalarProperty Name="ResumenAnalisis" ColumnName="ResumenAnalisis" />
+          <ScalarProperty Name="DencidadCelda6" ColumnName="DencidadCelda6" />
+          <ScalarProperty Name="DencidadCelda5" ColumnName="DencidadCelda5" />
+          <ScalarProperty Name="DencidadCelda4" ColumnName="DencidadCelda4" />
+          <ScalarProperty Name="DencidadCelda3" ColumnName="DencidadCelda3" />
+          <ScalarProperty Name="DencidadCelda2" ColumnName="DencidadCelda2" />
+          <ScalarProperty Name="DencidadCelda1" ColumnName="DencidadCelda1" />
+          <ScalarProperty Name="CCA" ColumnName="CCA" />
+          <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
+          <ScalarProperty Name="ModeloBateria" ColumnName="ModeloBateria" />
+          <ScalarProperty Name="LoteCarga" ColumnName="LoteCarga" />
+          <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
+          <ScalarProperty Name="LoteFabricacion" ColumnName="LoteFabricacion" />
+          <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
+          <ScalarProperty Name="AnalisisRegistrosGarantiasId" ColumnName="AnalisisRegistrosGarantiasId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -68,10 +68,15 @@
         <EntityTypeShape EntityType="DacarProsoftModel.SecuencialRevisionTecnica" Width="1.5" PointX="10.375" PointY="18.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaInspeccionInicial" Width="1.5" PointX="21.625" PointY="20.375" />
         <AssociationConnector Association="DacarProsoftModel.fk_DensidadCeldas" />
+        <EntityTypeShape EntityType="DacarProsoftModel.CantonesEcuador" Width="1.5" PointX="20.625" PointY="15.625" />
+        <AssociationConnector Association="DacarProsoftModel.fk_canton_provincia" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Width="1.5" PointX="19.375" PointY="19.125" />
         <AssociationConnector Association="DacarProsoftModel.fk_Asignatura" />
         <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" />
         <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" />
+        <EntityTypeShape EntityType="DacarProsoftModel.AreaResponsableGarantias" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.CausalesGarantias" Width="1.5" PointX="2.75" PointY="19.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.AnalisisRegistrosGarantias" Width="1.5" PointX="8.375" PointY="21.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

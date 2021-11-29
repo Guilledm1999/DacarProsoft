@@ -111,14 +111,17 @@
                 <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Provincia:</b></label>
                     <div class="col-md-2">
-                        <select class="form-control" aria-label="Default select example" id="txtProvincia">
+                        <select class="form-control" aria-label="Default select example" id="txtProvincia" onchange="CargarCantones();">
                         </select>
                         @*<input type="text" name="NombreItem" id="txtProvincia" autocomplete="off" class="form-control" readonly placeholder="Provincia">*@
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Ciudad:</b></label>
                     <div class="col-md-3">
-                        <input type="text" name="NombreItem" id="txtDireccion" autocomplete="off" class="form-control" placeholder="Ciudad">
+                        <select class="form-control" aria-label="Default select example" id="txtDireccion">
+                            <option value="" selected="selected">--Seleccione el cantón--</option>
+                        </select>
+                        @*<input type="text" name="NombreItem" id="txtDireccion" autocomplete="off" class="form-control" placeholder="Ciudad">*@
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Vendedor:</b></label>
                     <div class="col-md-1">

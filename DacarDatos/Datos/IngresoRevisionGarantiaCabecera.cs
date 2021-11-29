@@ -27,7 +27,7 @@ namespace DacarDatos.Datos
         public string Cedula { get; set; }
         public string NumeroGarantia { get; set; }
         public Nullable<int> NumeroComprobante { get; set; }
-        public Nullable<int> NumeroRevision { get; set; }
+        public Nullable<int> NumeroFactura { get; set; }
         public string Provincia { get; set; }
         public string Direccion { get; set; }
         public string Vendedor { get; set; }

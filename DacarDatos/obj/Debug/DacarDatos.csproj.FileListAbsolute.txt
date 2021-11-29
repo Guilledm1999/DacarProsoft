@@ -72,3 +72,40 @@ C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarDatos\obj\Debug\DacarDa
 C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.csproj.CopyComplete
 C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.dll
 C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.pdb
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\DacarDatos.dll.config
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\DacarDatos.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\DacarDatos.pdb
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\BouncyCastle.Crypto.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\Common.Logging.Core.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\Common.Logging.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\EntityFramework.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\EntityFramework.SqlServer.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.barcodes.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.forms.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.io.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.kernel.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.layout.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.pdfa.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.sign.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.styledxmlparser.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.svg.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\BouncyCastle.Crypto.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\Common.Logging.pdb
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\Common.Logging.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\Common.Logging.Core.pdb
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\Common.Logging.Core.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\EntityFramework.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\EntityFramework.SqlServer.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.barcodes.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.forms.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.io.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.kernel.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.layout.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.pdfa.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.sign.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.styledxmlparser.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Debug\itext.svg.xml
+C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.csproj.CoreCompileInputs.cache
+C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.csproj.CopyComplete
+C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.dll
+C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Debug\DacarDatos.pdb

@@ -160,6 +160,15 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+
+        public JsonResult CantonesEcuador(int id)
+        {
+            daoGarantias = new DaoGarantias();
+
+            var cantones = daoGarantias.ConsultarCantones(id);
+            return Json(new SelectList(cantones, "Id", "canton"));
+        }
+
         public ActionResult ConsultaRevisionesTecnicas()
         {
             if (Session["usuario"] != null)

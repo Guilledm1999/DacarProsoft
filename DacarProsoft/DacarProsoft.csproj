@@ -290,6 +290,7 @@
     <Content Include="scripts\General\Pedidos\PedidosExterior.js" />
     <Content Include="scripts\General\Principal\Principal.js" />
     <Content Include="scripts\General\Garantias\ConsultaRevisionesTecnicas.js" />
+    <Content Include="scripts\General\Produccion\AnalisisRegistroGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteDeGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteGeneralVentasExterior.js" />
     <Content Include="scripts\General\Reportes\ReporteDeControl.js" />
@@ -328,6 +329,7 @@
     <Compile Include="Controllers\PackingListController.cs" />
     <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
+    <Compile Include="Controllers\ProduccionController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Datos\Conexion.cs" />
@@ -342,6 +344,7 @@
     <Compile Include="Datos\DaoOrdenesVentas.cs" />
     <Compile Include="Datos\DaoPackingList.cs" />
     <Compile Include="Datos\DaoPedidos.cs" />
+    <Compile Include="Datos\DaoProduccion.cs" />
     <Compile Include="Datos\DaoReportes.cs" />
     <Compile Include="Datos\DaoUsuarios.cs" />
     <Compile Include="Datos\DaoMenu.cs" />
@@ -549,6 +552,7 @@
     <Content Include="Views\Reportes\ReporteDeGarantias.cshtml" />
     <Content Include="Views\Garantias\IngresoGarantias.cshtml" />
     <Content Include="Views\Garantias\ConsultaRevisionesTecnicas.cshtml" />
+    <Content Include="Views\Produccion\AnalisisRegistroGarantias.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
