@@ -75,7 +75,7 @@ namespace DacarProsoft.Controllers
         }
 
         public int RegistrarRevisionDeGarantiaCabecera(string cliente, string cedula, string numeroGarantia, string numeroComprobante, string numeroFactura, string provincia, string direccion, string vendedor, HttpPostedFileBase ImgFac, string marca,
-            string modelo, string lote, string prorrateo, string meses, string fechaVenta, string fechaIngreso, string porcentajeVenta, string voltaje, HttpPostedFileBase ImgTest)
+            string modelo, string lote, string prorrateo, string meses, string fechaVenta, string fechaIngreso, string porcentajeVenta, string voltaje, string loteEnsamble, HttpPostedFileBase ImgTest)
         {
             string filename2 = null;
             string destinoImg2 = null;
@@ -98,7 +98,7 @@ namespace DacarProsoft.Controllers
                 }
 
                 var Result = daoGarantias.IngresarRevisionGarantiaCabecera(cliente,  cedula,  numeroGarantia,  numeroComprobante, numeroFactura,  provincia,  direccion,  vendedor, destinoImg1,  marca,
-                modelo,  lote,  prorrateo,  meses,  fechaVenta,  fechaIngreso,  porcentajeVenta,  voltaje, destinoImg2);
+                modelo,  lote,  prorrateo,  meses,  fechaVenta,  fechaIngreso,  porcentajeVenta,  voltaje, loteEnsamble,destinoImg2);
                 return Result;
             }
             catch (Exception ex)

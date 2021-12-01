@@ -76,7 +76,9 @@
         <AssociationConnector Association="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" />
         <EntityTypeShape EntityType="DacarProsoftModel.AreaResponsableGarantias" Width="1.5" PointX="0.75" PointY="19.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.CausalesGarantias" Width="1.5" PointX="2.75" PointY="19.75" />
-        <EntityTypeShape EntityType="DacarProsoftModel.AnalisisRegistrosGarantias" Width="1.5" PointX="8.375" PointY="21.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.FiltrosCategoriaReporteGarantias" Width="1.5" PointX="10.375" PointY="21.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.AnalisisRegistrosGarantias" Width="1.5" PointX="0.75" PointY="22.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.LineasMarcasPropias" Width="1.5" PointX="3.375" PointY="22.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

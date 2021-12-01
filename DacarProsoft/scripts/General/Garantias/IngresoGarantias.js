@@ -277,8 +277,10 @@ function validarIngresos() {
     var valor19 =$("#txtCelda4").val();
     var valor20 =$("#txtCelda5").val();
     var valor21 =$("#txtCelda6").val();
-    var valor22 =$("#txtCca").val();
-    var valor23 =$("#txtNumeroGarantia").val();
+    var valor22 = $("#txtCca").val();
+    var valor23 = $("#txtNumeroGarantia").val();
+    var valor24 = $("#txtLoteEnsamble").val();
+
     var inputFileImage1 = $("#ImgFacturaIngresada")[0].files[0];
     var inputFileImage2 = $("#ImgTestIngresada")[0].files[0];
 
@@ -447,6 +449,13 @@ function validarIngresos() {
     //    return;
     //}
     if (valor23.length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (valor24.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
@@ -665,6 +674,7 @@ function RegistrarRevisionGarantiaCabecera() {
     formdata.append("fechaIngreso", $("#txtFechaIngreso").val());
     formdata.append("porcentajeVenta", $("#txtPorcentajeVentas").val());
     formdata.append("voltaje", $("#txtVoltaje").val());
+    formdata.append("loteEnsamble", $("#txtLoteEnsamble").val());
     formdata.append("ImgTest", inputFileImage2);
 
     $.ajax({

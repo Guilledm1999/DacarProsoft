@@ -21,7 +21,6 @@ function ConsultarArticulos() {
             ConfigDev.filterRow = { visible: true },
            ConfigDev.filterPanel = { visible: true },
            ConfigDev.headerFilter = { visible: true },
-          ConfigDev.dataSource = msg;
            ConfigDev.columns = [
                 { dataField: "Codigo", caption: "Codigo" },
                 { dataField: "Descripcion", caption: "Descripcion" },

@@ -9,6 +9,37 @@
     <Property Name="MenuId" Type="int" />
     <Property Name="Estado" Type="int" />
   </EntityType>
+  <EntityType Name="AnalisisRegistrosGarantias">
+    <Key>
+      <PropertyRef Name="AnalisisRegistrosGarantiasId" />
+    </Key>
+    <Property Name="AnalisisRegistrosGarantiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IngresoRevisionGarantiaId" Type="int" />
+    <Property Name="NumeroComprobante" Type="varchar" MaxLength="30" />
+    <Property Name="LoteEnsamble" Type="varchar" MaxLength="30" />
+    <Property Name="LoteCarga" Type="varchar" MaxLength="30" />
+    <Property Name="ModeloBateria" Type="varchar" MaxLength="30" />
+    <Property Name="Voltaje" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="CCA" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda1" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda2" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda3" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda4" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda5" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda6" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ResumenAnalisis" Type="varchar" MaxLength="100" />
+    <Property Name="AreaResponsable" Type="varchar" MaxLength="30" />
+    <Property Name="Observaciones" Type="varchar" MaxLength="100" />
+    <Property Name="FechaRegistroAnalisis" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AreaResponsableGarantias">
+    <Key>
+      <PropertyRef Name="AreaResponsableGarantiasId" />
+    </Key>
+    <Property Name="AreaResponsableGarantiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DescripcionAreaResponsable" Type="varchar" MaxLength="100" />
+    <Property Name="CodigoArea" Type="int" />
+  </EntityType>
   <EntityType Name="Bodega">
     <Key>
       <PropertyRef Name="BodegaId" />
@@ -17,6 +48,22 @@
     <Property Name="CodigoBodega" Type="varchar" MaxLength="255" />
     <Property Name="DescripcionBodega" Type="varchar" MaxLength="255" />
     <Property Name="DireccionBodega" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="CantonesEcuador">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="canton" Type="varchar" MaxLength="255" />
+    <Property Name="id_provincia" Type="int" />
+  </EntityType>
+  <EntityType Name="CausalesGarantias">
+    <Key>
+      <PropertyRef Name="CausalesGarantiasId" />
+    </Key>
+    <Property Name="CausalesGarantiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DescripcionCausales" Type="varchar" MaxLength="100" />
+    <Property Name="IdentificadorAreaResponsable" Type="int" />
   </EntityType>
   <EntityType Name="Chatarra">
     <Key>
@@ -150,6 +197,15 @@
     <Property Name="OrdenFecha" Type="int" />
     <Property Name="EstadoFecha" Type="bit" />
   </EntityType>
+  <EntityType Name="FiltrosCategoriaReporteGarantias">
+    <Key>
+      <PropertyRef Name="FiltrosCategoriaReporteGarantiasId" />
+    </Key>
+    <Property Name="FiltrosCategoriaReporteGarantiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+    <Property Name="Valor" Type="int" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="GrupoClientes">
     <Key>
       <PropertyRef Name="GrupoClienteId" />
@@ -209,7 +265,7 @@
     <Property Name="Cedula" Type="varchar" MaxLength="13" />
     <Property Name="NumeroGarantia" Type="varchar" MaxLength="25" />
     <Property Name="NumeroComprobante" Type="int" />
-    <Property Name="NumeroRevision" Type="int" />
+    <Property Name="NumeroFactura" Type="int" />
     <Property Name="Provincia" Type="varchar" MaxLength="25" />
     <Property Name="Direccion" Type="varchar" MaxLength="100" />
     <Property Name="Vendedor" Type="varchar" MaxLength="50" />
@@ -226,6 +282,8 @@
     <Property Name="Voltaje" Type="decimal" Precision="10" Scale="2" />
     <Property Name="ModoIngreso" Type="varchar" MaxLength="25" />
     <Property Name="AplicaGarantia" Type="varchar" MaxLength="30" />
+    <Property Name="LoteEnsamble" Type="varchar" MaxLength="30" />
+    <Property Name="AnalisisRealizado" Type="bit" />
   </EntityType>
   <EntityType Name="IngresoRevisionGarantiaDiagnostico">
     <Key>
@@ -265,6 +323,15 @@
     <Property Name="CambioAcido" Type="bit" />
     <Property Name="RecargaBateria" Type="bit" />
     <Property Name="InspeccionEstructuraExterna" Type="bit" />
+  </EntityType>
+  <EntityType Name="LineasMarcasPropias">
+    <Key>
+      <PropertyRef Name="LineasMarcasPropiasId" />
+    </Key>
+    <Property Name="LineasMarcasPropiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Referencia" Type="varchar" MaxLength="255" />
+    <Property Name="Identificador" Type="int" />
+    <Property Name="Estado" Type="bit" />
   </EntityType>
   <EntityType Name="Marcas">
     <Key>
@@ -655,6 +722,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_canton_provincia">
+    <End Role="ProvinciasEcuador" Type="Self.ProvinciasEcuador" Multiplicity="0..1" />
+    <End Role="CantonesEcuador" Type="Self.CantonesEcuador" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProvinciasEcuador">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CantonesEcuador">
+        <PropertyRef Name="id_provincia" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_Chatarra">
     <End Role="Chatarra" Type="Self.Chatarra" Multiplicity="0..1" />
     <End Role="ChatarraDetalle" Type="Self.ChatarraDetalle" Multiplicity="*" />
@@ -814,7 +893,11 @@
   </Function>
   <EntityContainer Name="DacarProsoftModelStoreContainer">
     <EntitySet Name="Accesos" EntityType="Self.Accesos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AnalisisRegistrosGarantias" EntityType="Self.AnalisisRegistrosGarantias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AreaResponsableGarantias" EntityType="Self.AreaResponsableGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Bodega" EntityType="Self.Bodega" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CantonesEcuador" EntityType="Self.CantonesEcuador" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CausalesGarantias" EntityType="Self.CausalesGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Chatarra" EntityType="Self.Chatarra" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChatarraDetalle" EntityType="Self.ChatarraDetalle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChatarraDetalleIndividual" EntityType="Self.ChatarraDetalleIndividual" Schema="dbo" store:Type="Tables" />
@@ -826,6 +909,7 @@
     <EntitySet Name="EstadosPedidos" EntityType="Self.EstadosPedidos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EstadosPedidosSelect" EntityType="Self.EstadosPedidosSelect" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FechasPedidos" EntityType="Self.FechasPedidos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="Self.FiltrosCategoriaReporteGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoInspeccionInicialDensidadCelda" EntityType="Self.IngresoInspeccionInicialDensidadCelda" Schema="dbo" store:Type="Tables" />
@@ -834,6 +918,7 @@
     <EntitySet Name="IngresoRevisionGarantiaDiagnostico" EntityType="Self.IngresoRevisionGarantiaDiagnostico" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="Self.IngresoRevisionGarantiaInspeccionInicial" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoRevisionGarantiaTrabajoRealizado" EntityType="Self.IngresoRevisionGarantiaTrabajoRealizado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LineasMarcasPropias" EntityType="Self.LineasMarcasPropias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
@@ -890,6 +975,10 @@
     <AssociationSet Name="fk_Asignatura" Association="Self.fk_Asignatura">
       <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
       <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
+    </AssociationSet>
+    <AssociationSet Name="fk_canton_provincia" Association="Self.fk_canton_provincia">
+      <End Role="ProvinciasEcuador" EntitySet="ProvinciasEcuador" />
+      <End Role="CantonesEcuador" EntitySet="CantonesEcuador" />
     </AssociationSet>
     <AssociationSet Name="fk_Chatarra" Association="Self.fk_Chatarra">
       <End Role="Chatarra" EntitySet="Chatarra" />

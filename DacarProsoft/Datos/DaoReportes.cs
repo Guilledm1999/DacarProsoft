@@ -739,6 +739,225 @@ namespace DacarProsoft.Datos
             }
 
         }
+        public List<FiltrosCategoriaReporteGarantias> ConsultarFiltrosCategoriaGarantias()
+        {
 
+            List<FiltrosCategoriaReporteGarantias> lst = new List<FiltrosCategoriaReporteGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = (from d in DB.FiltrosCategoriaReporteGarantias
+                               where d.Estado!=false
+                               select new
+                               {
+                                   d.Descripcion,
+                                   d.Valor,
+                               });
+                foreach (var x in Listado)
+                {
+                    lst.Add(new FiltrosCategoriaReporteGarantias
+                    {
+                        Valor = x.Valor,
+                        Descripcion = x.Descripcion,
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
+        public List<ModelChartGarantias> ReporteAnalisisGarantiaPorCausales(DateTime FechaInicio, DateTime FechaFin)
+        {
+
+
+            DateTime nuevaFechaFin = FechaFin;
+            nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado= from d in DB.AnalisisRegistrosGarantias
+                             orderby d.AnalisisRegistrosGarantiasId
+                             where d.FechaRegistroAnalisis >= FechaInicio && d.FechaRegistroAnalisis <= nuevaFechaFin
+                             group d by d.ResumenAnalisis into grp
+                             select new {
+                                 Modelo = grp.Key, 
+                                 Contador = grp.Count() 
+                             };
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+                      
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
+        public List<ModelChartGarantias> ReporteAnalisisGarantiaPorArea(DateTime FechaInicio, DateTime FechaFin)
+        {
+
+
+            DateTime nuevaFechaFin = FechaFin;
+            nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              orderby d.AnalisisRegistrosGarantiasId
+                              where d.FechaRegistroAnalisis >= FechaInicio && d.FechaRegistroAnalisis <= nuevaFechaFin
+                              group d by d.AreaResponsable into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        public List<ModelChartGarantias> ReporteAnalisisGarantiaPorModelo(DateTime FechaInicio, DateTime FechaFin)
+        {
+
+
+            DateTime nuevaFechaFin = FechaFin;
+            nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              orderby d.AnalisisRegistrosGarantiasId
+                              where d.FechaRegistroAnalisis >= FechaInicio && d.FechaRegistroAnalisis <= nuevaFechaFin
+                              group d by d.ModeloBateria into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        public List<ModelChartGarantias> ReporteAnalisisGarantiaPorAplicacion(DateTime FechaInicio, DateTime FechaFin)
+        {
+            string valor;
+
+            DateTime nuevaFechaFin = FechaFin;
+            nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.AnalisisRegistrosGarantias join
+                              e in DB.ModelosMarcasPropias on d.ModeloBateria equals e.Referencia join
+                              f in DB.LineasMarcasPropias on e.Linea equals f.Identificador
+                              orderby d.AnalisisRegistrosGarantiasId
+                              where d.FechaRegistroAnalisis >= FechaInicio && d.FechaRegistroAnalisis <= nuevaFechaFin
+                              group d by f.Referencia into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+
+                foreach (var x in Listado)
+                {
+                    //valor = BuscarLineaMarcaPropia(x.Modelo);
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
+        public List<ModelChartGarantias> ReporteAnalisisGarantiaPorMeses(DateTime FechaInicio, DateTime FechaFin)
+        {
+            string Mes;
+
+            DateTime nuevaFechaFin = FechaFin;
+            nuevaFechaFin = nuevaFechaFin.AddDays(1);
+           // string descrip;
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              where d.FechaRegistroAnalisis >= FechaInicio && d.FechaRegistroAnalisis <= nuevaFechaFin
+
+                              group d by new {d.FechaRegistroAnalisis.Month } into ut
+                                select new
+                                {
+                                    Contador = ut.Count(),
+                                    MonthNumber = ut.Key.Month,
+                                };
+
+                foreach (var x in Listado)
+                {
+                    Mes = BuscarNombreMes(x.MonthNumber);
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = Mes,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        public string BuscarNombreMes(int num) {
+
+            string result;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities()) {
+                var valor = (from d in DB.Meses
+                             where d.Orden == num
+                             select new
+                             {
+                                 d.Nombre
+                             }).FirstOrDefault();
+                result = valor.Nombre;
+                return result;
+            
+            }
+        }
     }
 }

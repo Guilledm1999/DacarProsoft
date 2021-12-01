@@ -111,14 +111,17 @@
                 <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Provincia:</b></label>
                     <div class="col-md-2">
-                        <select class="form-control" aria-label="Default select example" id="txtProvincia">
+                        <select class="form-control" aria-label="Default select example" id="txtProvincia" onchange="CargarCantones();">
                         </select>
                         @*<input type="text" name="NombreItem" id="txtProvincia" autocomplete="off" class="form-control" readonly placeholder="Provincia">*@
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Ciudad:</b></label>
                     <div class="col-md-3">
-                        <input type="text" name="NombreItem" id="txtDireccion" autocomplete="off" class="form-control" placeholder="Ciudad">
+                        <select class="form-control" aria-label="Default select example" id="txtDireccion">
+                            <option value="" selected="selected">--Seleccione el cantón--</option>
+                        </select>
+                        @*<input type="text" name="NombreItem" id="txtDireccion" autocomplete="off" class="form-control" placeholder="Ciudad">*@
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Vendedor:</b></label>
                     <div class="col-md-1">
@@ -155,9 +158,10 @@
                         </select>
                         @*<input type="text" name="NombreItem" id="txtModelo" autocomplete="off" class="form-control" readonly placeholder="Modelo">*@
                     </div>
-                    <label for="email" class="col-sm-1 col-form-label"><b>Lote Produccion:</b></label>
+                    
+                    <label for="email" class="col-sm-1 col-form-label"><b>Voltaje:</b></label>
                     <div class="col-md-1">
-                        <input type="text" name="NombreItem" id="txtLote" autocomplete="off" class="form-control" placeholder="Lote">
+                        <input type="number" name="NombreItem" id="txtVoltaje" autocomplete="off" class="form-control" placeholder="Voltaje">
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>$ Pvp Venta:</b></label>
                     <div class="col-md-1">
@@ -166,14 +170,14 @@
                     <label for="email" class="col-sm-1 col-form-label"><b>Meses:</b></label>
                     <div class="col-md-1">
                         @*<select class="form-control" aria-label="Default select example" id="txtMeses" onchange="CalcularProrrateo();">
-                            @{
-                                for (int i = 1; i <= 24; i++)
-                                {
-                                    <option value=@i>@i</option>
+                @{
+                    for (int i = 1; i <= 24; i++)
+                    {
+                        <option value=@i>@i</option>
 
-                                }
-                            }
-                        </select>*@
+                    }
+                }
+            </select>*@
                         <input type="number" name="NombreItem" id="txtMeses" autocomplete="off" class="form-control" placeholder="# Meses" readonly>
                     </div>
                 </div>
@@ -206,14 +210,21 @@
                     <div class="col-md-1">
                         <input type="number" name="NombreItem" id="txtProrrateo" autocomplete="off" class="form-control" placeholder="% Prorrateo" readonly>
                     </div>
-                    <label for="email" class="col-sm-1 col-form-label"><b>Voltaje</b></label>
+                    <label for="email" class="col-sm-1 col-form-label"><b>Lote Carga:</b></label>
                     <div class="col-md-1">
-                        <input type="number" name="NombreItem" id="txtVoltaje" autocomplete="off" class="form-control" placeholder="Voltaje">
+                        <input type="text" name="NombreItem" id="txtLote" autocomplete="off" class="form-control" placeholder="Lote Carga">
                     </div>
+                    <label for="email" class="col-sm-1 col-form-label"><b>Lote Ensamble:</b></label>
+                    <div class="col-md-1">
+                        <input type="number" name="NombreItem" id="txtLoteEnsamble" autocomplete="off" class="form-control" placeholder="Lote Ensamble">
+                    </div>
+                </div>
+                <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Test:</b></label>
                     <div class="col-md-2">
                         <input type="file" accept=".jpg,.png,.jpeg,.gif" class="form-control-file" id="ImgTestIngresada" onchange="ValidarTipoImagen(this);">
                     </div>
+                   
                 </div>
             </div>
 

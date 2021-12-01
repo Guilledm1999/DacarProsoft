@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "ConsultarRegistrosAnalisisGarantias";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+<style>
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        color: black;
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+</style>
+<br />
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2> Consulta  de Analisis de Garantias</h2>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+
+        <div id="MensajeGuardadoExitoso" class="alert alert-success collapse">
+            <button id="LinkClose3" type="button" class="close">&times;</button>
+            <strong>Registrado con exito!</strong>
+        </div>
+        <div class="loader">
+            <div id="tblAnalisisRegistrados"> </div>
+        </div>
+    </div>
+</div>

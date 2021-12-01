@@ -291,6 +291,8 @@
     <Content Include="scripts\General\Principal\Principal.js" />
     <Content Include="scripts\General\Garantias\ConsultaRevisionesTecnicas.js" />
     <Content Include="scripts\General\Produccion\AnalisisRegistroGarantias.js" />
+    <Content Include="scripts\General\Produccion\ConsultarRegistrosAnalisisGarantias.js" />
+    <Content Include="scripts\General\Reportes\ReporteAnalisisGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteDeGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteGeneralVentasExterior.js" />
     <Content Include="scripts\General\Reportes\ReporteDeControl.js" />
@@ -379,6 +381,8 @@
     <Compile Include="Models\MenuAcceso.cs" />
     <Compile Include="Models\Mign1.cs" />
     <Compile Include="Models\Mign1Individual.cs" />
+    <Compile Include="Models\ModelAnalisisGarantia.cs" />
+    <Compile Include="Models\ModelChartGarantias.cs" />
     <Compile Include="Models\Moign.cs" />
     <Compile Include="Models\MdlOpdn.cs" />
     <Compile Include="Models\OrdenesProduccion.cs" />
@@ -553,6 +557,8 @@
     <Content Include="Views\Garantias\IngresoGarantias.cshtml" />
     <Content Include="Views\Garantias\ConsultaRevisionesTecnicas.cshtml" />
     <Content Include="Views\Produccion\AnalisisRegistroGarantias.cshtml" />
+    <Content Include="Views\Produccion\ConsultarRegistrosAnalisisGarantias.cshtml" />
+    <Content Include="Views\Reportes\ReporteAnalisisGarantias.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

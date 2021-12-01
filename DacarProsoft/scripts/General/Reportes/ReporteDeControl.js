@@ -60,6 +60,9 @@ function PedidosRecibidos() {
                 showBorders: true,
                 columnAutoWidth: true,
                 showBorders: true,
+                showColumnLines: true,
+                rowAlternationEnabled: false,
+                showRowLines: true,
                 paging: {
                     pageSize: 10
                 },

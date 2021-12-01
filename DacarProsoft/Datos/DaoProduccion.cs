@@ -21,6 +21,7 @@ namespace DacarProsoft.Datos
                 using (DacarProsoftEntities DB = new DacarProsoftEntities())
                 {
                     var Listado = (from d in DB.IngresoRevisionGarantiaCabecera
+                                   where d.AnalisisRealizado==false
                                    orderby d.IngresoRevisionGarantiaId descending
                                    select new
 
@@ -39,7 +40,8 @@ namespace DacarProsoft.Datos
                                        d.Meses,
                                        d.PorcentajeVenta,
                                        d.Voltaje,
-                                       d.AplicaGarantia
+                                       d.AplicaGarantia,
+                                       d.LoteEnsamble
                                    });
                     foreach (var x in Listado)
                     {
@@ -66,7 +68,8 @@ namespace DacarProsoft.Datos
                             Meses = x.Meses.Value,
                             PorcentajeVenta = x.PorcentajeVenta.Value,
                             Voltaje = x.Voltaje.Value,
-                            AplicaGarantia = x.AplicaGarantia
+                            AplicaGarantia = x.AplicaGarantia,
+                            LoteEnsamble=x.LoteEnsamble
 
                         });
                     }
@@ -155,7 +158,7 @@ namespace DacarProsoft.Datos
                 {
                     var result = new AnalisisRegistrosGarantias();
                     result.IngresoRevisionGarantiaId = IngresoRevisionGarantiaId;
-                    result.LoteFabricacion = LoteFabricacion;
+                    result.NumeroComprobante = LoteFabricacion;
                     result.LoteEnsamble = LoteEnsamble;
                     result.LoteCarga = LoteCarga;
                     result.ModeloBateria = ModeloBateria;
@@ -173,9 +176,33 @@ namespace DacarProsoft.Datos
                     result.FechaRegistroAnalisis = DateTime.Now;
 
 
-
-
                     DB.AnalisisRegistrosGarantias.Add(result);
+                    DB.SaveChanges();
+
+                    ActualizarRegistroGarantiaCabecera(IngresoRevisionGarantiaId);
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public bool ActualizarRegistroGarantiaCabecera(int IngresoRevisionGarantiaId)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var query = (from a in DB.IngresoRevisionGarantiaCabecera
+                                 where a.IngresoRevisionGarantiaId == IngresoRevisionGarantiaId
+                                 select a).FirstOrDefault();
+
+                    query.AnalisisRealizado = true;
+
                     DB.SaveChanges();
 
                     return true;
@@ -186,6 +213,81 @@ namespace DacarProsoft.Datos
                     return false;
                 }
             }
+        }
+        public List<ModelAnalisisGarantia> ConsultarIngresosAnalisisGarantias()
+        {
+            string fechaRegistro = null;
+            List<ModelAnalisisGarantia> lst = new List<ModelAnalisisGarantia>();
+
+            try
+            {
+                using (DacarProsoftEntities DB = new DacarProsoftEntities())
+                {
+                    var Listado = (from d in DB.AnalisisRegistrosGarantias
+                                   orderby d.AnalisisRegistrosGarantiasId descending
+                                   select new
+
+                                   {
+                                       d.AnalisisRegistrosGarantiasId,
+                                       d.IngresoRevisionGarantiaId,
+                                       d.NumeroComprobante,
+                                       d.LoteEnsamble,
+                                       d.LoteCarga,
+                                       d.ModeloBateria,
+                                       d.Voltaje,
+                                       d.CCA,
+                                       d.DencidadCelda1,
+                                       d.DencidadCelda2,
+                                       d.DencidadCelda3,
+                                       d.DencidadCelda4,
+                                       d.DencidadCelda5,
+                                       d.DencidadCelda6,
+                                       d.ResumenAnalisis,
+                                       d.AreaResponsable,
+                                       d.Observaciones,
+                                       d.FechaRegistroAnalisis
+                                     
+                                   });
+                    foreach (var x in Listado)
+                    {
+
+                        DateTime fecha = Convert.ToDateTime(x.FechaRegistroAnalisis, CultureInfo.InvariantCulture);
+                        fechaRegistro = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+
+                        lst.Add(new ModelAnalisisGarantia
+                        {
+                           
+                            AnalisisRegistrosGarantiasId=x.AnalisisRegistrosGarantiasId,
+                            IngresoRevisionGarantiaId=x.IngresoRevisionGarantiaId,
+                            NumeroComprobante=x.NumeroComprobante,
+                            LoteCarga=x.LoteCarga,
+                            LoteEnsamble=x.LoteEnsamble,
+                            ModeloBateria=x.ModeloBateria,
+                            Voltaje=x.Voltaje,
+                            CCA=x.CCA,
+                            DencidadCelda1=x.DencidadCelda1,
+                            DencidadCelda2=x.DencidadCelda2,
+                            DencidadCelda3=x.DencidadCelda3,
+                            DencidadCelda4=x.DencidadCelda4,
+                            DencidadCelda5=x.DencidadCelda5,
+                            DencidadCelda6=x.DencidadCelda6,
+                            ResumenAnalisis=x.ResumenAnalisis,
+                            AreaResponsable=x.AreaResponsable,
+                            Observaciones=x.Observaciones,
+                            FechaRegistroAnalisis=fechaRegistro
+
+                        });
+                    }
+                    return lst;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return lst;
+            }
+
         }
     }
 }

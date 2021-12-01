@@ -639,6 +639,8 @@
     <EntitySetMapping Name="IngresoRevisionGarantiaCabecera">
       <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaCabecera">
         <MappingFragment StoreEntitySet="IngresoRevisionGarantiaCabecera">
+          <ScalarProperty Name="AnalisisRealizado" ColumnName="AnalisisRealizado" />
+          <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
           <ScalarProperty Name="AplicaGarantia" ColumnName="AplicaGarantia" />
           <ScalarProperty Name="ModoIngreso" ColumnName="ModoIngreso" />
           <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
@@ -682,6 +684,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="FiltrosCategoriaReporteGarantias">
+      <EntityTypeMapping TypeName="DacarProsoftModel.FiltrosCategoriaReporteGarantias">
+        <MappingFragment StoreEntitySet="FiltrosCategoriaReporteGarantias">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Valor" ColumnName="Valor" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="FiltrosCategoriaReporteGarantiasId" ColumnName="FiltrosCategoriaReporteGarantiasId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="AnalisisRegistrosGarantias">
       <EntityTypeMapping TypeName="DacarProsoftModel.AnalisisRegistrosGarantias">
         <MappingFragment StoreEntitySet="AnalisisRegistrosGarantias">
@@ -700,9 +712,19 @@
           <ScalarProperty Name="ModeloBateria" ColumnName="ModeloBateria" />
           <ScalarProperty Name="LoteCarga" ColumnName="LoteCarga" />
           <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
-          <ScalarProperty Name="LoteFabricacion" ColumnName="LoteFabricacion" />
+          <ScalarProperty Name="NumeroComprobante" ColumnName="NumeroComprobante" />
           <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
           <ScalarProperty Name="AnalisisRegistrosGarantiasId" ColumnName="AnalisisRegistrosGarantiasId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LineasMarcasPropias">
+      <EntityTypeMapping TypeName="DacarProsoftModel.LineasMarcasPropias">
+        <MappingFragment StoreEntitySet="LineasMarcasPropias">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Identificador" ColumnName="Identificador" />
+          <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+          <ScalarProperty Name="LineasMarcasPropiasId" ColumnName="LineasMarcasPropiasId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

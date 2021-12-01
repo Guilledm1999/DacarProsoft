@@ -187,6 +187,9 @@
     <Compile Include="Datos\FechasPedidos.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\FiltrosCategoriaReporteGarantias.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\GrupoClientes.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
@@ -219,6 +222,9 @@
     </Compile>
     <Compile Include="Datos\ITM1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\LineasMarcasPropias.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\LoginUsuario_Result.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>

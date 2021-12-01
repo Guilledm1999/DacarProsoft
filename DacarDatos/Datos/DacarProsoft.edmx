@@ -20,7 +20,7 @@
           </Key>
           <Property Name="AnalisisRegistrosGarantiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IngresoRevisionGarantiaId" Type="int" />
-          <Property Name="LoteFabricacion" Type="varchar" MaxLength="30" />
+          <Property Name="NumeroComprobante" Type="varchar" MaxLength="30" />
           <Property Name="LoteEnsamble" Type="varchar" MaxLength="30" />
           <Property Name="LoteCarga" Type="varchar" MaxLength="30" />
           <Property Name="ModeloBateria" Type="varchar" MaxLength="30" />
@@ -35,7 +35,7 @@
           <Property Name="ResumenAnalisis" Type="varchar" MaxLength="100" />
           <Property Name="AreaResponsable" Type="varchar" MaxLength="30" />
           <Property Name="Observaciones" Type="varchar" MaxLength="100" />
-          <Property Name="FechaRegistroAnalisis" Type="datetime" />
+          <Property Name="FechaRegistroAnalisis" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="AreaResponsableGarantias">
           <Key>
@@ -202,6 +202,15 @@
           <Property Name="OrdenFecha" Type="int" />
           <Property Name="EstadoFecha" Type="bit" />
         </EntityType>
+        <EntityType Name="FiltrosCategoriaReporteGarantias">
+          <Key>
+            <PropertyRef Name="FiltrosCategoriaReporteGarantiasId" />
+          </Key>
+          <Property Name="FiltrosCategoriaReporteGarantiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Valor" Type="int" />
+          <Property Name="Estado" Type="bit" />
+        </EntityType>
         <EntityType Name="GrupoClientes">
           <Key>
             <PropertyRef Name="GrupoClienteId" />
@@ -278,6 +287,8 @@
           <Property Name="Voltaje" Type="decimal" Precision="10" Scale="2" />
           <Property Name="ModoIngreso" Type="varchar" MaxLength="25" />
           <Property Name="AplicaGarantia" Type="varchar" MaxLength="30" />
+          <Property Name="LoteEnsamble" Type="varchar" MaxLength="30" />
+          <Property Name="AnalisisRealizado" Type="bit" />
         </EntityType>
         <EntityType Name="IngresoRevisionGarantiaDiagnostico">
           <Key>
@@ -317,6 +328,15 @@
           <Property Name="CambioAcido" Type="bit" />
           <Property Name="RecargaBateria" Type="bit" />
           <Property Name="InspeccionEstructuraExterna" Type="bit" />
+        </EntityType>
+        <EntityType Name="LineasMarcasPropias">
+          <Key>
+            <PropertyRef Name="LineasMarcasPropiasId" />
+          </Key>
+          <Property Name="LineasMarcasPropiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Referencia" Type="varchar" MaxLength="255" />
+          <Property Name="Identificador" Type="int" />
+          <Property Name="Estado" Type="bit" />
         </EntityType>
         <EntityType Name="Marcas">
           <Key>
@@ -894,6 +914,7 @@
           <EntitySet Name="EstadosPedidos" EntityType="Self.EstadosPedidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadosPedidosSelect" EntityType="Self.EstadosPedidosSelect" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FechasPedidos" EntityType="Self.FechasPedidos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="Self.FiltrosCategoriaReporteGarantias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoInspeccionInicialDensidadCelda" EntityType="Self.IngresoInspeccionInicialDensidadCelda" Schema="dbo" store:Type="Tables" />
@@ -902,6 +923,7 @@
           <EntitySet Name="IngresoRevisionGarantiaDiagnostico" EntityType="Self.IngresoRevisionGarantiaDiagnostico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="Self.IngresoRevisionGarantiaInspeccionInicial" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoRevisionGarantiaTrabajoRealizado" EntityType="Self.IngresoRevisionGarantiaTrabajoRealizado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LineasMarcasPropias" EntityType="Self.LineasMarcasPropias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
@@ -1171,7 +1193,9 @@
           </AssociationSet>
           <EntitySet Name="AreaResponsableGarantias" EntityType="DacarProsoftModel.AreaResponsableGarantias" />
           <EntitySet Name="CausalesGarantias" EntityType="DacarProsoftModel.CausalesGarantias" />
+          <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="DacarProsoftModel.FiltrosCategoriaReporteGarantias" />
           <EntitySet Name="AnalisisRegistrosGarantias" EntityType="DacarProsoftModel.AnalisisRegistrosGarantias" />
+          <EntitySet Name="LineasMarcasPropias" EntityType="DacarProsoftModel.LineasMarcasPropias" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1984,6 +2008,8 @@
           <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
           <NavigationProperty Name="IngresoRevisionGarantiaDiagnostico" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaDiagnostico" />
           <NavigationProperty Name="IngresoRevisionGarantiaTrabajoRealizado" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaTrabajoRealizado" />
+          <Property Name="LoteEnsamble" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="AnalisisRealizado" Type="Boolean" />
         </EntityType>
         <Association Name="fk_Asignatura">
           <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
@@ -2037,13 +2063,22 @@
           <Property Name="DescripcionCausales" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IdentificadorAreaResponsable" Type="Int32" />
         </EntityType>
+        <EntityType Name="FiltrosCategoriaReporteGarantias">
+          <Key>
+            <PropertyRef Name="FiltrosCategoriaReporteGarantiasId" />
+          </Key>
+          <Property Name="FiltrosCategoriaReporteGarantiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="Int32" />
+          <Property Name="Estado" Type="Boolean" />
+        </EntityType>
         <EntityType Name="AnalisisRegistrosGarantias">
           <Key>
             <PropertyRef Name="AnalisisRegistrosGarantiasId" />
           </Key>
           <Property Name="AnalisisRegistrosGarantiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IngresoRevisionGarantiaId" Type="Int32" />
-          <Property Name="LoteFabricacion" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroComprobante" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="LoteEnsamble" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="LoteCarga" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="ModeloBateria" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -2058,7 +2093,16 @@
           <Property Name="ResumenAnalisis" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="AreaResponsable" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="FechaRegistroAnalisis" Type="DateTime" Precision="3" />
+          <Property Name="FechaRegistroAnalisis" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="LineasMarcasPropias">
+          <Key>
+            <PropertyRef Name="LineasMarcasPropiasId" />
+          </Key>
+          <Property Name="LineasMarcasPropiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Referencia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Identificador" Type="Int32" />
+          <Property Name="Estado" Type="Boolean" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2704,6 +2748,8 @@
           <EntitySetMapping Name="IngresoRevisionGarantiaCabecera">
             <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaCabecera">
               <MappingFragment StoreEntitySet="IngresoRevisionGarantiaCabecera">
+                <ScalarProperty Name="AnalisisRealizado" ColumnName="AnalisisRealizado" />
+                <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
                 <ScalarProperty Name="AplicaGarantia" ColumnName="AplicaGarantia" />
                 <ScalarProperty Name="ModoIngreso" ColumnName="ModoIngreso" />
                 <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
@@ -2747,6 +2793,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="FiltrosCategoriaReporteGarantias">
+            <EntityTypeMapping TypeName="DacarProsoftModel.FiltrosCategoriaReporteGarantias">
+              <MappingFragment StoreEntitySet="FiltrosCategoriaReporteGarantias">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="FiltrosCategoriaReporteGarantiasId" ColumnName="FiltrosCategoriaReporteGarantiasId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AnalisisRegistrosGarantias">
             <EntityTypeMapping TypeName="DacarProsoftModel.AnalisisRegistrosGarantias">
               <MappingFragment StoreEntitySet="AnalisisRegistrosGarantias">
@@ -2765,9 +2821,19 @@
                 <ScalarProperty Name="ModeloBateria" ColumnName="ModeloBateria" />
                 <ScalarProperty Name="LoteCarga" ColumnName="LoteCarga" />
                 <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
-                <ScalarProperty Name="LoteFabricacion" ColumnName="LoteFabricacion" />
+                <ScalarProperty Name="NumeroComprobante" ColumnName="NumeroComprobante" />
                 <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
                 <ScalarProperty Name="AnalisisRegistrosGarantiasId" ColumnName="AnalisisRegistrosGarantiasId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LineasMarcasPropias">
+            <EntityTypeMapping TypeName="DacarProsoftModel.LineasMarcasPropias">
+              <MappingFragment StoreEntitySet="LineasMarcasPropias">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Identificador" ColumnName="Identificador" />
+                <ScalarProperty Name="Referencia" ColumnName="Referencia" />
+                <ScalarProperty Name="LineasMarcasPropiasId" ColumnName="LineasMarcasPropiasId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -148,5 +148,76 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public ActionResult ReporteAnalisisGarantias()
+        {
+            if (Session["usuario"] != null)
+            {
+
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                daoUtilitarios = new DaoUtilitarios();
+                daoReportes = new DaoReportes();
+
+                var datFiltroGarantia= daoReportes.ConsultarFiltrosCategoriaGarantias();
+                ViewBag.FiltroBusqueda = datFiltroGarantia;
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ReporteAnalisisDeGarantias(int Filtro, DateTime FechaInicio, DateTime FechaFin)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+                if (Filtro==1) {
+                    var Result = daoReportes.ReporteAnalisisGarantiaPorCausales(FechaInicio, FechaFin);
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+                }
+                if (Filtro == 2) {
+                    var Result = daoReportes.ReporteAnalisisGarantiaPorMeses(FechaInicio, FechaFin);
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+                }
+                if (Filtro == 3)
+                {
+                    var Result = daoReportes.ReporteAnalisisGarantiaPorArea(FechaInicio, FechaFin);
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+                }
+                if (Filtro == 4)
+                {
+                    var Result = daoReportes.ReporteAnalisisGarantiaPorModelo(FechaInicio, FechaFin);
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+                }
+                if (Filtro == 5)
+                {
+                    var Result = daoReportes.ReporteAnalisisGarantiaPorAplicacion(FechaInicio, FechaFin);
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+                }
+
+
+                else {
+                    return Json(null, JsonRequestBehavior.AllowGet);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@
     </Key>
     <Property Name="AnalisisRegistrosGarantiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IngresoRevisionGarantiaId" Type="int" />
-    <Property Name="LoteFabricacion" Type="varchar" MaxLength="30" />
+    <Property Name="NumeroComprobante" Type="varchar" MaxLength="30" />
     <Property Name="LoteEnsamble" Type="varchar" MaxLength="30" />
     <Property Name="LoteCarga" Type="varchar" MaxLength="30" />
     <Property Name="ModeloBateria" Type="varchar" MaxLength="30" />
@@ -30,7 +30,7 @@
     <Property Name="ResumenAnalisis" Type="varchar" MaxLength="100" />
     <Property Name="AreaResponsable" Type="varchar" MaxLength="30" />
     <Property Name="Observaciones" Type="varchar" MaxLength="100" />
-    <Property Name="FechaRegistroAnalisis" Type="datetime" />
+    <Property Name="FechaRegistroAnalisis" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="AreaResponsableGarantias">
     <Key>
@@ -197,6 +197,15 @@
     <Property Name="OrdenFecha" Type="int" />
     <Property Name="EstadoFecha" Type="bit" />
   </EntityType>
+  <EntityType Name="FiltrosCategoriaReporteGarantias">
+    <Key>
+      <PropertyRef Name="FiltrosCategoriaReporteGarantiasId" />
+    </Key>
+    <Property Name="FiltrosCategoriaReporteGarantiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+    <Property Name="Valor" Type="int" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="GrupoClientes">
     <Key>
       <PropertyRef Name="GrupoClienteId" />
@@ -273,6 +282,8 @@
     <Property Name="Voltaje" Type="decimal" Precision="10" Scale="2" />
     <Property Name="ModoIngreso" Type="varchar" MaxLength="25" />
     <Property Name="AplicaGarantia" Type="varchar" MaxLength="30" />
+    <Property Name="LoteEnsamble" Type="varchar" MaxLength="30" />
+    <Property Name="AnalisisRealizado" Type="bit" />
   </EntityType>
   <EntityType Name="IngresoRevisionGarantiaDiagnostico">
     <Key>
@@ -312,6 +323,15 @@
     <Property Name="CambioAcido" Type="bit" />
     <Property Name="RecargaBateria" Type="bit" />
     <Property Name="InspeccionEstructuraExterna" Type="bit" />
+  </EntityType>
+  <EntityType Name="LineasMarcasPropias">
+    <Key>
+      <PropertyRef Name="LineasMarcasPropiasId" />
+    </Key>
+    <Property Name="LineasMarcasPropiasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Referencia" Type="varchar" MaxLength="255" />
+    <Property Name="Identificador" Type="int" />
+    <Property Name="Estado" Type="bit" />
   </EntityType>
   <EntityType Name="Marcas">
     <Key>
@@ -889,6 +909,7 @@
     <EntitySet Name="EstadosPedidos" EntityType="Self.EstadosPedidos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EstadosPedidosSelect" EntityType="Self.EstadosPedidosSelect" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FechasPedidos" EntityType="Self.FechasPedidos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="Self.FiltrosCategoriaReporteGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoInspeccionInicialDensidadCelda" EntityType="Self.IngresoInspeccionInicialDensidadCelda" Schema="dbo" store:Type="Tables" />
@@ -897,6 +918,7 @@
     <EntitySet Name="IngresoRevisionGarantiaDiagnostico" EntityType="Self.IngresoRevisionGarantiaDiagnostico" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="Self.IngresoRevisionGarantiaInspeccionInicial" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoRevisionGarantiaTrabajoRealizado" EntityType="Self.IngresoRevisionGarantiaTrabajoRealizado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LineasMarcasPropias" EntityType="Self.LineasMarcasPropias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />

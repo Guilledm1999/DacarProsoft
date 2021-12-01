@@ -143,6 +143,11 @@
       <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
       <End Role="IngresoInspeccionInicialDensidadCelda" EntitySet="IngresoInspeccionInicialDensidadCelda" />
     </AssociationSet>
+    <EntitySet Name="CantonesEcuador" EntityType="DacarProsoftModel.CantonesEcuador" />
+    <AssociationSet Name="fk_canton_provincia" Association="DacarProsoftModel.fk_canton_provincia">
+      <End Role="ProvinciasEcuador" EntitySet="ProvinciasEcuador" />
+      <End Role="CantonesEcuador" EntitySet="CantonesEcuador" />
+    </AssociationSet>
     <EntitySet Name="IngresoRevisionGarantiaCabecera" EntityType="DacarProsoftModel.IngresoRevisionGarantiaCabecera" />
     <AssociationSet Name="fk_Asignatura" Association="DacarProsoftModel.fk_Asignatura">
       <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
@@ -156,6 +161,11 @@
       <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
       <End Role="IngresoRevisionGarantiaTrabajoRealizado" EntitySet="IngresoRevisionGarantiaTrabajoRealizado" />
     </AssociationSet>
+    <EntitySet Name="AreaResponsableGarantias" EntityType="DacarProsoftModel.AreaResponsableGarantias" />
+    <EntitySet Name="CausalesGarantias" EntityType="DacarProsoftModel.CausalesGarantias" />
+    <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="DacarProsoftModel.FiltrosCategoriaReporteGarantias" />
+    <EntitySet Name="AnalisisRegistrosGarantias" EntityType="DacarProsoftModel.AnalisisRegistrosGarantias" />
+    <EntitySet Name="LineasMarcasPropias" EntityType="DacarProsoftModel.LineasMarcasPropias" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -879,6 +889,7 @@
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="provincia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="CantonesEcuador" Relationship="DacarProsoftModel.fk_canton_provincia" FromRole="ProvinciasEcuador" ToRole="CantonesEcuador" />
   </EntityType>
   <EntityType Name="SecuencialRevisionTecnica">
     <Key>
@@ -917,6 +928,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="CantonesEcuador">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="canton" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="id_provincia" Type="Int32" />
+    <NavigationProperty Name="ProvinciasEcuador" Relationship="DacarProsoftModel.fk_canton_provincia" FromRole="CantonesEcuador" ToRole="ProvinciasEcuador" />
+  </EntityType>
+  <Association Name="fk_canton_provincia">
+    <End Type="DacarProsoftModel.ProvinciasEcuador" Role="ProvinciasEcuador" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.CantonesEcuador" Role="CantonesEcuador" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProvinciasEcuador">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CantonesEcuador">
+        <PropertyRef Name="id_provincia" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityType Name="IngresoRevisionGarantiaCabecera">
     <Key>
       <PropertyRef Name="IngresoRevisionGarantiaId" />
@@ -926,7 +958,7 @@
     <Property Name="Cedula" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
     <Property Name="NumeroGarantia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
     <Property Name="NumeroComprobante" Type="Int32" />
-    <Property Name="NumeroRevision" Type="Int32" />
+    <Property Name="NumeroFactura" Type="Int32" />
     <Property Name="Provincia" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
     <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="Vendedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -946,6 +978,8 @@
     <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
     <NavigationProperty Name="IngresoRevisionGarantiaDiagnostico" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaDiagnostico" />
     <NavigationProperty Name="IngresoRevisionGarantiaTrabajoRealizado" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaTrabajoRealizado" />
+    <Property Name="LoteEnsamble" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="AnalisisRealizado" Type="Boolean" />
   </EntityType>
   <Association Name="fk_Asignatura">
     <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
@@ -983,4 +1017,61 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="AreaResponsableGarantias">
+    <Key>
+      <PropertyRef Name="AreaResponsableGarantiasId" />
+    </Key>
+    <Property Name="AreaResponsableGarantiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DescripcionAreaResponsable" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CodigoArea" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CausalesGarantias">
+    <Key>
+      <PropertyRef Name="CausalesGarantiasId" />
+    </Key>
+    <Property Name="CausalesGarantiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DescripcionCausales" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IdentificadorAreaResponsable" Type="Int32" />
+  </EntityType>
+  <EntityType Name="FiltrosCategoriaReporteGarantias">
+    <Key>
+      <PropertyRef Name="FiltrosCategoriaReporteGarantiasId" />
+    </Key>
+    <Property Name="FiltrosCategoriaReporteGarantiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Valor" Type="Int32" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="AnalisisRegistrosGarantias">
+    <Key>
+      <PropertyRef Name="AnalisisRegistrosGarantiasId" />
+    </Key>
+    <Property Name="AnalisisRegistrosGarantiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IngresoRevisionGarantiaId" Type="Int32" />
+    <Property Name="NumeroComprobante" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="LoteEnsamble" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="LoteCarga" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="ModeloBateria" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Voltaje" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CCA" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda1" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda2" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda3" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda4" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda5" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DencidadCelda6" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ResumenAnalisis" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="AreaResponsable" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="FechaRegistroAnalisis" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="LineasMarcasPropias">
+    <Key>
+      <PropertyRef Name="LineasMarcasPropiasId" />
+    </Key>
+    <Property Name="LineasMarcasPropiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Referencia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Identificador" Type="Int32" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
 </Schema>

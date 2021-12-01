@@ -56,27 +56,42 @@ function RevisionesTecnicas() {
                 showBorders: true,
                 columnAutoWidth: true,
                 showBorders: true,
-                paging: {
-                    pageSize: 10
+                showColumnLines: true,
+                rowAlternationEnabled: false,
+                showRowLines: true,
+                //paging: {
+                //    pageSize: 10
+                //},
+                //selection: {
+                //    mode: 'multiple'
+                //},
+                //searchPanel: {
+                //    visible: true,
+                //    width: 240,
+                //    placeholder: "Buscar..."
+                //},
+                customizeColumns(columns) {
+                    columns[0].width = 70;
                 },
-                selection: {
-                    mode: 'multiple'
+                loadPanel: {
+                    enabled: false,
                 },
-                searchPanel: {
-                    visible: true,
-                    width: 240,
-                    placeholder: "Buscar..."
+                scrolling: {
+                    mode: 'infinite',
+                },
+                sorting: {
+                    mode: 'none',
                 },
                 headerFilter: {
                     visible: true
                 },
-                pager: {
-                    visible: true,
-                    allowedPageSizes: [5, 10, 50],
-                    showPageSizeSelector: true,
-                    showInfo: true,
-                    showNavigationButtons: true
-                },
+                //pager: {
+                //    visible: true,
+                //    allowedPageSizes: [5, 10, 50],
+                //    showPageSizeSelector: true,
+                //    showInfo: true,
+                //    showNavigationButtons: true
+                //},
                 export: {
                     enabled: true,
                     allowExportSelectedData: true

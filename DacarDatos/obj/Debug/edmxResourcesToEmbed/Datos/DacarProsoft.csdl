@@ -163,7 +163,9 @@
     </AssociationSet>
     <EntitySet Name="AreaResponsableGarantias" EntityType="DacarProsoftModel.AreaResponsableGarantias" />
     <EntitySet Name="CausalesGarantias" EntityType="DacarProsoftModel.CausalesGarantias" />
+    <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="DacarProsoftModel.FiltrosCategoriaReporteGarantias" />
     <EntitySet Name="AnalisisRegistrosGarantias" EntityType="DacarProsoftModel.AnalisisRegistrosGarantias" />
+    <EntitySet Name="LineasMarcasPropias" EntityType="DacarProsoftModel.LineasMarcasPropias" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -976,6 +978,8 @@
     <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
     <NavigationProperty Name="IngresoRevisionGarantiaDiagnostico" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaDiagnostico" />
     <NavigationProperty Name="IngresoRevisionGarantiaTrabajoRealizado" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaTrabajoRealizado" />
+    <Property Name="LoteEnsamble" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="AnalisisRealizado" Type="Boolean" />
   </EntityType>
   <Association Name="fk_Asignatura">
     <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
@@ -1029,13 +1033,22 @@
     <Property Name="DescripcionCausales" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="IdentificadorAreaResponsable" Type="Int32" />
   </EntityType>
+  <EntityType Name="FiltrosCategoriaReporteGarantias">
+    <Key>
+      <PropertyRef Name="FiltrosCategoriaReporteGarantiasId" />
+    </Key>
+    <Property Name="FiltrosCategoriaReporteGarantiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Valor" Type="Int32" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
   <EntityType Name="AnalisisRegistrosGarantias">
     <Key>
       <PropertyRef Name="AnalisisRegistrosGarantiasId" />
     </Key>
     <Property Name="AnalisisRegistrosGarantiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="IngresoRevisionGarantiaId" Type="Int32" />
-    <Property Name="LoteFabricacion" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="NumeroComprobante" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
     <Property Name="LoteEnsamble" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
     <Property Name="LoteCarga" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
     <Property Name="ModeloBateria" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -1050,6 +1063,15 @@
     <Property Name="ResumenAnalisis" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="AreaResponsable" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
     <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="FechaRegistroAnalisis" Type="DateTime" Precision="3" />
+    <Property Name="FechaRegistroAnalisis" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="LineasMarcasPropias">
+    <Key>
+      <PropertyRef Name="LineasMarcasPropiasId" />
+    </Key>
+    <Property Name="LineasMarcasPropiasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Referencia" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Identificador" Type="Int32" />
+    <Property Name="Estado" Type="Boolean" />
   </EntityType>
 </Schema>

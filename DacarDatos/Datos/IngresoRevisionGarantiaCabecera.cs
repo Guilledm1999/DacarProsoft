@@ -44,6 +44,8 @@ namespace DacarDatos.Datos
         public Nullable<decimal> Voltaje { get; set; }
         public string ModoIngreso { get; set; }
         public string AplicaGarantia { get; set; }
+        public string LoteEnsamble { get; set; }
+        public Nullable<bool> AnalisisRealizado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngresoRevisionGarantiaInspeccionInicial> IngresoRevisionGarantiaInspeccionInicial { get; set; }

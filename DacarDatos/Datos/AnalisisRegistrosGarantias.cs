@@ -16,7 +16,7 @@ namespace DacarDatos.Datos
     {
         public int AnalisisRegistrosGarantiasId { get; set; }
         public Nullable<int> IngresoRevisionGarantiaId { get; set; }
-        public string LoteFabricacion { get; set; }
+        public string NumeroComprobante { get; set; }
         public string LoteEnsamble { get; set; }
         public string LoteCarga { get; set; }
         public string ModeloBateria { get; set; }
@@ -31,6 +31,6 @@ namespace DacarDatos.Datos
         public string ResumenAnalisis { get; set; }
         public string AreaResponsable { get; set; }
         public string Observaciones { get; set; }
-        public Nullable<System.DateTime> FechaRegistroAnalisis { get; set; }
+        public System.DateTime FechaRegistroAnalisis { get; set; }
     }
 }

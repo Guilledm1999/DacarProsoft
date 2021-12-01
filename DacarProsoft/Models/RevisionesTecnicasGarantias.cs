@@ -21,6 +21,7 @@ namespace DacarProsoft.Models
         public string Marca { get; set; }
         public string Modelo { get; set; }
         public string Lote { get; set; }
+        public string LoteEnsamble { get; set; }
         public string FechaVenta { get; set; }
         public string FechaIngreso { get; set; }
         public decimal Prorrateo { get; set; }

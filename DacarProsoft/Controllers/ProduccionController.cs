@@ -107,5 +107,41 @@ namespace DacarProsoft.Controllers
 
             return Result;
         }
+
+        public ActionResult ConsultarRegistrosAnalisisGarantias()
+        {
+            if (Session["usuario"] != null)
+            {
+
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ConsultarAnalisisGarantiaRegistrados()
+        {
+
+            daoProduccion = new DaoProduccion();
+            var Result = daoProduccion.ConsultarIngresosAnalisisGarantias();
+
+            return Json(Result, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

@@ -367,7 +367,7 @@ namespace DacarProsoft.Datos
 
         }
         public int IngresarRevisionGarantiaCabecera(string cliente, string cedula, string numeroGarantia, string numeroComprobante, string numeroRevision, string provincia, string direccion, string vendedor, string ImgFac, string marca,
-            string modelo, string lote, string prorrateo, string meses, string fechaVenta, string fechaIngreso, string porcentajeVenta, string voltaje, string ImgTest)
+            string modelo, string lote, string prorrateo, string meses, string fechaVenta, string fechaIngreso, string porcentajeVenta, string voltaje, string loteEnsamble, string ImgTest)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -393,6 +393,8 @@ namespace DacarProsoft.Datos
                     result.FechaIngreso = Convert.ToDateTime(fechaIngreso);
                     result.PorcentajeVenta = Convert.ToDecimal(porcentajeVenta);
                     result.Voltaje = Convert.ToDecimal(voltaje);
+                    result.LoteEnsamble = loteEnsamble;
+                    result.AnalisisRealizado = false;
 
                     DB.IngresoRevisionGarantiaCabecera.Add(result);
                     DB.SaveChanges();
