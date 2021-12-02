@@ -1,6 +1,5 @@
 ﻿var char;
 var char2;
-
 var type = null;
 var type2 = null;
 
@@ -16,19 +15,30 @@ $(document).ready(function () {
     
 });
 
+$('#LinkClose').on("click", function (e) {
+    $("#MensajeErrorInesperado").hide('fade');
+});
+
+$('#LinkClose2').on("click", function (e) {
+    $("#MensajeIngreseTodosLosCampos").hide('fade');
+});
+
+$('#LinkClose3').on("click", function (e) {
+    $("#MensajeSinInformacion").hide('fade');
+});
+
 function ConsultarReporte() {
     $(".result").text("");
     $(".loading-icon").removeClass("hide");
     $(".btn").attr("disabled", true);
     $(".btn-txt").text("Espere...");
 
-    //var txtFechaInicio = document.getElementById('txtFechaInicio').value;
-    //var txtFechaFin = document.getElementById('txtFechaFin').value;
 
     var txtFechaInicio = $("#txtFechaInicio").val();
     var txtFechaFin = $("#txtFechaFin").val();
+    var txtSelect = $("#SelectEstado option:selected").val();
 
-    if (txtFechaInicio.length == 0 && txtFechaFin.length == 0) {
+    if (txtFechaInicio.length == 0 || txtFechaFin.length == 0 || txtSelect.length == 0) {
         $(".btn").attr("disabled", false);
         $(".btn-txt").text("Consultar");
         $("#MensajeIngreseTodosLosCampos").show('fade');
@@ -55,65 +65,80 @@ function AnalisisGarantiasRegistrados() {
         url: "../Reportes/ReporteAnalisisDeGarantias?Filtro=" + tipo + "&FechaInicio=" + fechaInicio + "&FechaFin=" + fechaFin,
         type: "GET"
         , success: function (msg) {
-            console.log(msg);
-            $("#tblGridResumen").dxDataGrid({
-                dataSource: msg,
-                showBorders: true,
-                columnAutoWidth: true,
-                showBorders: true,
-                    columns: [   
+            if (msg.length != 0) {
+                $(".btn").attr("disabled", false);
+                $(".btn-txt").text("Consultar");
+
+                $("#tblGridResumen").dxDataGrid({
+                    dataSource: msg,
+                    showBorders: true,
+                    columnAutoWidth: true,
+                    showBorders: true,
+                    columns: [
                         {
                             dataField: "Descripcion", caption: "Descripcion"
                         }, {
                             dataField: "Valor", caption: "Cantidad"
                         }
-                ],
-                summary: {
-                    totalItems: [
-                        {
-                            name: "Valor",
-                            column: "Valor",
-                            summaryType: "sum",
-                            displayFormat: "Total: {0}",
-                            showInColumn: "Valor",
-                            customizeText: function (e) {
-                                if (e.value != 0 && e.value != "") {
-                                    return "Total: " + (e.value)
+                    ],
+                    summary: {
+                        totalItems: [
+                            {
+                                name: "Valor",
+                                column: "Valor",
+                                summaryType: "sum",
+                                displayFormat: "Total: {0}",
+                                showInColumn: "Valor",
+                                customizeText: function (e) {
+                                    if (e.value != 0 && e.value != "") {
+                                        return "Total: " + (e.value)
+                                    }
                                 }
-                            }
-                        }],
+                            }],
+                    }
+                });
+                //chart.destroy();
+                // chart2.destroy();
+
+                if (tipo == 1) {
+                    type = "bar";
+                    type2 = "pie";
                 }
-            });
-            //chart.destroy();
-           // chart2.destroy();
+                if (tipo == 2) {
+                    type = "line";
+                    type2 = "pie";
+                }
+                if (tipo == 3) {
+                    type = "bar";
+                    type2 = "pie";
+                }
+                if (tipo == 4) {
+                    type = "bar";
+                    type2 = "pie";
+                }
+                if (tipo == 5) {
+                    type = "bar";
+                    type2 = "pie";
+                }
 
-            if (tipo == 1) {
-                type = "bar";
-                type2 = "pie";
-            }
-            if (tipo == 2) {
-                type = "line";
-                type2 = "pie";
-            }
-            if (tipo == 3) {
-                type = "bar";
-                type2 = "pie";
-            }
-            if (tipo == 4) {
-                type = "bar";
-                type2 = "pie";
-            }
-            if (tipo == 5) {
-                type = "bar";
-                type2 = "pie";
-            }
+                ChartResumenesGarantias(msg, type);
+                ChartResumenesGarantias2(msg, type2);
 
-            ChartResumenesGarantias(msg, type);
-            ChartResumenesGarantias2(msg, type2);
 
-        
-            $(".btn").attr("disabled", false);
-            $(".btn-txt").text("Consultar");
+              
+            } else {
+
+                $(".btn").attr("disabled", false);
+                $(".btn-txt").text("Consultar");
+
+                $("#MensajeSinInformacion").show('fade');
+                setTimeout(function () {
+                    $("#MensajeSinInformacion").fadeOut(1500);
+                }, 3000); return;
+
+                
+            }
+      
         },
         error: function (msg) {
             $(".btn").attr("disabled", false);

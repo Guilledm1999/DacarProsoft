@@ -12,7 +12,7 @@ namespace DacarProsoft.Models
         public string Cedula { get; set; }
         public string NumeroGarantia { get; set; }
         public int NumeroComprobante { get; set; }
-        public int NumeroRevision { get; set; }
+        public string NumeroRevision { get; set; }
         public string Provincia { get; set; }
         public string Direccion { get; set; }
         public string Vendedor { get; set; }

@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>Z:\Prosoft</_PublishTargetUrl>
-    <History>True|2021-11-24T15:46:48.5206815Z;True|2021-11-24T10:41:04.8497617-05:00;True|2021-11-23T13:11:58.3150925-05:00;True|2021-11-10T09:54:34.3674221-05:00;True|2021-11-10T09:50:20.9096699-05:00;False|2021-11-09T12:55:15.4637351-05:00;True|2021-09-22T14:09:46.1129774-05:00;True|2021-09-09T10:12:18.1856526-05:00;True|2021-09-08T17:40:12.1576998-05:00;True|2021-09-08T17:06:30.9278655-05:00;True|2021-09-03T10:51:54.0112230-05:00;</History>
+    <History>True|2021-12-02T14:33:51.9800181Z;True|2021-12-02T09:08:09.1257091-05:00;True|2021-11-24T10:46:48.5206815-05:00;True|2021-11-24T10:41:04.8497617-05:00;True|2021-11-23T13:11:58.3150925-05:00;True|2021-11-10T09:54:34.3674221-05:00;True|2021-11-10T09:50:20.9096699-05:00;False|2021-11-09T12:55:15.4637351-05:00;True|2021-09-22T14:09:46.1129774-05:00;True|2021-09-09T10:12:18.1856526-05:00;True|2021-09-08T17:40:12.1576998-05:00;True|2021-09-08T17:06:30.9278655-05:00;True|2021-09-03T10:51:54.0112230-05:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">
@@ -30,19 +30,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/16/2017 06:51:42</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll">
-      <publishTime>11/30/2021 11:57:26</publishTime>
+      <publishTime>12/02/2021 09:33:23</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/DacarDatos.pdb">
-      <publishTime>11/30/2021 11:57:26</publishTime>
+      <publishTime>12/02/2021 09:33:23</publishTime>
     </File>
     <File Include="bin/DacarProsoft.dll">
-      <publishTime>11/30/2021 11:57:29</publishTime>
+      <publishTime>12/02/2021 09:33:36</publishTime>
     </File>
     <File Include="bin/DacarProsoft.pdb">
-      <publishTime>11/30/2021 11:57:29</publishTime>
+      <publishTime>12/02/2021 09:33:36</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/03/2015 18:43:42</publishTime>
@@ -777,7 +777,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/11/2021 15:48:09</publishTime>
     </File>
     <File Include="scripts/General/Articulos/ConsultarArticulos.js">
-      <publishTime>03/18/2021 09:30:16</publishTime>
+      <publishTime>11/30/2021 16:10:22</publishTime>
     </File>
     <File Include="scripts/General/Articulos/ConsultarItemsChatarra.js">
       <publishTime>03/19/2021 16:16:27</publishTime>
@@ -801,7 +801,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/25/2021 17:41:22</publishTime>
     </File>
     <File Include="scripts/General/Garantias/ConsultaRevisionesTecnicas.js">
-      <publishTime>11/29/2021 12:10:42</publishTime>
+      <publishTime>11/30/2021 16:19:54</publishTime>
     </File>
     <File Include="scripts/General/Garantias/IngresoGarantias.js">
       <publishTime>11/30/2021 09:37:45</publishTime>
@@ -834,19 +834,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/22/2021 12:01:39</publishTime>
     </File>
     <File Include="scripts/General/Produccion/AnalisisRegistroGarantias.js">
-      <publishTime>11/30/2021 10:09:09</publishTime>
+      <publishTime>11/30/2021 16:32:35</publishTime>
     </File>
     <File Include="scripts/General/Produccion/ConsultarRegistrosAnalisisGarantias.js">
-      <publishTime>11/30/2021 11:32:58</publishTime>
+      <publishTime>11/30/2021 16:34:34</publishTime>
+    </File>
+    <File Include="scripts/General/Reportes/ReporteAnalisisGarantias.js">
+      <publishTime>02/12/2021 09:02:21</publishTime>
     </File>
     <File Include="scripts/General/Reportes/ReporteDeControl.js">
-      <publishTime>09/08/2021 16:23:03</publishTime>
+      <publishTime>11/30/2021 15:38:46</publishTime>
     </File>
     <File Include="scripts/General/Reportes/ReporteDeGarantias.js">
-      <publishTime>10/26/2021 13:06:55</publishTime>
+      <publishTime>11/30/2021 15:38:57</publishTime>
     </File>
     <File Include="scripts/General/Reportes/ReporteGeneralVentasExterior.js">
-      <publishTime>09/09/2021 10:04:41</publishTime>
+      <publishTime>11/30/2021 15:39:10</publishTime>
     </File>
     <File Include="scripts/General/Ventas/InformeVentas.js">
       <publishTime>03/18/2021 09:28:33</publishTime>
@@ -972,19 +975,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/22/2021 10:24:12</publishTime>
     </File>
     <File Include="Views/Produccion/AnalisisRegistroGarantias.cshtml">
-      <publishTime>11/30/2021 10:34:03</publishTime>
+      <publishTime>11/30/2021 16:14:32</publishTime>
     </File>
     <File Include="Views/Produccion/ConsultarRegistrosAnalisisGarantias.cshtml">
-      <publishTime>11/30/2021 10:35:35</publishTime>
+      <publishTime>11/30/2021 15:47:41</publishTime>
+    </File>
+    <File Include="Views/Reportes/ReporteAnalisisGarantias.cshtml">
+      <publishTime>02/12/2021 08:54:09</publishTime>
     </File>
     <File Include="Views/Reportes/ReporteDeControl.cshtml">
-      <publishTime>09/08/2021 10:54:11</publishTime>
+      <publishTime>11/30/2021 15:39:45</publishTime>
     </File>
     <File Include="Views/Reportes/ReporteDeGarantias.cshtml">
-      <publishTime>11/08/2021 15:23:07</publishTime>
+      <publishTime>11/30/2021 15:39:50</publishTime>
     </File>
     <File Include="Views/Reportes/ReporteGeneralVentasExterior.cshtml">
-      <publishTime>09/06/2021 15:14:54</publishTime>
+      <publishTime>11/30/2021 15:39:56</publishTime>
     </File>
     <File Include="Views/Ventas/InformeVentas.cshtml">
       <publishTime>03/18/2021 09:27:48</publishTime>
@@ -996,7 +1002,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/09/2020 13:04:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/30/2021 11:58:02</publishTime>
+      <publishTime>12/02/2021 09:33:37</publishTime>
     </File>
   </ItemGroup>
 </Project>

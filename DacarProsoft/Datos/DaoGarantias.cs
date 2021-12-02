@@ -341,7 +341,7 @@ namespace DacarProsoft.Datos
                         Cedula=x.Cedula,
                         NumeroGarantia=x.NumeroGarantia,
                         NumeroComprobante=x.NumeroComprobante.Value,
-                        NumeroRevision=x.NumeroFactura.Value,
+                        NumeroRevision=x.NumeroFactura,
                         Provincia=x.Provincia,
                         Direccion=x.Direccion,
                         Vendedor=x.Vendedor,
@@ -378,7 +378,7 @@ namespace DacarProsoft.Datos
                     result.Cedula = cedula;
                     result.NumeroGarantia = numeroGarantia;
                     result.NumeroComprobante = Convert.ToInt32(numeroComprobante);
-                    result.NumeroFactura = Convert.ToInt32(numeroRevision);
+                    result.NumeroFactura = numeroRevision;
                     result.Provincia = provincia;
                     result.Direccion = direccion;
                     result.Vendedor = vendedor;

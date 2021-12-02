@@ -265,7 +265,7 @@
     <Property Name="Cedula" Type="varchar" MaxLength="13" />
     <Property Name="NumeroGarantia" Type="varchar" MaxLength="25" />
     <Property Name="NumeroComprobante" Type="int" />
-    <Property Name="NumeroFactura" Type="int" />
+    <Property Name="NumeroFactura" Type="varchar" MaxLength="50" />
     <Property Name="Provincia" Type="varchar" MaxLength="25" />
     <Property Name="Direccion" Type="varchar" MaxLength="100" />
     <Property Name="Vendedor" Type="varchar" MaxLength="50" />

@@ -70,8 +70,6 @@ namespace DacarProsoft.Datos
                                        d.FechaEmision,
                                        d.FechaRequerida,
                                        d.OrdenCompra,
-                                       //d.Pais,
-                                       //d.Ciudad,
                                        d.Direccion,
                                        d.TerminoImportacion,
                                        d.FechaCargaLista,
@@ -214,8 +212,6 @@ namespace DacarProsoft.Datos
                             FechaEmision = FechaEmision,
                             FechaRequerida = FechaRequerida,
                             OrdenCompra = x.OrdenCompra,
-                            //Pais = x.Pais,
-                            //Ciudad = x.Ciudad,
                             Direccion = x.Direccion,
                             TerminoImportacion = x.TerminoImportacion,
                             Estado = estatus,
@@ -255,8 +251,6 @@ namespace DacarProsoft.Datos
                                        d.FechaEmision,
                                        d.FechaRequerida,
                                        d.OrdenCompra,
-                                       //d.Pais,
-                                       //d.Ciudad,
                                        d.Direccion,
                                        d.TerminoImportacion,
                                        d.FechaCargaLista,
@@ -399,8 +393,6 @@ namespace DacarProsoft.Datos
                             FechaEmision = FechaEmision,
                             FechaRequerida = FechaRequerida,
                             OrdenCompra = x.OrdenCompra,
-                            //Pais = x.Pais,
-                            //Ciudad = x.Ciudad,
                             Direccion = x.Direccion,
                             TerminoImportacion = x.TerminoImportacion,
                             Estado = estatus,
@@ -827,7 +819,6 @@ namespace DacarProsoft.Datos
                     {
                         Descripcion = x.Modelo,
                         Valor = x.Contador,
-
                     });
                 }
                 return lst;
@@ -871,7 +862,6 @@ namespace DacarProsoft.Datos
         }
         public List<ModelChartGarantias> ReporteAnalisisGarantiaPorAplicacion(DateTime FechaInicio, DateTime FechaFin)
         {
-            string valor;
 
             DateTime nuevaFechaFin = FechaFin;
             nuevaFechaFin = nuevaFechaFin.AddDays(1);
@@ -893,7 +883,6 @@ namespace DacarProsoft.Datos
 
                 foreach (var x in Listado)
                 {
-                    //valor = BuscarLineaMarcaPropia(x.Modelo);
                     lst.Add(new ModelChartGarantias
                     {
                         Descripcion = x.Modelo,
@@ -913,7 +902,6 @@ namespace DacarProsoft.Datos
 
             DateTime nuevaFechaFin = FechaFin;
             nuevaFechaFin = nuevaFechaFin.AddDays(1);
-           // string descrip;
 
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -955,6 +943,7 @@ namespace DacarProsoft.Datos
                                  d.Nombre
                              }).FirstOrDefault();
                 result = valor.Nombre;
+
                 return result;
             
             }
