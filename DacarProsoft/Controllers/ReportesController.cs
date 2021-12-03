@@ -219,5 +219,69 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public ActionResult ReporteAnalisisGarantiasPorAnio()
+        {
+            if (Session["usuario"] != null)
+            {
+
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                daoUtilitarios = new DaoUtilitarios();
+                
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ReporteAnalisisDeGarantiasPorAnio1(int Anio)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+                       
+                    var Result = daoReportes.ReporteAnalisisGarantiaPorAnio1(Anio);
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+                
+
+             
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ReporteAnalisisDeGarantiasPorAnio2(int Anio)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReporteAnalisisGarantiaPorAnio2(Anio);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+
     }
 }

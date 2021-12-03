@@ -12,6 +12,8 @@ namespace DacarProsoft.Controllers
     {
         private DaoUtilitarios daoUtilitarios { get; set; } = null;
         private DaoGarantias daoGarantias { get; set; } = null;
+        private DaoUsuarios daoUsuarios { get; set; } = null;
+
 
         // GET: Garantias
         public ActionResult IngresoGarantias()
@@ -26,7 +28,12 @@ namespace DacarProsoft.Controllers
 
                 daoUtilitarios = new DaoUtilitarios();
                 daoGarantias = new DaoGarantias();
+                daoUsuarios = new DaoUsuarios();
 
+                var datClientesSap = daoUsuarios.ConsutaClientesSap();
+                ViewBag.ClientesSap = datClientesSap;
+
+                //ConsutaClientesSap
                 var datvendedor = daoGarantias.ConsultarVendedores();
                 ViewBag.Vendedores = datvendedor;
 
@@ -67,6 +74,13 @@ namespace DacarProsoft.Controllers
             return Json(new SelectList(modelos, "ModelosMarcasPropiasId", "Referencia"));
         }
 
+        public JsonResult ConsultarClientesSap()
+        {
+            daoUsuarios = new DaoUsuarios();
+            var datClientesSap = daoUsuarios.ConsutaClientesSap();
+            return Json(new SelectList(datClientesSap, "CardCode", "NombreCliente"));
+        }
+
         public JsonResult ConsultarProvincias()
         {
             daoGarantias = new DaoGarantias();
@@ -77,6 +91,7 @@ namespace DacarProsoft.Controllers
         public int RegistrarRevisionDeGarantiaCabecera(string cliente, string cedula, string numeroGarantia, string numeroComprobante, string numeroFactura, string provincia, string direccion, string vendedor, HttpPostedFileBase ImgFac, string marca,
             string modelo, string lote, string prorrateo, string meses, string fechaVenta, string fechaIngreso, string porcentajeVenta, string voltaje, string loteEnsamble, HttpPostedFileBase ImgTest)
         {
+            var clienteCorregido = cliente.Replace("\"", "");
             string filename2 = null;
             string destinoImg2 = null;
             try
@@ -97,7 +112,7 @@ namespace DacarProsoft.Controllers
                     destinoImg2 = numeroFactura + "-" + numeroGarantia + "-" + cedula + filename2;
                 }
 
-                var Result = daoGarantias.IngresarRevisionGarantiaCabecera(cliente,  cedula,  numeroGarantia,  numeroComprobante, numeroFactura,  provincia,  direccion,  vendedor, destinoImg1,  marca,
+                var Result = daoGarantias.IngresarRevisionGarantiaCabecera(clienteCorregido,  cedula,  numeroGarantia,  numeroComprobante, numeroFactura,  provincia,  direccion,  vendedor, destinoImg1,  marca,
                 modelo,  lote,  prorrateo,  meses,  fechaVenta,  fechaIngreso,  porcentajeVenta,  voltaje, loteEnsamble,destinoImg2);
                 return Result;
             }

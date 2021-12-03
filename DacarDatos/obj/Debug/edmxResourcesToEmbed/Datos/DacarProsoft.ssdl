@@ -262,7 +262,7 @@
     </Key>
     <Property Name="IngresoRevisionGarantiaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Cliente" Type="varchar" MaxLength="100" />
-    <Property Name="Cedula" Type="varchar" MaxLength="13" />
+    <Property Name="Cedula" Type="varchar" MaxLength="16" />
     <Property Name="NumeroGarantia" Type="varchar" MaxLength="25" />
     <Property Name="NumeroComprobante" Type="int" />
     <Property Name="NumeroFactura" Type="varchar" MaxLength="50" />

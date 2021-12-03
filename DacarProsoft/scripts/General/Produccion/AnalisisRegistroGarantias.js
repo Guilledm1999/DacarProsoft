@@ -29,9 +29,6 @@ function ConsultaRegistrosGarantias() {
                     showColumnLines: true,
                     rowAlternationEnabled: false,
                     showRowLines: true,
-                    customizeColumns(columns) {
-                        columns[0].width = 70;
-                    },
                     loadPanel: {
                         enabled: false,
                     },
@@ -40,6 +37,9 @@ function ConsultaRegistrosGarantias() {
                     },
                     sorting: {
                         mode: 'none',
+                    },
+                    headerFilter: {
+                        visible: true
                     },
                     //paging: {
                     //    pageSize: 10

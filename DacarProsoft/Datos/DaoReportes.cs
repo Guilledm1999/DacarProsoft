@@ -948,5 +948,70 @@ namespace DacarProsoft.Datos
             
             }
         }
+
+        public List<ModelChartGarantias> ReporteAnalisisGarantiaPorAnio1(int Anio)
+        {
+
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              where d.FechaRegistroAnalisis.Year == Anio
+
+                              group d by d.ModeloBateria into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        public List<ModelChartGarantias> ReporteAnalisisGarantiaPorAnio2(int Anio)
+        {
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              where d.FechaRegistroAnalisis.Year == Anio
+
+                              group d by d.ModeloBateria into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
     }
 }

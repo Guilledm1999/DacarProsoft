@@ -70,9 +70,6 @@ function RevisionesTecnicas() {
                 //    width: 240,
                 //    placeholder: "Buscar..."
                 //},
-                customizeColumns(columns) {
-                    columns[0].width = 70;
-                },
                 loadPanel: {
                     enabled: false,
                 },
