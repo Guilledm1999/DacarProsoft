@@ -898,6 +898,7 @@ function vaciarInputs() {
     //$("#txtVendedor").val("");
     //$("#txtModelo").val("");
     $("#txtLote").val("");
+    $("#txtLoteEnsamble").val("");
     $("#txtProrrateo").val("");
     $("#txtMeses").val("");
     $("#txtFechaVenta").val("");

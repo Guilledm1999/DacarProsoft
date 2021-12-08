@@ -12,6 +12,7 @@ namespace DacarProsoft.Controllers
         private DaoUtilitarios daoUtilitarios { get; set; } = null;
         private DaoReportes daoReportes { get; set; } = null;
         private DaoGarantias daoGarantias { get; set; } = null;
+        private DaoUsuarios daoUsuarios { get; set; } = null;
 
 
         // GET: Reportes
@@ -245,13 +246,13 @@ namespace DacarProsoft.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-        public JsonResult ReporteAnalisisDeGarantiasPorAnio1(int Anio)
+        public JsonResult ReporteAnalisisDeGarantiasPorAnio1(string Anio)
         {
             try
             {
                 daoReportes = new DaoReportes();
                        
-                    var Result = daoReportes.ReporteAnalisisGarantiaPorAnio1(Anio);
+                    var Result = daoReportes.ReporteAnalisisGarantiaPorAnio1(Convert.ToInt32(Anio));
                     return Json(Result, JsonRequestBehavior.AllowGet);
                 
 
@@ -263,13 +264,13 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-        public JsonResult ReporteAnalisisDeGarantiasPorAnio2(int Anio)
+        public JsonResult ReporteAnalisisDeGarantiasPorAnio2(string Anio)
         {
             try
             {
                 daoReportes = new DaoReportes();
 
-                var Result = daoReportes.ReporteAnalisisGarantiaPorAnio2(Anio);
+                var Result = daoReportes.ReporteAnalisisGarantiaPorAnio2(Convert.ToInt32(Anio));
                 return Json(Result, JsonRequestBehavior.AllowGet);
 
 
@@ -282,6 +283,127 @@ namespace DacarProsoft.Controllers
             }
         }
 
+        public JsonResult ReporteDetalleGarantiaPorCausales(string Anio, string Mes)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReporteDetalleAnalisisCausalesMeses(Convert.ToInt32(Anio),Mes);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ReporteDetalleGarantiaPorModelo(string Anio, string Mes)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReporteDetalleAnalisisModelosMeses(Convert.ToInt32(Anio), Mes);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        
+
+
+        public ActionResult ReporteAnalisisGarantiasPorCliente()
+        {
+            if (Session["usuario"] != null)
+            {
+
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                daoUsuarios = new DaoUsuarios();
+
+                var datClientesSap = daoUsuarios.ConsutaClientesSap();
+                ViewBag.ClientesSap = datClientesSap;
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+
+        public JsonResult ReporteDetalleGarantiaPorNombreClienteMeses(string NombreCliente, string AnioConsulta)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReporteAnalisisGarantiaPorNombreClienteMeses(NombreCliente, Convert.ToInt32(AnioConsulta));
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ReporteDetalleGarantiaPorMesesPorCliente(string Anio, string Mes, string Cliente)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReporteDetalleAnalisisCausalesMesesPorCliente(Convert.ToInt32(Anio), Mes, Cliente);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public JsonResult ReporteDetalleGarantiaPorMesesPorClientePorModelo(string Anio, string Mes, string Cliente)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReporteDetalleAnalisisModelosMesesPorCliente(Convert.ToInt32(Anio), Mes, Cliente);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
 
     }
 }

@@ -7,57 +7,40 @@
 <br />
 <div class="card shadow align-top">
     <div class="card-header">
-        <h2>Reporte Analisis Garantia</h2>
+        <h2>Reporte Analisis Garantia (Comparativa Años)</h2>
         <br />
         <div class="form-group">
             <div class="row">
-                @*<div class="col-md-2">
-            <h6>Filtro Busqueda</h6>
-            @Html.DropDownList("Estados", new SelectList(FiltroBusqueda, "Valor", "Descripcion"), "--Seleccione--", new { @class = "form-control", id = "SelectEstado" })
-        </div>*@
-                <div class="col-md-6">
-                    <div class="form-control">
-                        @*<input class="form-control" type="month" id="txtAñoFabricacion" maxlength="30" size="30" placeholder="Año de fabricación*" required>*@
-                        <select class="js-example-basic-single" aria-label="Default select example" id="txtFechaInicio" style="width:100%">
-                            <option value="" selected="selected">--Selecione el año--</option>
-                            @{
-                                var x = DateTime.Now.Year;
-                                while (x >= 2019)
-                                {
-                                    <option value="">@x</option>
-                                    x = x - 1;
-                                }
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-control">
-                        @*<input class="form-control" type="month" id="txtAñoFabricacion" maxlength="30" size="30" placeholder="Año de fabricación*" required>*@
-                        <select class="js-example-basic-single" aria-label="Default select example" id="txtFechaFin" style="width:100%">
-                            <option value="" selected="selected">--Selecione el año--</option>
-                            @{
-                                var y = DateTime.Now.Year;
-                                while (x >= 2019)
-                                {
-                                    <option value="">@y</option>
-                                    x = x - 1;
-                                }
-                            }
-                        </select>
-                    </div>
-                </div>
 
-                @*<div class="col-md-2">
-                    <h6>Fecha Inicio</h6>
-                    <input id="txtFechaVenta" class="date-picker form-control" placeholder="dd/mm/yyyy" type="text" required="required" onfocus="this.type='date'" onchange="CalcularProrrateo();">
+                <div class="col-md-2">
+                    <h6>Seleccione el año</h6>
 
-                    <input id="txtFechaInicio" class="date-picker form-control" placeholder="dd/mm/yyyy" type="date" required="required" onfocus="this.type='date'">
+                    <select class="date-picker form-control" aria-label="Default select example" id="txtFechaInicio" style="width:100%">
+                        <option value="" selected="selected">--Selecione el año--</option>
+                        @{
+                            var x = DateTime.Now.Year;
+                            while (x >= 2019)
+                            {
+                                <option value="">@x</option>
+                                x = x - 1;
+                            }
+                        }
+                    </select>
                 </div>
                 <div class="col-md-2">
-                    <h6>Fecha Fin</h6>
-                    <input id="txtFechaFin" class="date-picker form-control" placeholder="dd/mm/yyyy" type="date" required="required" onfocus="this.type='date'">
-                </div>*@
+                    <h6>Año a Comparar</h6>
+                    <select class="date-picker form-control" aria-label="Default select example" id="txtFechaFin" style="width:100%">
+                        <option value="" selected="selected">--Selecione el año--</option>
+                        @{
+                            var y = DateTime.Now.Year;
+                            while (y >= 2019)
+                            {
+                                <option value="">@y</option>
+                                y = y - 1;
+                            }
+                        }
+                    </select>
+                </div>
 
                 <div class="col-md-2">
                     <h6>  </h6>
@@ -87,17 +70,31 @@
         <div class="loader">
             <div class="form">
                 <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <div align="center">
+                    @*<div align="center">
                             <label id="lbltabladescriptiva">Tabla Descriptiva</label>
-                        </div>
-                        <div id="tblGridResumen"> </div>
+                        </div>*@
+                    <div class="col">
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="col">
+                        <div id="tblGridResumenAnio1"> </div>
+                    </div>
+                    <div class="col">
+                        <div id="tblGridResumenAnio2"> </div>
+                    </div>
+                    <div class="col">
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-1">
+                    </div>
+                    <div class="form-group col-md-5">
                         <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-5">
                         <canvas id="myChart2" style="width:100%;max-width:700px"></canvas>
+                    </div>
+                    <div class="form-group col-md-1">
                     </div>
                 </div>
             </div>
@@ -105,6 +102,45 @@
         </div>
     </div>
 </div>
+
+
+<div id="ModalDetalleGarantiaMes" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblDetallePackingList">REPORTE DEL MES</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div id="tblDetalleCausalesGarantia"> </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="myChart3" style="width:100%;max-width:800px"></canvas>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div id="tblDetalleReporteGarantiaPorModelo"> </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="myChart4" style="width:100%;max-width:800px"></canvas>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">           
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 

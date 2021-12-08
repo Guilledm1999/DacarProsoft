@@ -951,6 +951,7 @@ namespace DacarProsoft.Datos
 
         public List<ModelChartGarantias> ReporteAnalisisGarantiaPorAnio1(int Anio)
         {
+            string Mes;
 
 
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
@@ -960,18 +961,19 @@ namespace DacarProsoft.Datos
                 var Listado = from d in DB.AnalisisRegistrosGarantias
                               where d.FechaRegistroAnalisis.Year == Anio
 
-                              group d by d.ModeloBateria into grp
+                              group d by new { d.FechaRegistroAnalisis.Month } into ut
                               select new
                               {
-                                  Modelo = grp.Key,
-                                  Contador = grp.Count()
+                                  Contador = ut.Count(),
+                                  MonthNumber = ut.Key.Month,
                               };
 
                 foreach (var x in Listado)
                 {
+                    Mes = BuscarNombreMes(x.MonthNumber);
                     lst.Add(new ModelChartGarantias
                     {
-                        Descripcion = x.Modelo,
+                        Descripcion = Mes,
                         Valor = x.Contador,
 
                     });
@@ -983,6 +985,7 @@ namespace DacarProsoft.Datos
         }
         public List<ModelChartGarantias> ReporteAnalisisGarantiaPorAnio2(int Anio)
         {
+            string Mes;
 
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -991,6 +994,214 @@ namespace DacarProsoft.Datos
                 var Listado = from d in DB.AnalisisRegistrosGarantias
                               where d.FechaRegistroAnalisis.Year == Anio
 
+                              group d by new { d.FechaRegistroAnalisis.Month } into ut
+                              select new
+                              {
+                                  Contador = ut.Count(),
+                                  MonthNumber = ut.Key.Month,
+                              };
+
+                foreach (var x in Listado)
+                {
+                    Mes = BuscarNombreMes(x.MonthNumber);
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = Mes,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
+        public List<ModelChartGarantias> ReporteDetalleAnalisisCausalesMeses(int anio, string mes)
+        {
+
+            var numeromes = BuscarCodigoMes(mes);
+            //DateTime nuevaFechaFin = FechaFin;
+            //nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              orderby d.AnalisisRegistrosGarantiasId
+                              where d.FechaRegistroAnalisis.Year==anio && d.FechaRegistroAnalisis.Month==numeromes
+                              group d by d.ResumenAnalisis into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
+        public List<ModelChartGarantias> ReporteDetalleAnalisisModelosMeses(int anio, string mes)
+        {
+
+            var numeromes = BuscarCodigoMes(mes);
+            //DateTime nuevaFechaFin = FechaFin;
+            //nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              orderby d.AnalisisRegistrosGarantiasId
+                              where d.FechaRegistroAnalisis.Year == anio && d.FechaRegistroAnalisis.Month == numeromes
+                              group d by d.ModeloBateria into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+
+
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
+
+
+        public int BuscarCodigoMes(string Referencia)
+        {
+
+            int result;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var valor = (from d in DB.Meses
+                             where d.Nombre == Referencia
+                             select new
+                             {
+                                 d.Orden
+                             }).FirstOrDefault();
+                result = valor.Orden.Value;
+
+                return result;
+
+            }
+        }
+
+        public List<ModelChartGarantias> ReporteAnalisisGarantiaPorNombreClienteMeses(string NombreCliente, int AnioConsulta)
+        {
+            string cadena = NombreCliente;
+
+            //cadena = Referencia.Replace(" ", "-");
+            cadena = cadena.Replace("\"", "");
+
+
+            string Mes;
+
+           
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = from d in DB.AnalisisRegistrosGarantias join
+                              e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
+                              where d.FechaRegistroAnalisis.Year==AnioConsulta && e.Cliente== cadena
+                              group d by new { d.FechaRegistroAnalisis.Month } into ut
+                              select new
+                              {
+                                  Contador = ut.Count(),
+                                  MonthNumber = ut.Key.Month,
+                              };
+
+                foreach (var x in Listado)
+                {
+                    Mes = BuscarNombreMes(x.MonthNumber);
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = Mes,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        public List<ModelChartGarantias> ReporteDetalleAnalisisCausalesMesesPorCliente(int anio, string mes, string cliente)
+        {
+            string cadena = cliente.Replace("\"", "");
+            var numeromes = BuscarCodigoMes(mes);
+            //DateTime nuevaFechaFin = FechaFin;
+            //nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.AnalisisRegistrosGarantias join
+                              e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
+                              orderby d.AnalisisRegistrosGarantiasId
+                              where d.FechaRegistroAnalisis.Year == anio && d.FechaRegistroAnalisis.Month == numeromes && e.Cliente== cadena
+                              group d by d.ResumenAnalisis into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
+        public List<ModelChartGarantias> ReporteDetalleAnalisisModelosMesesPorCliente(int anio, string mes, string cliente)
+        {
+            string cadena = cliente.Replace("\"", "");
+            var numeromes = BuscarCodigoMes(mes);
+            //DateTime nuevaFechaFin = FechaFin;
+            //nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              join
+e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
+                              orderby d.AnalisisRegistrosGarantiasId
+                              where d.FechaRegistroAnalisis.Year == anio && d.FechaRegistroAnalisis.Month == numeromes && e.Cliente == cadena
                               group d by d.ModeloBateria into grp
                               select new
                               {
@@ -1013,5 +1224,143 @@ namespace DacarProsoft.Datos
 
         }
 
+        //public List<Moign> ListadoCabeceraChatarraSap(string tipoIngreso)
+        //{
+        //    string clienteLinea = null;
+        //    string clienteClase = null;
+        //    string NumeroOrdenCliente = null;
+        //    int codGroup = 0;
+        //    var dias = BusquedaxDias();
+        //    DateTime fechaActual = DateTime.Now;
+        //    DateTime fechaCorte = fechaActual.AddDays(-(dias));
+
+
+        //    daoUtilitarios = new DaoUtilitarios();
+        //    var Result = daoUtilitarios.ConsultarBusquedaIngresoMercanciasTipo();
+        //    List<Moign> lst = new List<Moign>();
+        //    using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+        //    {
+
+        //        var ListadoCabeceraChatarra = from d in DB.OIGN
+        //                                      join e in DB.OCRD on d.U_SYP_CODCL equals e.CardCode
+        //                                      join f in DB.OCRG on e.GroupCode equals f.GroupCode
+        //                                      where d.DocDate >= fechaCorte && d.DocDate <= fechaActual && d.U_SYP_TmovIng == "COMP-CHAT"
+        //                                      orderby d.DocDate descending
+        //                                      select new
+        //                                      {
+        //                                          d.DocEntry,
+        //                                          d.DocNum,
+        //                                          d.DocDate,
+        //                                          d.U_SYP_CODCL,
+        //                                          d.U_SYP_NOMCL,
+        //                                          d.U_SYP_NUMOCCL,
+        //                                          f.GroupCode,
+        //                                          f.GroupName,
+        //                                          d.Comments,
+        //                                          d.U_SYP_TmovIng,
+        //                                          d.U_DC_KILOS
+        //                                      };
+
+
+
+        //        foreach (var x in ListadoCabeceraChatarra)
+        //        {
+        //            var NombreGrupo = GrupoCliente(x.GroupCode);
+
+        //            var busqueda = BusquedaLocal(x.DocNum);
+        //            if (busqueda == false)
+        //            {
+        //                var DatosClientes = ConsultarDatosClientes(x.U_SYP_CODCL);
+
+        //                foreach (var y in DatosClientes)
+        //                {
+        //                    clienteLinea = y.ClienteLinea;
+        //                    clienteClase = y.ClienteClase;
+        //                    codGroup = y.GroupCode;
+        //                }
+
+
+        //                DateTime fechaDoc = Convert.ToDateTime(x.DocDate, CultureInfo.InvariantCulture);
+        //                string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //                String Comentario = x.Comments;
+        //                decimal kilo = 0;
+        //                if (x.Comments == null)
+        //                {
+        //                    Comentario = "Sin Comentarios";
+        //                }
+        //                if (x.U_DC_KILOS == null)
+        //                {
+        //                    kilo = 0;
+        //                }
+        //                else
+        //                {
+        //                    kilo = Convert.ToDecimal(x.U_DC_KILOS);
+        //                }
+        //                if (x.U_SYP_NUMOCCL == null)
+        //                {
+        //                    NumeroOrdenCliente = "No ingresada";
+        //                }
+        //                else
+        //                {
+        //                    NumeroOrdenCliente = x.U_SYP_NUMOCCL;
+
+        //                }
+        //                lst.Add(new Moign
+        //                {
+        //                    DocEntry = x.DocEntry,
+        //                    DocNum = (x.DocNum).ToString(),
+        //                    DocDate = fechaDocumento,
+        //                    CedulaCliente = x.U_SYP_CODCL,
+        //                    NombreCliente = x.U_SYP_NOMCL,
+        //                    CardCode = codGroup,
+        //                    NumeroPedido = NumeroOrdenCliente,
+        //                    GrupoName = NombreGrupo,
+        //                    ClienteClase = clienteClase,
+        //                    ClienteLinea = clienteLinea,
+        //                    KilosReales = decimal.Round(kilo, 2),
+        //                    Comments = Comentario,
+        //                    TipoIngreso = tipoIngreso
+        //                });
+        //            }
+
+
+        //        }
+        //        return lst;
+        //    }
+
+        //}
+
+        //public List<CaracteristicasCliente> ConsultarDatosClientes(string CardCode)
+        //{
+
+        //    List<CaracteristicasCliente> lst = new List<CaracteristicasCliente>();
+        //    using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+        //    {
+        //        var DatosClientes = from d in DB.OCRD
+        //                            join e in DB.OCRG on d.GroupCode equals e.GroupCode
+        //                            join f in DB.C_SYP_CLASESN on d.U_SYP_CLASESN equals f.Code
+        //                            join g in DB.C_SYP_LINEASN on d.U_SYP_LINEASN equals g.Code
+        //                            where d.CardCode == CardCode
+        //                            select new
+        //                            {
+        //                                NombreClase = f.Name,
+        //                                NombreLinea = g.Name,
+        //                                CodGroup = e.GroupCode
+        //                            };
+        //        foreach (var x in DatosClientes)
+        //        {
+        //            string[] cclase = (x.NombreClase).Split(' ');
+        //            string[] clinea = (x.NombreLinea).Split(' ');
+
+        //            lst.Add(new CaracteristicasCliente
+        //            {
+        //                ClienteClase = cclase[1],
+        //                ClienteLinea = clinea[1],
+        //                GroupCode = x.CodGroup
+        //            });
+        //        }
+        //        return lst;
+        //    }
+        //}
     }
 }

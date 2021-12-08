@@ -223,7 +223,7 @@ function ChartResumenesGarantias(Listado, tipo) {
 }
 
 function ChartResumenesGarantias2(Listado, tipo) {
-
+    acum = 0;
 
     if (char2!=null) {
         char2.destroy();
@@ -234,14 +234,27 @@ function ChartResumenesGarantias2(Listado, tipo) {
 
     var nombre = [];
     var stock = [];
-    var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
+    var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) ', 'rgba(6, 179, 32, 0.2) ', 'rgba(134, 129, 71, 0.2) ','rgba(99, 134, 71, 0.2) '];
     var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
     console.log(Listado);
 
+
+    for (var i in Listado) {
+        acum = acum + Listado[i].Valor;
+    }
+    console.log("el acumulado es:" + acum);
+
+
     for (var i in Listado) {
         nombre.push(Listado[i].Descripcion);
-        stock.push(Listado[i].Valor);
+
+        stock.push(((Listado[i].Valor * 100) / acum).toFixed(2));
     }
+
+    //for (var i in Listado) {
+    //    nombre.push(Listado[i].Descripcion);
+    //    stock.push(Listado[i].Valor);
+    //}
 
     var chartdata = {
         labels: nombre,
@@ -267,7 +280,7 @@ function ChartResumenesGarantias2(Listado, tipo) {
             },
             title: {
                 display: true,
-                text: 'Diagrama Pie'
+                text: 'Diagrama Pie(%)'
             },
             animation: {
                 animateScale: true,
