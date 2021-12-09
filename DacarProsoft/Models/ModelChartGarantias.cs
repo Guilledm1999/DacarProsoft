@@ -9,6 +9,7 @@ namespace DacarProsoft.Models
     {
         public string Descripcion { set; get; }
         public int Valor { set; get; }
+        public decimal Porcentaje { set; get; }
 
     }
 }

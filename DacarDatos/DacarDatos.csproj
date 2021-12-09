@@ -130,6 +130,12 @@
     <Compile Include="Datos\ChatarraPesos.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\ClienteClase.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\ClienteLinea.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\ControlCambios.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>

@@ -765,7 +765,7 @@ namespace DacarProsoft.Datos
 
             DateTime nuevaFechaFin = FechaFin;
             nuevaFechaFin = nuevaFechaFin.AddDays(1);
-
+            decimal acum = 0;
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -777,14 +777,17 @@ namespace DacarProsoft.Datos
                                  Modelo = grp.Key, 
                                  Contador = grp.Count() 
                              };
-
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
                 foreach (var x in Listado)
                 {
                     lst.Add(new ModelChartGarantias
                     {
                         Descripcion = x.Modelo,
                         Valor = x.Contador,
-                      
+                        Porcentaje= decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -799,7 +802,7 @@ namespace DacarProsoft.Datos
 
             DateTime nuevaFechaFin = FechaFin;
             nuevaFechaFin = nuevaFechaFin.AddDays(1);
-
+            decimal acum = 0;
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -812,13 +815,17 @@ namespace DacarProsoft.Datos
                                   Modelo = grp.Key,
                                   Contador = grp.Count()
                               };
-
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
                 foreach (var x in Listado)
                 {
                     lst.Add(new ModelChartGarantias
                     {
                         Descripcion = x.Modelo,
                         Valor = x.Contador,
+                        Porcentaje= decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -832,7 +839,7 @@ namespace DacarProsoft.Datos
 
             DateTime nuevaFechaFin = FechaFin;
             nuevaFechaFin = nuevaFechaFin.AddDays(1);
-
+            decimal acum = 0;
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -845,14 +852,17 @@ namespace DacarProsoft.Datos
                                   Modelo = grp.Key,
                                   Contador = grp.Count()
                               };
-
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
                 foreach (var x in Listado)
                 {
                     lst.Add(new ModelChartGarantias
                     {
                         Descripcion = x.Modelo,
                         Valor = x.Contador,
-
+                        Porcentaje= decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -865,7 +875,7 @@ namespace DacarProsoft.Datos
 
             DateTime nuevaFechaFin = FechaFin;
             nuevaFechaFin = nuevaFechaFin.AddDays(1);
-
+            decimal acum = 0;
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -880,14 +890,17 @@ namespace DacarProsoft.Datos
                                   Modelo = grp.Key,
                                   Contador = grp.Count()
                               };
-
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
                 foreach (var x in Listado)
                 {
                     lst.Add(new ModelChartGarantias
                     {
                         Descripcion = x.Modelo,
                         Valor = x.Contador,
-
+                        Porcentaje=decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -899,7 +912,7 @@ namespace DacarProsoft.Datos
         public List<ModelChartGarantias> ReporteAnalisisGarantiaPorMeses(DateTime FechaInicio, DateTime FechaFin)
         {
             string Mes;
-
+            decimal acum = 0;
             DateTime nuevaFechaFin = FechaFin;
             nuevaFechaFin = nuevaFechaFin.AddDays(1);
 
@@ -916,6 +929,10 @@ namespace DacarProsoft.Datos
                                     Contador = ut.Count(),
                                     MonthNumber = ut.Key.Month,
                                 };
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
 
                 foreach (var x in Listado)
                 {
@@ -924,7 +941,7 @@ namespace DacarProsoft.Datos
                     {
                         Descripcion = Mes,
                         Valor = x.Contador,
-
+                        Porcentaje=decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -952,7 +969,7 @@ namespace DacarProsoft.Datos
         public List<ModelChartGarantias> ReporteAnalisisGarantiaPorAnio1(int Anio)
         {
             string Mes;
-
+            decimal acum = 0;
 
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -967,7 +984,10 @@ namespace DacarProsoft.Datos
                                   Contador = ut.Count(),
                                   MonthNumber = ut.Key.Month,
                               };
-
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
                 foreach (var x in Listado)
                 {
                     Mes = BuscarNombreMes(x.MonthNumber);
@@ -975,7 +995,7 @@ namespace DacarProsoft.Datos
                     {
                         Descripcion = Mes,
                         Valor = x.Contador,
-
+                        Porcentaje=decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -986,6 +1006,7 @@ namespace DacarProsoft.Datos
         public List<ModelChartGarantias> ReporteAnalisisGarantiaPorAnio2(int Anio)
         {
             string Mes;
+            decimal acum = 0;
 
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -1000,7 +1021,10 @@ namespace DacarProsoft.Datos
                                   Contador = ut.Count(),
                                   MonthNumber = ut.Key.Month,
                               };
-
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
                 foreach (var x in Listado)
                 {
                     Mes = BuscarNombreMes(x.MonthNumber);
@@ -1008,7 +1032,7 @@ namespace DacarProsoft.Datos
                     {
                         Descripcion = Mes,
                         Valor = x.Contador,
-
+                        Porcentaje = decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -1019,7 +1043,7 @@ namespace DacarProsoft.Datos
 
         public List<ModelChartGarantias> ReporteDetalleAnalisisCausalesMeses(int anio, string mes)
         {
-
+            decimal acum = 0;
             var numeromes = BuscarCodigoMes(mes);
             //DateTime nuevaFechaFin = FechaFin;
             //nuevaFechaFin = nuevaFechaFin.AddDays(1);
@@ -1036,6 +1060,10 @@ namespace DacarProsoft.Datos
                                   Modelo = grp.Key,
                                   Contador = grp.Count()
                               };
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
 
                 foreach (var x in Listado)
                 {
@@ -1043,7 +1071,7 @@ namespace DacarProsoft.Datos
                     {
                         Descripcion = x.Modelo,
                         Valor = x.Contador,
-
+                        Porcentaje=decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -1054,7 +1082,7 @@ namespace DacarProsoft.Datos
 
         public List<ModelChartGarantias> ReporteDetalleAnalisisModelosMeses(int anio, string mes)
         {
-
+            decimal acum=0;
             var numeromes = BuscarCodigoMes(mes);
             //DateTime nuevaFechaFin = FechaFin;
             //nuevaFechaFin = nuevaFechaFin.AddDays(1);
@@ -1072,7 +1100,10 @@ namespace DacarProsoft.Datos
                                   Contador = grp.Count()
                               };
 
-
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
 
                 foreach (var x in Listado)
                 {
@@ -1080,7 +1111,7 @@ namespace DacarProsoft.Datos
                     {
                         Descripcion = x.Modelo,
                         Valor = x.Contador,
-
+                        Porcentaje=decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -1119,7 +1150,7 @@ namespace DacarProsoft.Datos
 
 
             string Mes;
-
+            decimal acum = 0;
            
 
             List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
@@ -1134,7 +1165,13 @@ namespace DacarProsoft.Datos
                               {
                                   Contador = ut.Count(),
                                   MonthNumber = ut.Key.Month,
+                
                               };
+
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
 
                 foreach (var x in Listado)
                 {
@@ -1143,7 +1180,7 @@ namespace DacarProsoft.Datos
                     {
                         Descripcion = Mes,
                         Valor = x.Contador,
-
+                        Porcentaje=decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -1153,6 +1190,7 @@ namespace DacarProsoft.Datos
         }
         public List<ModelChartGarantias> ReporteDetalleAnalisisCausalesMesesPorCliente(int anio, string mes, string cliente)
         {
+            decimal acum = 0;
             string cadena = cliente.Replace("\"", "");
             var numeromes = BuscarCodigoMes(mes);
             //DateTime nuevaFechaFin = FechaFin;
@@ -1171,6 +1209,10 @@ namespace DacarProsoft.Datos
                                   Modelo = grp.Key,
                                   Contador = grp.Count()
                               };
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
 
                 foreach (var x in Listado)
                 {
@@ -1178,7 +1220,7 @@ namespace DacarProsoft.Datos
                     {
                         Descripcion = x.Modelo,
                         Valor = x.Contador,
-
+                        Porcentaje= decimal.Round(((x.Contador * 100) / acum), 2)
                     });
                 }
                 return lst;
@@ -1191,6 +1233,7 @@ namespace DacarProsoft.Datos
         {
             string cadena = cliente.Replace("\"", "");
             var numeromes = BuscarCodigoMes(mes);
+            decimal acum = 0;
             //DateTime nuevaFechaFin = FechaFin;
             //nuevaFechaFin = nuevaFechaFin.AddDays(1);
 
@@ -1208,6 +1251,10 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
                                   Modelo = grp.Key,
                                   Contador = grp.Count()
                               };
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
 
                 foreach (var x in Listado)
                 {
@@ -1215,6 +1262,7 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
                     {
                         Descripcion = x.Modelo,
                         Valor = x.Contador,
+                        Porcentaje = decimal.Round(((x.Contador * 100) / acum), 2)
 
                     });
                 }
@@ -1224,6 +1272,116 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
 
         }
 
+       
+        public List<GrupoClientes> ListadoGrupoDeCliente()
+        {
+            List<GrupoClientes> lst = new List<GrupoClientes>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.GrupoClientes
+                              select new
+                              {
+                                  d.GroupCode,
+                                  d.GroupName
+                              };
+                foreach (var x in Listado)
+                {
+                    lst.Add(new GrupoClientes
+                    {
+                        GroupCode = x.GroupCode,
+                        GroupName = x.GroupName
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<ClienteClase> ListadoClienteClase()
+        {
+            List<ClienteClase> lst = new List<ClienteClase>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.ClienteClase
+                              select new
+                                             {                 
+                                                 d.Codigo,
+                                                 d.Nombre
+                                             };
+                    foreach (var x in Listado)
+                    {
+                        lst.Add(new ClienteClase
+                        {
+                           Codigo=x.Codigo,
+                           Nombre=x.Nombre
+                        });
+                    }      
+                return lst;
+            }
+        }
+        public List<ClienteLinea> ListadoClienteLinea()
+        {
+            List<ClienteLinea> lst = new List<ClienteLinea>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.ClienteLinea
+                              select new
+                              {
+                                  d.Codigo,
+                                  d.Nombre
+                              };
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ClienteLinea
+                    {
+                        Codigo = x.Codigo,
+                        Nombre = x.Nombre
+                    });
+                }
+                return lst;
+            }
+        }
+
+        public List<ModelChartGarantias> ReporteDetalleAnalisisModelosPorTipoCliente(string tipoCliente, string ClienteClase, string ClienteLinea, int Anio)
+        {
+            string Mes;
+            decimal acum = 0;
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              join
+                              e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
+                               where d.FechaRegistroAnalisis.Year == Anio && e.TipoCliente == tipoCliente && e.ClienteClase == ClienteClase && e.ClienteLinea == ClienteLinea
+                               group d by new { d.FechaRegistroAnalisis.Month } into ut
+                              select new
+                              {
+                                  Contador = ut.Count(),
+                                  MonthNumber = ut.Key.Month,
+                              };
+
+
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
+
+                    foreach (var x in Listado)
+                {
+                    Mes = BuscarNombreMes(x.MonthNumber);
+
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = Mes,
+                        Valor = x.Contador,
+                        Porcentaje= decimal.Round(((x.Contador*100)/acum),2)
+
+                    });
+                }
+                return lst;
+
+            }
+        }
+      
         //public List<Moign> ListadoCabeceraChatarraSap(string tipoIngreso)
         //{
         //    string clienteLinea = null;

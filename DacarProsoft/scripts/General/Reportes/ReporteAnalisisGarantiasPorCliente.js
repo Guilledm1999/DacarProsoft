@@ -72,6 +72,8 @@ function ConsultarReporteClienteMes() {
                                 dataField: "Descripcion", caption: "Descripcion"
                             }, {
                                 dataField: "Valor", caption: "Cantidad"
+                            }, {
+                                dataField: "Porcentaje", caption: "Porcentaje(%)"
                             },
                             {
                                 caption: "Acciones",
@@ -98,6 +100,18 @@ function ConsultarReporteClienteMes() {
                                 customizeText: function (e) {
                                     if (e.value != 0 && e.value != "") {
                                         return "Total: " + (e.value)
+                                    }
+                                }
+                            },
+                            {
+                                name: "Porcentaje",
+                                column: "Porcentaje",
+                                summaryType: "sum",
+                                displayFormat: "Total: {0}",
+                                showInColumn: "Porcentaje",
+                                customizeText: function (e) {
+                                    if (e.value != 0 && e.value != "") {
+                                        return "100%" //+ (e.value)
                                     }
                                 }
                             }],
@@ -364,7 +378,9 @@ function ModalConsultarInformacionMes(data) {
                             dataField: "Descripcion", caption: "Descripcion"
                         }, {
                             dataField: "Valor", caption: "Cantidad"
-                        },
+                        }, {
+                            dataField: "Porcentaje", caption: "Porcentaje(%)"
+                        }
 
                     ],
                     summary: {
@@ -378,6 +394,18 @@ function ModalConsultarInformacionMes(data) {
                                 customizeText: function (e) {
                                     if (e.value != 0 && e.value != "") {
                                         return "Total: " + (e.value)
+                                    }
+                                }
+                            },
+                            {
+                                name: "Porcentaje",
+                                column: "Porcentaje",
+                                summaryType: "sum",
+                                displayFormat: "Total: {0}",
+                                showInColumn: "Porcentaje",
+                                customizeText: function (e) {
+                                    if (e.value != 0 && e.value != "") {
+                                        return "100%" //+ (e.value)
                                     }
                                 }
                             }],
@@ -486,7 +514,9 @@ function ModalConsultarInformacionMesPorModelo(data) {
                             dataField: "Descripcion", caption: "Descripcion"
                         }, {
                             dataField: "Valor", caption: "Cantidad"
-                        },
+                        }, {
+                            dataField: "Porcentaje", caption: "Porcentaje(%)"
+                        }
 
                     ],
                     summary: {
@@ -500,6 +530,18 @@ function ModalConsultarInformacionMesPorModelo(data) {
                                 customizeText: function (e) {
                                     if (e.value != 0 && e.value != "") {
                                         return "Total: " + (e.value)
+                                    }
+                                }
+                            },
+                            {
+                                name: "Porcentaje",
+                                column: "Porcentaje",
+                                summaryType: "sum",
+                                displayFormat: "Total: {0}",
+                                showInColumn: "Porcentaje",
+                                customizeText: function (e) {
+                                    if (e.value != 0 && e.value != "") {
+                                        return "100%" //+ (e.value)
                                     }
                                 }
                             }],

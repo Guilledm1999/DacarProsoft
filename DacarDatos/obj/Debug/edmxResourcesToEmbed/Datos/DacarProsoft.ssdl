@@ -129,6 +129,22 @@
     <Property Name="CantidadTotal" Type="int" />
     <Property Name="ModoIngreso" Type="int" />
   </EntityType>
+  <EntityType Name="ClienteClase">
+    <Key>
+      <PropertyRef Name="ClienteClaseId" />
+    </Key>
+    <Property Name="ClienteClaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo" Type="varchar" MaxLength="255" />
+    <Property Name="Nombre" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="ClienteLinea">
+    <Key>
+      <PropertyRef Name="ClienteLineaId" />
+    </Key>
+    <Property Name="ClienteLineaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Codigo" Type="varchar" MaxLength="255" />
+    <Property Name="Nombre" Type="varchar" MaxLength="255" />
+  </EntityType>
   <EntityType Name="ControlCambios">
     <Key>
       <PropertyRef Name="ControlCambioId" />
@@ -284,6 +300,9 @@
     <Property Name="AplicaGarantia" Type="varchar" MaxLength="30" />
     <Property Name="LoteEnsamble" Type="varchar" MaxLength="30" />
     <Property Name="AnalisisRealizado" Type="bit" />
+    <Property Name="TipoCliente" Type="varchar" MaxLength="25" />
+    <Property Name="ClienteClase" Type="varchar" MaxLength="25" />
+    <Property Name="ClienteLinea" Type="varchar" MaxLength="25" />
   </EntityType>
   <EntityType Name="IngresoRevisionGarantiaDiagnostico">
     <Key>
@@ -902,6 +921,8 @@
     <EntitySet Name="ChatarraDetalle" EntityType="Self.ChatarraDetalle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChatarraDetalleIndividual" EntityType="Self.ChatarraDetalleIndividual" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChatarraPesos" EntityType="Self.ChatarraPesos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ClienteClase" EntityType="Self.ClienteClase" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ClienteLinea" EntityType="Self.ClienteLinea" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ControlCambios" EntityType="Self.ControlCambios" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DetalleGeneralPackingList" EntityType="Self.DetalleGeneralPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DiasBusqueda" EntityType="Self.DiasBusqueda" Schema="dbo" store:Type="Tables" />

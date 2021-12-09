@@ -46,6 +46,9 @@ namespace DacarDatos.Datos
         public string AplicaGarantia { get; set; }
         public string LoteEnsamble { get; set; }
         public Nullable<bool> AnalisisRealizado { get; set; }
+        public string TipoCliente { get; set; }
+        public string ClienteClase { get; set; }
+        public string ClienteLinea { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IngresoRevisionGarantiaInspeccionInicial> IngresoRevisionGarantiaInspeccionInicial { get; set; }

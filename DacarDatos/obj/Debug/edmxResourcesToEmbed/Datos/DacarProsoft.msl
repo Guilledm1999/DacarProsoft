@@ -701,6 +701,9 @@
     <EntitySetMapping Name="IngresoRevisionGarantiaCabecera">
       <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaCabecera">
         <MappingFragment StoreEntitySet="IngresoRevisionGarantiaCabecera">
+          <ScalarProperty Name="ClienteLinea" ColumnName="ClienteLinea" />
+          <ScalarProperty Name="ClienteClase" ColumnName="ClienteClase" />
+          <ScalarProperty Name="TipoCliente" ColumnName="TipoCliente" />
           <ScalarProperty Name="AnalisisRealizado" ColumnName="AnalisisRealizado" />
           <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
           <ScalarProperty Name="AplicaGarantia" ColumnName="AplicaGarantia" />
@@ -725,6 +728,24 @@
           <ScalarProperty Name="Cedula" ColumnName="Cedula" />
           <ScalarProperty Name="Cliente" ColumnName="Cliente" />
           <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClienteClase">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ClienteClase">
+        <MappingFragment StoreEntitySet="ClienteClase">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+          <ScalarProperty Name="ClienteClaseId" ColumnName="ClienteClaseId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClienteLinea">
+      <EntityTypeMapping TypeName="DacarProsoftModel.ClienteLinea">
+        <MappingFragment StoreEntitySet="ClienteLinea">
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+          <ScalarProperty Name="ClienteLineaId" ColumnName="ClienteLineaId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

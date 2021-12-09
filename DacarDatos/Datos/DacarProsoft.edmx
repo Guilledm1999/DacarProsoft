@@ -134,6 +134,22 @@
           <Property Name="CantidadTotal" Type="int" />
           <Property Name="ModoIngreso" Type="int" />
         </EntityType>
+        <EntityType Name="ClienteClase">
+          <Key>
+            <PropertyRef Name="ClienteClaseId" />
+          </Key>
+          <Property Name="ClienteClaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="255" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ClienteLinea">
+          <Key>
+            <PropertyRef Name="ClienteLineaId" />
+          </Key>
+          <Property Name="ClienteLineaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="255" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="ControlCambios">
           <Key>
             <PropertyRef Name="ControlCambioId" />
@@ -289,6 +305,9 @@
           <Property Name="AplicaGarantia" Type="varchar" MaxLength="30" />
           <Property Name="LoteEnsamble" Type="varchar" MaxLength="30" />
           <Property Name="AnalisisRealizado" Type="bit" />
+          <Property Name="TipoCliente" Type="varchar" MaxLength="25" />
+          <Property Name="ClienteClase" Type="varchar" MaxLength="25" />
+          <Property Name="ClienteLinea" Type="varchar" MaxLength="25" />
         </EntityType>
         <EntityType Name="IngresoRevisionGarantiaDiagnostico">
           <Key>
@@ -907,6 +926,8 @@
           <EntitySet Name="ChatarraDetalle" EntityType="Self.ChatarraDetalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChatarraDetalleIndividual" EntityType="Self.ChatarraDetalleIndividual" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChatarraPesos" EntityType="Self.ChatarraPesos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClienteClase" EntityType="Self.ClienteClase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClienteLinea" EntityType="Self.ClienteLinea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ControlCambios" EntityType="Self.ControlCambios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleGeneralPackingList" EntityType="Self.DetalleGeneralPackingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiasBusqueda" EntityType="Self.DiasBusqueda" Schema="dbo" store:Type="Tables" />
@@ -1196,6 +1217,8 @@
             <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
             <End Role="IngresoRevisionGarantiaTrabajoRealizado" EntitySet="IngresoRevisionGarantiaTrabajoRealizado" />
           </AssociationSet>
+          <EntitySet Name="ClienteClase" EntityType="DacarProsoftModel.ClienteClase" />
+          <EntitySet Name="ClienteLinea" EntityType="DacarProsoftModel.ClienteLinea" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -2067,6 +2090,9 @@
           <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
           <NavigationProperty Name="IngresoRevisionGarantiaDiagnostico" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaDiagnostico" />
           <NavigationProperty Name="IngresoRevisionGarantiaTrabajoRealizado" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaTrabajoRealizado" />
+          <Property Name="TipoCliente" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ClienteClase" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ClienteLinea" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="fk_Asignatura">
           <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
@@ -2104,6 +2130,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ClienteClase">
+          <Key>
+            <PropertyRef Name="ClienteClaseId" />
+          </Key>
+          <Property Name="ClienteClaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ClienteLinea">
+          <Key>
+            <PropertyRef Name="ClienteLineaId" />
+          </Key>
+          <Property Name="ClienteLineaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2810,6 +2852,9 @@
           <EntitySetMapping Name="IngresoRevisionGarantiaCabecera">
             <EntityTypeMapping TypeName="DacarProsoftModel.IngresoRevisionGarantiaCabecera">
               <MappingFragment StoreEntitySet="IngresoRevisionGarantiaCabecera">
+                <ScalarProperty Name="ClienteLinea" ColumnName="ClienteLinea" />
+                <ScalarProperty Name="ClienteClase" ColumnName="ClienteClase" />
+                <ScalarProperty Name="TipoCliente" ColumnName="TipoCliente" />
                 <ScalarProperty Name="AnalisisRealizado" ColumnName="AnalisisRealizado" />
                 <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
                 <ScalarProperty Name="AplicaGarantia" ColumnName="AplicaGarantia" />
@@ -2834,6 +2879,24 @@
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Cliente" ColumnName="Cliente" />
                 <ScalarProperty Name="IngresoRevisionGarantiaId" ColumnName="IngresoRevisionGarantiaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClienteClase">
+            <EntityTypeMapping TypeName="DacarProsoftModel.ClienteClase">
+              <MappingFragment StoreEntitySet="ClienteClase">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="ClienteClaseId" ColumnName="ClienteClaseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClienteLinea">
+            <EntityTypeMapping TypeName="DacarProsoftModel.ClienteLinea">
+              <MappingFragment StoreEntitySet="ClienteLinea">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="ClienteLineaId" ColumnName="ClienteLineaId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

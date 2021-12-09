@@ -124,7 +124,7 @@ namespace DacarProsoft.Controllers
         }
         public bool RegistrarRevisionDeGarantiaDetalle(int RevisionId, string InGolpeadaoRota, string InHinchada, string InBornesFlojos, string InBornesFundidos, string IngElectrolito, string InFugaEnCubierta, string InFugaEnBornes,string InRevisionesPeriodicas, int InDcC1,
             int InDcC2, int InDcC3, int InDcC4, int InDcC5, int InDcC6, int InCCA, string TrPruebaAltaResistencia, string TrCambioAcido, string TrRecargaBateria, string TrInspeccionEstructuraExt, string DBateriaBuenEstado, string DPresentaFallosFabricacion,
-       string DDentroPeriodo, string DUsoAdecuado/*, string DAplicaGarantia*/, bool AplicaGarantia, bool IngresoManual)
+       string DDentroPeriodo, string DUsoAdecuado/*, string DAplicaGarantia*/, bool AplicaGarantia, bool IngresoManual, string Cliente)
         {
             string valor;
             string valor2;
@@ -156,7 +156,7 @@ namespace DacarProsoft.Controllers
                 var Result2 = daoGarantias.IngresarRevisionGarantiaInspeccionInicialCeldas(Result, InDcC1, InDcC2, InDcC3, InDcC4, InDcC5, InDcC6);
                 var Result3 = daoGarantias.IngresarRevisionGarantiaTrabajoRealizado(RevisionId, TrPruebaAltaResistencia, TrCambioAcido, TrRecargaBateria, TrInspeccionEstructuraExt);
                 var Result4 = daoGarantias.IngresarRevisionGarantiaDiagnostico(RevisionId, DBateriaBuenEstado, DPresentaFallosFabricacion, DDentroPeriodo, DUsoAdecuado, valor3);
-                var Result5 = daoGarantias.ActualizarRegistroCabecera(RevisionId, valor, valor2);
+                var Result5 = daoGarantias.ActualizarRegistroCabecera(RevisionId, valor, valor2, Cliente);
 
 
 

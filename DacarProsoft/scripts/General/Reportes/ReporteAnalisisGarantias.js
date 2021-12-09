@@ -79,6 +79,8 @@ function AnalisisGarantiasRegistrados() {
                             dataField: "Descripcion", caption: "Descripcion"
                         }, {
                             dataField: "Valor", caption: "Cantidad"
+                        }, {
+                            dataField: "Porcentaje", caption: "Porcentaje(%)"
                         }
                     ],
                     summary: {
@@ -92,6 +94,18 @@ function AnalisisGarantiasRegistrados() {
                                 customizeText: function (e) {
                                     if (e.value != 0 && e.value != "") {
                                         return "Total: " + (e.value)
+                                    }
+                                }
+                            },
+                            {
+                                name: "Porcentaje",
+                                column: "Porcentaje",
+                                summaryType: "sum",
+                                displayFormat: "Total: {0}",
+                                showInColumn: "Porcentaje",
+                                customizeText: function (e) {
+                                    if (e.value != 0 && e.value != "") {
+                                        return "100%" //+ (e.value)
                                     }
                                 }
                             }],

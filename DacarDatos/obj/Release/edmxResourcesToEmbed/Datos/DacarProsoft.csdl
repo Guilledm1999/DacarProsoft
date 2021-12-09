@@ -166,6 +166,8 @@
       <End Role="IngresoRevisionGarantiaCabecera" EntitySet="IngresoRevisionGarantiaCabecera" />
       <End Role="IngresoRevisionGarantiaTrabajoRealizado" EntitySet="IngresoRevisionGarantiaTrabajoRealizado" />
     </AssociationSet>
+    <EntitySet Name="ClienteClase" EntityType="DacarProsoftModel.ClienteClase" />
+    <EntitySet Name="ClienteLinea" EntityType="DacarProsoftModel.ClienteLinea" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1037,6 +1039,9 @@
     <NavigationProperty Name="IngresoRevisionGarantiaInspeccionInicial" Relationship="DacarProsoftModel.fk_Asignatura" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaInspeccionInicial" />
     <NavigationProperty Name="IngresoRevisionGarantiaDiagnostico" Relationship="DacarProsoftModel.fk_RevisionGarantiaDiagnostico" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaDiagnostico" />
     <NavigationProperty Name="IngresoRevisionGarantiaTrabajoRealizado" Relationship="DacarProsoftModel.fk_RevisionGarantiaTrabajoRealizado" FromRole="IngresoRevisionGarantiaCabecera" ToRole="IngresoRevisionGarantiaTrabajoRealizado" />
+    <Property Name="TipoCliente" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="ClienteClase" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="ClienteLinea" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="fk_Asignatura">
     <End Type="DacarProsoftModel.IngresoRevisionGarantiaCabecera" Role="IngresoRevisionGarantiaCabecera" Multiplicity="0..1" />
@@ -1074,4 +1079,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="ClienteClase">
+    <Key>
+      <PropertyRef Name="ClienteClaseId" />
+    </Key>
+    <Property Name="ClienteClaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ClienteLinea">
+    <Key>
+      <PropertyRef Name="ClienteLineaId" />
+    </Key>
+    <Property Name="ClienteLineaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Codigo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

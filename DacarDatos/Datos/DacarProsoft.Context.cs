@@ -83,6 +83,8 @@ namespace DacarDatos.Datos
         public virtual DbSet<AnalisisRegistrosGarantias> AnalisisRegistrosGarantias { get; set; }
         public virtual DbSet<LineasMarcasPropias> LineasMarcasPropias { get; set; }
         public virtual DbSet<IngresoRevisionGarantiaCabecera> IngresoRevisionGarantiaCabecera { get; set; }
+        public virtual DbSet<ClienteClase> ClienteClase { get; set; }
+        public virtual DbSet<ClienteLinea> ClienteLinea { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {

@@ -295,6 +295,7 @@
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantiasPorAnio.js" />
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantiasPorCliente.js" />
+    <Content Include="scripts\General\Reportes\ReporteAnalisisGarantiasPorTipoCliente.js" />
     <Content Include="scripts\General\Reportes\ReporteDeGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteGeneralVentasExterior.js" />
     <Content Include="scripts\General\Reportes\ReporteDeControl.js" />
@@ -563,6 +564,7 @@
     <Content Include="Views\Reportes\ReporteAnalisisGarantias.cshtml" />
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorAnio.cshtml" />
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorCliente.cshtml" />
+    <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorTipoCliente.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

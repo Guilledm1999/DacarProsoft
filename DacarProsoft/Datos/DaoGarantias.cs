@@ -410,19 +410,45 @@ namespace DacarProsoft.Datos
             }
         }
 
-        public bool ActualizarRegistroCabecera(int IngresoRevisionGarantiaId, string AplicaGarantia, string RegistroManual)
+        public bool ActualizarRegistroCabecera(int IngresoRevisionGarantiaId, string AplicaGarantia, string RegistroManual, string Cliente)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
                 try
                 {
+                    string cadena = Cliente.Replace("\"", "");
+                    string TipoCliente=null;
+                    string ClienteClase=null;
+                    string ClienteLinea=null;
                     var query = (from a in DB.IngresoRevisionGarantiaCabecera
                                  where a.IngresoRevisionGarantiaId == IngresoRevisionGarantiaId
                                  select a).FirstOrDefault();
 
+                    var datosCliente = ConsultarDatosClientes(cadena);
+
+                    if (datosCliente.Count!=0)
+                    {
+                        foreach (var x in datosCliente)
+                        {
+                            TipoCliente = Convert.ToString(x.GroupCode);
+                            ClienteClase = x.ClienteClase;
+                            ClienteLinea = x.ClienteLinea;
+
+                        }
+                    }
+                    else
+                    {
+                        TipoCliente = "SIN REGISTRO";
+                        ClienteClase = "SIN REGISTRO";
+                        ClienteLinea = "SIN REGISTRO";
+                    }
+
                     query.AplicaGarantia = AplicaGarantia;
                     query.ModoIngreso = RegistroManual;
-
+                    query.TipoCliente = TipoCliente;
+                    query.ClienteClase = ClienteClase;
+                    query.ClienteLinea = ClienteLinea;
+                    
 
                     DB.SaveChanges();
 
@@ -433,6 +459,35 @@ namespace DacarProsoft.Datos
                     Console.WriteLine(ex.Message);
                     return false;
                 }
+            }
+        }
+        public List<CaracteristicasCliente> ConsultarDatosClientes(string CardName)
+        {
+
+            List<CaracteristicasCliente> lst = new List<CaracteristicasCliente>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                var DatosClientes = from d in DB.OCRD
+                                    join e in DB.OCRG on d.GroupCode equals e.GroupCode
+                                    join f in DB.C_SYP_CLASESN on d.U_SYP_CLASESN equals f.Code
+                                    join g in DB.C_SYP_LINEASN on d.U_SYP_LINEASN equals g.Code
+                                    where d.CardName == CardName
+                                    select new
+                                    {
+                                        CodigoClase = f.Code,
+                                        CodigoeLinea = g.Code,
+                                        CodGroup = e.GroupCode
+                                    };
+                foreach (var x in DatosClientes)
+                {
+                    lst.Add(new CaracteristicasCliente
+                    {
+                        ClienteClase = x.CodigoClase,
+                        ClienteLinea = x.CodigoeLinea,
+                        GroupCode = x.CodGroup
+                    });
+                }
+                return lst;
             }
         }
 
