@@ -1,11 +1,19 @@
-﻿
+﻿var progreso = 0;
+var idIterval;
 $(document).ready(function () {
+    //$("#cargaImg").hide();
     $("#txtMsjGarantia").hide();
     $('.js-example-basic-single').select2();
 
     ocultarDiv();
     //var x = document.getElementById("ContenidoDiv");
     //x.style.display === "none";
+});
+
+$('#myModal').modal({
+    backdrop: 'static',
+    keyboard: false,
+    show: false
 });
 
 var extensionesValidas = ".png, .gif, .jpeg, .jpg";
@@ -211,7 +219,7 @@ function ConsultarNumeroGarantia() {
                 }, 3000);
 
                 document.getElementById("txtCliente").readOnly = false;
-                document.getElementById("txtCedula").readOnly = false;
+                document.getElementById("txtCedula").readOnly = true;
                 document.getElementById("txtProvincia").readOnly = false;
                 document.getElementById("txtNumeroGarantiaObtenido").readOnly = false;
                 //document.getElementById("txtModelo").readOnly = false;
@@ -695,6 +703,16 @@ function validarPeso(datos) {
 //console.log(p.replace('dog', 'monkey'));
 
 function RegistrarRevisionGarantiaCabecera() {
+    $("#pleaseWaitDialog").modal("show");
+    progreso = 0;
+    idIterval = setInterval(function () {
+        // Aumento en 5 el progeso
+        progreso += 5;
+        $('#BarraProceso').css('width', progreso + '%');
+    }, 1000);
+ 
+   // $("#cargaImg").show();
+
     var inputFileImage1 = $("#ImgFacturaIngresada")[0].files[0];
     var inputFileImage2 = $("#ImgTestIngresada")[0].files[0];
 
@@ -835,6 +853,11 @@ function RegistrarRevisionGarantiaDetalle(valor) {
         },
         type: 'post',
         success: function (respuesta) {
+            //$("#cargaImg").hide();
+            clearInterval(idIterval);
+            $("#pleaseWaitDialog").modal("hide");
+            $("#ModalDetallePedido").modal("hide");
+
             if (respuesta == "True") {
                 $("#txtMsjGarantia").hide();
 

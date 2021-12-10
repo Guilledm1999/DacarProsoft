@@ -1381,7 +1381,89 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
 
             }
         }
-      
+
+        public List<ModelChartGarantias> ReporteDetalleAnalisisCausalesMesesPorTipoCliente(string tipoCliente, string ClienteClase, string ClienteLinea, int Anio, string Mes)
+        {
+            decimal acum = 0;
+            var numeromes = BuscarCodigoMes(Mes);
+            //DateTime nuevaFechaFin = FechaFin;
+            //nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              join
+                              e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
+                              orderby d.AnalisisRegistrosGarantiasId
+                              where d.FechaRegistroAnalisis.Year == Anio && d.FechaRegistroAnalisis.Month == numeromes && e.TipoCliente==tipoCliente && e.ClienteClase==ClienteClase && e.ClienteLinea==ClienteLinea 
+                              group d by d.ResumenAnalisis into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+                        Porcentaje = decimal.Round(((x.Contador * 100) / acum), 2)
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
+        public List<ModelChartGarantias> ReporteDetalleAnalisisCausalesMesesPorTipoClientePorModelo(string tipoCliente, string ClienteClase, string ClienteLinea, int Anio, string Mes)
+        {
+            decimal acum = 0;
+            var numeromes = BuscarCodigoMes(Mes);
+            //DateTime nuevaFechaFin = FechaFin;
+            //nuevaFechaFin = nuevaFechaFin.AddDays(1);
+
+            List<ModelChartGarantias> lst = new List<ModelChartGarantias>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = from d in DB.AnalisisRegistrosGarantias
+                              join
+                              e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
+                              orderby d.AnalisisRegistrosGarantiasId
+                              where d.FechaRegistroAnalisis.Year == Anio && d.FechaRegistroAnalisis.Month == numeromes && e.TipoCliente == tipoCliente && e.ClienteClase == ClienteClase && e.ClienteLinea == ClienteLinea
+                              group d by d.ModeloBateria into grp
+                              select new
+                              {
+                                  Modelo = grp.Key,
+                                  Contador = grp.Count()
+                              };
+                foreach (var x in Listado)
+                {
+                    acum = acum + x.Contador;
+                }
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new ModelChartGarantias
+                    {
+                        Descripcion = x.Modelo,
+                        Valor = x.Contador,
+                        Porcentaje = decimal.Round(((x.Contador * 100) / acum), 2)
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+
         //public List<Moign> ListadoCabeceraChatarraSap(string tipoIngreso)
         //{
         //    string clienteLinea = null;

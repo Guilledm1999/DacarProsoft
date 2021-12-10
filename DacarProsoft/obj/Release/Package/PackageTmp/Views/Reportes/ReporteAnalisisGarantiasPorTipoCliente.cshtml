@@ -5,9 +5,9 @@
 }
 
 @{
-    var GrupoCliente= ViewBag.GrupoCliente;
-    var ClienteClase= ViewBag.ClienteClase;
-    var ClienteLinea= ViewBag.ClienteLinea;
+    var GrupoCliente = ViewBag.GrupoCliente;
+    var ClienteClase = ViewBag.ClienteClase;
+    var ClienteLinea = ViewBag.ClienteLinea;
 
 }
 <br />
@@ -38,8 +38,8 @@
                     @Html.DropDownList("Pais", new SelectList(ClienteLinea, "Codigo", "Nombre"), "--Seleccione cliente linea--", new
                     {
                         @class = "js-example-basic-single",
-                        id = "txtClienteLinea",@*onchange = "cargarClientes();",*@ style = "width:100%"
-                    })
+                        id = "txtClienteLinea",@*onchange = "cargarClientes();",*@style = "width:100%"
+})
                 </div>
                 <div class="col-md-2">
                     <h6>Año a Consultar</h6>
@@ -113,6 +113,47 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+</div>
+
+
+
+<div id="ModalDetalleGarantiaMes" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblDetallePackingList">REPORTE POR MES DE CAUSALES DE GARANTIA</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div id="tblDetalleReporteGarantia"> </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="myChart3" style="width:100%;max-width:800px"></canvas>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div id="tblDetalleReporteGarantiaPorModelo"> </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="myChart4" style="width:100%;max-width:800px"></canvas>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+            </div>
         </div>
     </div>
 </div>

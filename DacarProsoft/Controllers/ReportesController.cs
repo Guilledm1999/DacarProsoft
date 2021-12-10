@@ -458,5 +458,38 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public JsonResult ReporteDetalleGarantiaPorMesesPorTipoCliente(string tipoCliente, string ClienteClase, string ClienteLinea, string Anio, string Mes)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReporteDetalleAnalisisCausalesMesesPorTipoCliente( tipoCliente,  ClienteClase,  ClienteLinea,  Convert.ToInt32(Anio),  Mes);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public JsonResult ReporteDetalleGarantiaPorMesesPorTipoClientePorModelo(string tipoCliente, string ClienteClase, string ClienteLinea, string Anio, string Mes)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReporteDetalleAnalisisCausalesMesesPorTipoClientePorModelo(tipoCliente, ClienteClase, ClienteLinea, Convert.ToInt32(Anio), Mes);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
     }
 }

@@ -90,30 +90,11 @@
                 </div>
             </div>
 
-            <!--<div class="form-group">
-                <div class="row" style="padding:0px 0px 0px 0px">
-                    <div class="col-md-8">
-                        <div align="center">
-                         
-
-                            @*@Html.DropDownList("Pais", new SelectList(clientes, "CardCode", "NombreCliente"), "--Seleccione el cliente--", new { @class = "js-example-basic-single", id = "txtModeloBateria", style = "width:100%" })*@
-                        <!--</div>
-                    </div>
-              
-
-                </div>
-            </div>-->
-
             <div class="form-group">
                 <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Cliente:</b></label>
-                    <div class="col-md-2">
-                        @*<select class="js-example-basic-single" aria-label="Default select example" id="txtCliente">
-                            <option value="" selected="selected">--Seleccione el cantón--</option>
-                        </select>*@
+                    <div class="col-md-2">                    
                         @Html.DropDownList("Pais", new SelectList(clientes, "CardCode", "NombreCliente"), "--Seleccione el cliente--", new { @class = "js-example-basic-single", id = "txtCliente", onchange = "cargarClientes();", style = "width:100%" })
-
-                        @*<input type="text" name="NombreItem" id="txtCliente" autocomplete="off" class="form-control" readonly placeholder="Cliente">*@
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Identificacion:</b></label>
@@ -182,7 +163,6 @@
                     <div class="col-md-1">
                         <select class="form-control" aria-label="Default select example" id="txtModelo" onchange="CalcularProrrateo();">
                         </select>
-                        @*<input type="text" name="NombreItem" id="txtModelo" autocomplete="off" class="form-control" readonly placeholder="Modelo">*@
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Voltaje:</b></label>
@@ -196,21 +176,20 @@
                     <label for="email" class="col-sm-1 col-form-label"><b>Meses:</b></label>
                     <div class="col-md-1">
                         @*<select class="form-control" aria-label="Default select example" id="txtMeses" onchange="CalcularProrrateo();">
-                                @{
-                                    for (int i = 1; i <= 24; i++)
-                                    {
-                                        <option value=@i>@i</option>
+                        @{
+                            for (int i = 1; i <= 24; i++)
+                            {
+                                <option value=@i>@i</option>
 
-                                    }
-                                }
-                            </select>*@
+                            }
+                        }
+                    </select>*@
                         <input type="number" name="NombreItem" id="txtMeses" autocomplete="off" class="form-control" placeholder="# Meses" readonly>
                     </div>
                 </div>
                 <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Fecha Venta:</b></label>
                     <div class="col-md-2">
-                        @*<input id="txtFechaVenta" class="date-picker form-control" placeholder="dd/mm/yyyy" type="text" required="required" onfocus="this.type='date'" onmouseout="timeFunctionLong(this)">*@
                         <input id="txtFechaVenta" class="date-picker form-control" placeholder="dd/mm/yyyy" type="text" required="required" onfocus="this.type='date'" onchange="CalcularProrrateo();">
 
                         <script>
@@ -255,10 +234,7 @@
             </div>
 
             <div class="form-group">
-                <div class="row" style="padding:0px 0px 10px 0px">
-                    @*<div class="col-md-2">
-
-                        </div>*@
+                <div class="row" style="padding:0px 0px 10px 0px">          
                     <div class="col-md-4">
                         <div class="col-md-12">
                             <ul class="list-group">
@@ -449,33 +425,50 @@
                                     </div>
                                 </li>
                                 @*<li class="list-group-item d-flex justify-content-between align-items-center">
-                                        Aplica Garantia
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="true">
-                                            <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="false">
-                                            <label class="form-check-label" for="inlineRadio1">No</label>
-                                        </div>
-                                    </li>*@
+                                Aplica Garantia
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="true">
+                                    <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="false">
+                                    <label class="form-check-label" for="inlineRadio1">No</label>
+                                </div>
+                            </li>*@
                             </ul>
                         </div>
                     </div>
 
                     @*<div class="col-md-2">
 
-                        </div>*@
+                </div>*@
 
                 </div>
             </div>
             <div align="center">
                 <button type="button" id="btnRegistrarRevision" class="btn btn-primary">Registrar</button>
                 @*<button type="button" id="btnprueba" class="btn btn-primary">prueba</button>*@
-
             </div>
+
         </div>
 
     </div>
 </div>
 
+
+<div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary">
+                <h1>Processing...</h1>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div id="BarraProceso" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                        <span class="sr-only">Completando.. (success)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <input type="hidden" id="txtIdNumeroGarantia" />
