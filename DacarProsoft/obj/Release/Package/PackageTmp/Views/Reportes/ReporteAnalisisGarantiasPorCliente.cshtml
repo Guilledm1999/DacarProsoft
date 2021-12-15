@@ -15,7 +15,6 @@
         <br />
         <div class="form-group">
             <div class="row">
-
                 <div class="col-md-2">
                     <h6>Cliente:</h6>
                     @Html.DropDownList("Pais", new SelectList(clientes, "CardCode", "NombreCliente"), "--Seleccione el cliente--", new
@@ -38,7 +37,6 @@
                         }
                     </select>
                 </div>
-
                 <div class="col-md-2">
                     <h6>  </h6>
                     <button class="btn btn-primary" onclick="ConsultarReporte()">
@@ -66,21 +64,14 @@
         </div>
         <div class="loader">
             <div class="form">
-                <div class="form-row">
-                    @*<div align="center">
-                            <label id="lbltabladescriptiva">Tabla Descriptiva</label>
-                        </div>*@
+                <div class="form-row">   
                     <div class="col">
                     </div>
-                    @*<div class="col">
-                            <div id="tblGridResumenAnio1"> </div>
-                        </div>*@
                     <div class="col">
                         <div id="tblGridResumenCliente"> </div>
                     </div>
                     <div class="col">
                     </div>
-
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-1">
@@ -99,7 +90,6 @@
         </div>
     </div>
 </div>
-
 
 <div id="ModalDetalleGarantiaMes" class="modal fade" role="dialog" style="overflow-y: scroll;">
     <div class="modal-dialog modal-xl" role="document">
@@ -129,7 +119,6 @@
                             <canvas id="myChart4" style="width:100%;max-width:800px"></canvas>
                         </div>
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">

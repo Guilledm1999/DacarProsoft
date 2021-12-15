@@ -6,8 +6,6 @@ $(document).ready(function () {
     $('.js-example-basic-single').select2();
 
     ocultarDiv();
-    //var x = document.getElementById("ContenidoDiv");
-    //x.style.display === "none";
 });
 
 $('#myModal').modal({
@@ -45,7 +43,6 @@ function cargarClientes() {
 }
 
 $('#btnprueba').on("click", function (e) {
-    console.log($('input:radio[name=inlineRadioOptions10]:checked').val());
 });
 
 
@@ -103,23 +100,6 @@ function CargarCantones() {
         $("#txtDireccion").append('<option value="">--Seleccione el cantón--</option>');
     }
 }
-
-//function CargarClientes() {
-//    $("#txtCliente").empty();
-//    $("#txtCliente").append('<option value="">--Escoja--</option>');
-//    $.ajax({
-//        type: 'POST',
-//        url: "../Garantias/ConsultarClientesSap",
-//        dataType: 'json',
-//        data: { id: $("#txtMarcasPropias option:selected").val()  },
-//        success: function (articulos) {
-//            $.each(articulos, function (i, articulo) {
-//                $("#txtCliente").append('<option value="' + articulo.Value + '">' +
-//                    articulo.Text + '</option>');
-//            });
-//        },
-//    })
-//}
 
 function ConsultarGarantia() {
     var numeroGarantia = document.getElementById('txtNumeroGarantia').value;
@@ -192,27 +172,23 @@ function ConsultarNumeroGarantia() {
             if (Object.keys(msg).length === 0) {
 
                 IngresoManual = true;
-                //CargarNumeroComprobante();
                 document.getElementById("txtModelo").disabled = false;
                 document.getElementById("txtProvincia").disabled = false;
                 document.getElementById("txtDireccion").disabled = false;
                 document.getElementById("txtCliente").disabled = false;
 
 
-                //$("#txtCliente").val("");
                 $("#txtCedula").val("");
                 $("#txtProvincia").val("");
 
                 CargarCantones();
                 $("#txtNumeroGarantiaObtenido").val("");
-                //$("#txtModelo").val("");
                 $("#txtNumeroFactura").val("");
                 $("#txtPorcentajeVentas").val("");
 
 
                 CargarProvincia();
                 CargarModelosBaterias();
-                //CargarClientes();
                 $("#MensajeGarantiaNoEncontrada").show('fade');
                 setTimeout(function () {
                     $("#MensajeGarantiaNoEncontrada").fadeOut(1500);
@@ -222,7 +198,6 @@ function ConsultarNumeroGarantia() {
                 document.getElementById("txtCedula").readOnly = true;
                 document.getElementById("txtProvincia").readOnly = false;
                 document.getElementById("txtNumeroGarantiaObtenido").readOnly = false;
-                //document.getElementById("txtModelo").readOnly = false;
                 document.getElementById("txtNumeroFactura").readOnly = false;
                 document.getElementById("txtPorcentajeVentas").readOnly = true;
 
@@ -243,9 +218,7 @@ function ConsultarNumeroGarantia() {
                 document.getElementById("txtCedula").readOnly = true;
                 document.getElementById("txtProvincia").readOnly = true;
                 document.getElementById("txtNumeroGarantiaObtenido").readOnly = true;
-                //document.getElementById("txtModelo").readOnly = true;
                 document.getElementById("txtNumeroFactura").readOnly = true;
-                //document.getElementById("txtNumeroComprobante").readOnly = true;
                 document.getElementById("txtPorcentajeVentas").readOnly = true;
 
 
@@ -268,17 +241,9 @@ function ConsultarNumeroGarantia() {
 
 
                 $("#ContenidoDiv").show();
-                //$("#txtCliente").val(msg[0]['Nombre'] + " " + msg[0]['Apellido']);
-                //$("#txtCliente option[text=" + msg[0]['Nombre'] + " " + msg[0]['Apellido']).attr("selected", true);
-              
-
-                //$("#txtNumeroComprobante").val(msg[0]['NumeroCombrobante']);
-
-                //$("#txtCliente").prop("disabled", true);
+                
                 $("#txtCedula").val(msg[0]['Cedula']);
-                //$("#txtProvincia").val(msg[0]['Provincia']);
                 $("#txtNumeroGarantiaObtenido").val(msg[0]['NumeroGarantia']);
-                //$("#txtModelo").val(msg[0]['ModeloBateria']);
                 $("#txtNumeroFactura").val(msg[0]['NumeroFactura']);
                 $("#txtPorcentajeVentas").val(msg[0]['ValorBateria'].toFixed(2));
 
@@ -300,15 +265,10 @@ function ConsultarNumeroGarantia() {
 }
 
 function validarIngresos() {
-    //var valor1=$("#txtCliente").val();
     var valor2 =$("#txtCedula").val();
     var valor3 =$("#txtNumeroGarantiaObtenido").val();
     var valor4 =$("#txtNumeroComprobante").val();
     var valor5 = $("#txtNumeroFactura").val();
-    //var valor6 =$("#txtProvincia").val();
-    //var valor7 =$("#txtDireccion").val();
-    //var valor8 =$("#txtVendedor").val();
-    //var valor9 =$("#txtModelo").val();
     var valor10 =$("#txtLote").val();
     var valor11 =$("#txtProrrateo").val();
     var valor12 = $("#txtMeses").val();
@@ -357,14 +317,6 @@ function validarIngresos() {
         }, 3000);
         return;
     }
-    
-    //if (valor1.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //}
     if (valor2.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -390,34 +342,7 @@ function validarIngresos() {
         }, 3000);
         return;
        
-    } //if (valor6.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //}
-    //if (valor7.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //}
-    //if (valor8.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    ////} if (valor9.length == 0) {
-    ////    $("#MensajeCompleteCampos").show('fade');
-    ////    setTimeout(function () {
-    ////        $("#MensajeCompleteCampos").fadeOut(1500);
-    ////    }, 3000);
-    ////    return;
-    //    //
-    //}
+    } 
     if (valor10.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -455,50 +380,6 @@ function validarIngresos() {
         }, 3000);
         return;
     }
-    //if (valor16.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //} if (valor17.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //} if (valor18.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //} if (valor19.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //} if (valor20.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //} if (valor21.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //}
-    //if (valor22.length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //}
     if (valor23.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -521,14 +402,6 @@ function validarIngresos() {
             return;
 
     }
-    //if (inputFileImage2.length == 0) {
-    //        $("#MensajeCompleteCampos").show('fade');
-    //        setTimeout(function () {
-    //            $("#MensajeCompleteCampos").fadeOut(1500);
-    //        }, 3000);
-    //        return;
-    //}
-    
     if ($('input[name=inlineRadioOptions1]:checked').length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -579,13 +452,6 @@ function validarIngresos() {
         }, 3000);
         return;
     }
-    //if ($('input[name=inlineRadioOptions9]:checked').length == 0) {
-    //    $("#MensajeCompleteCampos").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeCompleteCampos").fadeOut(1500);
-    //    }, 3000);
-    //    return;
-    //}
     if ($('input[name=inlineRadioOptions10]:checked').length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -650,7 +516,6 @@ $('#btnRegistrarRevision').on("click", function (e) {
             if (ValiExt == "True") {
                 if (ValiPes == "True") {
                     validarIngresos();
-                    //    RegistrarRevisionGarantiaCabecera();
                 }
                 else {
                     $("#PesoImgSobrepasado").show('fade');
@@ -687,7 +552,6 @@ function validarExtension(datos) {
 }
 
 // Validacion de peso del fichero en kbs
-
 function validarPeso(datos) {
     ValiPes = "False";
     if (datos.files && datos.files[0]) {
@@ -700,7 +564,6 @@ function validarPeso(datos) {
         }
     }
 }
-//console.log(p.replace('dog', 'monkey'));
 
 function RegistrarRevisionGarantiaCabecera() {
     $("#pleaseWaitDialog").modal("show");
@@ -711,8 +574,6 @@ function RegistrarRevisionGarantiaCabecera() {
         $('#BarraProceso').css('width', progreso + '%');
     }, 1000);
  
-   // $("#cargaImg").show();
-
     var inputFileImage1 = $("#ImgFacturaIngresada")[0].files[0];
     var inputFileImage2 = $("#ImgTestIngresada")[0].files[0];
 
@@ -756,8 +617,10 @@ function RegistrarRevisionGarantiaCabecera() {
             }
         },
         error: function () {
-            alert("Ha ocurrido un error");
-        }
+            $("#MensajeErrorGeneral").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorGeneral").fadeOut(1500);
+            }, 3000); return;        }
     });
 }
 
@@ -772,38 +635,28 @@ function RegistrarRevisionGarantiaDetalle(valor) {
     var cca = null;
 
     if ($('input:radio[name=inlineRadioOptions17]:checked').val() == "false") {
-        console.log("Entro check 1");
         AplicaGarantia = true;
     }
     if ($('input:radio[name=inlineRadioOptions10]:checked').val() == "true") {
-        console.log("Entro check 2");
         AplicaGarantia = true;
     }
     if ($('input:radio[name=inlineRadioOptions11]:checked').val() == "true") {
-        console.log("Entro check 3");
         AplicaGarantia = true;
     }
     if ($('input:radio[name=inlineRadioOptions12]:checked').val() == "true") {
-        console.log("Entro check 4");
         AplicaGarantia = true;
     }
     if ($('input:radio[name=inlineRadioOptions13]:checked').val() == "true") {
-        console.log("Entro check 5");
         AplicaGarantia = true;
     }
     if ($('input:radio[name=inlineRadioOptions14]:checked').val() == "true") {
-        console.log("Entro check 6");
         AplicaGarantia = true;
     }
-    console.log("el valor");
-    console.log($("#txtCelda1").val());
 
     if ($("#txtCelda1").val() == "") {
-        console.log("entro x verdadero");
         celda1 = "0";
     }
     else {
-        console.log("entro x falso");
         celda1 = $("#txtCelda1").val();
     }
     if ($("#txtCelda2").val() == "") {
@@ -853,7 +706,6 @@ function RegistrarRevisionGarantiaDetalle(valor) {
         },
         type: 'post',
         success: function (respuesta) {
-            //$("#cargaImg").hide();
             clearInterval(idIterval);
             $("#pleaseWaitDialog").modal("hide");
             $("#ModalDetallePedido").modal("hide");
@@ -911,15 +763,10 @@ function vaciarInputs() {
     inputImage.value = '';
     var inputImage2 = document.getElementById("ImgTestIngresada");
     inputImage2.value = '';
-   // $("#txtCliente option:selected").text()").val("");
     $("#txtCedula").val("");
     $("#txtNumeroGarantiaObtenido").val("");
     $("#txtNumeroComprobante").val("");
     $("#txtNumeroFactura").val("");
-    //$("#txtProvincia").val("");
-    //$("#txtDireccion").val("");
-    //$("#txtVendedor").val("");
-    //$("#txtModelo").val("");
     $("#txtLote").val("");
     $("#txtLoteEnsamble").val("");
     $("#txtProrrateo").val("");
@@ -944,7 +791,6 @@ function vaciarInputs() {
     document.querySelectorAll('[name=inlineRadioOptions6]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions7]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions8]').forEach((x) => x.checked = false);
-    //document.querySelectorAll('[name=inlineRadioOptions9]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions10]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions11]').forEach((x) => x.checked = false);
     document.querySelectorAll('[name=inlineRadioOptions12]').forEach((x) => x.checked = false);
@@ -967,7 +813,6 @@ function ValidarGarantia() {
         $("#txtMsjGarantia").val("El producto cumple con los requisitos minimos para aplicar garantia.");    
         }
         else {
-            console.log("entro x falso");
             var elem1 = document.getElementById("txtMsjGarantia");
             elem1.style.backgroundColor = "LemonChiffon";
 
@@ -982,7 +827,6 @@ function CalcularProrrateo() {
     ValorBateria();
 
     if ($("#txtPorcentajeVentas").val() != "" && $("#txtFechaVenta").val() != "" && $("#txtModelo option:selected").val() != "") {
-        console.log("entro x verdadero");
         $.ajax({
             type: 'POST',
             url: "../Garantias/ConsultarProrrateo",
@@ -993,7 +837,6 @@ function CalcularProrrateo() {
             success: function (msg) {
                 $("#txtProrrateo").val(msg[0]['PorcentajeProrrateo']);
                 $("#txtMeses").val(msg[0]['MesesGarantia']);
-                //$("#txtPorcentajeVentas").val(msg[0]['ValorBateria']);
             },
         })
     }
@@ -1004,8 +847,6 @@ function CalcularProrrateo() {
 
 function ValorBateria() {
     if ($("#txtModelo option:selected").val() != "") {
-        console.log("entro al medodo verdadero del valor");
-
         $.ajax({
             type: 'POST',
             url: "../Garantias/ConsultarValorBateria",

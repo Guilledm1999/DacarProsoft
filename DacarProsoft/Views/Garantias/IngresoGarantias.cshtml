@@ -8,12 +8,8 @@
     var vendedores = ViewBag.Vendedores;
     DateTime fecha = DateTime.Now;
     var fechaActual = fecha.ToString("dd/MM/yyyy");
-
     var clientes = ViewBag.ClientesSap;
 }
-
-
-
 
 <br />
 <div class="card shadow align-top">
@@ -89,7 +85,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Cliente:</b></label>
@@ -120,7 +115,6 @@
                     <div class="col-md-2">
                         <select class="form-control" aria-label="Default select example" id="txtProvincia" onchange="CargarCantones();">
                         </select>
-                        @*<input type="text" name="NombreItem" id="txtProvincia" autocomplete="off" class="form-control" readonly placeholder="Provincia">*@
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Ciudad:</b></label>
@@ -128,12 +122,10 @@
                         <select class="form-control" aria-label="Default select example" id="txtDireccion">
                             <option value="" selected="selected">--Seleccione el cantón--</option>
                         </select>
-                        @*<input type="text" name="NombreItem" id="txtDireccion" autocomplete="off" class="form-control" placeholder="Ciudad">*@
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Vendedor:</b></label>
                     <div class="col-md-1">
                         @Html.DropDownList("TipoDeIngreso", new SelectList(vendedores, "SlpCode", "Memo"), new { @class = "form-control", id = "txtVendedor" })
-                        @*<input type="text" name="NombreItem" id="txtVendedor" autocomplete="off" class="form-control" placeholder="Vendedor">*@
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Factura:</b></label>
@@ -174,16 +166,7 @@
                         <input type="number" name="NombreItem" id="txtPorcentajeVentas" autocomplete="off" class="form-control" placeholder="$ Pvp Venta" onchange="CalcularProrrateo();">
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Meses:</b></label>
-                    <div class="col-md-1">
-                        @*<select class="form-control" aria-label="Default select example" id="txtMeses" onchange="CalcularProrrateo();">
-                        @{
-                            for (int i = 1; i <= 24; i++)
-                            {
-                                <option value=@i>@i</option>
-
-                            }
-                        }
-                    </select>*@
+                    <div class="col-md-1">                   
                         <input type="number" name="NombreItem" id="txtMeses" autocomplete="off" class="form-control" placeholder="# Meses" readonly>
                     </div>
                 </div>
@@ -229,10 +212,8 @@
                     <div class="col-md-2">
                         <input type="file" accept=".jpg,.png,.jpeg,.gif" class="form-control-file" id="ImgTestIngresada" onchange="ValidarTipoImagen(this);">
                     </div>
-
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="row" style="padding:0px 0px 10px 0px">          
                     <div class="col-md-4">
@@ -342,7 +323,6 @@
                         <div align="center" style="padding:0px 10px 0px 10px">
                             <input type="text" style="text-align: center; font-weight: bold" name="NombreItem" id="txtMsjGarantia" autocomplete="off" class="form-control" readonly>
                         </div>
-
                     </div>
                     <div class="col-md-4">
                         <div class="col-md-12">
@@ -423,36 +403,18 @@
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio1" value="false">
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
-                                </li>
-                                @*<li class="list-group-item d-flex justify-content-between align-items-center">
-                                Aplica Garantia
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="true">
-                                    <label style="padding:0px 10px 0px 0px" class="form-check-label" for="inlineRadio1">Si</label>
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions9" id="inlineRadio1" value="false">
-                                    <label class="form-check-label" for="inlineRadio1">No</label>
-                                </div>
-                            </li>*@
+                                </li>                             
                             </ul>
                         </div>
                     </div>
-
-                    @*<div class="col-md-2">
-
-                </div>*@
-
                 </div>
             </div>
             <div align="center">
                 <button type="button" id="btnRegistrarRevision" class="btn btn-primary">Registrar</button>
-                @*<button type="button" id="btnprueba" class="btn btn-primary">prueba</button>*@
             </div>
-
         </div>
-
     </div>
 </div>
-
 
 <div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered">
@@ -470,5 +432,4 @@
         </div>
     </div>
 </div>
-
 <input type="hidden" id="txtIdNumeroGarantia" />

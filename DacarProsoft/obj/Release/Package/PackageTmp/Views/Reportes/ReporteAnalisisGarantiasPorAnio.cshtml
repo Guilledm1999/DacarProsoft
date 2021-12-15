@@ -3,6 +3,13 @@
     ViewBag.Title = "ReporteAnalisisGarantiasPorAnio";
     Layout = "~/Views/Compartida/_Layout.cshtml";
 }
+<style>
+
+    #pivotgrid {
+        margin-top: 20px;
+    }
+</style>
+
 
 <br />
 <div class="card shadow align-top">
@@ -85,6 +92,23 @@
                     </div>
 
                 </div>
+                <br />
+                <div class="form-row">
+                    @*<div align="center">
+                            <label id="lbltabladescriptiva">Tabla Descriptiva</label>
+                        </div>*@
+                    <div class="col">
+                        <div class="demo-container">
+                            <div id="pivotgrid-demo">
+                                <div id="PivotGridAnalisis"></div>
+                                <br />
+                                <div id="pivotgrid-chart"></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <div class="form-row">
                     <div class="form-group col-md-1">
                     </div>
@@ -134,7 +158,7 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">           
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

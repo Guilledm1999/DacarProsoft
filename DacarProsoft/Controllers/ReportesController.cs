@@ -491,5 +491,81 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+
+        public ActionResult ReporteAnalisisGarantiasPorDetalleFinal()
+        {
+            if (Session["usuario"] != null)
+            {
+
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                daoUtilitarios = new DaoUtilitarios();
+                daoReportes = new DaoReportes();
+
+                var Meses = daoReportes.Meses();
+                var Area = daoReportes.AreaResponsable();
+                var TipoBateria = daoReportes.TipoBateria();
+                var Causales = daoReportes.Causales();
+                var GrupoBateria = daoReportes.GrupoBateria();
+
+                ViewBag.Meses = Meses;
+                ViewBag.Area = Area;
+                ViewBag.TipoBateria = TipoBateria;
+                ViewBag.Causales = Causales;
+                ViewBag.GrupoBateria = GrupoBateria;
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public JsonResult ReporteDetalleGeneralGarantias(string FechaAnalisis, string MesAnalisis, string AreaResponsable, string TipoBateria, string Causales, string GrupoBateria)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReporteAnalisisGarantiaDetalleGeneral(Convert.ToInt32(FechaAnalisis), Convert.ToInt32(FechaAnalisis)-1, MesAnalisis, AreaResponsable, Causales, GrupoBateria);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+
+        public JsonResult PivotDeAnalisisGarantiasAnios(string anio1, string anio2)
+        {
+            try
+            {
+                daoReportes = new DaoReportes();
+
+                var Result = daoReportes.ReportePivotDeAnalisisGarantiasAnios(Convert.ToInt32(anio1), Convert.ToInt32(anio2));
+                return Json(Result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
     }
 }

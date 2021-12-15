@@ -315,7 +315,7 @@ namespace DacarProsoft.Datos
                             kilo = 0;
                         }
                         else {
-                            kilo = Convert.ToDecimal(x.U_DC_KILOS);
+                            kilo = Convert.ToDecimal(x.U_DC_KILOS.Replace(".",""));
                         }
                         if (x.U_SYP_NUMOCCL == null)
                         {

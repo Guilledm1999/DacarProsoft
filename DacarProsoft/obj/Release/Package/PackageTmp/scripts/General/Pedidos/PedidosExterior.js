@@ -125,13 +125,7 @@ function PedidosRecibidos() {
 function ConsultarDetallePedido(modelo) {
     $("#txtTipoVenta").val("EXPORTACION");
     $("#txtVendedor").val("PLANTA");
-
     $("#txtFechaDocumento").val("");
-
-    //$("#txtCantidadPedido").val("");
-    //$("#txtPrecioFinal").val("");
-    //$("#txtPesoNeto").val("");
-    //$("#txtPesoBruto").val("");
     $("#txtObservaciones").val("");
     $("#ModalDetallePedido").modal("show");
     $("#txtFechaDocumento").val(modelo.FechaEmision);
@@ -147,18 +141,14 @@ function DetalleFinal(NumeroPedido) {
         type: "Get",
         success: function (msg) {
             DetalleCliente = msg;
-            console.log("este es el det client" + msg);
-
-            //$("#txtCantidadPedido").val(msg[0]['CantitadTotal']);
-            //$("#txtPrecioFinal").val(msg[0]['PrecioFinalPedido']);
-            //$("#txtPesoNeto").val(msg[0]['PesoNetoFinalPedido']);
-            //$("#txtPesoBruto").val(msg[0]['PesoBrutoFinalPedido']);
             $("#txtObservaciones").val(msg[0]['Observaciones']);
-           
-            
+                  
         },
         error: function (msg) {
-            console.log("Error");
+            $("#MensajeErrorInesperado").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorInesperado").fadeOut(1500);
+            }, 3000); return;
         },
     })
 }
@@ -348,14 +338,6 @@ function validarFormularioRegistro(evento) {
         }, 3000); return;
     }
 
-    //var txtCantidadPedido = document.getElementById('txtCantidadPedido').value;
-    //if (txtCantidadPedido.length == 0) {
-    //    $("#MensajeValidacionFormulario").show('fade');
-    //    setTimeout(function () {
-    //        $("#MensajeValidacionFormulario").fadeOut(1500);
-    //    }, 3000); return;
-    //}
-
     var txtObservaciones = document.getElementById('txtObservaciones').value;
     if (txtObservaciones.length == 0) {
         $("#MensajeValidacionFormulario").show('fade');
@@ -387,7 +369,6 @@ function enviarRegistro() {
             Observaciones: $('#txtObservaciones').val(), array: temp, CantidadNueva: $('#txtCantidadTotalConfirmada').val(), PrecioNuevo: $('#txtPrecioTotal').val(), PesoNuevo: $('#txtPesoTotal').val(),
         },
         success: function (e) {
-            console.log("Esto devuelve el metodo de ingreso sap:" + e)
             if (e == "True") {
                 PedidosRecibidos();
                 clearInterval(idIterval);
@@ -400,9 +381,7 @@ function enviarRegistro() {
                 }, 3000); return;
             } else {
                 $("#pleaseWaitDialog").modal("hide");
-
                 $("#ModalDetallePedido").modal("hide");
-
                 $("#MensajeErrorIngreso").show('fade');
                 setTimeout(function () {
                     $("#MensajeErrorIngreso").fadeOut(1500);

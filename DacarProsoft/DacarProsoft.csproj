@@ -295,6 +295,7 @@
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantiasPorAnio.js" />
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantiasPorCliente.js" />
+    <Content Include="scripts\General\Reportes\ReporteAnalisisGarantiasPorDetalleFinal.js" />
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantiasPorTipoCliente.js" />
     <Content Include="scripts\General\Reportes\ReporteDeGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteGeneralVentasExterior.js" />
@@ -386,6 +387,7 @@
     <Compile Include="Models\Mign1Individual.cs" />
     <Compile Include="Models\ModelAnalisisGarantia.cs" />
     <Compile Include="Models\ModelChartGarantias.cs" />
+    <Compile Include="Models\ModeloPivotAnalisisGarantiasAnio.cs" />
     <Compile Include="Models\Moign.cs" />
     <Compile Include="Models\MdlOpdn.cs" />
     <Compile Include="Models\OrdenesProduccion.cs" />
@@ -396,6 +398,7 @@
     <Compile Include="Models\PedidosRegistradosSap.cs" />
     <Compile Include="Models\PesoPrecioArticulo.cs" />
     <Compile Include="Models\IngresosChatarras.cs" />
+    <Compile Include="Models\ReporteGarandiasDetalleFinal.cs" />
     <Compile Include="Models\ReporteGeneralDeControl.cs" />
     <Compile Include="Models\ReporteGeneralPedidosExterior.cs" />
     <Compile Include="Models\RevisionesTecnicasGarantias.cs" />
@@ -565,6 +568,7 @@
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorAnio.cshtml" />
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorCliente.cshtml" />
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorTipoCliente.cshtml" />
+    <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorDetalleFinal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

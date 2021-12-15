@@ -88,6 +88,11 @@ C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarProsoft\obj\Debug\Dacar
 C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarProsoft\obj\Debug\DacarProsoft.csproj.CopyComplete
 C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarProsoft\obj\Debug\DacarProsoft.dll
 C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarProsoft\obj\Debug\DacarProsoft.pdb
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\BouncyCastle.Crypto.xml
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Common.Logging.Core.xml
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Microsoft.ApplicationInsights.xml
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\System.Web.Helpers.xml
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\es\System.Web.Webpages.Razor.resources.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\ApplicationInsights.config
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\csc.exe
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -137,11 +142,9 @@ C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\System.Web.Webpages.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\System.Web.Webpages.Razor.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\DacarDatos.pdb
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\DacarDatos.dll.config
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\BouncyCastle.Crypto.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Common.Logging.pdb
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Common.Logging.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Common.Logging.Core.pdb
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Common.Logging.Core.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\EntityFramework.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\EntityFramework.SqlServer.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\itext.barcodes.xml
@@ -157,18 +160,15 @@ C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Microsoft.AI.DependencyCollector
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Microsoft.AI.Web.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Microsoft.AI.WindowsServer.xml
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Microsoft.ApplicationInsights.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\System.Web.Razor.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\System.Web.Webpages.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\System.Web.Webpages.Deployment.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\System.Web.Webpages.Razor.xml
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\System.Web.Helpers.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\System.Web.Mvc.xml
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\es\System.Web.Razor.resources.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\es\System.Web.Webpages.resources.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\es\System.Web.Webpages.Deployment.resources.dll
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\es\System.Web.Webpages.Razor.resources.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\es\System.Web.Helpers.resources.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\es\System.Web.Mvc.resources.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\obj\Debug\DacarProsoft.csproj.AssemblyReference.cache

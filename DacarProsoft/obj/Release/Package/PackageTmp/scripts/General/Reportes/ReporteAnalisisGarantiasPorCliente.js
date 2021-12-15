@@ -14,8 +14,6 @@ $(document).ready(function () {
         event.preventDefault();
         $(this).closest('tr').remove();
     });
-    //var x = document.getElementById("ContenidoDiv");
-    //x.style.display === "none";
 });
 
 $('#LinkClose').on("click", function (e) {
@@ -43,12 +41,10 @@ function ConsultarReporte() {
             $("#MensajeIngreseTodosLosCampos").fadeOut(1500);
         }, 3000);
     }
-
     else {
         ConsultarReporteClienteMes();
     }
 }
-
 
 function ConsultarReporteClienteMes() {
     var cliente = $("#txtCliente option:selected").text();
@@ -77,11 +73,8 @@ function ConsultarReporteClienteMes() {
                             },
                             {
                                 caption: "Acciones",
-
                                 cellTemplate: function (container, options) {
-
                                     var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarDetalles(" + JSON.stringify(options.data) + ")'>Detalle</button>";
-
                                     $("<div>")
                                         .append($(btnDetalle))
                                         .appendTo(container);
@@ -127,10 +120,7 @@ function ConsultarReporteClienteMes() {
                 setTimeout(function () {
                     $("#MensajeSinInformacion").fadeOut(1500);
                 }, 3000); return;
-
-
             }
-
         },
         error: function (msg) {
             $(".btn").attr("disabled", false);
@@ -159,8 +149,6 @@ function ChartResumenesGarantias(Listado) {
     var Noviembre = 0;
     var Diciembre = 0;
 
-
-
     if (char != null) {
         char.destroy();
     }
@@ -173,7 +161,6 @@ function ChartResumenesGarantias(Listado) {
 
     for (var i in Listado) {
         acumulado = acumulado + Listado[i].Valor;
-        // nombre.push(Listado[i].Descripcion);
         if (Listado[i].Descripcion == "Enero") {
             Enero = Listado[i].Valor;
         }
@@ -194,7 +181,6 @@ function ChartResumenesGarantias(Listado) {
         }
         if (Listado[i].Descripcion == "Julio") {
             Julio = Listado[i].Valor;
-            // msg[0]['Apellido']
             console.log("Julio:" + Listado[i].Descripcion);
         }
         if (Listado[i].Descripcion == "Agosto") {
@@ -212,7 +198,6 @@ function ChartResumenesGarantias(Listado) {
         if (Listado[i].Descripcion == "Diciembre") {
             Diciembre = Listado[i].Valor;
         }
-        //stock.push(Listado[i].Valor);
     }
 
 
@@ -247,7 +232,6 @@ function ChartResumenesGarantias(Listado) {
     //        fill: false
     //    }]
     //};
-
     char = new Chart(ctx, {
         type: "bar",
         data: DataTotales,
@@ -286,31 +270,23 @@ function ChartResumenesGarantias(Listado) {
     });
     // ChartResumenesGarantias2(acumulado);
     ChartResumenesGarantias2(Listado);
-
 }
 
 
 function ChartResumenesGarantias2(Listado) {
     var acum = 0;
-
     if (char2 != null) {
         char2.destroy();
     }
-
     var ctx = $("#myChart2")
-
-
     var nombre = [];
     var stock = [];
     var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) ', 'rgba(6, 179, 32, 0.2) ', 'rgba(134, 129, 71, 0.2) ', 'rgba(99, 134, 71, 0.2) '];
     var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
-    console.log(Listado);
 
     for (var i in Listado) {
         acum = acum + Listado[i].Valor;
     }
-    console.log("el acumulado es:" + acum);
-
 
     for (var i in Listado) {
         nombre.push(Listado[i].Descripcion);
@@ -352,7 +328,6 @@ function ChartResumenesGarantias2(Listado) {
             //    legend: { display: false }
         }
     });
-
 }
 
 function ModalConsultarDetalles(data) {
@@ -413,14 +388,11 @@ function ModalConsultarInformacionMes(data) {
                 });
                 ChartResumenesDetalleGarantias(msg);
             } else {
-
                 $("#MensajeSinInformacion").show('fade');
                 setTimeout(function () {
                     $("#MensajeSinInformacion").fadeOut(1500);
                 }, 3000); return;
-
             }
-
         },
         error: function (msg) {
             $(".btn").attr("disabled", false);
@@ -440,20 +412,16 @@ function ChartResumenesDetalleGarantias(Listado) {
         char3.destroy();
     }
 
-    var ctx = $("#myChart3")
-
+    var ctx = $("#myChart3");
 
     var nombre = [];
     var stock = [];
     var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) ', 'rgba(6, 179, 32, 0.2) ', 'rgba(134, 129, 71, 0.2) ', 'rgba(99, 134, 71, 0.2) '];
     var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
-    console.log(Listado);
 
     for (var i in Listado) {
         acum = acum + Listado[i].Valor;
     }
-    console.log("el acumulado es:" + acum);
-
 
     for (var i in Listado) {
         nombre.push(Listado[i].Descripcion);
@@ -517,7 +485,6 @@ function ModalConsultarInformacionMesPorModelo(data) {
                         }, {
                             dataField: "Porcentaje", caption: "Porcentaje(%)"
                         }
-
                     ],
                     summary: {
                         totalItems: [
@@ -549,14 +516,11 @@ function ModalConsultarInformacionMesPorModelo(data) {
                 });
                 ChartResumenesDetalleGarantiasPorModelo(msg);
             } else {
-
                 $("#MensajeSinInformacion").show('fade');
                 setTimeout(function () {
                     $("#MensajeSinInformacion").fadeOut(1500);
                 }, 3000); return;
-
             }
-
         },
         error: function (msg) {
             $(".btn").attr("disabled", false);
@@ -576,24 +540,19 @@ function ChartResumenesDetalleGarantiasPorModelo(Listado) {
         char4.destroy();
     }
 
-    var ctx = $("#myChart4")
-
+    var ctx = $("#myChart4");
 
     var nombre = [];
     var stock = [];
     var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) ', 'rgba(6, 179, 32, 0.2) ', 'rgba(134, 129, 71, 0.2) ', 'rgba(99, 134, 71, 0.2) '];
     var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
-    console.log(Listado);
 
     for (var i in Listado) {
         acum = acum + Listado[i].Valor;
     }
-    console.log("el acumulado es:" + acum);
-
 
     for (var i in Listado) {
         nombre.push(Listado[i].Descripcion);
-
         stock.push(((Listado[i].Valor * 100) / acum).toFixed(2));
     }
     var chartdata = {

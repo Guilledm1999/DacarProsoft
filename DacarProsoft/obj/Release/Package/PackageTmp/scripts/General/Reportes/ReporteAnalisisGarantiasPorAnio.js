@@ -47,8 +47,9 @@ function ConsultarReporte() {
 }
 
 function AnalisisGarantiasRegistrados() {
+    ConsultarPivot();
     // $("#lbltabladescriptiva").show();
-    ConsultarFechaUno();
+   // ConsultarFechaUno();
     //ConsultarFechaDos();
     //ChartResumenesGarantias(x, y);
 
@@ -157,7 +158,6 @@ function ConsultarFechaDos(valor) {
             if (msg.length != 0) {
                 retorno = msg;
 
-
                 $(".btn").attr("disabled", false);
                 $(".btn-txt").text("Consultar");
                 $("#tblGridResumenAnio2").dxDataGrid({
@@ -241,6 +241,7 @@ function ConsultarFechaDos(valor) {
             }, 3000); return;
         }
     })
+    ConsultarPivot();
 }
 
 
@@ -1016,4 +1017,193 @@ function ChartResumenesDetalleGarantiasPorModeloAñoFin(Listado) {
             //    legend: { display: false }
         }
     });
+}
+
+
+
+function ConsultarPivot() {
+    var fechaUno = $('#txtFechaInicio option:selected').text();
+    var fechaDos = $('#txtFechaFin option:selected').text();
+
+    $.ajax({
+        url: "../Reportes/PivotDeAnalisisGarantiasAnios?anio1=" + fechaUno + " &anio2=" + fechaDos,
+        type: "GET"
+        , success: function (msg) {
+            if (msg.length != 0) {
+                $(".btn").attr("disabled", false);
+                $(".btn-txt").text("Consultar");
+
+               
+                const locale = getLocale();
+                DevExpress.localization.locale(locale);                
+
+                const pivotGridChart = $('#pivotgrid-chart').dxChart({
+                    commonSeriesSettings: {
+                        type: 'bar',
+                    },
+                    tooltip: {
+                        enabled: true,
+                        //format: 'currency',
+                        customizeTooltip(args) {
+                            var lastword = (args.seriesName).split(" ").pop();
+                            console.log("ultima palabra " + lastword);
+                            if (lastword == "Porcentaje") {
+                                console.log("entro x verdadero");
+                                console.log(args.seriesName);
+                                return {
+                                    html: `${args.seriesName} | Total<div class='currency'>${(args.valueText * 100).toFixed(2)}</div>`,
+                                };
+                            }
+                            else {
+                                console.log("entro x falso");
+                                console.log(args.seriesName);
+
+                                return {
+                                    html: `${args.seriesName} | Total<div class='currency'>${args.valueText}</div>`,
+                                };
+                            }
+                           
+                        },
+                    },
+                    //size: {
+                    //    height: 200,
+                    //},
+                    //adaptiveLayout: {
+                    //    width: 450,
+                    //},
+                }).dxChart('instance');
+
+                
+                const pivotGrid =  $('#PivotGridAnalisis').dxPivotGrid({
+                    dataFieldArea: 'column',
+                    rowHeaderLayout: 'tree',
+                    wordWrapEnabled: false,
+                    fieldChooser: {
+                        enabled: false,
+                    },
+                    'texts.grandTotal': 'Totales',
+                    
+                    //onCellPrepared: function (e) {
+                    //    if (e.cell.columnType === "GT" || e.cell.rowType === "GT")
+                    //        e.cellElement.css("backgroundColor", "lightGreen")
+                    //},
+
+                    //onContentReady: function (e) {
+                    //    e.element.find(".dx-pivotgrid-horizontal-headers .dx-grandtotal").first().text("Totales");
+
+                    //},
+                    dataSource: {
+                        fields: [{
+                            caption: 'Area Responsable',
+                            dataField: 'AreaResponsable',
+                            expanded: false,
+                            sortBySummaryField: "Total",
+
+                            area: 'row',
+                        }, {
+                            caption: 'Resumen Analisis',
+                            dataField: 'ResumenAnalisis',
+                            expanded: false,
+                            area: 'row',
+                        }, {
+                            caption: 'Grupo Bateria',
+                            dataField: 'GrupoBateria',
+                            area: 'row',
+                        }, {
+                            caption: 'Modelo Bateria',
+                            dataField: 'ModeloBateria',
+                            area: 'row',
+                         },{
+                            dataField: 'FechaRegistro',
+                            dataType: 'date',
+                            area: 'column',
+                        }, {
+                            caption: 'Cantidad',
+                            dataField: 'Cantidad',
+                            dataType: 'number',
+                            summaryType: 'sum',
+                            //format: 'currency',
+                            area: 'data',
+                        }, {
+                            caption: 'Porcentaje',
+                            dataField: 'Cantidad',
+                            dataType: 'number',
+                            summaryType: 'sum',
+                            summaryDisplayMode: 'percentOfRowGrandTotal',
+                            area: 'data',
+                            //isMeasure: false // allows the end-user to place this field to the data area only
+
+                        }],
+                        store: msg,
+                    },
+                    //fieldChooser: {
+                    //    height: 500,
+                    //},
+                    allowExpandAll: false,
+
+                    showBorders: true,
+                    /*height: 540,*/
+
+                }).dxPivotGrid('instance');
+
+                function getLocale() {
+                    const storageLocale = sessionStorage.getItem('locale');
+                    return storageLocale != null ? storageLocale : 'es';
+                }
+
+                pivotGrid.bindChart(pivotGridChart, {
+                    //putDataFieldsInto: "series", // "args"
+
+                    dataFieldsDisplayMode: 'splitPanes',
+                    //  processCell: function (args) {
+                    //    console.log(args);
+                    //    args.visible =
+                    //        args.rowPath.length == 1 &&
+                    //        args.columnPath.length === args.maxColumnLevel;
+                    //},
+
+                    alternateDataFields: false,
+
+                    //customizeChart: function (chartOptions) {
+                    //    if (chartOptions && chartOptions.valueAxis && chartOptions.valueAxis.length) {
+                    //        //chartOptions.valueAxis[0].title = 'Total';
+                    //        //chartOptions.valueAxis[0].position = 'right';
+
+                    //        if (chartOptions.valueAxis[1]) {
+                    //            //chartOptions.valueAxis[1]
+                    //        }
+                    //        //chartOptions.valueAxis[1].visible = false;
+                    //        //chartOptions.valueAxis[1].label.visible = false;
+                           
+                    //    }
+
+                    //    return chartOptions;
+                    //},             
+                 
+                  
+                });       
+                
+            } else {
+
+                $(".btn").attr("disabled", false);
+                $(".btn-txt").text("Consultar");
+
+                $("#MensajeSinInformacion").show('fade');
+                setTimeout(function () {
+                    $("#MensajeSinInformacion").fadeOut(1500);
+                }, 3000); return;
+
+
+            }
+
+        },
+        error: function (msg) {
+            $(".btn").attr("disabled", false);
+            $(".btn-txt").text("Consultar");
+            $("#MensajeErrorInesperado").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorInesperado").fadeOut(1500);
+            }, 3000); return;
+        }
+    })
 }

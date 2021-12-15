@@ -11,12 +11,10 @@
     var grupo = ViewBag.gruposClientes;
     var clienteLinea = ViewBag.clienteLinea;
     var clienteClase = ViewBag.clienteClase;
-
 }
 
 <script src="~/Content/moment.js"></script>
 <br />
-
 
 <style>
     .dx-datagrid {
@@ -31,8 +29,6 @@
     }
 </style>
 
-@*<div class="card-header bg-secondary text-white">*@
-
     <div class="card shadow align-top">
         <div class="card-header">
             <h2>Ingresos de Chatarras</h2>
@@ -43,18 +39,6 @@
                         <h6>Tipo de Ingreso</h6>
                         @Html.DropDownList("TipoDeIngreso", new SelectList(VbTipoIngreso, "TipoIngresoId", "Nombre"), new { @class = "form-control", id = "TipoIngreso" })
                     </div>
-                    @*<div class="col-md-2">
-                        <h6>Tipo Cliente</h6>
-                        @Html.DropDownList("Grupo", new SelectList(grupo, "Value", "Text"), "--Todos--", new { @class = "form-control", id = "grupoCliente" })
-                    </div>*@
-                    @*<div class="col-md-2">
-                        <h6>Cliente Linea</h6>
-                        @Html.DropDownList("Grupo", new SelectList(clienteLinea, "Value", "Text"), "--Todos--", new { @class = "form-control", id = "grupoCliente" })
-                    </div>
-                    <div class="col-md-2">
-                        <h6>Cliente Clase</h6>
-                        @Html.DropDownList("Grupo", new SelectList(clienteClase, "Value", "Text"), "--Todos--", new { @class = "form-control", id = "grupoCliente" })
-                    </div>*@
                         <div class="col-md-2">
                                 <button class="btn btn-primary" onclick="ConsultarIngresosChatarraSap()">
                                     <i class="loading-icon fa fa-spinner fa-spin hide"></i>
@@ -63,8 +47,6 @@
                         </div>
                     </div>
             </div>
-
-
         </div>
         <div class="card-body">
             <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
@@ -79,7 +61,6 @@
                 <img id="cargaImg" src="~/Images/dacaritogif.gif" width="150" height="150" />
             </div>     
             <div id="ChatarrasCabecera"></div>
-
         </div>
     </div>
 
@@ -132,7 +113,6 @@
                         </div>
                         <div class="col-sm-3">
                             <button class="btn btn-primary" onclick="CalcularDesviacion()">Calcular Desviación</button>
-
                         </div>
                     </div>
                 </div>
@@ -182,28 +162,16 @@
                         <button class="btn btn-primary" onclick="CalcularDesviacionIndividual()">Calcular Desviación</button>
                     </div>
                 </div>
-                @*<div class="form-group row">
-                 
-                    <div class="col-sm-3">
-                        <button class="btn btn-primary" onclick="CalcularDesviacion()">Calcular Desviación</button>
-
-                    </div>
-                </div>*@
-
             </div>
             <div class="modal-footer">
-                @*<input id="txtSumaryPesos" />*@
                 <input type="hidden" id="txtSumaryPesos" />
                 <input type="hidden" id="txtSumaryPesosAjustados" />
-
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-secondary" id="CalcularDesviacionIndividual">Registrar</button>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <div class="modal fade" id="ModalParaCalculo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -223,7 +191,7 @@
     </div>
 </div>
 
-    <input type="hidden" id="txtSumaryPesos" />
+<input type="hidden" id="txtSumaryPesos" />
 
 
    
