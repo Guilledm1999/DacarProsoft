@@ -274,6 +274,7 @@
     <Content Include="scripts\General\Account\Login.js" />
     <Content Include="scripts\General\Articulos\ConsultarItemsChatarra.js" />
     <Content Include="scripts\General\Articulos\ConsultarArticulos.js" />
+    <Content Include="scripts\General\Chatarra\ReporteIngresosChatarraPorFechas.js" />
     <Content Include="scripts\General\Chatarra\ReporteIngresosChatarra.js" />
     <Content Include="scripts\General\Chatarra\ConsultaIngresoChatarra.js" />
     <Content Include="scripts\General\Chatarra\IngresoChatarraSap.js" />
@@ -378,6 +379,7 @@
     <Compile Include="Models\InfoPallets.cs" />
     <Compile Include="Models\InformacionClienteSap.cs" />
     <Compile Include="Models\IngresoGarantiasModel.cs" />
+    <Compile Include="Models\IngresosGenralesChatarra.cs" />
     <Compile Include="Models\ItemsPackingList.cs" />
     <Compile Include="Models\ItemsPallet.cs" />
     <Compile Include="Models\MdlPdn1.cs" />
@@ -569,6 +571,7 @@
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorCliente.cshtml" />
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorTipoCliente.cshtml" />
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorDetalleFinal.cshtml" />
+    <Content Include="Views\Chatarra\ReporteIngresosChatarraPorFechas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

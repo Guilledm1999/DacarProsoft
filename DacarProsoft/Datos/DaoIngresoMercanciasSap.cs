@@ -34,7 +34,7 @@ namespace DacarProsoft.Datos
                 var ListadoCabeceraChatarra = from d in DB.OIGN
                                               join e in DB.OCRD on d.U_SYP_CODCL equals e.CardCode
                                               join f in DB.OCRG on e.GroupCode equals f.GroupCode
-                                              where d.DocDate >= fechaCorte && d.DocDate <= fechaActual && d.U_SYP_TmovIng == "COMP-CHAT"
+                                              where d.DocDate >= fechaCorte && d.DocDate <= fechaActual && d.U_SYP_TmovIng == "COMP-CHAT" && d.Comments.Contains("CHAT")
                                               orderby d.DocDate descending
                                               select new
                                               {
@@ -50,8 +50,6 @@ namespace DacarProsoft.Datos
                                                   d.U_SYP_TmovIng,
                                                   d.U_DC_KILOS
                                               };
-
-
 
                 foreach (var x in ListadoCabeceraChatarra)
                 {
@@ -514,6 +512,8 @@ namespace DacarProsoft.Datos
                                                  d.ItemCode,
                                                  d.Dscription,
                                                  d.Quantity,
+                                                 d.U_DC_PESOREAL
+                                                 
                                              };
 
                 foreach (var x in ListadoDetalleChatarra)
@@ -538,7 +538,7 @@ namespace DacarProsoft.Datos
                         //PesoTeoricoSubtotal = decimal.Round((x.Quantity.Value * pesoChatarra), 2),
                         PesoTeoricoUnitario = pesoChatarra,
                         PesoTeoricoSubtotal = (x.Quantity.Value * pesoChatarra),
-                        //PesoNetoTipo=0,
+                        PesoNetoTipo=Convert.ToDecimal(x.U_DC_PESOREAL),
                         //PesoTeoricoAjustado = 0,
                         //PesoTeoricoAjustadoTotal = 0,
                         //DesviacionIndividual=0
@@ -651,6 +651,7 @@ namespace DacarProsoft.Datos
                                                  d.ItemCode,
                                                  d.Dscription,
                                                  d.Quantity,
+                                                 d.U_DC_PESOREAL
                                              };
 
                 foreach (var x in ListadoDetalleChatarra)
@@ -672,7 +673,7 @@ namespace DacarProsoft.Datos
                         //PesoTeoricoSubtotal = decimal.Round((x.Quantity.Value * pesoChatarra), 2),
                         PesoTeoricoUnitario = pesoChatarra,
                         PesoTeoricoSubtotal = (x.Quantity.Value * pesoChatarra),
-                        //PesoNetoTipo=0,
+                        PesoNetoTipo=Convert.ToDecimal(x.U_DC_PESOREAL),
                         //PesoTeoricoAjustado = 0,
                         //PesoTeoricoAjustadoTotal = 0,
                         //DesviacionIndividual=0
@@ -1816,6 +1817,125 @@ namespace DacarProsoft.Datos
                 }
                 return NombreGrupo;
             }
+        }
+
+        public List<IngresosGenralesChatarra> ConsultaDeRegistrosChatarrasGeneralPorFechas(DateTime fechaInicio, DateTime fechaFin, int OpcionFiltrado)
+        {
+            string fechaRegistro;
+            List<IngresosGenralesChatarra> lst = new List<IngresosGenralesChatarra>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                if (OpcionFiltrado == 1)
+                {
+                    var ListadoDetalleChatarra = from d in DB.ChatarraDetalle
+                                                 join e in DB.Chatarra on d.ChatarraId equals e.ChatarraId 
+                                                 join f in DB.GrupoClientes on e.CardCode equals f.GroupCode
+                                                 //join f in DB.GrupoClientes on e.CardCode equals f.GroupName
+
+                                                 where e.FechaRegistro >= fechaInicio && e.FechaRegistro <= fechaFin
+                                                 select new
+                                                 {
+                                                 e.NumeroDocumento,
+                                                 e.Fecha,
+                                                 e.Identificacion,
+                                                 e.Cliente,                                              
+                                                 f.GroupName,
+                                                 e.ClienteLinea,
+                                                 e.ClienteClase,
+                                                 e.TipoIngreso,
+                                                 e.Comentarios,
+                                                 e.BodegaId,
+                                                 e.FechaRegistro,
+                                                 d.Descripcion,
+                                                 d.Cantidad,
+                                                 d.PesoTeoricoTotal,
+                                                 d.PesoTotalAjustado
+                                                 };
+
+                    foreach (var x in ListadoDetalleChatarra)
+                    {
+                        //mes=
+                        DateTime FechaRegistro = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
+                        fechaRegistro = FechaRegistro.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        lst.Add(new IngresosGenralesChatarra
+                        {
+                            NumeroDocumento = x.NumeroDocumento.Value,
+                            Fecha = x.Fecha,
+                            Identificacion = x.Identificacion,
+                            Cliente = x.Cliente,
+                            GroupName = x.GroupName,
+                            ClienteLinea = x.ClienteLinea,
+                            ClienteClase = x.ClienteClase,
+                            TipoIngreso = x.TipoIngreso,
+                            Comentarios = x.Comentarios,
+                            BodegaId = x.BodegaId,
+                            FechaRegistro = fechaRegistro,
+                            Descripcion = x.Descripcion,
+                            Cantidad = x.Cantidad.Value,
+                            PesoTotalAjustado = x.PesoTotalAjustado.Value,
+                            PesoTeoricoTotalAjustado = x.PesoTeoricoTotal.Value,
+                            DiferenciaPesos = Decimal.Round((x.PesoTeoricoTotal.Value - x.PesoTotalAjustado.Value), 2),
+                            MesRegistro = FechaRegistro.ToString("MMMM")
+                        }); ;
+                    }
+                    return lst;
+                }
+                else {
+                    var ListadoDetalleChatarra = from d in DB.ChatarraDetalleIndividual
+                                                 join e in DB.Chatarra on d.ChatarraId equals e.ChatarraId
+                                                 join f in DB.GrupoClientes on e.CardCode equals f.GroupCode
+                                                 //join f in DB.GrupoClientes on e.CardCode equals f.GroupName
+
+                                                 where e.FechaRegistro >= fechaInicio && e.FechaRegistro <= fechaFin
+                                                 select new
+                                                 {
+                                                     e.NumeroDocumento,
+                                                     e.Fecha,
+                                                     e.Identificacion,
+                                                     e.Cliente,
+                                                     f.GroupName,
+                                                     e.ClienteLinea,
+                                                     e.ClienteClase,
+                                                     e.TipoIngreso,
+                                                     e.Comentarios,
+                                                     e.BodegaId,
+                                                     e.FechaRegistro,
+                                                     d.Descripcion,
+                                                     d.Cantidad,
+                                                     d.PesoTeoricoTotal,
+                                                     d.PesoTotalAjustado
+                                                 };
+
+                    foreach (var x in ListadoDetalleChatarra)
+                    {
+                        DateTime FechaRegistro = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
+                        fechaRegistro = FechaRegistro.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        lst.Add(new IngresosGenralesChatarra
+                        {
+                            NumeroDocumento = x.NumeroDocumento.Value,
+                            Fecha = x.Fecha,
+                            Identificacion = x.Identificacion,
+                            Cliente = x.Cliente,
+                            GroupName = x.GroupName,
+                            ClienteLinea = x.ClienteLinea,
+                            ClienteClase = x.ClienteClase,
+                            TipoIngreso = x.TipoIngreso,
+                            Comentarios = x.Comentarios,
+                            BodegaId = x.BodegaId,
+                            FechaRegistro = fechaRegistro,
+                            Descripcion = x.Descripcion,
+                            Cantidad = x.Cantidad.Value,
+                            PesoTotalAjustado = x.PesoTotalAjustado.Value,
+                            PesoTeoricoTotalAjustado = x.PesoTeoricoTotal.Value,
+                            DiferenciaPesos = Decimal.Round((x.PesoTeoricoTotal.Value - x.PesoTotalAjustado.Value), 2),
+                            MesRegistro = FechaRegistro.ToString("MMMM")
+                        });
+                    }
+                    return lst;
+                }
+              
+            }
+
         }
     }
 }

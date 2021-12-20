@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     //$("#txtMsjGarantia").hide();
     //$('.js-example-basic-single').select2();
-    prueba();
+    //prueba();
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
         event.preventDefault();

@@ -1001,6 +1001,58 @@ namespace DacarProsoft.Controllers
                 return new FileStreamResult(stream, "application/pdf");
             }
         }
+        public ActionResult ReporteIngresosChatarraPorFechas()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+                ViewBag.MenuAcceso = Session["Menu"];
 
+
+                daoUtilitarios = new DaoUtilitarios();
+
+
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                //return View("GenericRedirect", (object)"Account");
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public JsonResult ConsultaDatosIngresosChatarra(DateTime anioInicial, DateTime anioFinal, string OpcionFiltrado)
+        {
+            try
+            {
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+                var Result = daoIngresoMercanciasSap.ConsultaDeRegistrosChatarrasGeneralPorFechas(anioInicial, anioFinal, Convert.ToInt32(OpcionFiltrado));
+
+
+                var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                serializer.MaxJsonLength = int.MaxValue;
+
+                var json = Json(Result, JsonRequestBehavior.AllowGet);
+                json.MaxJsonLength = int.MaxValue;
+                return json;
+
+
+               // return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
     }
 }

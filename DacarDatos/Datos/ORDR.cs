@@ -567,5 +567,6 @@ namespace DacarDatos.Datos
         public string U_DC_KILOS { get; set; }
         public string U_DC_COMISION { get; set; }
         public string U_DC_PRODUCTOS { get; set; }
+        public string U_MV_DOC_READ { get; set; }
     }
 }

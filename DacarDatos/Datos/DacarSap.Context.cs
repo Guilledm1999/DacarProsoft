@@ -28,11 +28,9 @@ namespace DacarDatos.Datos
         public virtual DbSet<OCRD> OCRD { get; set; }
         public virtual DbSet<vConsultaArticulos> vConsultaArticulos { get; set; }
         public virtual DbSet<VU_REPORTEPRODUCCION> VU_REPORTEPRODUCCION { get; set; }
-        public virtual DbSet<IGN1> IGN1 { get; set; }
         public virtual DbSet<OIGN> OIGN { get; set; }
         public virtual DbSet<OITM> OITM { get; set; }
         public virtual DbSet<OPDN> OPDN { get; set; }
-        public virtual DbSet<PDN1> PDN1 { get; set; }
         public virtual DbSet<ORDR> ORDR { get; set; }
         public virtual DbSet<RDR1> RDR1 { get; set; }
         public virtual DbSet<vReporteGeneralVentasJO> vReporteGeneralVentasJO { get; set; }
@@ -43,5 +41,7 @@ namespace DacarDatos.Datos
         public virtual DbSet<OINV> OINV { get; set; }
         public virtual DbSet<OSLP> OSLP { get; set; }
         public virtual DbSet<ITM1> ITM1 { get; set; }
+        public virtual DbSet<IGN1> IGN1 { get; set; }
+        public virtual DbSet<PDN1> PDN1 { get; set; }
     }
 }

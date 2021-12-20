@@ -420,5 +420,7 @@ namespace DacarDatos.Datos
         public Nullable<int> U_U_DAC_SC { get; set; }
         public string U_U_DAC_TSP { get; set; }
         public string U_U_DAC_ASOLICITANTE { get; set; }
+        public string U_MV_LATITUD { get; set; }
+        public string U_MV_LONGITUD { get; set; }
     }
 }

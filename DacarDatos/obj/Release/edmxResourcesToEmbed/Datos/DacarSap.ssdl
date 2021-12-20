@@ -1091,6 +1091,8 @@
     <Property Name="U_U_DAC_SC" Type="int" />
     <Property Name="U_U_DAC_TSP" Type="nvarchar" MaxLength="30" />
     <Property Name="U_U_DAC_ASOLICITANTE" Type="nvarchar" MaxLength="10" />
+    <Property Name="U_MV_LATITUD" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_MV_LONGITUD" Type="nvarchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="OCRG">
     <Key>
@@ -1663,6 +1665,7 @@
     <Property Name="U_DC_KILOS" Type="nvarchar" MaxLength="30" />
     <Property Name="U_DC_COMISION" Type="nvarchar" MaxLength="30" />
     <Property Name="U_DC_PRODUCTOS" Type="nvarchar" MaxLength="10" />
+    <Property Name="U_MV_DOC_READ" Type="nvarchar" MaxLength="15" />
   </EntityType>
   <EntityType Name="OINV">
     <Key>
@@ -2221,6 +2224,7 @@
     <Property Name="U_DC_KILOS" Type="nvarchar" MaxLength="30" />
     <Property Name="U_DC_COMISION" Type="nvarchar" MaxLength="30" />
     <Property Name="U_DC_PRODUCTOS" Type="nvarchar" MaxLength="10" />
+    <Property Name="U_MV_DOC_READ" Type="nvarchar" MaxLength="15" />
   </EntityType>
   <EntityType Name="OITM">
     <Key>
@@ -3120,6 +3124,7 @@
     <Property Name="U_DC_KILOS" Type="nvarchar" MaxLength="30" />
     <Property Name="U_DC_COMISION" Type="nvarchar" MaxLength="30" />
     <Property Name="U_DC_PRODUCTOS" Type="nvarchar" MaxLength="10" />
+    <Property Name="U_MV_DOC_READ" Type="nvarchar" MaxLength="15" />
   </EntityType>
   <EntityType Name="ORDR">
     <Key>
@@ -3678,6 +3683,7 @@
     <Property Name="U_DC_KILOS" Type="nvarchar" MaxLength="30" />
     <Property Name="U_DC_COMISION" Type="nvarchar" MaxLength="30" />
     <Property Name="U_DC_PRODUCTOS" Type="nvarchar" MaxLength="10" />
+    <Property Name="U_MV_DOC_READ" Type="nvarchar" MaxLength="15" />
   </EntityType>
   <EntityType Name="OSLP">
     <Key>

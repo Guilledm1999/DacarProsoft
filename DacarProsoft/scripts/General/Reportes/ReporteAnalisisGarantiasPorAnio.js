@@ -1032,8 +1032,7 @@ function ConsultarPivot() {
             if (msg.length != 0) {
                 $(".btn").attr("disabled", false);
                 $(".btn-txt").text("Consultar");
-
-               
+  
                 const locale = getLocale();
                 DevExpress.localization.locale(locale);                
 
@@ -1043,7 +1042,6 @@ function ConsultarPivot() {
                     },
                     tooltip: {
                         enabled: true,
-                        //format: 'currency',
                         customizeTooltip(args) {
                             var lastword = (args.seriesName).split(" ").pop();
                             console.log("ultima palabra " + lastword);
@@ -1051,7 +1049,7 @@ function ConsultarPivot() {
                                 console.log("entro x verdadero");
                                 console.log(args.seriesName);
                                 return {
-                                    html: `${args.seriesName} | Total<div class='currency'>${(args.valueText * 100).toFixed(2)}</div>`,
+                                    html: `${args.seriesName} | Total<div>${(args.valueText * 100).toFixed(2) + "%"}</div>`,
                                 };
                             }
                             else {
@@ -1061,8 +1059,7 @@ function ConsultarPivot() {
                                 return {
                                     html: `${args.seriesName} | Total<div class='currency'>${args.valueText}</div>`,
                                 };
-                            }
-                           
+                            }        
                         },
                     },
                     //size: {
@@ -1071,6 +1068,9 @@ function ConsultarPivot() {
                     //adaptiveLayout: {
                     //    width: 450,
                     //},
+                    export: {
+                        enabled: true,
+                    },
                 }).dxChart('instance');
 
                 
@@ -1078,6 +1078,9 @@ function ConsultarPivot() {
                     dataFieldArea: 'column',
                     rowHeaderLayout: 'tree',
                     wordWrapEnabled: false,
+                    export: {
+                        enabled: true,
+                    },
                     fieldChooser: {
                         enabled: false,
                     },
@@ -1136,6 +1139,20 @@ function ConsultarPivot() {
                         }],
                         store: msg,
                     },
+                    onExporting(e) {
+                        const workbook = new ExcelJS.Workbook();
+                        const worksheet = workbook.addWorksheet('Reporte');
+
+                        DevExpress.excelExporter.exportPivotGrid({
+                            component: e.component,
+                            worksheet,
+                        }).then(() => {
+                            workbook.xlsx.writeBuffer().then((buffer) => {
+                                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'ReporteAños.xlsx');
+                            });
+                        });
+                        e.cancel = true;
+                    },
                     //fieldChooser: {
                     //    height: 500,
                     //},
@@ -1150,7 +1167,6 @@ function ConsultarPivot() {
                     const storageLocale = sessionStorage.getItem('locale');
                     return storageLocale != null ? storageLocale : 'es';
                 }
-
                 pivotGrid.bindChart(pivotGridChart, {
                     //putDataFieldsInto: "series", // "args"
 
@@ -1168,19 +1184,15 @@ function ConsultarPivot() {
                     //    if (chartOptions && chartOptions.valueAxis && chartOptions.valueAxis.length) {
                     //        //chartOptions.valueAxis[0].title = 'Total';
                     //        //chartOptions.valueAxis[0].position = 'right';
-
                     //        if (chartOptions.valueAxis[1]) {
                     //            //chartOptions.valueAxis[1]
                     //        }
                     //        //chartOptions.valueAxis[1].visible = false;
                     //        //chartOptions.valueAxis[1].label.visible = false;
-                           
                     //    }
 
                     //    return chartOptions;
-                    //},             
-                 
-                  
+                    //},               
                 });       
                 
             } else {
