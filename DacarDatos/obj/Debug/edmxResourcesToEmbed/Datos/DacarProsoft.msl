@@ -749,5 +749,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="RutaBasesAccessCalidad">
+      <EntityTypeMapping TypeName="DacarProsoftModel.RutaBasesAccessCalidad">
+        <MappingFragment StoreEntitySet="RutaBasesAccessCalidad">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="RutaFisica" ColumnName="RutaFisica" />
+          <ScalarProperty Name="RutaBasesAccessCalidadId" ColumnName="RutaBasesAccessCalidadId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

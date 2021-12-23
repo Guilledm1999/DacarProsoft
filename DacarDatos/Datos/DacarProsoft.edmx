@@ -572,6 +572,14 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="provincia" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="RutaBasesAccessCalidad">
+          <Key>
+            <PropertyRef Name="RutaBasesAccessCalidadId" />
+          </Key>
+          <Property Name="RutaBasesAccessCalidadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RutaFisica" Type="varchar" MaxLength="255" />
+          <Property Name="Estado" Type="bit" />
+        </EntityType>
         <EntityType Name="SecuencialRevisionTecnica">
           <Key>
             <PropertyRef Name="SecuencialRevisionTecnicaId" />
@@ -963,6 +971,7 @@
           <EntitySet Name="PedidoClienteDetalle" EntityType="Self.PedidoClienteDetalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PedidoClienteDetalleFinal" EntityType="Self.PedidoClienteDetalleFinal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProvinciasEcuador" EntityType="Self.ProvinciasEcuador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RutaBasesAccessCalidad" EntityType="Self.RutaBasesAccessCalidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SecuencialRevisionTecnica" EntityType="Self.SecuencialRevisionTecnica" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubMenuOpciones" EntityType="Self.SubMenuOpciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoCliente" EntityType="Self.TipoCliente" Schema="dbo" store:Type="Tables" />
@@ -1219,6 +1228,7 @@
           </AssociationSet>
           <EntitySet Name="ClienteClase" EntityType="DacarProsoftModel.ClienteClase" />
           <EntitySet Name="ClienteLinea" EntityType="DacarProsoftModel.ClienteLinea" />
+          <EntitySet Name="RutaBasesAccessCalidad" EntityType="DacarProsoftModel.RutaBasesAccessCalidad" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -2146,6 +2156,14 @@
           <Property Name="Codigo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="RutaBasesAccessCalidad">
+          <Key>
+            <PropertyRef Name="RutaBasesAccessCalidadId" />
+          </Key>
+          <Property Name="RutaBasesAccessCalidadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RutaFisica" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2897,6 +2915,15 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Codigo" ColumnName="Codigo" />
                 <ScalarProperty Name="ClienteLineaId" ColumnName="ClienteLineaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RutaBasesAccessCalidad">
+            <EntityTypeMapping TypeName="DacarProsoftModel.RutaBasesAccessCalidad">
+              <MappingFragment StoreEntitySet="RutaBasesAccessCalidad">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="RutaFisica" ColumnName="RutaFisica" />
+                <ScalarProperty Name="RutaBasesAccessCalidadId" ColumnName="RutaBasesAccessCalidadId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

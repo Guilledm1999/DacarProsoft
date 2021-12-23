@@ -274,6 +274,7 @@
     <Content Include="scripts\General\Account\Login.js" />
     <Content Include="scripts\General\Articulos\ConsultarItemsChatarra.js" />
     <Content Include="scripts\General\Articulos\ConsultarArticulos.js" />
+    <Content Include="scripts\General\Calidad\RegistrosVisuaLCN.js" />
     <Content Include="scripts\General\Chatarra\ReporteIngresosChatarraPorFechas.js" />
     <Content Include="scripts\General\Chatarra\ReporteIngresosChatarra.js" />
     <Content Include="scripts\General\Chatarra\ConsultaIngresoChatarra.js" />
@@ -326,6 +327,7 @@
     <Compile Include="Controllers\AccesosController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArticulosController.cs" />
+    <Compile Include="Controllers\CalidadController.cs" />
     <Compile Include="Controllers\ChatarraController.cs" />
     <Compile Include="Controllers\CrearUsuarioController.cs" />
     <Compile Include="Controllers\GarantiasController.cs" />
@@ -340,9 +342,11 @@
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Datos\Conexion.cs" />
+    <Compile Include="Datos\ConexionAccess.cs" />
     <Compile Include="Datos\ConexionApiSap.cs" />
     <Compile Include="Datos\ConexionSap.cs" />
     <Compile Include="Datos\DaoArticulos.cs" />
+    <Compile Include="Datos\DaoCalidad.cs" />
     <Compile Include="Datos\DaoChatarra.cs" />
     <Compile Include="Datos\DaoCliente.cs" />
     <Compile Include="Datos\DaoGarantias.cs" />
@@ -387,6 +391,7 @@
     <Compile Include="Models\MenuAcceso.cs" />
     <Compile Include="Models\Mign1.cs" />
     <Compile Include="Models\Mign1Individual.cs" />
+    <Compile Include="Models\ModelAccessData_O.cs" />
     <Compile Include="Models\ModelAnalisisGarantia.cs" />
     <Compile Include="Models\ModelChartGarantias.cs" />
     <Compile Include="Models\ModeloPivotAnalisisGarantiasAnio.cs" />
@@ -572,6 +577,7 @@
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorTipoCliente.cshtml" />
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorDetalleFinal.cshtml" />
     <Content Include="Views\Chatarra\ReporteIngresosChatarraPorFechas.cshtml" />
+    <Content Include="Views\Calidad\RegistrosVisuaLCN.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

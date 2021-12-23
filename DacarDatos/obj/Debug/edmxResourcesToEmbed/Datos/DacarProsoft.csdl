@@ -168,6 +168,7 @@
     </AssociationSet>
     <EntitySet Name="ClienteClase" EntityType="DacarProsoftModel.ClienteClase" />
     <EntitySet Name="ClienteLinea" EntityType="DacarProsoftModel.ClienteLinea" />
+    <EntitySet Name="RutaBasesAccessCalidad" EntityType="DacarProsoftModel.RutaBasesAccessCalidad" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1094,5 +1095,13 @@
     <Property Name="ClienteLineaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Codigo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="RutaBasesAccessCalidad">
+    <Key>
+      <PropertyRef Name="RutaBasesAccessCalidadId" />
+    </Key>
+    <Property Name="RutaBasesAccessCalidadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RutaFisica" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
   </EntityType>
 </Schema>

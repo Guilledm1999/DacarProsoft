@@ -25,12 +25,16 @@ namespace DacarProsoft.Controllers
 
                 ViewBag.MenuAcceso = Session["Menu"];
 
+                ConexionAccess conexion=new ConexionAccess();
 
+                conexion.open("27-75.mdb");
+                conexion.AccessData_O();
+                conexion.close();
                 daoUtilitarios = new DaoUtilitarios();
-            var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
-            ViewBag.MenuPrincipal = datMenu;
-            var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
-            ViewBag.MenuOpciones = datMenuOpciones;
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
                 var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
                 ViewBag.SubMenuOpciones = datSubMenuOpciones;
                 var dat = daoUtilitarios.ConsultarEstadosDeOrdenesProduccion();

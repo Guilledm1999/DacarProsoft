@@ -567,6 +567,14 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="provincia" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="RutaBasesAccessCalidad">
+    <Key>
+      <PropertyRef Name="RutaBasesAccessCalidadId" />
+    </Key>
+    <Property Name="RutaBasesAccessCalidadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RutaFisica" Type="varchar" MaxLength="255" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="SecuencialRevisionTecnica">
     <Key>
       <PropertyRef Name="SecuencialRevisionTecnicaId" />
@@ -958,6 +966,7 @@
     <EntitySet Name="PedidoClienteDetalle" EntityType="Self.PedidoClienteDetalle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PedidoClienteDetalleFinal" EntityType="Self.PedidoClienteDetalleFinal" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProvinciasEcuador" EntityType="Self.ProvinciasEcuador" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RutaBasesAccessCalidad" EntityType="Self.RutaBasesAccessCalidad" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SecuencialRevisionTecnica" EntityType="Self.SecuencialRevisionTecnica" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubMenuOpciones" EntityType="Self.SubMenuOpciones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoCliente" EntityType="Self.TipoCliente" Schema="dbo" store:Type="Tables" />

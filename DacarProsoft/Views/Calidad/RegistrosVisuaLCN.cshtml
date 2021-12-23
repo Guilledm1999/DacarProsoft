@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "RegistrosVisuaLCN";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+@{
+    var BasesAccess = ViewBag.BaseDatos;
+}
+
+<br />
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Registros VisuaLCN</h2>
+        <br />
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <h6>Base a Consultar:</h6>
+                    @Html.DropDownList("Pais", new SelectList(BasesAccess, "Value", "Text"), "--Seleccione la base a consultar--", new
+                    {
+                        @class = "js-example-basic-single",
+                        id = "txtNombreBase",@*onchange = "cargarClientes();",*@style = "width:100%",
+                        onchange = "cargarNombresRegistros();"
+               })
+                </div>
+                <div class="col-md-2">
+                    <h6>Fecha Registro</h6>
+                    <select class="js-example-basic-single" aria-label="Default select example" id="txtNombreRegistro">
+                        <option value="" selected="selected">--Seleccione el registro--</option>
+
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <h6>  </h6>
+                    <button class="btn btn-primary" onclick="ConsultarReporte()">
+                        <i class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <span class="btn-txt">Consultar</span>
+                    </button>
+                </div>
+                <div id="gridClearSelection"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="MensajeIngreseTodosLosCampos" class="alert alert-danger collapse">
+            <button id="LinkClose2" type="button" class="close">&times;</button>
+            <strong>Ingrese todos los campos!</strong>
+        </div>
+        <div id="MensajeSinInformacion" class="alert alert-danger collapse">
+            <button id="LinkClose3" type="button" class="close">&times;</button>
+            <strong>No existe información en las fechas solicitadas!</strong>
+        </div>
+        <div class="loader">
+            <div class="form">
+                <div class="form-row">
+                    <div class="col">
+                    </div>
+                    <div class="col">
+                        <div id="tblGridResumenCliente"> </div>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-1">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <canvas id="myChart2" style="width:100%;max-width:700px"></canvas>
+                    </div>
+                    <div class="form-group col-md-1">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
