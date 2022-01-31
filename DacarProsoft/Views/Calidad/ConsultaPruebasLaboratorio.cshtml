@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewBag.Title = "ConsultaPruebasLaboratorio";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+
+<style>
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        color: black;
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        background-color: #D7F1FF;
+        /*background-color: #3355FF;*/
+        color: black;
+        font-weight: bold;
+    }
+    .dx-data-row {
+        font-size: 10pt;
+        padding: 2pt;
+
+    }
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
+        vertical-align: top;
+    }
+
+    #tblPruebasLaboratorioRegistrados {
+        height: 700px;
+    }
+</style>
+<br />
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2> Pruebas de Laboratorio Registradas</h2>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+
+        <div id="MensajeGuardadoExitoso" class="alert alert-success collapse">
+            <button id="LinkClose3" type="button" class="close">&times;</button>
+            <strong>Registrado con exito!</strong>
+        </div>
+        <div class="loader">
+            <div class="dx-viewport">
+                <div class="demo-container">
+                    <div id="tblPruebasLaboratorioRegistrados"> </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalAnexos">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title w-100 text-center">Seleccione el documento a descargar </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="MensajeSinAnexos" class="alert alert-danger collapse">
+                    <button id="LinkClose4" type="button" class="close">&times;</button>
+                    <strong>No existen anexos en el registro escogido!</strong>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="inputEmail4">Documentos Registrados</label>
+                        <select class="form-control" aria-label="Default select example" id="txtAnexoDesc" style="width:100%">
+                            <option value="" selected="selected">--Seleccione--</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center" align="center">
+                <div align="center">
+                    <button type="button" class="btn btn-primary" onclick="DescargarAnexo();">Descargar</button>
+
+                </div>      
+                @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalAnexosIngreso">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title w-100 text-center">Seleccione el documento o los documentos a registrar </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="MensajeSinAnexos" class="alert alert-danger collapse">
+                    <button id="LinkClose4" type="button" class="close">&times;</button>
+                    <strong>No existen anexos en el registro escogido!</strong>
+                </div>
+                <div class="form-row">
+                 
+                    <div class="form-group col-md-12">                   
+                                <label for="inputEmail4">Anexos</label>
+                                <input type="file" accept=".jpg,.png,.jpeg,.gif,.pdf,.xlsx,docx,.doc,pptx" class="form-control-file" id="txtRegistrarAnexos" multiple>      
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center" align="center">
+                <div align="center">
+                    <button type="button" class="btn btn-primary" onclick="RegistrarNuevoAnexo();">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

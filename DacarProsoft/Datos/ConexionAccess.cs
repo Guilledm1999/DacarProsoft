@@ -24,7 +24,8 @@ namespace DacarProsoft.Datos
                 var ruta = ObtenerRutaAccess();
 
                 //conec = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\\\\21.0.1.152\\VisuaLCN\\data\\27-75.mdb;Persist Security Info=False;";
-                conec = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+ruta+Base+";Persist Security Info=False;";
+                //conec = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+ruta+Base+";Persist Security Info=False;";
+                conec = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + ruta + Base + ";Persist Security Info=False;";
 
                 cn = new OleDbConnection(conec);
                 cn.Open();
@@ -113,7 +114,11 @@ namespace DacarProsoft.Datos
             OleDbDataAdapter da = new OleDbDataAdapter();
             DataSet ds = new DataSet();
 
-            da.SelectCommand = new OleDbCommand("select * FROM Test ORDER BY Date DESC", cn);
+            //da.SelectCommand = new OleDbCommand("select * FROM Test ORDER BY Date DESC", cn);
+            da.SelectCommand = new OleDbCommand("select MSysObjects.name from MSysObjects where MSysObjects.type In(1, 4, 6) and MSysObjects.name not like '~*' and MSysObjects.name not like 'MSys*' order by MSysObjects.name", cn);
+
+
+            
 
             OleDbDataReader reader = da.SelectCommand.ExecuteReader();
 
@@ -121,8 +126,8 @@ namespace DacarProsoft.Datos
             {
                 lst.Add(new SelectListItem
                 {
-                    Value = reader["Test Unique"].ToString(),
-                    Text = reader["Date"].ToString()
+                    Value = reader["TABLE_NAME"].ToString(),
+                    Text = reader["TABLE_NAME"].ToString()
 
                 });
             }

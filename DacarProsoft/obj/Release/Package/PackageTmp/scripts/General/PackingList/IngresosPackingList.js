@@ -10,6 +10,10 @@ var datosCabecera = null;
 var datosDetalle = null;
 var variable = null;
 $(document).ready(function () {
+    $('#txtLargoPallet').val(114);
+    $('#txtAnchoPallet').val(114);
+    $('#txtAltoPallet').val(114);
+
     $("#txtOrigenAct").text("Cd Gye");
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
@@ -436,10 +440,13 @@ function AbrirPallet() {
 
     console.log("Ingrse en el metodo nuevo");
     contador = contador + 1;
-    $("#txtLargoPallet").val("");
-    $("#txtAltoPallet").val("");
-    $("#txtAnchoPallet").val("");
+    $("#txtLargoPallet").val(114);
+    $("#txtAltoPallet").val(114);
+    $("#txtAnchoPallet").val(114);
+
     $("#txtVolumenPallet").val("");
+    Volumen();
+
     $("#txtPesoNeto").val("");
     $("#txtPesoBruto").val("");
 

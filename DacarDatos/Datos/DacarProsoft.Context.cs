@@ -86,6 +86,13 @@ namespace DacarDatos.Datos
         public virtual DbSet<ClienteClase> ClienteClase { get; set; }
         public virtual DbSet<ClienteLinea> ClienteLinea { get; set; }
         public virtual DbSet<RutaBasesAccessCalidad> RutaBasesAccessCalidad { get; set; }
+        public virtual DbSet<MarcaBateriaPruebaLaboratorio> MarcaBateriaPruebaLaboratorio { get; set; }
+        public virtual DbSet<NormativaPruebaLaboratorio> NormativaPruebaLaboratorio { get; set; }
+        public virtual DbSet<SeparadorPruebaLaboratorio> SeparadorPruebaLaboratorio { get; set; }
+        public virtual DbSet<TipoEnsayoPruebaLaboratorio> TipoEnsayoPruebaLaboratorio { get; set; }
+        public virtual DbSet<TipoNormaPruebaLaboratorio> TipoNormaPruebaLaboratorio { get; set; }
+        public virtual DbSet<RutaInstalacionSoftware> RutaInstalacionSoftware { get; set; }
+        public virtual DbSet<PruebaLaboratorioCalidad> PruebaLaboratorioCalidad { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {

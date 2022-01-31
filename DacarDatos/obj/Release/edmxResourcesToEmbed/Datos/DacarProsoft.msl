@@ -749,5 +749,99 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="RutaBasesAccessCalidad">
+      <EntityTypeMapping TypeName="DacarProsoftModel.RutaBasesAccessCalidad">
+        <MappingFragment StoreEntitySet="RutaBasesAccessCalidad">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="RutaFisica" ColumnName="RutaFisica" />
+          <ScalarProperty Name="RutaBasesAccessCalidadId" ColumnName="RutaBasesAccessCalidadId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MarcaBateriaPruebaLaboratorio">
+      <EntityTypeMapping TypeName="DacarProsoftModel.MarcaBateriaPruebaLaboratorio">
+        <MappingFragment StoreEntitySet="MarcaBateriaPruebaLaboratorio">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="MarcaBateriaPruebaLaboratorioId" ColumnName="MarcaBateriaPruebaLaboratorioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NormativaPruebaLaboratorio">
+      <EntityTypeMapping TypeName="DacarProsoftModel.NormativaPruebaLaboratorio">
+        <MappingFragment StoreEntitySet="NormativaPruebaLaboratorio">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="NormativaPruebaLaboratorioId" ColumnName="NormativaPruebaLaboratorioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SeparadorPruebaLaboratorio">
+      <EntityTypeMapping TypeName="DacarProsoftModel.SeparadorPruebaLaboratorio">
+        <MappingFragment StoreEntitySet="SeparadorPruebaLaboratorio">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="SeparadorPruebaLaboratorioId" ColumnName="SeparadorPruebaLaboratorioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoEnsayoPruebaLaboratorio">
+      <EntityTypeMapping TypeName="DacarProsoftModel.TipoEnsayoPruebaLaboratorio">
+        <MappingFragment StoreEntitySet="TipoEnsayoPruebaLaboratorio">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="TipoEnsayoPruebaLaboratorioId" ColumnName="TipoEnsayoPruebaLaboratorioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoNormaPruebaLaboratorio">
+      <EntityTypeMapping TypeName="DacarProsoftModel.TipoNormaPruebaLaboratorio">
+        <MappingFragment StoreEntitySet="TipoNormaPruebaLaboratorio">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="TipoNormaPruebaLaboratorioId" ColumnName="TipoNormaPruebaLaboratorioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RutaInstalacionSoftware">
+      <EntityTypeMapping TypeName="DacarProsoftModel.RutaInstalacionSoftware">
+        <MappingFragment StoreEntitySet="RutaInstalacionSoftware">
+          <ScalarProperty Name="DescripcionRuta" ColumnName="DescripcionRuta" />
+          <ScalarProperty Name="RutaInstalacionSoftwareId" ColumnName="RutaInstalacionSoftwareId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PruebaLaboratorioCalidad">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PruebaLaboratorioCalidad">
+        <MappingFragment StoreEntitySet="PruebaLaboratorioCalidad">
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
+          <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+          <ScalarProperty Name="ResultadoFinal" ColumnName="ResultadoFinal" />
+          <ScalarProperty Name="ValorObjetivo" ColumnName="ValorObjetivo" />
+          <ScalarProperty Name="DatoTeoricoPrueba" ColumnName="DatoTeoricoPrueba" />
+          <ScalarProperty Name="TemperaturaPrueba" ColumnName="TemperaturaPrueba" />
+          <ScalarProperty Name="TemperaturaIngreso" ColumnName="TemperaturaIngreso" />
+          <ScalarProperty Name="DensidadPreAcondicionamiento" ColumnName="DensidadPreAcondicionamiento" />
+          <ScalarProperty Name="DensidadIngreso" ColumnName="DensidadIngreso" />
+          <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
+          <ScalarProperty Name="Peso" ColumnName="Peso" />
+          <ScalarProperty Name="CCA" ColumnName="CCA" />
+          <ScalarProperty Name="LoteCarga" ColumnName="LoteCarga" />
+          <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
+          <ScalarProperty Name="TipoEnsayo" ColumnName="TipoEnsayo" />
+          <ScalarProperty Name="Separador" ColumnName="Separador" />
+          <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+          <ScalarProperty Name="TipoBateria" ColumnName="TipoBateria" />
+          <ScalarProperty Name="PreAcondicionamiento" ColumnName="PreAcondicionamiento" />
+          <ScalarProperty Name="Normativa" ColumnName="Normativa" />
+          <ScalarProperty Name="TipoNorma" ColumnName="TipoNorma" />
+          <ScalarProperty Name="Marca" ColumnName="Marca" />
+          <ScalarProperty Name="CodigoIngreso" ColumnName="CodigoIngreso" />
+          <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+          <ScalarProperty Name="PruebaLaboratorioCalidadId" ColumnName="PruebaLaboratorioCalidadId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

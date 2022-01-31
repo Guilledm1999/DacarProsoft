@@ -30,11 +30,11 @@ namespace DacarProsoft.Datos
             List<Moign> lst = new List<Moign>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
-
+              
                 var ListadoCabeceraChatarra = from d in DB.OIGN
                                               join e in DB.OCRD on d.U_SYP_CODCL equals e.CardCode
                                               join f in DB.OCRG on e.GroupCode equals f.GroupCode
-                                              where d.DocDate >= fechaCorte && d.DocDate <= fechaActual && d.U_SYP_TmovIng == "COMP-CHAT" && d.Comments.Contains("CHAT")
+                                              where d.DocDate >= fechaCorte && d.DocDate <= fechaActual && d.U_SYP_TmovIng == "COMP-CHAT" && (/*d.Comments.Contains("CHAT")|| */d.Comments.Contains("CHA"))
                                               orderby d.DocDate descending
                                               select new
                                               {
@@ -82,7 +82,8 @@ namespace DacarProsoft.Datos
                         }
                         else
                         {
-                            kilo = Convert.ToDecimal(x.U_DC_KILOS);
+                            string result = string.Concat(x.U_DC_KILOS.Where(c => Char.IsDigit(c)));
+                            kilo = Convert.ToDecimal(result);
                         }
                         if (x.U_SYP_NUMOCCL == null)
                         {

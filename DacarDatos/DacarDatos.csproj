@@ -250,6 +250,9 @@
     <Compile Include="Datos\LoginUsuario_Result.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\MarcaBateriaPruebaLaboratorio.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\Marcas.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
@@ -266,6 +269,9 @@
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\ModelosMarcasPropias.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\NormativaPruebaLaboratorio.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\OCRD.cs">
@@ -331,13 +337,22 @@
     <Compile Include="Datos\ProvinciasEcuador.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\PruebaLaboratorioCalidad.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\RDR1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\RutaBasesAccessCalidad.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\RutaInstalacionSoftware.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\SecuencialRevisionTecnica.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\SeparadorPruebaLaboratorio.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\spConsultaUsuarios.cs">
@@ -355,7 +370,13 @@
     <Compile Include="Datos\TipoDocumento.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\TipoEnsayoPruebaLaboratorio.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\TipoIngreso.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\TipoNormaPruebaLaboratorio.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\TipoUsuario.cs">

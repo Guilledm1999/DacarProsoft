@@ -352,6 +352,14 @@
     <Property Name="Identificador" Type="int" />
     <Property Name="Estado" Type="bit" />
   </EntityType>
+  <EntityType Name="MarcaBateriaPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="MarcaBateriaPruebaLaboratorioId" />
+    </Key>
+    <Property Name="MarcaBateriaPruebaLaboratorioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="Marcas">
     <Key>
       <PropertyRef Name="MarcaID" />
@@ -405,6 +413,14 @@
     <Property Name="Referencia" Type="varchar" MaxLength="255" />
     <Property Name="Grupo" Type="varchar" MaxLength="255" />
     <Property Name="Linea" Type="int" />
+  </EntityType>
+  <EntityType Name="NormativaPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="NormativaPruebaLaboratorioId" />
+    </Key>
+    <Property Name="NormativaPruebaLaboratorioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+    <Property Name="Estado" Type="bit" />
   </EntityType>
   <EntityType Name="Packing">
     <Key>
@@ -567,6 +583,37 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="provincia" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="PruebaLaboratorioCalidad">
+    <Key>
+      <PropertyRef Name="PruebaLaboratorioCalidadId" />
+    </Key>
+    <Property Name="PruebaLaboratorioCalidadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FechaIngreso" Type="datetime" />
+    <Property Name="CodigoIngreso" Type="int" />
+    <Property Name="Marca" Type="varchar" MaxLength="100" />
+    <Property Name="TipoNorma" Type="varchar" MaxLength="100" />
+    <Property Name="Normativa" Type="varchar" MaxLength="100" />
+    <Property Name="PreAcondicionamiento" Type="varchar" MaxLength="5" />
+    <Property Name="TipoBateria" Type="varchar" MaxLength="100" />
+    <Property Name="Modelo" Type="varchar" MaxLength="100" />
+    <Property Name="Separador" Type="varchar" MaxLength="50" />
+    <Property Name="TipoEnsayo" Type="varchar" MaxLength="50" />
+    <Property Name="LoteEnsamble" Type="varchar" MaxLength="50" />
+    <Property Name="LoteCarga" Type="varchar" MaxLength="50" />
+    <Property Name="CCA" Type="int" />
+    <Property Name="Peso" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Voltaje" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DensidadIngreso" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DensidadPreAcondicionamiento" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="TemperaturaIngreso" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="TemperaturaPrueba" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="DatoTeoricoPrueba" Type="varchar" MaxLength="50" />
+    <Property Name="ValorObjetivo" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ResultadoFinal" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Observaciones" Type="varchar" MaxLength="255" />
+    <Property Name="Calificacion" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="FechaRegistro" Type="datetime" />
+  </EntityType>
   <EntityType Name="RutaBasesAccessCalidad">
     <Key>
       <PropertyRef Name="RutaBasesAccessCalidadId" />
@@ -575,12 +622,27 @@
     <Property Name="RutaFisica" Type="varchar" MaxLength="255" />
     <Property Name="Estado" Type="bit" />
   </EntityType>
+  <EntityType Name="RutaInstalacionSoftware">
+    <Key>
+      <PropertyRef Name="RutaInstalacionSoftwareId" />
+    </Key>
+    <Property Name="RutaInstalacionSoftwareId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DescripcionRuta" Type="varchar" MaxLength="255" />
+  </EntityType>
   <EntityType Name="SecuencialRevisionTecnica">
     <Key>
       <PropertyRef Name="SecuencialRevisionTecnicaId" />
     </Key>
     <Property Name="SecuencialRevisionTecnicaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InicioSecuencia" Type="int" />
+  </EntityType>
+  <EntityType Name="SeparadorPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="SeparadorPruebaLaboratorioId" />
+    </Key>
+    <Property Name="SeparadorPruebaLaboratorioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+    <Property Name="Estado" Type="bit" />
   </EntityType>
   <EntityType Name="SubMenuOpciones">
     <Key>
@@ -606,12 +668,28 @@
     <Property Name="TipoDocumentoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="TipoEnsayoPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="TipoEnsayoPruebaLaboratorioId" />
+    </Key>
+    <Property Name="TipoEnsayoPruebaLaboratorioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="TipoIngreso">
     <Key>
       <PropertyRef Name="TipoIngresoId" />
     </Key>
     <Property Name="TipoIngresoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="TipoNormaPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="TipoNormaPruebaLaboratorioId" />
+    </Key>
+    <Property Name="TipoNormaPruebaLaboratorioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+    <Property Name="Estado" Type="bit" />
   </EntityType>
   <EntityType Name="TipoUsuario">
     <Key>
@@ -948,12 +1026,14 @@
     <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="Self.IngresoRevisionGarantiaInspeccionInicial" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoRevisionGarantiaTrabajoRealizado" EntityType="Self.IngresoRevisionGarantiaTrabajoRealizado" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LineasMarcasPropias" EntityType="Self.LineasMarcasPropias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MarcaBateriaPruebaLaboratorio" EntityType="Self.MarcaBateriaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Meses" EntityType="Self.Meses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Modelos" EntityType="Self.Modelos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ModelosMarcasPropias" EntityType="Self.ModelosMarcasPropias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NormativaPruebaLaboratorio" EntityType="Self.NormativaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Packing" EntityType="Self.Packing" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PackingDtl" EntityType="Self.PackingDtl" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PackingListCabecera" EntityType="Self.PackingListCabecera" Schema="dbo" store:Type="Tables" />
@@ -966,12 +1046,17 @@
     <EntitySet Name="PedidoClienteDetalle" EntityType="Self.PedidoClienteDetalle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PedidoClienteDetalleFinal" EntityType="Self.PedidoClienteDetalleFinal" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProvinciasEcuador" EntityType="Self.ProvinciasEcuador" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PruebaLaboratorioCalidad" EntityType="Self.PruebaLaboratorioCalidad" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RutaBasesAccessCalidad" EntityType="Self.RutaBasesAccessCalidad" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RutaInstalacionSoftware" EntityType="Self.RutaInstalacionSoftware" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SecuencialRevisionTecnica" EntityType="Self.SecuencialRevisionTecnica" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SeparadorPruebaLaboratorio" EntityType="Self.SeparadorPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubMenuOpciones" EntityType="Self.SubMenuOpciones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoCliente" EntityType="Self.TipoCliente" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoDocumento" EntityType="Self.TipoDocumento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoEnsayoPruebaLaboratorio" EntityType="Self.TipoEnsayoPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoIngreso" EntityType="Self.TipoIngreso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoNormaPruebaLaboratorio" EntityType="Self.TipoNormaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoUsuario" EntityType="Self.TipoUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UrlImprimirPdfPallet" EntityType="Self.UrlImprimirPdfPallet" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />

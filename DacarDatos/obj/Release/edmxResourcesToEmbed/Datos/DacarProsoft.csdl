@@ -168,6 +168,14 @@
     </AssociationSet>
     <EntitySet Name="ClienteClase" EntityType="DacarProsoftModel.ClienteClase" />
     <EntitySet Name="ClienteLinea" EntityType="DacarProsoftModel.ClienteLinea" />
+    <EntitySet Name="RutaBasesAccessCalidad" EntityType="DacarProsoftModel.RutaBasesAccessCalidad" />
+    <EntitySet Name="MarcaBateriaPruebaLaboratorio" EntityType="DacarProsoftModel.MarcaBateriaPruebaLaboratorio" />
+    <EntitySet Name="NormativaPruebaLaboratorio" EntityType="DacarProsoftModel.NormativaPruebaLaboratorio" />
+    <EntitySet Name="SeparadorPruebaLaboratorio" EntityType="DacarProsoftModel.SeparadorPruebaLaboratorio" />
+    <EntitySet Name="TipoEnsayoPruebaLaboratorio" EntityType="DacarProsoftModel.TipoEnsayoPruebaLaboratorio" />
+    <EntitySet Name="TipoNormaPruebaLaboratorio" EntityType="DacarProsoftModel.TipoNormaPruebaLaboratorio" />
+    <EntitySet Name="RutaInstalacionSoftware" EntityType="DacarProsoftModel.RutaInstalacionSoftware" />
+    <EntitySet Name="PruebaLaboratorioCalidad" EntityType="DacarProsoftModel.PruebaLaboratorioCalidad" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1094,5 +1102,91 @@
     <Property Name="ClienteLineaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Codigo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="RutaBasesAccessCalidad">
+    <Key>
+      <PropertyRef Name="RutaBasesAccessCalidadId" />
+    </Key>
+    <Property Name="RutaBasesAccessCalidadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RutaFisica" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="MarcaBateriaPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="MarcaBateriaPruebaLaboratorioId" />
+    </Key>
+    <Property Name="MarcaBateriaPruebaLaboratorioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="NormativaPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="NormativaPruebaLaboratorioId" />
+    </Key>
+    <Property Name="NormativaPruebaLaboratorioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="SeparadorPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="SeparadorPruebaLaboratorioId" />
+    </Key>
+    <Property Name="SeparadorPruebaLaboratorioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="TipoEnsayoPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="TipoEnsayoPruebaLaboratorioId" />
+    </Key>
+    <Property Name="TipoEnsayoPruebaLaboratorioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="TipoNormaPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="TipoNormaPruebaLaboratorioId" />
+    </Key>
+    <Property Name="TipoNormaPruebaLaboratorioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="RutaInstalacionSoftware">
+    <Key>
+      <PropertyRef Name="RutaInstalacionSoftwareId" />
+    </Key>
+    <Property Name="RutaInstalacionSoftwareId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DescripcionRuta" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="PruebaLaboratorioCalidad">
+    <Key>
+      <PropertyRef Name="PruebaLaboratorioCalidadId" />
+    </Key>
+    <Property Name="PruebaLaboratorioCalidadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
+    <Property Name="CodigoIngreso" Type="Int32" />
+    <Property Name="Marca" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TipoNorma" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Normativa" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PreAcondicionamiento" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="TipoBateria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Modelo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Separador" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TipoEnsayo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LoteEnsamble" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LoteCarga" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CCA" Type="Int32" />
+    <Property Name="Peso" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Voltaje" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DensidadIngreso" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DensidadPreAcondicionamiento" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TemperaturaIngreso" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TemperaturaPrueba" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DatoTeoricoPrueba" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ValorObjetivo" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ResultadoFinal" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Calificacion" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
   </EntityType>
 </Schema>

@@ -105,7 +105,6 @@ function ConsultarDatosChatarra() {
                             }, {
                                 dataField: "TipoIngreso", caption: "Tipo Ingreso", allowHeaderFiltering: false, allowSearch: false
                             },
-                           
                             {
                                 dataField: "BodegaId", caption: "Bodega", allowHeaderFiltering: true, allowSearch: false
                             },

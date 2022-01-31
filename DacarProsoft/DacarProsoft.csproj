@@ -254,6 +254,7 @@
     <Content Include="Images\DacarImg.png" />
     <Content Include="Images\Dacarito.png" />
     <Content Include="Images\dacaritogif.gif" />
+    <Content Include="Images\dacaritoo.png" />
     <Content Include="Images\DacarProsoft2.png" />
     <Content Include="Images\DacarProsoft.png" />
     <Content Include="Images\DisenoPacking.png" />
@@ -274,6 +275,8 @@
     <Content Include="scripts\General\Account\Login.js" />
     <Content Include="scripts\General\Articulos\ConsultarItemsChatarra.js" />
     <Content Include="scripts\General\Articulos\ConsultarArticulos.js" />
+    <Content Include="scripts\General\Calidad\ConsultaPruebasLaboratorio.js" />
+    <Content Include="scripts\General\Calidad\IngresosPruebasLaboratorio.js" />
     <Content Include="scripts\General\Calidad\RegistrosVisuaLCN.js" />
     <Content Include="scripts\General\Chatarra\ReporteIngresosChatarraPorFechas.js" />
     <Content Include="scripts\General\Chatarra\ReporteIngresosChatarra.js" />
@@ -395,6 +398,7 @@
     <Compile Include="Models\ModelAnalisisGarantia.cs" />
     <Compile Include="Models\ModelChartGarantias.cs" />
     <Compile Include="Models\ModeloPivotAnalisisGarantiasAnio.cs" />
+    <Compile Include="Models\ModelPruebaLaboratorioCalidad.cs" />
     <Compile Include="Models\Moign.cs" />
     <Compile Include="Models\MdlOpdn.cs" />
     <Compile Include="Models\OrdenesProduccion.cs" />
@@ -578,6 +582,8 @@
     <Content Include="Views\Reportes\ReporteAnalisisGarantiasPorDetalleFinal.cshtml" />
     <Content Include="Views\Chatarra\ReporteIngresosChatarraPorFechas.cshtml" />
     <Content Include="Views\Calidad\RegistrosVisuaLCN.cshtml" />
+    <Content Include="Views\Calidad\IngresosPruebasLaboratorio.cshtml" />
+    <Content Include="Views\Calidad\ConsultaPruebasLaboratorio.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -588,6 +594,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\font-awesome-5.15.3\svgs\" />
+    <Folder Include="Images\AnexosLaboratorio\" />
     <Folder Include="Images\ImagenesGarantias\Facturas\" />
     <Folder Include="Images\ImagenesGarantias\Test\" />
     <Folder Include="Views\Inicio\" />
