@@ -88,18 +88,18 @@ C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarProsoft\obj\Debug\Dacar
 C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarProsoft\obj\Debug\DacarProsoft.csproj.CopyComplete
 C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarProsoft\obj\Debug\DacarProsoft.dll
 C:\Users\Alexander Morán\source\repos\DacarProsoft\DacarProsoft\obj\Debug\DacarProsoft.pdb
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\System.Collections.Immutable.dll
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\System.Reflection.Metadata.dll
+C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\VBCSCompiler.exe
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\ApplicationInsights.config
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\csc.exe
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\Microsoft.CSharp.Core.targets
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\Microsoft.VisualBasic.Core.targets
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\System.Collections.Immutable.dll
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\System.Reflection.Metadata.dll
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\vbc.exe
-C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\VBCSCompiler.exe
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\roslyn\VBCSCompiler.exe.config
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\DacarProsoft.dll.config
 C:\RepositorioGit\DacarProsoft\DacarProsoft\bin\DacarProsoft.dll
