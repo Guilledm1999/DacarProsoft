@@ -18,6 +18,13 @@ var etiquetaPalletPacking = null;
 
 
 $(document).ready(function () {
+
+    $("#txtNuevoLargoPallet").val(114);
+    $("#txtNuevoAltoPallet").val(114);
+    $("#txtNuevoAnchoPallet").val(114);
+
+
+
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
         event.preventDefault();
@@ -499,6 +506,14 @@ function IngresoNuevoPacking(modelo) {
     $("#txtNuevoVolumenPallet").val("");
     $("#txtNuevoPesoNeto").val("");
     $("#txtNuevoPesoBruto").val("");
+
+    $("#txtNuevoLargoPallet").val(114);
+    $("#txtNuevoAltoPallet").val(114);
+    $("#txtNuevoAnchoPallet").val(114);
+
+    $("#txtNuevoVolumenPallet").val("");
+    Volumen2();
+
     IdentificadorPaking = modelo.PackingId;
     VerNumeroPalletIngreso(modelo.PackingId);
 
