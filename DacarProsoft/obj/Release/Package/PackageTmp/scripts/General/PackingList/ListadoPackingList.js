@@ -18,6 +18,13 @@ var etiquetaPalletPacking = null;
 
 
 $(document).ready(function () {
+
+    $("#txtNuevoLargoPallet").val(114);
+    $("#txtNuevoAltoPallet").val(114);
+    $("#txtNuevoAnchoPallet").val(114);
+
+
+
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
         event.preventDefault();
@@ -499,6 +506,14 @@ function IngresoNuevoPacking(modelo) {
     $("#txtNuevoVolumenPallet").val("");
     $("#txtNuevoPesoNeto").val("");
     $("#txtNuevoPesoBruto").val("");
+
+    $("#txtNuevoLargoPallet").val(114);
+    $("#txtNuevoAltoPallet").val(114);
+    $("#txtNuevoAnchoPallet").val(114);
+
+    $("#txtNuevoVolumenPallet").val("");
+    Volumen2();
+
     IdentificadorPaking = modelo.PackingId;
     VerNumeroPalletIngreso(modelo.PackingId);
 
@@ -973,7 +988,31 @@ $('#ImprimirRegistroPackingList').on("click", function (e) {
 
 
 function generarInformePackingListPDF() {
-    var url = "../PackingList/InformePackingList?PackingId=" + PackingIdentificador;
+    $("#ModalAfirmacionFondoPacking").modal("show");
+
+    //var url = "../PackingList/InformePackingList?PackingId=" + PackingIdentificador +"&Fondo="+;
+    //window.open(url);
+    //$("#ModalListadoDePallets").modal("hide");
+}
+
+
+$('#AfirmacionEticketaPacking').on("click", function (e) {
+    etiqueta = "NO";
+    generarPDFPackingList(etiqueta);
+    $("#ModalAfirmacionFondoPacking").modal("hide");
+
+});
+
+$('#NgacionEticketaPacking').on("click", function (e) {
+    etiqueta = "SI";
+    generarPDFPackingList(etiqueta);
+    $("#ModalAfirmacionFondoPacking").modal("hide");
+
+});
+
+
+function generarPDFPackingList(variable) {
+    var url = "../PackingList/InformePackingList?PackingId=" + PackingIdentificador + "&Fondo=" + variable;
     window.open(url);
     $("#ModalListadoDePallets").modal("hide");
 }

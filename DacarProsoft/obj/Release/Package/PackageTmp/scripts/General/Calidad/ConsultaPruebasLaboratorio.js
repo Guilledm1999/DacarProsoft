@@ -289,7 +289,6 @@ function DescargarAnexo() {
     $("#ModalAnexos").modal("hide");
     var valor = $("#txtAnexoDesc option:selected").val();
     console.log(valor);
-
     window.open(valor);
 }
 

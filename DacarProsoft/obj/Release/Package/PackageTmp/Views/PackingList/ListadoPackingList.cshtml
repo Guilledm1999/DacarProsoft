@@ -6,7 +6,7 @@
 }
 @{
     var pais = ViewBag.Paises;
-    var paisOrigen = ViewBag.PaisOrigen;
+    var paisOrigen = ViewBag.PaisOrigencal;
 }
 <br />
 
@@ -227,7 +227,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                @*<button type="button" class="btn btn-secondary" id="VizualizarPaking">Vizualizar</button>*@
                 <button type="button" class="btn btn-secondary" onclick="ModificarPallet()">Modificar</button>
             </div>
         </div>
@@ -320,7 +319,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                @*<button type="button" class="btn btn-secondary" id="VizualizarPaking2">Vizualizar</button>*@
                 <button type="button" class="btn btn-secondary" id="RegistrarPallet">Registrar</button>
             </div>
         </div>
@@ -338,9 +336,6 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @*<div class="modal-body">
-                <input type="text" name="NombreItem" id="ContrasenaIngresada" autocomplete="off" class="form-control">
-            </div>*@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="AfirmacionEliminacion">Si</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
@@ -356,10 +351,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-            @*<div class="modal-body">
-                    <input type="text" name="NombreItem" id="ContrasenaIngresada" autocomplete="off" class="form-control">
-                </div>*@
+            </div>        
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="AfirmacionEliminacionPacking">Si</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
@@ -376,10 +368,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-            @*<div class="modal-body">
-                    <input type="text" name="NombreItem" id="ContrasenaIngresada" autocomplete="off" class="form-control">
-                </div>*@
+            </div>         
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="AfirmacionEticketa">Si</button>
                 <button type="button" class="btn btn-primary" id="NgacionEticketa">No</button>
@@ -490,7 +479,22 @@
     </div>
 </div>
 
-
+<div class="modal fade" id="ModalAfirmacionFondoPacking" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Va a utilizar una hoja membretada pre-impresa?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="AfirmacionEticketaPacking">Si</button>
+                <button type="button" class="btn btn-primary" id="NgacionEticketaPacking">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <input type="hidden" id="txtNumeroPalle" />
 <input type="hidden" id="txtIdPallet" />

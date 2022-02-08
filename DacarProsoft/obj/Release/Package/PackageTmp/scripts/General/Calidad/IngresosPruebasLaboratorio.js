@@ -21,7 +21,7 @@ function RegistrarPrueba() {
     formdata.append("Marca", $("#txtMarca option:selected").text());
     formdata.append("TipoNorma", $("#txtTipoNorma option:selected").text());
     formdata.append("Normativa", $("#txtNormativa option:selected").text());
-    formdata.append("PreAcondicionamiento", $("#txtPreAcondicionamiento").val());
+    formdata.append("PreAcondicionamiento", $("#txtPreAcondicionamiento option:selected").text());
     formdata.append("TipoBateria", $("#txtTipoBateria option:selected").text());
     formdata.append("Modelo", $("#txtModelo option:selected").text());
     formdata.append("Separador", $("#txtSeparador option:selected").text());
@@ -32,11 +32,11 @@ function RegistrarPrueba() {
     formdata.append("Peso", $("#txtPeso").val());
     formdata.append("Voltaje", $("#txtVoltaje").val());
     formdata.append("DensidadIngreso", $("#txtDensidadIngreso").val());
-    formdata.append("DensidadPreAcondicionamiento", $("#txtDensidadPreAcondiciamiento").val());
+    //formdata.append("DensidadPreAcondicionamiento", $("#txtDensidadPreAcondiciamiento").val());
     formdata.append("TemperaturaIngreso", $("#txtTemperaturaIngreso").val());
     formdata.append("TemperaturaPrueba", $("#txtTemperaturaPrueba").val());
     formdata.append("DatoTeoricoPrueba", $("#txtDatoTeoricoPrueba").val());
-    formdata.append("ValorObjetivo", $("#txtValorObjetivo").val());
+    //formdata.append("ValorObjetivo", $("#txtValorObjetivo").val());
     formdata.append("ResultadoFinal", $("#txtResultadoFinal").val());
     formdata.append("Observaciones", $("#txtObservaciones").val());
     formdata.append("Calificacion", $("#txtCalificacion").val());
@@ -98,11 +98,11 @@ function LimpiarResultados() {
     $("#txtPeso").val("");
     $("#txtVoltaje").val("");
     $("#txtDensidadIngreso").val("");
-    $("#txtDensidadPreAcondiciamiento").val("");
+    //$("#txtDensidadPreAcondiciamiento").val("");
     $("#txtTemperaturaIngreso").val("");
     $("#txtTemperaturaPrueba").val("");
     $("#txtDatoTeoricoPrueba").val("");
-    $("#txtValorObjetivo").val("");
+    //$("#txtValorObjetivo").val("");
     $("#txtResultadoFinal").val("");
     $("#txtObservaciones").val("");
     $("#txtCalificacion").val("");
@@ -175,13 +175,15 @@ $('#btnRegistrarPrueba').on("click", function (e) {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (val7.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    } if (val8.length == 0) {
+    }
+    //if (val7.length == 0) {
+    //    $("#MensajeCompleteCampos").show('fade');
+    //    setTimeout(function () {
+    //        $("#MensajeCompleteCampos").fadeOut(1500);
+    //    }, 3000);
+    //    return;
+    //}
+    if (val8.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
@@ -205,13 +207,15 @@ $('#btnRegistrarPrueba').on("click", function (e) {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (val12.length == 0) {
+    }
+    if (val12.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (val13.length == 0) {
+    }
+    if (val13.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
@@ -235,19 +239,22 @@ $('#btnRegistrarPrueba').on("click", function (e) {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (val17.length == 0) {
+    }
+    //if (val17.length == 0) {
+    //    $("#MensajeCompleteCampos").show('fade');
+    //    setTimeout(function () {
+    //        $("#MensajeCompleteCampos").fadeOut(1500);
+    //    }, 3000);
+    //    return;
+    //}
+    if (val18.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (val18.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    } if (val19.length == 0) {
+    }
+    if (val19.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
@@ -259,25 +266,29 @@ $('#btnRegistrarPrueba').on("click", function (e) {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (val21.length == 0) {
+    }
+    //if (val21.length == 0) {
+    //    $("#MensajeCompleteCampos").show('fade');
+    //    setTimeout(function () {
+    //        $("#MensajeCompleteCampos").fadeOut(1500);
+    //    }, 3000);
+    //    return;
+    //}
+    if (val22.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    } if (val22.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    } if (val23.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    } if (val24.length == 0) {
+    }
+    //if (val23.length == 0) {
+    //    $("#MensajeCompleteCampos").show('fade');
+    //    setTimeout(function () {
+    //        $("#MensajeCompleteCampos").fadeOut(1500);
+    //    }, 3000);
+    //    return;
+    //}
+    if (val24.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
@@ -342,4 +353,10 @@ function ObtenerCodigoIngreso() {
         }
     });
     $("#ModalAnexos").modal("show");
+}
+
+
+function CalcularResultado() {
+    var total = (parseFloat($('#txtResultadoFinal').val()) / parseFloat($('#txtDatoTeoricoPrueba').val()))*100;
+    $('#txtCalificacion').val(total.toFixed(2));
 }

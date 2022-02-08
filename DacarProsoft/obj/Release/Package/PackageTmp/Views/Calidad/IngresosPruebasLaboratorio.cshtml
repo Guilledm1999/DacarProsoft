@@ -40,8 +40,8 @@
                 <div class="form-group col-md-9">
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="inputEmail4">Fecha Ingreso</label>
-                            <input type="date" class="form-control" id="txtFechaIngreso" placeholder="Fecha Ingreso">
+                            <label for="inputEmail4">Fecha Prueba</label>
+                            <input type="date" class="form-control" id="txtFechaIngreso" placeholder="Fecha Prueba">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="inputPassword4">Codigo Ingreso</label>
@@ -70,8 +70,8 @@
                             <label for="inputPassword4">Pre-Acondicionamiento</label>
                             <select class="form-control" aria-label="Default select example" id="txtPreAcondicionamiento" style="width:100%">
                                 <option value="" selected="selected">--Seleccione--</option>
-                                <option value="1">SI</option>
-                                <option value="2">NO</option>
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
 
                             </select>
                             @*<input type="text" class="form-control" id="txtPreAcondicionamiento" placeholder="Pre-Acondicionamiento">*@
@@ -130,10 +130,10 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label for="inputPassword4">Densidad Pre-Acondiciomiento</label>
-                            <input type="number" class="form-control" id="txtDensidadPreAcondiciamiento" placeholder="Densidad Pre-Acondiciomiento">
-                        </div>
+                        @*<div class="form-group col-md-3">
+            <label for="inputPassword4">Densidad Pre-Acondiciomiento</label>
+            <input type="number" class="form-control" id="txtDensidadPreAcondiciamiento" placeholder="Densidad Pre-Acondiciomiento">
+        </div>*@
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Temperatura Ingreso (ºC)</label>
                             <input type="number" class="form-control" id="txtTemperaturaIngreso" placeholder="Temperatura Ingreso (ºC)">
@@ -144,31 +144,28 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Dato Teorico de Prueba</label>
-                            <input type="number" class="form-control" id="txtDatoTeoricoPrueba" placeholder="Dato Teorico de Prueba">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label for="inputPassword4">Valor Objetivo Minimo</label>
-                            <input type="number" class="form-control" id="txtValorObjetivo" placeholder="Valor Objetivo Minimo">
+                            <input type="number" class="form-control" id="txtDatoTeoricoPrueba" placeholder="Dato Teorico de Prueba" onchange="CalcularResultado();">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Resultado Final</label>
-                            <input type="number" class="form-control" id="txtResultadoFinal" placeholder="Resultado Final">
+                            <input type="number" class="form-control" id="txtResultadoFinal" placeholder="Resultado Final" onchange="CalcularResultado();">
                         </div>
+                    </div>
+                    <div class="form-row">
+                        @*<div class="form-group col-md-3">
+            <label for="inputPassword4">Valor Objetivo Minimo</label>
+            <input type="number" class="form-control" id="txtValorObjetivo" placeholder="Valor Objetivo Minimo">
+        </div>*@
+
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Observaciones </label>
                             <input type="text" class="form-control" id="txtObservaciones" placeholder="Observaciones">
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="inputEmail4">Calificacion</label>
-                            <input type="number" class="form-control" id="txtCalificacion" placeholder="Calificacion">
+                            <label for="inputEmail4">Rendimiento (%)</label>
+                            <input type="number" class="form-control" id="txtCalificacion" placeholder="Rendimiento" readonly>
                         </div>
-                    </div>
-
-                    <div class="form-row">
-
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="inputEmail4">Anexos</label>
                             <input type="file" accept=".jpg,.png,.jpeg,.gif,.pdf,.xlsx,docx,.doc,pptx" class="form-control-file" id="txtAnexos" @*onchange="ValidarTipoImagen(this);"*@ multiple>
                         </div>
