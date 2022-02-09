@@ -21,16 +21,12 @@ $(document).ready(function () {
     $("#txtNuevoLargoPallet").val(114);
     $("#txtNuevoAltoPallet").val(114);
     $("#txtNuevoAnchoPallet").val(114);
-
-
-
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
         event.preventDefault();
         $(this).closest('tr').remove();
     });
     $("#image").removeClass("hide");
-    //mostrarIngresosPallet();
 });
 //txtAnchoPallet
 function ConsultarIngresosPacking() {
@@ -71,7 +67,6 @@ function mostrarIngresosPallet() {
                        enabled: true
                    },
                  ConfigDev.columns = [
-
                      { dataField: "PackingId", visible: false },
                        {
                            dataField: "NumeroDocumento", caption: "Numero Documento", allowEditing: false, allowHeaderFiltering: false
@@ -102,7 +97,6 @@ function mostrarIngresosPallet() {
                        },
                       {
                           caption: "Acciones",
-
                           cellTemplate: function (container, options) {                            
                               var btEliminar = "<i class='fas fa-trash-alt' onclick=" + "'EliminarPackingCompl(" + JSON.stringify(options.data) + ")'> </i>";
                               var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarPalletsIngresado(" + JSON.stringify(options.data) + ")'>Pallets</button>";
@@ -155,7 +149,6 @@ function ModalConsultarPalletsIngresado(modelo) {
                      enabled: true
                  },
                ConfigDev.columns = [
-
                    { dataField: "PalletPacking1", visible: false },
                    { dataField: "PackingId", visible: false },
                      {
@@ -217,7 +210,6 @@ $('#AfirmacionEliminacionPacking').on("click", function (e) {
     AfirmacionEliminacionPackin();
 });
 
-
 function EliminarPallet(modelo) {
     tempPalletId = modelo.PalletPacking1;
     $("#ModalEliminar").modal("show");
@@ -231,7 +223,6 @@ function AfirmacionEliminacion() {
             PalletId: tempPalletId,
         },
         success: function (msg) {
-            console.log("Esto trae msg del ajax"+msg);
 ;            if (msg == 'True') {
                 $("#ModalEliminar").modal("hide");
                 $("#ModalListadoDePallets").modal("hide");
@@ -338,15 +329,13 @@ $('#NgacionEticketa').on("click", function (e) {
 
 });
 
-
 function generarPDF(variable,variable2) {
     var url = "../PackingList/PalletPdf3?PackingId=" + PackingIdentificador + "&PalletId=" + variable + "&Fondo=" + variable2;
     window.open(url);
     $("#ModalListadoDePallets").modal("hide");
 }
 
-function ModalConsultarDetalleTablaPackingIngresado() 
-{
+function ModalConsultarDetalleTablaPackingIngresado() {
     $.ajax({
         url: "../PackingList/ConsultarPalletsDetalleIngreseados?PackingId=" + valor2 + " &PalletId=" + valor1,
         type: "GET"
@@ -698,7 +687,6 @@ $('#RegistrarPallet').on("click", function (e) {
 });
 
 function GenerarQr() {
-    console.log("Ingreso a generar qr");
     $.ajax({
         url: "../PackingList/GenerarQr",
         type: "POST",
@@ -912,7 +900,6 @@ $('#RegistrarDetallePackingList').on("click", function (e) {
     }
 });
 function RegistrarDetallePackingListGeneral() {
-    console.log("Ingreso a registrar");
     $.ajax({
         url: "../PackingList/GuardarDetallesPalletsPackingList",
         type: "POST",
@@ -929,7 +916,6 @@ function RegistrarDetallePackingListGeneral() {
                 $("#MensajeGuardado").fadeOut(1500);
             }, 3000);
         },
-
         error: function (msg) {
             $("#MensajeErrorGuardado").show('fade');
             setTimeout(function () {
@@ -951,14 +937,12 @@ $('#AfirmacionEticketaPacking').on("click", function (e) {
     etiqueta = "NO";
     generarPDFPackingList(etiqueta);
     $("#ModalAfirmacionFondoPacking").modal("hide");
-
 });
 
 $('#NgacionEticketaPacking').on("click", function (e) {
     etiqueta = "SI";
     generarPDFPackingList(etiqueta);
     $("#ModalAfirmacionFondoPacking").modal("hide");
-
 });
 
 function generarPDFPackingList(variable) {

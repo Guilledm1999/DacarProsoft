@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>Z:\Prosoft</_PublishTargetUrl>
-    <History>True|2022-02-08T14:39:42.6481201Z;True|2022-02-04T14:25:44.9854363-05:00;True|2022-01-31T14:31:38.8978480-05:00;True|2022-01-28T12:44:12.7277310-05:00;True|2021-12-20T16:04:11.5338795-05:00;True|2021-12-20T15:56:12.5793106-05:00;True|2021-12-02T09:33:51.9800181-05:00;True|2021-12-02T09:08:09.1257091-05:00;True|2021-11-24T10:46:48.5206815-05:00;True|2021-11-24T10:41:04.8497617-05:00;True|2021-11-23T13:11:58.3150925-05:00;True|2021-11-10T09:54:34.3674221-05:00;True|2021-11-10T09:50:20.9096699-05:00;False|2021-11-09T12:55:15.4637351-05:00;True|2021-09-22T14:09:46.1129774-05:00;True|2021-09-09T10:12:18.1856526-05:00;True|2021-09-08T17:40:12.1576998-05:00;True|2021-09-08T17:06:30.9278655-05:00;True|2021-09-03T10:51:54.0112230-05:00;</History>
+    <History>True|2022-02-09T21:34:28.6583303Z;True|2022-02-09T12:25:31.7980110-05:00;True|2022-02-08T16:06:15.2276890-05:00;True|2022-02-08T09:39:42.6481201-05:00;True|2022-02-04T14:25:44.9854363-05:00;True|2022-01-31T14:31:38.8978480-05:00;True|2022-01-28T12:44:12.7277310-05:00;True|2021-12-20T16:04:11.5338795-05:00;True|2021-12-20T15:56:12.5793106-05:00;True|2021-12-02T09:33:51.9800181-05:00;True|2021-12-02T09:08:09.1257091-05:00;True|2021-11-24T10:46:48.5206815-05:00;True|2021-11-24T10:41:04.8497617-05:00;True|2021-11-23T13:11:58.3150925-05:00;True|2021-11-10T09:54:34.3674221-05:00;True|2021-11-10T09:50:20.9096699-05:00;False|2021-11-09T12:55:15.4637351-05:00;True|2021-09-22T14:09:46.1129774-05:00;True|2021-09-09T10:12:18.1856526-05:00;True|2021-09-08T17:40:12.1576998-05:00;True|2021-09-08T17:06:30.9278655-05:00;True|2021-09-03T10:51:54.0112230-05:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">
@@ -30,19 +30,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/16/2017 06:51:42</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll">
-      <publishTime>01/27/2022 15:43:01</publishTime>
+      <publishTime>02/08/2022 12:52:30</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll.config">
-      <publishTime>11/24/2021 08:58:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/DacarDatos.pdb">
-      <publishTime>01/27/2022 15:43:01</publishTime>
+      <publishTime>02/08/2022 12:52:30</publishTime>
     </File>
     <File Include="bin/DacarProsoft.dll">
-      <publishTime>02/08/2022 09:39:14</publishTime>
+      <publishTime>02/09/2022 16:34:12</publishTime>
     </File>
     <File Include="bin/DacarProsoft.pdb">
-      <publishTime>02/08/2022 09:39:14</publishTime>
+      <publishTime>02/09/2022 16:34:12</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/03/2015 18:43:42</publishTime>
@@ -789,7 +789,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/19/2021 16:16:27</publishTime>
     </File>
     <File Include="scripts/General/Calidad/ConsultaPruebasLaboratorio.js">
-      <publishTime>02/01/2022 09:27:22</publishTime>
+      <publishTime>02/09/2022 15:55:19</publishTime>
     </File>
     <File Include="scripts/General/Calidad/IngresosPruebasLaboratorio.js">
       <publishTime>02/04/2022 17:12:24</publishTime>
@@ -804,7 +804,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/22/2021 10:59:27</publishTime>
     </File>
     <File Include="scripts/General/Chatarra/ReporteIngresosChatarra.js">
-      <publishTime>05/17/2021 14:24:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="scripts/General/Chatarra/ReporteIngresosChatarraPorFechas.js">
       <publishTime>12/21/2021 09:22:12</publishTime>
@@ -833,11 +833,14 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="scripts/General/OrdenesProduccion/OrdenesDeProduccion.js">
       <publishTime>03/18/2021 16:50:31</publishTime>
     </File>
+    <File Include="scripts/General/PackingList/ComextListadoPackingList.js">
+      <publishTime>02/09/2022 16:33:36</publishTime>
+    </File>
     <File Include="scripts/General/PackingList/IngresosPackingList.js">
       <publishTime>01/21/2022 10:24:57</publishTime>
     </File>
     <File Include="scripts/General/PackingList/ListadoPackingList.js">
-      <publishTime>02/08/2022 09:13:04</publishTime>
+      <publishTime>02/08/2022 11:45:55</publishTime>
     </File>
     <File Include="scripts/General/Pedidos/PedidosCancelados.js">
       <publishTime>08/31/2021 10:36:17</publishTime>
@@ -945,7 +948,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/19/2021 16:14:12</publishTime>
     </File>
     <File Include="Views/Calidad/ConsultaPruebasLaboratorio.cshtml">
-      <publishTime>02/01/2022 13:45:19</publishTime>
+      <publishTime>02/09/2022 16:03:56</publishTime>
     </File>
     <File Include="Views/Calidad/IngresosPruebasLaboratorio.cshtml">
       <publishTime>02/04/2022 17:13:43</publishTime>
@@ -998,11 +1001,14 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/OrdenesProduccion/OrdenesDeProduccion.cshtml">
       <publishTime>03/18/2021 16:53:47</publishTime>
     </File>
+    <File Include="Views/PackingList/ComextListadoPackingList.cshtml">
+      <publishTime>02/09/2022 16:04:33</publishTime>
+    </File>
     <File Include="Views/PackingList/IngresosPackingList.cshtml">
       <publishTime>01/21/2022 10:07:34</publishTime>
     </File>
     <File Include="Views/PackingList/ListadoPackingList.cshtml">
-      <publishTime>02/08/2022 09:12:53</publishTime>
+      <publishTime>02/08/2022 11:50:49</publishTime>
     </File>
     <File Include="Views/Pedidos/PedidosCancelados.cshtml">
       <publishTime>09/06/2021 10:13:11</publishTime>
@@ -1011,7 +1017,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/01/2021 17:09:28</publishTime>
     </File>
     <File Include="Views/Pedidos/PedidosExterior.cshtml">
-      <publishTime>12/13/2021 11:26:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Principal/VistaPrincipal.cshtml">
       <publishTime>02/22/2021 10:24:12</publishTime>
@@ -1056,7 +1062,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/09/2020 13:04:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/04/2022 17:19:51</publishTime>
+      <publishTime>02/09/2022 12:25:06</publishTime>
     </File>
   </ItemGroup>
 </Project>

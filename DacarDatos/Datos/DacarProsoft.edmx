@@ -45,6 +45,14 @@
           <Property Name="DescripcionAreaResponsable" Type="varchar" MaxLength="100" />
           <Property Name="CodigoArea" Type="int" />
         </EntityType>
+        <EntityType Name="AutorizacionPackingList">
+          <Key>
+            <PropertyRef Name="AutorizacionPackingListId" />
+          </Key>
+          <Property Name="AutorizacionPackingListId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="255" />
+          <Property Name="Estado" Type="bit" />
+        </EntityType>
         <EntityType Name="Bodega">
           <Key>
             <PropertyRef Name="BodegaId" />
@@ -1005,6 +1013,7 @@
           <EntitySet Name="Accesos" EntityType="Self.Accesos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AnalisisRegistrosGarantias" EntityType="Self.AnalisisRegistrosGarantias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AreaResponsableGarantias" EntityType="Self.AreaResponsableGarantias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AutorizacionPackingList" EntityType="Self.AutorizacionPackingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bodega" EntityType="Self.Bodega" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CantonesEcuador" EntityType="Self.CantonesEcuador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CausalesGarantias" EntityType="Self.CausalesGarantias" Schema="dbo" store:Type="Tables" />
@@ -1321,6 +1330,7 @@
           <EntitySet Name="TipoNormaPruebaLaboratorio" EntityType="DacarProsoftModel.TipoNormaPruebaLaboratorio" />
           <EntitySet Name="RutaInstalacionSoftware" EntityType="DacarProsoftModel.RutaInstalacionSoftware" />
           <EntitySet Name="PruebaLaboratorioCalidad" EntityType="DacarProsoftModel.PruebaLaboratorioCalidad" />
+          <EntitySet Name="AutorizacionPackingList" EntityType="DacarProsoftModel.AutorizacionPackingList" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -2334,6 +2344,14 @@
           <Property Name="Calificacion" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="AutorizacionPackingList">
+          <Key>
+            <PropertyRef Name="AutorizacionPackingListId" />
+          </Key>
+          <Property Name="AutorizacionPackingListId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombres" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3179,6 +3197,15 @@
                 <ScalarProperty Name="CodigoIngreso" ColumnName="CodigoIngreso" />
                 <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
                 <ScalarProperty Name="PruebaLaboratorioCalidadId" ColumnName="PruebaLaboratorioCalidadId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AutorizacionPackingList">
+            <EntityTypeMapping TypeName="DacarProsoftModel.AutorizacionPackingList">
+              <MappingFragment StoreEntitySet="AutorizacionPackingList">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="AutorizacionPackingListId" ColumnName="AutorizacionPackingListId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1117,5 +1117,81 @@ namespace DacarProsoft.Datos
                         return result;    
             }
         }
+        public string ConsultarNombreAutorizado()
+        {
+            string result = "";
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var NombreForaneo = (from d in DB.AutorizacionPackingList
+                                     where d.Estado==true
+                                     select new
+                                     {
+                                         d.Nombres
+                                     }).FirstOrDefault();
+                result = NombreForaneo.Nombres;
+
+                return result;
+            }
+        }
+
+        public List<PackingIngresados> ConsultarPackingIngreseadosComext(int tipo)
+        {
+
+            string estado;
+            if (tipo == 1)
+            {
+                estado = "SI";
+            }
+            else {
+                estado = "NO";
+            }
+            List<PackingIngresados> lst = new List<PackingIngresados>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoCabecera = from d in DB.Packing
+                                      orderby d.PackingId descending
+                                      where d.DetalleIngresado == estado
+                                      select new
+                                      {
+                                          d.PackingId,
+                                          d.NumeroDocumento,
+                                          d.NumeroOrden,
+                                          d.NombreCliente,
+                                          d.Origen,
+                                          d.Destino,
+                                          d.CantidadPallet,
+                                          d.DetalleIngresado
+                                      };
+
+                foreach (var x in ListadoCabecera)
+                {
+                    var PalletFaltante = PalletFantantes(x.PackingId, x.CantidadPallet.Value);
+                    if (PalletFaltante == 0)
+                    {
+                        estado = "Completo";
+                    }
+                    else
+                    {
+                        estado = "Incompleto";
+                    }
+
+                    lst.Add(new PackingIngresados
+                    {
+                        PackingId = x.PackingId,
+                        NumeroDocumento = x.NumeroDocumento.Value,
+                        NumeroOrden = x.NumeroOrden,
+                        NombreCliente = x.NombreCliente,
+                        Origen = x.Origen,
+                        Destino = x.Destino,
+                        CantidadPallet = x.CantidadPallet.Value,
+                        PalletFaltantes = PalletFaltante,
+                        DetalleIngresado = x.DetalleIngresado,
+                        Estado = estado
+                    });
+                }
+                return lst;
+            }
+        }
     }
 }

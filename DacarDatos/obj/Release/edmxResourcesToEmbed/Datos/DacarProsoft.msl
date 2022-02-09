@@ -843,5 +843,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="AutorizacionPackingList">
+      <EntityTypeMapping TypeName="DacarProsoftModel.AutorizacionPackingList">
+        <MappingFragment StoreEntitySet="AutorizacionPackingList">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+          <ScalarProperty Name="AutorizacionPackingListId" ColumnName="AutorizacionPackingListId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

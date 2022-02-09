@@ -289,6 +289,7 @@
     <Content Include="scripts\General\LogisticaPedidos\LogisticaPedidos.js" />
     <Content Include="scripts\General\Modelos\IngresoModelos.js" />
     <Content Include="scripts\General\OrdenesProduccion\OrdenesDeProduccion.js" />
+    <Content Include="scripts\General\PackingList\ComextListadoPackingList.js" />
     <Content Include="scripts\General\PackingList\IngresosPackingList.js" />
     <Content Include="scripts\General\PackingList\ListadoPackingList.js" />
     <Content Include="scripts\General\Pedidos\PedidosCancelados.js" />
@@ -585,6 +586,7 @@
     <Content Include="Views\Calidad\RegistrosVisuaLCN.cshtml" />
     <Content Include="Views\Calidad\IngresosPruebasLaboratorio.cshtml" />
     <Content Include="Views\Calidad\ConsultaPruebasLaboratorio.cshtml" />
+    <Content Include="Views\PackingList\ComextListadoPackingList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

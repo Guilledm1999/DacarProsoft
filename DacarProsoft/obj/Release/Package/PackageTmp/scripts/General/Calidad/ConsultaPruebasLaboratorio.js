@@ -60,15 +60,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                 },
                 sorting: {
                     mode: 'none',
-                },
-                //pager: {
-                //    visible: true,
-                //    allowedPageSizes: [5, 10, 50],
-                //    showPageSizeSelector: true,
-                //    showInfo: true,
-                //    showNavigationButtons: true
-                //
-                //},
+                },            
                 export: {
                     enabled: true,
                     allowExportSelectedData: false

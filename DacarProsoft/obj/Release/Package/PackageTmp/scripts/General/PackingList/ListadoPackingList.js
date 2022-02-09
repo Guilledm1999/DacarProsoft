@@ -5,7 +5,6 @@ var temp = null;
 var temp2 = null;
 var tempPalletId = null;
 var tempPackingId = null;
-
 var IdentificadorPaking = null;
 var valor1 = null;
 var valor2 = null;
@@ -22,16 +21,12 @@ $(document).ready(function () {
     $("#txtNuevoLargoPallet").val(114);
     $("#txtNuevoAltoPallet").val(114);
     $("#txtNuevoAnchoPallet").val(114);
-
-
-
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
         event.preventDefault();
         $(this).closest('tr').remove();
     });
     $("#image").removeClass("hide");
-    //mostrarIngresosPallet();
 });
 //txtAnchoPallet
 function ConsultarIngresosPacking() {
@@ -47,7 +42,7 @@ function Volumen() {
     var total = ((parseFloat($('#txtLargoPallet').val()) * parseFloat($('#txtAnchoPallet').val()) * parseFloat($('#txtAltoPallet').val())).toFixed(2))/1000000;
     $('#txtVolumenPallet').val(total.toFixed(3));
 }
-txtNuevoAnchoPallet
+//txtNuevoAnchoPallet
 
 function Volumen2() {
     var total = ((parseFloat($('#txtNuevoLargoPallet').val()) * parseFloat($('#txtNuevoAnchoPallet').val()) * parseFloat($('#txtNuevoAltoPallet').val())).toFixed(2))/1000000;
@@ -55,7 +50,6 @@ function Volumen2() {
 }
 function mostrarIngresosPallet() {
     var valor = $("#TipoBusqueda").val();
-
     $.ajax({
         url: "../PackingList/ObtenerPalletIngresados?tipo=" + valor,
         type: "GET"
@@ -73,19 +67,15 @@ function mostrarIngresosPallet() {
                        enabled: true
                    },
                  ConfigDev.columns = [
-
                      { dataField: "PackingId", visible: false },
                        {
                            dataField: "NumeroDocumento", caption: "Numero Documento", allowEditing: false, allowHeaderFiltering: false
-
                        },
                        {
                            dataField: "NumeroOrden", caption: "Numero Orden", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
-
                        },
                       {
                           dataField: "NombreCliente", caption: "Cliente", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
-
                       },
                       {
                           dataField: "Origen", visible: false
@@ -95,10 +85,8 @@ function mostrarIngresosPallet() {
                        },
                        {
                            dataField: "CantidadPallet", caption: "Pallet Totales", alignment: "right", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
-
                        }, {
                            dataField: "PalletFaltantes", caption: "Pallet Faltantes", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
-
                        },
                        {
                            dataField: "Estado", caption: "Estado", alignment: "right", allowEditing: false
@@ -109,9 +97,7 @@ function mostrarIngresosPallet() {
                        },
                       {
                           caption: "Acciones",
-
-                          cellTemplate: function (container, options) {
-                              
+                          cellTemplate: function (container, options) {                            
                               var btEliminar = "<i class='fas fa-trash-alt' onclick=" + "'EliminarPackingCompl(" + JSON.stringify(options.data) + ")'> </i>";
                               var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarPalletsIngresado(" + JSON.stringify(options.data) + ")'>Pallets</button>";
                               var lblEspacio = "<a> </a>"
@@ -121,15 +107,13 @@ function mostrarIngresosPallet() {
                                   .append($(btnDetalle), $(lblEspacio), $(btnPackingList), $(lblEspacio), $(btEliminar))
                                   .appendTo(container);
                           }
-                      }
-                  
+                      }     
                  ];
                  $(".btn").attr("disabled", false);
                  $(".btn-txt").text("Consultar");
                  $("#tblIngresosdePacking").dxDataGrid(ConfigDev);
              },
         error: function (msg) {
-            alert(msg);
             $("#MensajeErrorGeneral").show('fade');
             setTimeout(function () {
                 $("#MensajeErrorGeneral").fadeOut(1500);
@@ -154,7 +138,6 @@ function ModalConsultarPalletsIngresado(modelo) {
            , success: function (msg) {
                ConfigDev.dataSource = msg;
                ConfigDev.keyExpr = "PalletPacking1",
-
                ConfigDev.columnAutoWidth = true,
                ConfigDev.showBorders = true,
                 ConfigDev.allowColumnReordering = true,
@@ -166,7 +149,6 @@ function ModalConsultarPalletsIngresado(modelo) {
                      enabled: true
                  },
                ConfigDev.columns = [
-
                    { dataField: "PalletPacking1", visible: false },
                    { dataField: "PackingId", visible: false },
                      {
@@ -228,14 +210,12 @@ $('#AfirmacionEliminacionPacking').on("click", function (e) {
     AfirmacionEliminacionPackin();
 });
 
-
 function EliminarPallet(modelo) {
     tempPalletId = modelo.PalletPacking1;
     $("#ModalEliminar").modal("show");
 }
 
 function AfirmacionEliminacion() {
-
     $.ajax({
         url: "../PackingList/EliminarPallet",
         type: "POST",
@@ -243,7 +223,6 @@ function AfirmacionEliminacion() {
             PalletId: tempPalletId,
         },
         success: function (msg) {
-            console.log("Esto trae msg del ajax"+msg);
 ;            if (msg == 'True') {
                 $("#ModalEliminar").modal("hide");
                 $("#ModalListadoDePallets").modal("hide");
@@ -259,7 +238,6 @@ function AfirmacionEliminacion() {
                     $("#MensajeEliminacionIncorecta").fadeOut(1500);
                 }, 3000);
             }
-
         },
         error: function (msg) {
             $("#MensajeErrorGeneral").show('fade');
@@ -271,7 +249,6 @@ function AfirmacionEliminacion() {
 }
 
 function AfirmacionEliminacionPackin() {
-
     $.ajax({
         url: "../PackingList/EliminarPackingCompleto",
         type: "POST",
@@ -279,7 +256,6 @@ function AfirmacionEliminacionPackin() {
             PackingId: tempPackingId,
         },
         success: function (msg) {
-            console.log("Esto trae msg del ajax" + msg);
             ; if (msg == 'True') {
                 $("#ModalEliminarPacking").modal("hide");
                 mostrarIngresosPallet();
@@ -306,7 +282,6 @@ function AfirmacionEliminacionPackin() {
 }
 
 function ModalConsultarDetallePalletIngresado(modelo) {
-    console.log("Ingreso");
     $.ajax({
         url: "../PackingList/ObtenerDetallePalletIngresados?PackingId=" + modelo.PackingId + "&PalletId=" + modelo.PalletPacking1,
         type: "GET"
@@ -354,15 +329,13 @@ $('#NgacionEticketa').on("click", function (e) {
 
 });
 
-
 function generarPDF(variable,variable2) {
     var url = "../PackingList/PalletPdf3?PackingId=" + PackingIdentificador + "&PalletId=" + variable + "&Fondo=" + variable2;
     window.open(url);
     $("#ModalListadoDePallets").modal("hide");
 }
 
-function ModalConsultarDetalleTablaPackingIngresado() 
-{
+function ModalConsultarDetalleTablaPackingIngresado() {
     $.ajax({
         url: "../PackingList/ConsultarPalletsDetalleIngreseados?PackingId=" + valor2 + " &PalletId=" + valor1,
         type: "GET"
@@ -379,7 +352,6 @@ function ModalConsultarDetalleTablaPackingIngresado()
                  ConfigDev.columnFixing = {
                      enabled: true
                  },
-
                ConfigDev.columns = [
 
                    { dataField: "PalletPackingDetalleId", visible: false },
@@ -414,7 +386,6 @@ function VerNumeroPallet(packingId) {
             NumeroPalletLocal = msg;
             $('#lblNumberPalletNuevo').html("Pallet  #" + msg);
             $('#txtNumeroPalle').val(msg);
-
         },
         error: function (msg) {
 
@@ -423,7 +394,6 @@ function VerNumeroPallet(packingId) {
                 $("#MensajeErrorGeneral").fadeOut(1500);
             }, 3000);
             NumeroPalletLocal = 0;
-
         }
     })
 }
@@ -435,9 +405,7 @@ function VerNumeroPalletIngreso(packingId) {
         success: function (msg) {
             NumeroPalletLocal = msg;
             $('#lblNumberPalletNuevo').html("Pallet  #" + msg);
-
             $('#txtNumeroPalle').val(msg);
-
         },
         error: function (msg) {
             $("#MensajeErrorGeneral").show('fade');
@@ -454,15 +422,11 @@ function ConsultaEstado(modelo) {
         url: "../PackingList/ConsultarEstadoPacking?PackingId=" + modelo.PackingId,
         type: "GET",
         success: function (msg) {
-            console.log("El valor que traigo es :"+msg);
 
             if (msg == "False") {
-                console.log("entre x falso");
                 IngresoNuevoPacking(modelo);
             }
             else {
-                console.log("entre x falso");
-
                 $("#MensajePackingCompletos").show('fade');
                 setTimeout(function () {
                     $("#MensajePackingCompletos").fadeOut(1500);
@@ -497,7 +461,6 @@ $('#LinkClose12').on("click", function (e) {
 });
 function IngresoNuevoPacking(modelo) {
     document.getElementById("RegistrarPallet").disabled = true;
-
     var startUpdating = false;
 
     $("#txtNuevoLargoPallet").val("");
@@ -506,7 +469,6 @@ function IngresoNuevoPacking(modelo) {
     $("#txtNuevoVolumenPallet").val("");
     $("#txtNuevoPesoNeto").val("");
     $("#txtNuevoPesoBruto").val("");
-
     $("#txtNuevoLargoPallet").val(114);
     $("#txtNuevoAltoPallet").val(114);
     $("#txtNuevoAnchoPallet").val(114);
@@ -595,7 +557,6 @@ function IngresoNuevoPacking(modelo) {
                   ];
               ConfigDev.summary= {
                   recalculateWhileEditing: true,
-
                       totalItems: [
                           {
                               name: "DescriptionItem",
@@ -687,7 +648,6 @@ function IngresoNuevoPacking(modelo) {
     $("#ModalPalletIngresoNuevo").modal("show");
 }
 
-
 function registrarPallet() {
     $.ajax({
         url: "../PackingList/RegistrarPalletPacking",
@@ -726,9 +686,7 @@ $('#RegistrarPallet').on("click", function (e) {
     registrarPallet();
 });
 
-
 function GenerarQr() {
-    console.log("Ingreso a generar qr");
     $.ajax({
         url: "../PackingList/GenerarQr",
         type: "POST",
@@ -737,7 +695,6 @@ function GenerarQr() {
             PalletNumero: $('#txtNumeroPalle').val(), NumeroDoc: $('#txtDocAct').val(), Orden: $('#txtOrdenAct').val(), Cliente: datosCabecera.CardName, Volumen: $('#txtVolumenPallet').val(), GrossWeight: $('#txtPesoBruto').val(),
             NetWeight: $('#txtPesoNeto').val(), Origen: $("#txtOrigenAct").val(), Destino: $("#txtDestinoAct option:selected").text(), items: temp
         }, success: function (e) {
-
 
             var imgsrc = e;
             CierraPopup();
@@ -808,10 +765,7 @@ function MostrarCabeceraDetallePackingList(PackingIdentificador) {
         url: "../PackingList/DetallesGeneralesPalletsPackingList?PackingId=" + PackingIdentificador,
         type: 'GET',
         dataType: 'json',
-        success: function (data) {
-
-            console.log(data);
-            console.log(data[0].FechaPackingList);
+        success: function (data) {         
             //Muestro datos en la tabla (SI MUESTRA DATOS)
             $.each(data, function () {
                 $('#txtNombreDelCliente').val(data[0].ClientePackingList);
@@ -825,8 +779,7 @@ function MostrarCabeceraDetallePackingList(PackingIdentificador) {
                 $("#txtReferenciaPackingList").val(data[0].ReferenciasPackingList);
                 $('#txtProductosPackingList').val(data[0].ProductosPackingList);
             });
-        }
-,
+        },
         error: function (msg) {
             $("#MensajeErrorGeneral").show('fade');
             setTimeout(function () {
@@ -855,7 +808,6 @@ function BuscarItemsPackingList(PackingId) {
                        enabled: true
                    },
                  ConfigDev.columns = [
-
                      {
                          caption: "Detalle Items en Pallets", alignment: "center",
                          columns: [
@@ -881,8 +833,6 @@ function BuscarItemsPackingList(PackingId) {
         }
     })
 }
-
-
 
 function BuscarDetallesPalletPackingList(PackingId) {
     $.ajax({
@@ -911,15 +861,15 @@ function BuscarDetallesPalletPackingList(PackingId) {
                        {
                            dataField: "Alto", caption: "Alto", allowEditing: false, alignment: "left"
                        },
-                      {
+                       {
                           dataField: "Ancho", caption: "Ancho", allowEditing: false, alignment: "left"
-                      },
-                      {
+                       },
+                       {
                           dataField: "Volumen", caption: "Volumen", allowEditing: false, alignment: "left"
-                      },
-                      {
+                       },
+                       {
                           dataField: "Cantidad", caption: "Cantidad", allowEditing: false, alignment: "left"
-                      },
+                       },
                        {
                            dataField: "PesoBruto", caption: "Peso Bruto", allowEditing: false
                        },
@@ -927,7 +877,6 @@ function BuscarDetallesPalletPackingList(PackingId) {
                            dataField: "PesoNeto", caption: "Peso Neto", allowEditing: false
                        }]
                         },
-
                     
                  ];
                  $("#tblDetallePackingListIngresados").dxDataGrid(ConfigDev);
@@ -941,9 +890,7 @@ function BuscarDetallesPalletPackingList(PackingId) {
     })
 }
 
-
 $('#RegistrarDetallePackingList').on("click", function (e) {
-    
     if ($('#txtNombreDelCliente').val() != null && $('#txtContenedorPackingList').val() != null && $('#txtFechaPacking').val() != null && $('#txtBookingPacking').val() != null && $('#txtFacturaPackingList').val() != null && $('#txtPedidoPackingList').val() != null &&
     $('#txtEmbarcacionPackingList').val() != null && $("#txtIntercambioEirPackingList").val() != null && $("#txtReferenciaPackingList").val() != null && $('#txtProductosPackingList').val() != null) {
         RegistrarDetallePackingListGeneral();
@@ -953,11 +900,9 @@ $('#RegistrarDetallePackingList').on("click", function (e) {
     }
 });
 function RegistrarDetallePackingListGeneral() {
-    console.log("Ingreso a registrar");
     $.ajax({
         url: "../PackingList/GuardarDetallesPalletsPackingList",
         type: "POST",
-      
         data: {
             PackingId: PackingIdentificador, Cliente: $('#txtNombreDelCliente').val(), Contenedor: $('#txtContenedorPackingList').val(), fecha: $('#txtFechaPacking').val(), Reserva: $('#txtBookingPacking').val(), Factura: $('#txtFacturaPackingList').val(), Pedido: $('#txtPedidoPackingList').val(),
             Embarcacion: $('#txtEmbarcacionPackingList').val(), IntercambioEir: $("#txtIntercambioEirPackingList").val(), Referencias: $("#txtReferenciaPackingList").val(), Productos: $('#txtProductosPackingList').val()
@@ -971,7 +916,6 @@ function RegistrarDetallePackingListGeneral() {
                 $("#MensajeGuardado").fadeOut(1500);
             }, 3000);
         },
-
         error: function (msg) {
             $("#MensajeErrorGuardado").show('fade');
             setTimeout(function () {
@@ -981,35 +925,25 @@ function RegistrarDetallePackingListGeneral() {
     })
 }
 
-
 $('#ImprimirRegistroPackingList').on("click", function (e) {
     generarInformePackingListPDF();
 });
 
-
 function generarInformePackingListPDF() {
     $("#ModalAfirmacionFondoPacking").modal("show");
-
-    //var url = "../PackingList/InformePackingList?PackingId=" + PackingIdentificador +"&Fondo="+;
-    //window.open(url);
-    //$("#ModalListadoDePallets").modal("hide");
 }
-
 
 $('#AfirmacionEticketaPacking').on("click", function (e) {
     etiqueta = "NO";
     generarPDFPackingList(etiqueta);
     $("#ModalAfirmacionFondoPacking").modal("hide");
-
 });
 
 $('#NgacionEticketaPacking').on("click", function (e) {
     etiqueta = "SI";
     generarPDFPackingList(etiqueta);
     $("#ModalAfirmacionFondoPacking").modal("hide");
-
 });
-
 
 function generarPDFPackingList(variable) {
     var url = "../PackingList/InformePackingList?PackingId=" + PackingIdentificador + "&Fondo=" + variable;

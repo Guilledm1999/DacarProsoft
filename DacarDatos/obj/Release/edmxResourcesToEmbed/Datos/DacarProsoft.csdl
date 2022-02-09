@@ -176,6 +176,7 @@
     <EntitySet Name="TipoNormaPruebaLaboratorio" EntityType="DacarProsoftModel.TipoNormaPruebaLaboratorio" />
     <EntitySet Name="RutaInstalacionSoftware" EntityType="DacarProsoftModel.RutaInstalacionSoftware" />
     <EntitySet Name="PruebaLaboratorioCalidad" EntityType="DacarProsoftModel.PruebaLaboratorioCalidad" />
+    <EntitySet Name="AutorizacionPackingList" EntityType="DacarProsoftModel.AutorizacionPackingList" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1188,5 +1189,13 @@
     <Property Name="Observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="Calificacion" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="AutorizacionPackingList">
+    <Key>
+      <PropertyRef Name="AutorizacionPackingListId" />
+    </Key>
+    <Property Name="AutorizacionPackingListId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombres" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
   </EntityType>
 </Schema>

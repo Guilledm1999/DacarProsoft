@@ -40,6 +40,14 @@
     <Property Name="DescripcionAreaResponsable" Type="varchar" MaxLength="100" />
     <Property Name="CodigoArea" Type="int" />
   </EntityType>
+  <EntityType Name="AutorizacionPackingList">
+    <Key>
+      <PropertyRef Name="AutorizacionPackingListId" />
+    </Key>
+    <Property Name="AutorizacionPackingListId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombres" Type="varchar" MaxLength="255" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="Bodega">
     <Key>
       <PropertyRef Name="BodegaId" />
@@ -1000,6 +1008,7 @@
     <EntitySet Name="Accesos" EntityType="Self.Accesos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AnalisisRegistrosGarantias" EntityType="Self.AnalisisRegistrosGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AreaResponsableGarantias" EntityType="Self.AreaResponsableGarantias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AutorizacionPackingList" EntityType="Self.AutorizacionPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Bodega" EntityType="Self.Bodega" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CantonesEcuador" EntityType="Self.CantonesEcuador" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CausalesGarantias" EntityType="Self.CausalesGarantias" Schema="dbo" store:Type="Tables" />

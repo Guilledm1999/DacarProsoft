@@ -124,6 +124,9 @@
     <Compile Include="Datos\AreaResponsableGarantias.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\AutorizacionPackingList.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\Bodega.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
