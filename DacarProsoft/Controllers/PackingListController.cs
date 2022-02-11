@@ -748,7 +748,6 @@ namespace DacarProsoft.Controllers
             MemoryStream stream = new MemoryStream();
             PdfWriter writer = new PdfWriter(stream);
 
-            //var path = System.IO.Path.Combine(Server.MapPath("~/Images/DisenoPackingNew.png"));
             var path = System.IO.Path.Combine(Server.MapPath("~/Images/PackingNe.png"));
 
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path));
@@ -802,15 +801,12 @@ namespace DacarProsoft.Controllers
                 CantidadTotal = CantidadTotal + x.CantidadItem.Value;
             }
 
-
             document.Add(new Paragraph("\n"));
 
             Paragraph palletNumb = new Paragraph("" + palletNumber+"/"+CantidadPallet).SetFont(bold).SetFontSize(14).SetBorder(Border.NO_BORDER).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvasNumbP = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rectNumbP = new iText.Kernel.Geom.Rectangle(24, primerFila, 70, 24);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvasNumbP, pdf, rectNumbP)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvasNumbP, rectNumbP)
                     .Add(palletNumb);
             //canvasNumbP.Rectangle(rectNumbP);
             canvasNumbP.Stroke();
@@ -818,31 +814,23 @@ namespace DacarProsoft.Controllers
             Paragraph ParaPesoBruto = new Paragraph("" + PesoBruto+"kg").SetFontSize(13).SetFont(bold).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvasPb = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rectPb = new iText.Kernel.Geom.Rectangle(110, primerFila, 70, 24);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvasPb, pdf, rectPb)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvasPb, rectPb)
                     .Add(ParaPesoBruto);
             //canvasPb.Rectangle(rectPb);
             canvasPb.Stroke();
 
-
             Paragraph ParaPesoNeto = new Paragraph("" + PesoNeto + "kg").SetFontSize(13).SetFont(bold).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvasPn = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rectPn = new iText.Kernel.Geom.Rectangle(200, primerFila, 70, 24);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvasPn, pdf, rectPn)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvasPn, rectPn)
                     .Add(ParaPesoNeto);
             //canvasPn.Rectangle(rectPn);
             canvasPn.Stroke();
 
-
             Paragraph p = new Paragraph("" + Orden).SetFont(bold).SetFontSize(14).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvas = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rect = new iText.Kernel.Geom.Rectangle(170, segundaFila, 107, 35);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvas, pdf, rect)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvas, rect)
                     .Add(p);
             //canvas.Rectangle(rect);
             canvas.Stroke();
@@ -850,20 +838,15 @@ namespace DacarProsoft.Controllers
             Paragraph p2 = new Paragraph("" + Cliente).SetFont(bold).SetFontSize(9).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvas2 = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rect2 = new iText.Kernel.Geom.Rectangle(30, segundaFila, 110, 35);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvas2, pdf, rect2)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvas2, rect2)
                     .Add(p2);
             //canvas.Rectangle(rect2);
             canvas2.Stroke();
 
-
             Paragraph p3 = new Paragraph("" + Destino).SetFont(bold).SetFontSize(12).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvas3 = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rect3 = new iText.Kernel.Geom.Rectangle(170, tercerFila, 107, 42);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvas3, pdf, rect3)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvas3, rect3)
                     .Add(p3);
             //canvas.Rectangle(rect3);
             canvas3.Stroke();
@@ -871,9 +854,7 @@ namespace DacarProsoft.Controllers
             Paragraph p4 = new Paragraph("" + Origen).SetFont(bold).SetFontSize(12).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvas4 = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rect4 = new iText.Kernel.Geom.Rectangle(30, tercerFila, 110, 35);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvas4, pdf, rect4)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvas4, rect4)
                     .Add(p4);
             //canvas.Rectangle(rect4);
             canvas4.Stroke();
@@ -881,14 +862,10 @@ namespace DacarProsoft.Controllers
             Paragraph CantTotal = new Paragraph("" + CantidadTotal).SetFont(bold).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvasCantTotal = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rectCantTotal = new iText.Kernel.Geom.Rectangle(145, cuartaFila, 130, 23);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvasCantTotal, pdf, rectCantTotal)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvasCantTotal, rectCantTotal)
                     .Add(CantTotal);
             //canvas.Rectangle(rectCantTotal);
             canvasCantTotal.Stroke();
-
-
 
             float[] columnWidth = { 117, 52 };
             Table tabla = new Table(columnWidth);
@@ -916,26 +893,19 @@ namespace DacarProsoft.Controllers
                 j = j + 1;
             }
 
-    
-
             PdfCanvas canvasTabla1 = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rectTabla1 = new iText.Kernel.Geom.Rectangle(8, quintaFila, 135, 99);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvasTabla1, pdf, rectTabla1)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvasTabla1, rectTabla1)
             .Add(tabla);
             //canvasTabla1.Rectangle(rectTabla1);
             canvasTabla1.Stroke();
 
             PdfCanvas canvasTabla2 = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rectTabla2 = new iText.Kernel.Geom.Rectangle(145, quintaFila, 135, 99);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-            new Canvas(canvasTabla2, pdf, rectTabla2)
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+            new Canvas(canvasTabla2, rectTabla2)
             .Add(tabla2);
             //canvasTabla2.Rectangle(rectTabla2);
             canvasTabla2.Stroke();
-
 
             document.Close();
 
@@ -964,14 +934,11 @@ namespace DacarProsoft.Controllers
                 //GetLastContentStream page.NewContentStreamBefore()
                 pdfCanvas.SaveState();
 
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-                Canvas canvas = new Canvas(pdfCanvas, pdfDoc, page.GetPageSize());
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+                Canvas canvas = new Canvas(pdfCanvas, page.GetPageSize());
                 canvas.Add(imgBack.ScaleAbsolute(pageSize.GetWidth(), pageSize.GetHeight()));
 
                 pdfCanvas.RestoreState();
                 pdfCanvas.Release();
-
             }
         }
 
@@ -1003,10 +970,7 @@ namespace DacarProsoft.Controllers
                 PdfDocument pdfDoc = docEvent.GetDocument();
                 PdfPage page = docEvent.GetPage();
                 PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-                new Canvas(canvas, pdfDoc, new iText.Kernel.Geom.Rectangle(37, -3, page.GetPageSize().GetRight() - x, y)).
-
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+                new Canvas(canvas, new iText.Kernel.Geom.Rectangle(37, -3, page.GetPageSize().GetRight() - x, y)).
                     Add(getTable2(docEvent));
             }
             private Table getTable2(PdfDocumentEvent docEvent)
@@ -1024,7 +988,6 @@ namespace DacarProsoft.Controllers
 
                 cell = new Cell().SetHeight(82f).Add(imge.SetWidth(69).SetHeight(69).SetTextAlignment(TextAlignment.LEFT).AddStyle(styleCell)).SetBorder(Border.NO_BORDER);
                 //cell = new Cell().SetHeight(92f).Add(imge.SetAutoScale(true).SetTextAlignment(TextAlignment.LEFT).AddStyle(styleCell));
-
                 tablaEvent.AddCell(cell);
                 return tablaEvent;
             }
@@ -1138,13 +1101,34 @@ namespace DacarProsoft.Controllers
             PdfWriter writer = new PdfWriter(stream);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf, PageSize.A4, true);
-
             LineSeparator ls = new LineSeparator(new SolidLine());
+            //pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new FooterHandleEventFirmas(referencia,nombreAutorizado));
+            float[] cellWidth = { 20f, 20f };
+            Table tablaEvent = new Table(UnitValue.CreatePercentArray(3)).UseAllAvailableWidth();
 
+            Cell cell10 = new Cell().Add(new Paragraph("Produced by:"));
+            tablaEvent.AddCell(cell10.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell7 = new Cell().Add(new Paragraph(""));
+            tablaEvent.AddCell(cell7.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell2 = new Cell().Add(new Paragraph("Authorized by:"));
+            tablaEvent.AddCell(cell2.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell3 = new Cell().Add(new Paragraph("" + referencia));
+            tablaEvent.AddCell(cell3.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell8 = new Cell().Add(new Paragraph(""));
+            tablaEvent.AddCell(cell8.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell4 = new Cell().Add(new Paragraph("" + nombreAutorizado));
+            tablaEvent.AddCell(cell4.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell5 = new Cell().Add(new Paragraph("_________________________"));
+            tablaEvent.AddCell(cell5.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell9 = new Cell().Add(new Paragraph(""));
+            tablaEvent.AddCell(cell9.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell6 = new Cell().Add(new Paragraph("_________________________"));
+            tablaEvent.AddCell(cell6.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
 
-     
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaEvent));
 
-            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new FooterHandleEventFirmas(referencia,nombreAutorizado));
+            //float topMargin = 20 + tablaEvent.GetTableHeight();
+            document.SetMargins(112, 36, 130, 36);
 
             if (Fondo == "SI")
             {
@@ -1164,14 +1148,6 @@ namespace DacarProsoft.Controllers
 
             Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER)
               .SetFontSize(12).SetFontColor(ColorConstants.BLACK);
-
-            document.Add(Espacio);
-            document.Add(Espacio);
-            document.Add(Espacio);
-            document.Add(Espacio);
-            document.Add(Espacio);
-            document.Add(Espacio);
-            document.Add(Espacio);
 
             document.Add(header);
             //document.Add(ls);
@@ -1247,7 +1223,6 @@ namespace DacarProsoft.Controllers
 
                 if (palletDetalle.Count == 1)
                 {
-                    Console.WriteLine("Entro x verdadero y El pallet contiene" + pallet.Count);
                     foreach (var y in palletDetalle) {
                         tabla2.AddCell(new Cell().Add(new Paragraph("" + x.PalletNumber).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + y.DescriptionCode).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
@@ -1259,12 +1234,12 @@ namespace DacarProsoft.Controllers
                         tabla2.AddCell(new Cell().Add(new Paragraph("" + String.Format("{0:n}", x.PesoBruto)).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         tabla2.AddCell(new Cell().Add(new Paragraph("" + String.Format("{0:n}", x.PesoNeto)).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         totalUnidades = totalUnidades + y.CantidadItem.Value;
+                        
 
                     }
                 }
                 else
                 {
-                    Console.WriteLine("entro x falso y El pallet contiene" + pallet.Count);
                     int i = 1;
                     foreach (var y in palletDetalle)
                     {
@@ -1331,65 +1306,32 @@ namespace DacarProsoft.Controllers
                 PdfCanvas pdfCanvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
                 //GetLastContentStream page.NewContentStreamBefore()
                 pdfCanvas.SaveState();
-
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-                Canvas canvas = new Canvas(pdfCanvas, pdfDoc, page.GetPageSize());
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
-                canvas.Add(imgBack.ScaleAbsolute(pageSize.GetWidth(), pageSize.GetHeight()));
+                new Canvas(pdfCanvas, page.GetPageSize()).Add(imgBack.ScaleAbsolute(pageSize.GetWidth(), pageSize.GetHeight())).Close();
 
                 pdfCanvas.RestoreState();
                 pdfCanvas.Release();
 
             }
         }
-
-        public class FooterHandleEventFirmas : IEventHandler
+        private class TableFooterEventHandler : IEventHandler
         {
-            string firma1;
-            string firma2;
+            private Table table;
 
-            public FooterHandleEventFirmas(string Firma1, string Firma2)
+            public TableFooterEventHandler(Table table)
             {
-                firma1 = Firma1;
-                firma2 = Firma2;
+                this.table = table;
             }
-            public void HandleEvent(Event @event)
-            {      
-                PdfDocumentEvent docEvent = (PdfDocumentEvent)@event;
+
+            public void HandleEvent(Event currentEvent)
+            {
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)currentEvent;
                 PdfDocument pdfDoc = docEvent.GetDocument();
                 PdfPage page = docEvent.GetPage();
                 PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-                new Canvas(canvas, pdfDoc, new iText.Kernel.Geom.Rectangle(35, 45, page.GetPageSize().GetRight() - 55, 81)).
 
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
-                    Add(getTable2(docEvent));
-            }
-            private Table getTable2(PdfDocumentEvent docEvent)
-            {
-                float[] cellWidth = { 20f, 20f };
-                Table tablaEvent = new Table(UnitValue.CreatePercentArray(3)).UseAllAvailableWidth();
-
-                Cell cell = new Cell().Add(new Paragraph("Produced by:"));
-                tablaEvent.AddCell(cell.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
-                Cell cell7 = new Cell().Add(new Paragraph(""));
-                tablaEvent.AddCell(cell7.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
-                Cell cell2 = new Cell().Add(new Paragraph("Authorized by:"));
-                tablaEvent.AddCell(cell2.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
-                Cell cell3 = new Cell().Add(new Paragraph(""+firma1));
-                tablaEvent.AddCell(cell3.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
-                Cell cell8 = new Cell().Add(new Paragraph(""));
-                tablaEvent.AddCell(cell8.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
-                Cell cell4 = new Cell().Add(new Paragraph(""+firma2));
-                tablaEvent.AddCell(cell4.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
-                Cell cell5 = new Cell().Add(new Paragraph("_________________________"));
-                tablaEvent.AddCell(cell5.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
-                Cell cell9 = new Cell().Add(new Paragraph(""));
-                tablaEvent.AddCell(cell9.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
-                Cell cell6 = new Cell().Add(new Paragraph("_________________________"));
-                tablaEvent.AddCell(cell6.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
-             
-                return tablaEvent;
+                new Canvas(canvas, new iText.Kernel.Geom.Rectangle(35, 45, page.GetPageSize().GetRight() - 55, 81))
+                    .Add(table)
+                    .Close();
             }
         }
 
@@ -1417,6 +1359,8 @@ namespace DacarProsoft.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
+ 
+
     }
 }
 

@@ -155,10 +155,8 @@ function mostrarIngresosPallet() {
 }
 
 
-
-
 function generarInformePackingListPDF(modelo) {
-    if (modelo.DetalleIngresado == "NO" || modelo.PalletFaltantes == "Estado") {
+    if (modelo.DetalleIngresado == "NO" || modelo.Estado == "Incompleto") {
         $("#MensajePackingSinDetalle").show('fade');
         setTimeout(function () {
             $("#MensajePackingSinDetalle").fadeOut(1500);

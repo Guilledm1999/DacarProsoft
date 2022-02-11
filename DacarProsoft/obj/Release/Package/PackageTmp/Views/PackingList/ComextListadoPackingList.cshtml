@@ -51,7 +51,6 @@
                         <option value="2">Detalle no ingresado</option>
                     </select>
                 </div>
-
                 <div class="col-md-2">
                     <button class="btn btn-primary" onclick="ConsultarIngresosPacking()">
                         <i class="loading-icon fa fa-spinner fa-spin hide"></i>
@@ -95,17 +94,31 @@
             <button id="LinkClose10" type="button" class="close">&times;</button>
             <strong>El packing list aun no se puede imprimir porque faltan detalles por ingresar!</strong>
         </div>
-        <div class="loader">
-            <div class="dx-viewport">
-                <div class="demo-container">
-                    <div id="tblIngresosdePacking"></div>
-                </div>
-            </div>
 
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-1">
+
+                </div>
+                <div class="col-md-10">
+                    <div class="loader">
+                        <div class="dx-viewport">
+                            <div class="demo-container">
+                                <div id="tblIngresosdePacking"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-1">
+
+                </div>
+
+            </div>
         </div>
+  
     </div>
 </div>
-
 
 <div class="modal fade" id="ModalAfirmacionFondoPacking" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
