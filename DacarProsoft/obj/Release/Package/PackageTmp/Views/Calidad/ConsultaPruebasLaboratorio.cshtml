@@ -37,7 +37,7 @@
 <br />
 <div class="card shadow align-top">
     <div class="card-header">
-        <h2> Pruebas de Laboratorio Registradas</h2>
+        <h2> Registros de Pruebas de Laboratorio</h2>
     </div>
     <div class="card-body">
         <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
@@ -52,7 +52,25 @@
         <div class="loader">
             <div class="dx-viewport">
                 <div class="demo-container">
+                    <div class="options">
+                        @*<div class="caption">Promedios:</div>*@
+                        <div class="option">
+                            <div id="column-lines"></div>
+                        </div>
+                        @*
+            <div class="option">
+                <div id="row-lines"></div>
+            </div>
+            <div class="option">
+                <div id="show-borders"></div>
+            </div>
+            <div class="option">
+                <div id="row-alternation"></div>
+            </div>*@
+                    </div>
                     <div id="tblPruebasLaboratorioRegistrados"> </div>
+                    <button type="button" class="btn btn-primary" onclick="BotonPrueba();">Prueba</button>
+
                 </div>
             </div>
 

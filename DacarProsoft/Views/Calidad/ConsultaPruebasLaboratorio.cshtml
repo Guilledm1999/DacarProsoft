@@ -5,6 +5,7 @@
 }
 
 <style>
+
     .dx-datagrid {
         font: 12px Montserrat;
     }
@@ -29,15 +30,20 @@
     .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
         vertical-align: top;
     }
-
     #tblPruebasLaboratorioRegistrados {
         height: 700px;
+    }
+    .dx-header-filter::before {
+        color: dodgerblue;
+    }
+    .dx-header-filter-empty::before {
+        color: rgba(149, 149, 149, 0.5);
     }
 </style>
 <br />
 <div class="card shadow align-top">
     <div class="card-header">
-        <h2> Pruebas de Laboratorio Registradas</h2>
+        <h2> Registros de Pruebas de Laboratorio</h2>
     </div>
     <div class="card-body">
         <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
@@ -52,9 +58,32 @@
         <div class="loader">
             <div class="dx-viewport">
                 <div class="demo-container">
-                    <div id="tblPruebasLaboratorioRegistrados"> </div>
-                </div>
+                    <div class="options">
+                        @*<div class="caption">Promedios:</div>*@
+                        <div class="option">
+                            <div id="column-lines"></div>
+                        </div>
+                        @*
+            <div class="option">
+                <div id="row-lines"></div>
             </div>
+            <div class="option">
+                <div id="show-borders"></div>
+            </div>
+            <div class="option">
+                <div id="row-alternation"></div>
+            </div>*@
+                    </div>
+
+                    <div id="ContenidoDiv">
+                        <canvas id="myChart" style="width:100%;max-width:700px" hidden></canvas>
+                    </div>
+
+
+                    <div id="tblPruebasLaboratorioRegistrados"> </div>
+                    <button type="button" class="btn btn-primary" onclick="ChartResumenesGarantias();">Prueba</button>
+                </div>
+                </div>
 
         </div>
     </div>
@@ -131,3 +160,5 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>

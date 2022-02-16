@@ -84,26 +84,26 @@ namespace DacarProsoft.Datos
             }
         }
 
-        public List<SelectListItem> ModelosBateriasPorTipoVehiculo(int LineaVehiculo)
+        public List<SelectListItem> ModelosBateriasPorTipoVehiculo(string LineaVehiculo)
         {
 
             List<SelectListItem> lst = new List<SelectListItem>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
-                var Listado = (from d in DB.ModelosMarcasPropias
+                var Listado = (from d in DB.DatosTecnicosCalidadBaterias
                                where d.Linea == LineaVehiculo
                                select new
                                {
-                                   d.ModelosMarcasPropiasId,
-                                   d.Referencia
+                                   d.DatosTecnicosCalidadBateriasId,
+                                   d.Modelo
                                }).ToList();
 
                 foreach (var x in Listado)
                 {
                     lst.Add(new SelectListItem()
                     {
-                        Text = x.Referencia,
-                        Value = x.ModelosMarcasPropiasId.ToString()
+                        Text = x.Modelo,
+                        Value = x.DatosTecnicosCalidadBateriasId.ToString()
                     });
 
                 }

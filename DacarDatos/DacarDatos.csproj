@@ -193,6 +193,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DacarSap.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Datos\DatosTecnicosCalidadBaterias.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\DetalleGeneralPackingList.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>

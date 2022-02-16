@@ -32,16 +32,6 @@
             margin-right: 25px;
         }
 
-        /*.dropdown-toggle::after {
-           transition: transform 0.15s linear;
-        }
-
-        .show.dropdown .dropdown-toggle::after {
-          transform: translateY(3px);
-        }
-        .navbar-nav li:hover > ul.dropdown-menu {
-            display: block;
-        }*/
         .sidebar-nav {
             padding: 9px 0;
         }
@@ -91,7 +81,7 @@
         }
     </style>
 
-    <style>
+    @*<style>
 
         h7 {
             font-family: sans-serif;
@@ -116,40 +106,78 @@
         .active {
             background-color: #4CAF50;
         }
-    </style>
-    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
-    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>*@
+    </style>*@
+    <style>
+        .dropdown-menu > li /* Para evitar la selección de texto */ {
+            position: relative;
+            -webkit-user-select: none; /* Chrome/Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
+            /* Las reglas a continuación no están implementadas en los navegadores todavía */
+            -o-user-select: none;
+            user-select: none;
+            cursor: pointer;
+        }
 
+        .dropdown-menu .sub-menu {
+            left: 100%;
+            position: absolute;
+            top: 0;
+            display: none;
+            margin-top: -1px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-left-color: #fff;
+            box-shadow: none;
+        }
+
+        .right-caret:after, .left-caret:after {
+            content: "";
+            border-bottom: 5px solid transparent;
+            border-top: 5px solid transparent;
+            display: inline-block;
+            height: 0;
+            vertical-align: middle;
+            width: 0;
+            margin-left: 5px;
+        }
+
+        .right-caret:after {
+            border-left: 5px solid #ffaf46;
+        }
+
+        .left-caret:after {
+            border-right: 5px solid #ffaf46;
+        }
+
+    </style>
     <style>
         body {
-            background-color: #E1E1E1;
-            /*background-image: url('img_girl.jpg');
-                  background-image: url('../../Images/bg.jpg');
-        background-size: cover;
-          background-repeat: no-repeat;
-          background-position: center center;*/
+            background-color: #E1E1E1;        
         }
     </style>
+
 
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-        <a class="navbar-brand" href="../Principal/VistaPrincipal">
-            <img alt="Brand" src="~/Images/DacarProsoft.png" width="110" height="40">
+    @*<nav class="navbar navbar-expand-lg navbar-light bg-primary fix fixed-top">
+        <a href="@Url.Action("VistaPrincipal", "Principal")" title="List View" class="links">
+            <img alt="List View" src="@Url.Content("~/Images/DacarProsoft.png")" width="110" height="40">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
+            <ul class="nav navbar-nav">
+
                 @{ foreach (var x in men)
                     {
                         if (x.EstadoMenu != 0 && x.Estado != 0)
                         {
                             <li class="nav-item dropdown" id='dmenu'>
-                                <a class="nav-link dropdown-toggle" value="@x.MenuId" id="menuOp" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" value="@x.MenuId" id="menuOp" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <h7 class="font-italic" style="color:black"><strong> @x.Descripcion </strong> </h7>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="menuOp">
@@ -158,17 +186,22 @@
                                             if (@x.MenuId == @y.MenuId && @y.EstadoMenuOpciones != 0)
                                             {
                                                 <li>
-                                                    <a class="dropdown-item" href="@y.Url" value="@y.MenuId">@y.Descripcion</a>
-                                                    <ul class="dropdown-menu sub-menu">
+                                                    <a class="dropdown-item"  id="opc" href="@y.Url" value="@y.MenuId">@y.Descripcion</a>
+                                                    <ul class="dropdown-menu sub-menu" aria-labelledby="opc">
                                                         @{
+
                                                             foreach (var z in subMenuOp)
                                                             {
-                                                                if (@z.CodigoMenuOpciones == @y.MenuOpcionesId)
+                                                                if (subMenuOp.Count != 0)
                                                                 {
-                                                                    <li><a class="dropdown-item" href="@z.UrlSubmenuOpciones" value="@z.SubMenuOpcionesId">@z.NombreSubMenuOpciones</a></li>
+                                                                    if (@z.CodigoMenuOpciones == @y.MenuOpcionesId)
+                                                                    {
+                                                                        <li><a class="dropdown-item" href="@z.UrlSubmenuOpciones" value="@z.SubMenuOpcionesId">@z.NombreSubMenuOpciones</a></li>
 
+                                                                    }
                                                                 }
                                                             }
+
                                                         }
                                                     </ul>
 
@@ -183,7 +216,6 @@
                     }
 
                 }
-
             </ul>
         </div>
         <form class="form-inline my-2 my-lg-0">
@@ -192,7 +224,74 @@
                 <h7 style="color:#ffffff">Cerrar Sesión</h7>
             </a>
         </form>
-    </nav>
+    </nav>*@
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <a class="navbar-brand" href="../Principal/VistaPrincipal">
+                <img alt="Brand" src="~/Images/DacarProsoft.png" width="110" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    @{ foreach (var x in men)
+                        {
+                            if (x.EstadoMenu != 0 && x.Estado != 0)
+                            {
+                                <li class="nav-item dropdown" id='dmenu'>
+                                    <a class="nav-link dropdown-toggle" value="@x.MenuId" id="menuOp" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <h7 class="font-italic" style="color:black"><strong> @x.Descripcion </strong> </h7>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="menuOp">
+                                        @{ foreach (var y in sub)
+                                            {
+                                                if (@x.MenuId == @y.MenuId && @y.EstadoMenuOpciones != 0)
+                                                {
+                                                    <li>
+                                                        <a class="dropdown-item" href="@y.Url" value="@y.MenuId">@y.Descripcion</a>
+                                                        @foreach (var w in subMenuOp)
+                                                        {
+                                                            int i = 0;
+                                                            if (@y.MenuOpcionesId== @w.CodigoMenuOpciones && i==0) {
+                                                                i = i + 1;
+                                                                    <ul class="dropdown-menu sub-menu">
+                                                            @{
+                                                                foreach (var z in subMenuOp)
+                                                                {
+                                                                    if (@z.CodigoMenuOpciones == @y.MenuOpcionesId)
+                                                                    {
+                                                                        <li><a class="dropdown-item" href="@z.UrlSubmenuOpciones" value="@z.SubMenuOpcionesId">@z.NombreSubMenuOpciones</a></li>
+
+                                                                    }
+                                                        }
+                                                            }
+                                                        </ul>
+                                                            }
+
+                                                          
+                                                        }
+                                                    </li>
+                                                }
+                                            }
+                                        }
+                                    </ul>
+
+                                </li>
+                            }
+                        }
+
+                    }
+
+                </ul>
+            </div>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="nav-link" href="../Account/LogOut" id="CerrarSesion" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    <h7 style="color:#ffffff">Cerrar Sesión</h7>
+                </a>
+            </form>
+        </nav>
 
     <div class="container-fluid body-content">
         @RenderBody()

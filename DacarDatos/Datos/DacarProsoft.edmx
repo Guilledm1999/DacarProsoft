@@ -167,6 +167,30 @@
           <Property Name="Pass" Type="varchar" MaxLength="255" />
           <Property Name="Estado" Type="int" />
         </EntityType>
+        <EntityType Name="DatosTecnicosCalidadBaterias">
+          <Key>
+            <PropertyRef Name="DatosTecnicosCalidadBateriasId" />
+          </Key>
+          <Property Name="DatosTecnicosCalidadBateriasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Modelo" Type="varchar" MaxLength="255" />
+          <Property Name="CAP" Type="varchar" MaxLength="255" />
+          <Property Name="RC" Type="varchar" MaxLength="255" />
+          <Property Name="CCA" Type="varchar" MaxLength="255" />
+          <Property Name="CACeroGrados" Type="varchar" MaxLength="255" />
+          <Property Name="CCAMenosDiescochoExpo" Type="varchar" MaxLength="255" />
+          <Property Name="C20xDiseno" Type="varchar" MaxLength="255" />
+          <Property Name="CapResxDiseno" Type="varchar" MaxLength="255" />
+          <Property Name="CCAxDisenoSeparadorFibra" Type="varchar" MaxLength="255" />
+          <Property Name="CAxDisenoSeparadorFibra" Type="varchar" MaxLength="255" />
+          <Property Name="HCAxDisenoSeparadorFibra" Type="varchar" MaxLength="255" />
+          <Property Name="CCAxDisenoSeparadorPE" Type="varchar" MaxLength="255" />
+          <Property Name="CAxDisenoSeparadorPE" Type="varchar" MaxLength="255" />
+          <Property Name="HCAxDisenoSeparadorPE" Type="varchar" MaxLength="255" />
+          <Property Name="CantPlacas" Type="varchar" MaxLength="255" />
+          <Property Name="PesoSellada" Type="varchar" MaxLength="255" />
+          <Property Name="PesoHumedaKg" Type="varchar" MaxLength="255" />
+          <Property Name="Linea" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="DetalleGeneralPackingList">
           <Key>
             <PropertyRef Name="DetalleGeneralPackingListId" />
@@ -1024,6 +1048,7 @@
           <EntitySet Name="ClienteClase" EntityType="Self.ClienteClase" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClienteLinea" EntityType="Self.ClienteLinea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ControlCambios" EntityType="Self.ControlCambios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DatosTecnicosCalidadBaterias" EntityType="Self.DatosTecnicosCalidadBaterias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleGeneralPackingList" EntityType="Self.DetalleGeneralPackingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiasBusqueda" EntityType="Self.DiasBusqueda" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadosOrdenProduccion" EntityType="Self.EstadosOrdenProduccion" Schema="dbo" store:Type="Tables" />
@@ -1331,6 +1356,7 @@
           <EntitySet Name="RutaInstalacionSoftware" EntityType="DacarProsoftModel.RutaInstalacionSoftware" />
           <EntitySet Name="PruebaLaboratorioCalidad" EntityType="DacarProsoftModel.PruebaLaboratorioCalidad" />
           <EntitySet Name="AutorizacionPackingList" EntityType="DacarProsoftModel.AutorizacionPackingList" />
+          <EntitySet Name="DatosTecnicosCalidadBaterias" EntityType="DacarProsoftModel.DatosTecnicosCalidadBaterias" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -2352,6 +2378,30 @@
           <Property Name="Nombres" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Estado" Type="Boolean" />
         </EntityType>
+        <EntityType Name="DatosTecnicosCalidadBaterias">
+          <Key>
+            <PropertyRef Name="DatosTecnicosCalidadBateriasId" />
+          </Key>
+          <Property Name="DatosTecnicosCalidadBateriasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Modelo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CAP" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="RC" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CCA" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CACeroGrados" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CCAMenosDiescochoExpo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="C20xDiseno" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CapResxDiseno" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CCAxDisenoSeparadorFibra" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CAxDisenoSeparadorFibra" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HCAxDisenoSeparadorFibra" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CCAxDisenoSeparadorPE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CAxDisenoSeparadorPE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HCAxDisenoSeparadorPE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CantPlacas" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PesoSellada" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PesoHumedaKg" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Linea" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3206,6 +3256,31 @@
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Nombres" ColumnName="Nombres" />
                 <ScalarProperty Name="AutorizacionPackingListId" ColumnName="AutorizacionPackingListId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DatosTecnicosCalidadBaterias">
+            <EntityTypeMapping TypeName="DacarProsoftModel.DatosTecnicosCalidadBaterias">
+              <MappingFragment StoreEntitySet="DatosTecnicosCalidadBaterias">
+                <ScalarProperty Name="Linea" ColumnName="Linea" />
+                <ScalarProperty Name="PesoHumedaKg" ColumnName="PesoHumedaKg" />
+                <ScalarProperty Name="PesoSellada" ColumnName="PesoSellada" />
+                <ScalarProperty Name="CantPlacas" ColumnName="CantPlacas" />
+                <ScalarProperty Name="HCAxDisenoSeparadorPE" ColumnName="HCAxDisenoSeparadorPE" />
+                <ScalarProperty Name="CAxDisenoSeparadorPE" ColumnName="CAxDisenoSeparadorPE" />
+                <ScalarProperty Name="CCAxDisenoSeparadorPE" ColumnName="CCAxDisenoSeparadorPE" />
+                <ScalarProperty Name="HCAxDisenoSeparadorFibra" ColumnName="HCAxDisenoSeparadorFibra" />
+                <ScalarProperty Name="CAxDisenoSeparadorFibra" ColumnName="CAxDisenoSeparadorFibra" />
+                <ScalarProperty Name="CCAxDisenoSeparadorFibra" ColumnName="CCAxDisenoSeparadorFibra" />
+                <ScalarProperty Name="CapResxDiseno" ColumnName="CapResxDiseno" />
+                <ScalarProperty Name="C20xDiseno" ColumnName="C20xDiseno" />
+                <ScalarProperty Name="CCAMenosDiescochoExpo" ColumnName="CCAMenosDiescochoExpo" />
+                <ScalarProperty Name="CACeroGrados" ColumnName="CACeroGrados" />
+                <ScalarProperty Name="CCA" ColumnName="CCA" />
+                <ScalarProperty Name="RC" ColumnName="RC" />
+                <ScalarProperty Name="CAP" ColumnName="CAP" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="DatosTecnicosCalidadBateriasId" ColumnName="DatosTecnicosCalidadBateriasId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

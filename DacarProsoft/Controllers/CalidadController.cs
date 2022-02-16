@@ -149,7 +149,7 @@ namespace DacarProsoft.Controllers
         {
             daoCalidad = new DaoCalidad();
 
-            var cantones = daoCalidad.ModelosBateriasPorTipoVehiculo(id);
+            var cantones = daoCalidad.ModelosBateriasPorTipoVehiculo(id.ToString());
             return Json(new SelectList(cantones, "Value", "Text"));
         }
 
