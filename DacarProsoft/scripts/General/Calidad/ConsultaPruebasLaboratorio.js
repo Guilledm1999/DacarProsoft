@@ -118,7 +118,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                         }
                     },
                     {
-                        dataField: "CodigoIngreso", caption: "Codigo Ingreso", alignment: "right", allowHeaderFiltering: false, allowSearch: true, width: 100,
+                        dataField: "CodigoIngreso", caption: "Codigo Ingreso", alignment: "left", allowHeaderFiltering: true, allowSearch: true, width: 100,
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
@@ -389,8 +389,9 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "CCA",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioCCA").val(ValTotal);
                                     return  ValTotal;
                                 }
                             }
@@ -401,7 +402,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "DensidadPreAcondicionamiento",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -412,7 +413,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "TemperaturaPrueba",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -425,6 +426,8 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 2 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioPeso").val(ValTotal);
+
                                     return ValTotal;
                                 }
                             }
@@ -437,6 +440,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 2 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioVoltaje").val(ValTotal);
                                     return ValTotal;
                                 }
                             }
@@ -447,7 +451,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "DensidadIngreso",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -459,7 +463,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "TemperaturaIngreso",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -471,7 +475,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "DatoTeoricoPrueba",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -483,8 +487,9 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "ValorObjetivo",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtValorObjetivo").val(ValTotal);
                                     return ValTotal;
                                 }
                             }
@@ -495,8 +500,9 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "Calificacion",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioCalificacion").val(ValTotal);
                                     return ValTotal;
                                 }
                             }
@@ -510,6 +516,8 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 2 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioResultadoFinal").val(ValTotal);
+
                                     return ValTotal;
                                 }
                             }
@@ -630,7 +638,6 @@ function DescargarAnexo() {
 }
 
 function BotonPrueba() {
-    $("#ContenidoDiv").show();
     console.log("Entramos al boton");
     const filterExpr = $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getCombinedFilter(true);
     $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getDataSource()
@@ -643,6 +650,9 @@ function BotonPrueba() {
 }
 
 function ChartResumenesGarantias() {
+    $("#lblDetallePackingList").text("Analisis Pruebas Laboratorio - Modelo " + valor[0].Modelo);
+
+    $("#ModalInformeGrafica").modal("show");
 
     if (char != null) {
         char.destroy();
@@ -651,12 +661,16 @@ function ChartResumenesGarantias() {
 
     var nombre = [];
     var stock = [];
+    var stock2 = [];
+
     var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
     var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
 
     for (var i in valor) {
-        nombre.push(valor[i].DatoTeoricoPrueba);
-        stock.push(valor[i].CCA);
+        nombre.push(valor[i].CodigoIngreso);
+       // nombre.push(valor[i].DatoTeoricoPrueba);
+        stock.push(valor[i].ResultadoFinal);
+        stock2.push(valor[i].DatoTeoricoPrueba);
     }
 
     var chartdata = {
@@ -667,11 +681,22 @@ function ChartResumenesGarantias() {
             borderColor: color,
             borderWidth: 2,
             cubicInterpolationMode: 'monotone',
-            backgroundColor: 'rgba(209,234,163,0.5)',// Color de fondo
-            borderColor: 'rgba(209,234,163,1)',// Color del borde
+            backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
+            borderColor: 'rgba(7,59,251,0.5)',// Color del borde
             data: stock,
             fill: false
-        }]
+        },
+            {
+                label: 'Nominal',
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 2,
+                cubicInterpolationMode: 'monotone',
+                backgroundColor: 'rgba(251, 7, 7, 0.5)',// Color de fondo
+                borderColor: 'rgba(251, 7, 7, 0.5)',// Color del borde
+                data: stock2,
+                fill: false
+            }        ]
     };
 
     char = new Chart(ctx, {
@@ -682,20 +707,21 @@ function ChartResumenesGarantias() {
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true,
+                        stepSize: 5,
+                        //beginAtZero: true,
                         //max: 20,
-                        min: 0
+                    //    min: 0
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "CCA",
+                        labelString: "Resultados",
                         fontColor: "black"
                     }
                 }],
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "Dato Teorico Prueba",
+                        labelString: "Codigo Ingresos",
                         fontColor: "black"
                     }
                 }],
@@ -723,7 +749,7 @@ function ChartResumenesGarantias() {
             //},
             title: {
                 display: true,
-                text: 'Diagrama'
+                text: 'Tipo de ensayo '+valor[0].TipoEnsayo
             },
             //animation: {
             //    animateScale: true,
