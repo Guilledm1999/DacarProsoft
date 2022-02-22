@@ -1031,6 +1031,36 @@ namespace DacarProsoft.Datos
                 }
             }
         }
+        public bool ActualizarDetallePackingList(int PackingId, string Contenedor, DateTime fecha, string Reserva, string Factura, string Embarcacion, string IntercambioEir, string Referencias, string Productos)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var query = (from a in DB.DetalleGeneralPackingList
+                                 where a.PackingId == PackingId
+                                 select a).FirstOrDefault();
+
+                    query.ContenedorPackingList = Contenedor;
+                    query.FechaPackingList = fecha;
+                    query.ReservaPackingList = Reserva;
+                    query.FacturaPedido = Factura;
+                    query.EmbarcacionPackingList = Embarcacion;
+                    query.IntercambioEirPackingList = IntercambioEir;
+                    query.ReferenciasPackingList = Referencias;
+                    query.ProductosPackingList = Productos;
+
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
 
         public List<PalletPacking> ConsultarPalletPackingCompleto(int PackingId)
         {

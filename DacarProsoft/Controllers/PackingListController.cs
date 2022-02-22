@@ -1039,6 +1039,21 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public bool ActualizarDetallesPalletsPackingList(int PackingId, string Contenedor, DateTime fecha, string Reserva, string Factura, string Embarcacion, string IntercambioEir, string Referencias, string Productos)
+        {
+            try
+            {
+                daoPackilist = new DaoPackingList();
+
+                var Result = daoPackilist.ActualizarDetallePackingList(PackingId, Contenedor, fecha, Reserva, Factura, Embarcacion, IntercambioEir, Referencias, Productos);
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
 
         public JsonResult DetallesGeneralesPalletsPackingList(int PackingId)
         {
@@ -1183,34 +1198,34 @@ namespace DacarProsoft.Controllers
 
             Cell cell = new Cell(2, 1)
            .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
-           .Add(new Paragraph("Pallet #").SetFontSize(8)).SetBold().SetHeight(16f).SetBorder(new SolidBorder(lineColor, 1));
+           .Add(new Paragraph("Pallet #").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell);
             cell = new Cell(2, 2)
             .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
-           .Add(new Paragraph("Description").SetFontSize(8)).SetBold().SetHeight(16f).SetBorder(new SolidBorder(lineColor, 1));
+           .Add(new Paragraph("Description").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell);
             cell = new Cell(2, 1)
            .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
-          .Add(new Paragraph("Quantity").SetFontSize(8)).SetBold().SetHeight(16f).SetBorder(new SolidBorder(lineColor, 1));
+          .Add(new Paragraph("Quantity").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell);
             cell = new Cell(1, 3)
            .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
-          .Add(new Paragraph("Dimensions(m)").SetFontSize(8)).SetBold().SetHeight(16f).SetBorder(new SolidBorder(lineColor, 1));
+          .Add(new Paragraph("Dimensions(m)").SetFontSize(8)).SetBold().SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetHeight(16f).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell);
             cell = new Cell(2, 1)
           .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
-          .Add(new Paragraph().Add("Volume\n(m³)").SetFontSize(8)).SetBold().SetHeight(16f).SetBorder(new SolidBorder(lineColor, 1));
+          .Add(new Paragraph().Add("Volume\n(m³)").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell.SetHeight(23f));
 
             cell = new Cell(1, 2)
           .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
-         .Add(new Paragraph("Weight(kg)").SetFontSize(8)).SetBold().SetHeight(16f).SetBorder(new SolidBorder(lineColor, 1));
+         .Add(new Paragraph("Weight(kg)").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell);
-            tabla2.AddCell(new Cell().Add(new Paragraph("Length").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().Add(new Paragraph("Width").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().Add(new Paragraph("Height").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().Add(new Paragraph("Gross").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().Add(new Paragraph("Net").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().Add(new Paragraph("Length").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().Add(new Paragraph("Width").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().Add(new Paragraph("Height").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().Add(new Paragraph("Gross").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().Add(new Paragraph("Net").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
 
             float[] columnWidth3 = { 52f, 52f, 52f, 52f, 52f, 52f, 52f, 52f, 52f, 52f };
             Table tabla3 = new Table(columnWidth3);
@@ -1267,7 +1282,7 @@ namespace DacarProsoft.Controllers
                 }
             }
             tabla2.AddCell(new Cell(1, 3).Add(new Paragraph("Total").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + totalUnidades).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + String.Format("{0:n0}", totalUnidades)).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell(1, 3).Add(new Paragraph("").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + totalVolumen + (" m³")).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + String.Format("{0:n}", totalPBruto) + (" kg")).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));

@@ -1,7 +1,9 @@
 ﻿var valor = null;
 var temp = null;
-$(document).ready(function () {
+var valor = null;
+var char;
 
+$(document).ready(function () {
     ConsultaRegistrosPruebasLaboratorio();
 });
 
@@ -116,7 +118,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                         }
                     },
                     {
-                        dataField: "CodigoIngreso", caption: "Codigo Ingreso", alignment: "right", allowHeaderFiltering: false, allowSearch: true, width: 100,
+                        dataField: "CodigoIngreso", caption: "Codigo Ingreso", alignment: "left", allowHeaderFiltering: true, allowSearch: true, width: 100,
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
@@ -387,8 +389,9 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "CCA",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioCCA").val(ValTotal);
                                     return  ValTotal;
                                 }
                             }
@@ -399,7 +402,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "DensidadPreAcondicionamiento",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -410,7 +413,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "TemperaturaPrueba",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -423,6 +426,8 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 2 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioPeso").val(ValTotal);
+
                                     return ValTotal;
                                 }
                             }
@@ -435,6 +440,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 2 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioVoltaje").val(ValTotal);
                                     return ValTotal;
                                 }
                             }
@@ -445,7 +451,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "DensidadIngreso",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -457,7 +463,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "TemperaturaIngreso",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -469,7 +475,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "DatoTeoricoPrueba",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     return ValTotal;
                                 }
@@ -481,8 +487,9 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "ValorObjetivo",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtValorObjetivo").val(ValTotal);
                                     return ValTotal;
                                 }
                             }
@@ -493,8 +500,9 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "Calificacion",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioCalificacion").val(ValTotal);
                                     return ValTotal;
                                 }
                             }
@@ -508,28 +516,18 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 2 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtPromedioResultadoFinal").val(ValTotal);
+
                                     return ValTotal;
                                 }
                             }
                         },
                     ],
-                }, onRowUpdating: function (e) {
-                    console.log("on row updating");
-                    //startUpdating = true;
-                },
+                }, 
                 onContentReady: function (e) {
-                    console.log("onContentReady");
-                    //if (startUpdating) {
-                    //    startUpdating = false;
-                    //    document.getElementById("BtnregistrarPallet").disabled = false;
-                    //}
-                }, onEditorPreparing: function (e) {
-                    console.log("onEditor");
-                    //e.editorOptions.onValueChanged = function (arg) {
-                    //    document.getElementById("BtnregistrarPallet").disabled = true;
-                    //    e.setValue(arg.value);
-                    //}
-                },
+
+                    BotonPrueba();             
+                }, 
             });
         },
         error: function (msg) {
@@ -573,7 +571,6 @@ function RegistrarNuevoAnexo() {
         data:
             formdata,
         success: function (msg) {
-            console.log("retorna:" + msg);
             if (msg == "True") {
                 $("#ModalAnexosIngreso").modal("hide");
                 $("#txtRegistrarAnexos").val("");
@@ -636,12 +633,208 @@ function ModalObtenerRutaAnexos(valor) {
 function DescargarAnexo() {
     $("#ModalAnexos").modal("hide");
     var valor = $("#txtAnexoDesc option:selected").val();
-    console.log(valor);
     window.open(valor);
 }
 
 function BotonPrueba() {
-    console.log("Entramos al boton");
-    console.log(temp);
+    const filterExpr = $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getCombinedFilter(true);
+    $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getDataSource()
+        .store()
+        .load({ filter: filterExpr })
+        .then((result) => {
+            valor = result;
+            console.log(result);
+        }); 
+}
+
+function ChartResumenesGarantias() {
+    // encontrar solucion para que solo se pueda sacar detalles de una sola bateria
+    var comprobador = null;
+    for (var i in valor.sort()) {
+        if (valor[0].Modelo == valor[i].Modelo) {
+            comprobador = 1;
+        } else {
+            comprobador == 2;
+        }
+    }
+    console.log("Comprobador:" + comprobador);
+
+    if (comprobador == 2) {
+        $("#MensajeErrorGeneral").show('fade');
+        setTimeout(function () {
+            $("#MensajeErrorGeneral").fadeOut(1500);
+        }, 3000); return;
+    }
+    if (comprobador==1) {
+        $("#lblDetallePackingList").text("Analisis Pruebas Laboratorio - Modelo " + valor[0].Modelo);
+
+        $("#ModalInformeGrafica").modal("show");
+
+        if (char != null) {
+            char.destroy();
+        }
+        var ctx = $("#myChart")
+
+        var nombre = [];
+        var stock = [];
+        var stock2 = [];
+
+        var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
+        var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
+
+        if (valor[0].TipoEnsayo == "CAP") {
+            console.log("CAP");
+            $.ajax({
+                type: 'POST',
+                url: "../Calidad/ConsultarValorTipoDePrueba",
+                dataType: 'json',
+                data: { modelo: valor[0].Modelo, valor: 1 },
+                success: function (result) {
+                    for (var i in valor) {
+                        nombre.push(valor[i].CodigoIngreso);
+                        stock.push(valor[i].ResultadoFinal);
+                        //stock2.push(valor[i].DatoTeoricoPrueba);
+                        stock2.push(result);
+
+                    }
+                },
+            })
+
+        }
+        if (valor[0].TipoEnsayo == "RC") {
+            console.log("RC");
+
+            $.ajax({
+                type: 'POST',
+                url: "../Calidad/ConsultarValorTipoDePrueba",
+                dataType: 'json',
+                data: { modelo: valor[0].Modelo, valor: 3 },
+                success: function (result) {
+                    for (var i in valor) {
+                        nombre.push(valor[i].CodigoIngreso);
+                        stock.push(valor[i].ResultadoFinal);
+                        stock2.push(result);
+                    }
+                },
+            })
+
+        }
+        if (valor[0].TipoEnsayo == "CCA") {
+            console.log("CCA");
+
+            $.ajax({
+                type: 'POST',
+                url: "../Calidad/ConsultarValorTipoDePrueba",
+                dataType: 'json',
+                data: { modelo: valor[0].Modelo, valor: 3 },
+                success: function (result) {
+                    for (var i in valor) {
+                        nombre.push(valor[i].CodigoIngreso);
+                        stock.push(valor[i].CCA);
+                        stock2.push(result);
+                    }
+                },
+            })
+
+        }
+        if (valor[0].TipoEnsayo == "CICLOS") {
+            console.log("CICLOS");
+            for (var i in valor) {
+                nombre.push(valor[i].CodigoIngreso);
+                stock.push(valor[i].ResultadoFinal);
+                stock2.push(valor[i].ValorObjetivo);
+            }
+
+        }
+
+
+        var chartdata = {
+            labels: nombre,
+            datasets: [{
+                label: 'Resultado',
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 2,
+                cubicInterpolationMode: 'monotone',
+                backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
+                borderColor: 'rgba(7,59,251,0.5)',// Color del borde
+                data: stock,
+                fill: false
+            },
+            {
+                label: 'Nominal',
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 2,
+                cubicInterpolationMode: 'monotone',
+                backgroundColor: 'rgba(251, 7, 7, 0.5)',// Color de fondo
+                borderColor: 'rgba(251, 7, 7, 0.5)',// Color del borde
+                data: stock2,
+                fill: false
+            }]
+        };
+
+        char = new Chart(ctx, {
+            type: "line",
+            data: chartdata,
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            stepSize: 5,
+                            //beginAtZero: true,
+                            //max: 20,
+                            //    min: 0
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Resultados",
+                            fontColor: "black"
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Codigo Ingresos",
+                            fontColor: "black"
+                        }
+                    }],
+
+
+                },
+                interaction: {
+                    intersect: false,
+                },
+                //scales: {
+                //    yAxes: [{
+                //        ticks: {
+                //            beginAtZero: true,
+                //            //max: 20,
+                //            min: 0
+                //        }
+                //    }]
+                //},
+                //tooltip: {
+                //    valueDecimals: 0
+                //},
+                // responsive: true,
+                //legend: {
+                //    position: 'bottom',
+                //},
+                title: {
+                    display: true,
+                    text: 'Tipo de ensayo ' + valor[0].TipoEnsayo
+                },
+                //animation: {
+                //    animateScale: true,
+                //    animateRotate: true
+                //}
+            }
+            //options: {
+            //    legend: { display: false }
+            //}
+        });
+    }
 
 }

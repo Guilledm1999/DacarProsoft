@@ -395,5 +395,30 @@ namespace DacarProsoft.Controllers
             }
         }
 
+        public String ConsultarValorTipoDePrueba(string modelo, int valor)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                string result="";
+                if (valor == 1) { 
+                    result = daoCalidad.ObtenerCapBateria(modelo);
+                }
+                if (valor == 2)
+                {
+                    result = daoCalidad.ObtenerCCABateria(modelo);
+                }
+                if (valor == 3)
+                {
+                    result = daoCalidad.ObtenerRcBateria(modelo);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
     }
 }

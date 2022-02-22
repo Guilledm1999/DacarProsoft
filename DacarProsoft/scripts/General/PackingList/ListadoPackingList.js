@@ -65,7 +65,12 @@ function mostrarIngresosPallet() {
                      ConfigDev.headerFilter = { visible: true },
                    ConfigDev.columnFixing = {
                        enabled: true
-                   },
+                     },
+                     ConfigDev.searchPanel= {
+                     visible: true,
+                         width: 240,
+                             placeholder: "Buscar..."
+                 },
                  ConfigDev.columns = [
                      { dataField: "PackingId", visible: false },
                        {
@@ -97,11 +102,15 @@ function mostrarIngresosPallet() {
                        },
                       {
                           caption: "Acciones",
-                          cellTemplate: function (container, options) {                            
-                              var btEliminar = "<i class='fas fa-trash-alt' onclick=" + "'EliminarPackingCompl(" + JSON.stringify(options.data) + ")'> </i>";
-                              var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarPalletsIngresado(" + JSON.stringify(options.data) + ")'>Pallets</button>";
+                          cellTemplate: function (container, options) {
+                              var btEliminar = "<a style='box-shadow: 2px 2px 5px #FB0716 inset' onclick='EliminarPackingCompl(" + JSON.stringify(options.data) + ")'>Eliminar</a>";
+                              var btnDetalle = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ModalConsultarPalletsIngresado(" + JSON.stringify(options.data) + ")'>Pallets</a>";
+                              var btnPackingList = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ConsultaEstado(" + JSON.stringify(options.data) + ")'>Ingreso Pallets</a>";
+
+                              //var btEliminar = "<i class='fas fa-trash-alt' onclick=" + "'EliminarPackingCompl(" + JSON.stringify(options.data) + ")'> </i>";
+                              //var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarPalletsIngresado(" + JSON.stringify(options.data) + ")'>Pallets</button>";
                               var lblEspacio = "<a> </a>"
-                              var btnPackingList = "<button class='btn-warning' onclick='ConsultaEstado(" + JSON.stringify(options.data) + ")'>Ingreso Pallets</button>";
+                              //var btnPackingList = "<button class='btn-warning' onclick='ConsultaEstado(" + JSON.stringify(options.data) + ")'>Ingreso Pallets</button>";
 
                               $("<div>")
                                   .append($(btnDetalle), $(lblEspacio), $(btnPackingList), $(lblEspacio), $(btEliminar))
@@ -179,10 +188,14 @@ function ModalConsultarPalletsIngresado(modelo) {
 
                         cellTemplate: function (container, options) {
 
-                            var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarDetallePalletIngresado(" + JSON.stringify(options.data) + ")'>Detalle</button>";
+                            //var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarDetallePalletIngresado(" + JSON.stringify(options.data) + ")'>Detalle</button>";
                             var lblEspacio = "<a> </a>"
-                            var btnPackingList = "<button class='btn-warning' onclick='ConsultarEtiqueta(" + JSON.stringify(options.data) + ")'>Imprimir</button>";
-                            var btnEliminar = "<i class='fas fa-trash-alt' onclick='EliminarPallet(" + JSON.stringify(options.data) + ")'> </i>";
+                            //var btnPackingList = "<button class='btn-warning' onclick='ConsultarEtiqueta(" + JSON.stringify(options.data) + ")'>Imprimir</button>";
+                            var btnEliminar = "<a style='box-shadow: 2px 2px 5px #FB0716 inset' onclick='EliminarPallet(" + JSON.stringify(options.data) + ")'>Eliminar</a>";
+                            var btnDetalle = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ModalConsultarDetallePalletIngresado(" + JSON.stringify(options.data) + ")'>Detalle</a>";
+                            var btnPackingList = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ConsultarEtiqueta(" + JSON.stringify(options.data) + ")'>Imprimir</a>";
+
+                            //var btnEliminar = "<i class='fas fa-trash-alt' onclick='EliminarPallet(" + JSON.stringify(options.data) + ")'> </i>";
 
                             $("<div>")
                                 .append($(btnDetalle), $(lblEspacio), $(btnPackingList), $(lblEspacio), $(btnEliminar))
@@ -459,6 +472,11 @@ $('#LinkClose11').on("click", function (e) {
 $('#LinkClose12').on("click", function (e) {
     $("#MensajeEliminacionIncorecta").hide('fade');
 });
+$('#LinkClose13').on("click", function (e) {
+    $("#MensajeActualizado").hide('fade');
+});
+
+
 function IngresoNuevoPacking(modelo) {
     document.getElementById("RegistrarPallet").disabled = true;
     var startUpdating = false;
@@ -712,18 +730,19 @@ function GenerarQr() {
 
 $('#DetallePackingList').on("click", function (e) {
     if (IngresoDetallePacking == "SI") {
-        $('#txtContenedorPackingList').attr("readonly", true);
-        $('#txtFechaPacking').attr("readonly", true);
-        $('#txtBookingPacking').attr("readonly", true);
-        $('#txtFacturaPackingList').attr("readonly", true);
-        $('#txtEmbarcacionPackingList').attr("readonly", true);
-        $("#txtIntercambioEirPackingList").attr("readonly", true);
-        $("#txtReferenciaPackingList").attr("readonly", true);
-        $('#txtProductosPackingList').attr("readonly", true);
+        $('#txtContenedorPackingList').attr("readonly", false);
+        $('#txtFechaPacking').attr("readonly", false);
+        $('#txtBookingPacking').attr("readonly", false);
+        $('#txtFacturaPackingList').attr("readonly", false);
+        $('#txtEmbarcacionPackingList').attr("readonly", false);
+        $("#txtIntercambioEirPackingList").attr("readonly", false);
+        $("#txtReferenciaPackingList").attr("readonly", false);
+        $('#txtProductosPackingList').attr("readonly", false);
         $("#txtNombreDelCliente").attr("readonly", true);
         $("#txtPedidoPackingList").attr("readonly", true);
         document.getElementById('RegistrarDetallePackingList').disabled = true;
         document.getElementById('ImprimirRegistroPackingList').disabled = false;
+        document.getElementById('ActualizarDetallePackingList').disabled = false;
 
 
     } else {
@@ -739,6 +758,7 @@ $('#DetallePackingList').on("click", function (e) {
         $("#txtPedidoPackingList").attr("readonly", false);
         document.getElementById('RegistrarDetallePackingList').disabled = false;
         document.getElementById('ImprimirRegistroPackingList').disabled = true;
+        document.getElementById('ActualizarDetallePackingList').disabled = true;
 
 
     }
@@ -904,7 +924,7 @@ function RegistrarDetallePackingListGeneral() {
         url: "../PackingList/GuardarDetallesPalletsPackingList",
         type: "POST",
         data: {
-            PackingId: PackingIdentificador, Cliente: $('#txtNombreDelCliente').val(), Contenedor: $('#txtContenedorPackingList').val(), fecha: $('#txtFechaPacking').val(), Reserva: $('#txtBookingPacking').val(), Factura: $('#txtFacturaPackingList').val(), Pedido: $('#txtPedidoPackingList').val(),
+            PackingId: PackingIdentificador, Contenedor: $('#txtContenedorPackingList').val(), fecha: $('#txtFechaPacking').val(), Reserva: $('#txtBookingPacking').val(), Factura: $('#txtFacturaPackingList').val(),
             Embarcacion: $('#txtEmbarcacionPackingList').val(), IntercambioEir: $("#txtIntercambioEirPackingList").val(), Referencias: $("#txtReferenciaPackingList").val(), Productos: $('#txtProductosPackingList').val()
         }, success: function (e) {
             ConsultarIngresosPacking();
@@ -914,6 +934,36 @@ function RegistrarDetallePackingListGeneral() {
             $("#MensajeGuardado").show('fade');
             setTimeout(function () {
                 $("#MensajeGuardado").fadeOut(1500);
+            }, 3000);
+        },
+        error: function (msg) {
+            $("#MensajeErrorGuardado").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorGaurdado").fadeOut(1500);
+            }, 3000);
+        }
+    })
+}
+
+$('#ActualizarDetallePackingList').on("click", function (e) {
+    ActualizarDetallePackingListGeneral();
+});
+
+function ActualizarDetallePackingListGeneral() {
+    $.ajax({
+        url: "../PackingList/ActualizarDetallesPalletsPackingList",
+        type: "POST",
+        data: {
+            PackingId: PackingIdentificador, Cliente: $('#txtNombreDelCliente').val(), Contenedor: $('#txtContenedorPackingList').val(), fecha: $('#txtFechaPacking').val(), Reserva: $('#txtBookingPacking').val(), Factura: $('#txtFacturaPackingList').val(), Pedido: $('#txtPedidoPackingList').val(),
+            Embarcacion: $('#txtEmbarcacionPackingList').val(), IntercambioEir: $("#txtIntercambioEirPackingList").val(), Referencias: $("#txtReferenciaPackingList").val(), Productos: $('#txtProductosPackingList').val()
+        }, success: function (e) {
+            ConsultarIngresosPacking();
+            $("#ModalDetallePackingList").modal("hide");
+            $("#ModalListadoDePallets").modal("hide");
+
+            $("#MensajeActulalizacionCorrecta").show('fade');
+            setTimeout(function () {
+                $("#MensajeActulalizacionCorrecta").fadeOut(1500);
             }, 3000);
         },
         error: function (msg) {

@@ -19,6 +19,12 @@ $('#LinkClose3').on("click", function (e) {
 $('#LinkClose4').on("click", function (e) {
     $("#MensajeSinAnexos").hide('fade');
 });
+$('#LinkClose5').on("click", function (e) {
+    $("#MensajeDobleModelo").hide('fade');
+});
+$('#LinkClose6').on("click", function (e) {
+    $("#MensajeDobleTipoEnsayo").hide('fade');
+});
 
 function ConsultaRegistrosPruebasLaboratorio() {
     $.ajax({
@@ -571,7 +577,6 @@ function RegistrarNuevoAnexo() {
         data:
             formdata,
         success: function (msg) {
-            console.log("retorna:" + msg);
             if (msg == "True") {
                 $("#ModalAnexosIngreso").modal("hide");
                 $("#txtRegistrarAnexos").val("");
@@ -638,54 +643,129 @@ function DescargarAnexo() {
 }
 
 function BotonPrueba() {
-    console.log("Entramos al boton");
     const filterExpr = $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getCombinedFilter(true);
     $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getDataSource()
         .store()
         .load({ filter: filterExpr })
         .then((result) => {
             valor = result;
-            console.log(result);
-        });
+        }); 
 }
 
 function ChartResumenesGarantias() {
-    $("#lblDetallePackingList").text("Analisis Pruebas Laboratorio - Modelo " + valor[0].Modelo);
 
-    $("#ModalInformeGrafica").modal("show");
+    const valorModel = valor.find(element => element.Modelo != valor[0].Modelo);
+    const valorEnsayo = valor.find(element => element.TipoEnsayo != valor[0].TipoEnsayo);
 
-    if (char != null) {
-        char.destroy();
+
+    if (valorModel != null) {
+        $("#MensajeDobleModelo").show('fade');
+        setTimeout(function () {
+            $("#MensajeDobleModelo").fadeOut(1500);
+        }, 3000); return;
     }
-    var ctx = $("#myChart")
+    else {
+        if (valorEnsayo != null) {
+            $("#MensajeDobleTipoEnsayo").show('fade');
+            setTimeout(function () {
+                $("#MensajeDobleTipoEnsayo").fadeOut(1500);
+            }, 3000); return;
+        } else { 
 
-    var nombre = [];
-    var stock = [];
-    var stock2 = [];
+        $("#lblDetallePackingList").text("Analisis Pruebas Laboratorio - Modelo " + valor[0].Modelo);
 
-    var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
-    var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
+        $("#ModalInformeGrafica").modal("show");
 
-    for (var i in valor) {
-        nombre.push(valor[i].CodigoIngreso);
-       // nombre.push(valor[i].DatoTeoricoPrueba);
-        stock.push(valor[i].ResultadoFinal);
-        stock2.push(valor[i].DatoTeoricoPrueba);
-    }
+        if (char != null) {
+            char.destroy();
+        }
+        var ctx = $("#myChart")
 
-    var chartdata = {
-        labels: nombre,
-        datasets: [{
-            label: 'Resultado',
-            backgroundColor: color,
-            borderColor: color,
-            borderWidth: 2,
-            cubicInterpolationMode: 'monotone',
-            backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
-            borderColor: 'rgba(7,59,251,0.5)',// Color del borde
-            data: stock,
-            fill: false
-        },
+        var nombre = [];
+        var stock = [];
+        var stock2 = [];
+
+        var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
+        var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
+
+        if (valor[0].TipoEnsayo == "CAP") {
+            console.log("CAP");
+            $.ajax({
+                type: 'POST',
+                url: "../Calidad/ConsultarValorTipoDePrueba",
+                dataType: 'json',
+                data: { modelo: valor[0].Modelo, valor: 1 },
+                success: function (result) {
+                    for (var i in valor) {
+                        nombre.push(valor[i].CodigoIngreso);
+                        stock.push(valor[i].ResultadoFinal);
+                        //stock2.push(valor[i].DatoTeoricoPrueba);
+                        stock2.push(result);
+
+                    }
+                },
+            })
+        }
+        if (valor[0].TipoEnsayo == "RC") {
+            console.log("RC");
+
+            $.ajax({
+                type: 'POST',
+                url: "../Calidad/ConsultarValorTipoDePrueba",
+                dataType: 'json',
+                data: { modelo: valor[0].Modelo, valor: 3 },
+                success: function (result) {
+                    for (var i in valor) {
+                        nombre.push(valor[i].CodigoIngreso);
+                        stock.push(valor[i].ResultadoFinal);
+                        stock2.push(result);
+                    }
+                },
+            })
+
+        }
+        if (valor[0].TipoEnsayo == "CCA") {
+            console.log("CCA");
+
+            $.ajax({
+                type: 'POST',
+                url: "../Calidad/ConsultarValorTipoDePrueba",
+                dataType: 'json',
+                data: { modelo: valor[0].Modelo, valor: 3 },
+                success: function (result) {
+                    for (var i in valor) {
+                        nombre.push(valor[i].CodigoIngreso);
+                        stock.push(valor[i].CCA);
+                        stock2.push(result);
+                    }
+                },
+            })
+
+        }
+        if (valor[0].TipoEnsayo == "CICLOS") {
+            console.log("CICLOS");
+            for (var i in valor) {
+                nombre.push(valor[i].CodigoIngreso);
+                stock.push(valor[i].ResultadoFinal);
+                stock2.push(valor[i].ValorObjetivo);
+            }
+
+        }
+
+
+        var chartdata = {
+            labels: nombre,
+            datasets: [{
+                label: 'Resultado',
+                backgroundColor: color,
+                borderColor: color,
+                borderWidth: 2,
+                cubicInterpolationMode: 'monotone',
+                backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
+                borderColor: 'rgba(7,59,251,0.5)',// Color del borde
+                data: stock,
+                fill: false
+            },
             {
                 label: 'Nominal',
                 backgroundColor: color,
@@ -696,68 +776,71 @@ function ChartResumenesGarantias() {
                 borderColor: 'rgba(251, 7, 7, 0.5)',// Color del borde
                 data: stock2,
                 fill: false
-            }        ]
-    };
+            }]
+        };
 
-    char = new Chart(ctx, {
-        type: "line",
-        data: chartdata,
-        options: {
-            responsive: true,
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        stepSize: 5,
-                        //beginAtZero: true,
-                        //max: 20,
-                    //    min: 0
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Resultados",
-                        fontColor: "black"
-                    }
-                }],
-                xAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Codigo Ingresos",
-                        fontColor: "black"
-                    }
-                }],
-            
-              
-            },
-            interaction: {
-                intersect: false,
-            },
-            //scales: {
-            //    yAxes: [{
-            //        ticks: {
-            //            beginAtZero: true,
-            //            //max: 20,
-            //            min: 0
-            //        }
-            //    }]
-            //},
-            //tooltip: {
-            //    valueDecimals: 0
-            //},
-            // responsive: true,
-            //legend: {
-            //    position: 'bottom',
-            //},
-            title: {
-                display: true,
-                text: 'Tipo de ensayo '+valor[0].TipoEnsayo
-            },
-            //animation: {
-            //    animateScale: true,
-            //    animateRotate: true
+        char = new Chart(ctx, {
+            type: "line",
+            data: chartdata,
+            options: {
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            stepSize: 5,
+                            //beginAtZero: true,
+                            //max: 20,
+                            //    min: 0
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Resultados",
+                            fontColor: "black"
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Codigo Ingresos",
+                            fontColor: "black"
+                        }
+                    }],
+
+
+                },
+                interaction: {
+                    intersect: false,
+                },
+                //scales: {
+                //    yAxes: [{
+                //        ticks: {
+                //            beginAtZero: true,
+                //            //max: 20,
+                //            min: 0
+                //        }
+                //    }]
+                //},
+                //tooltip: {
+                //    valueDecimals: 0
+                //},
+                // responsive: true,
+                //legend: {
+                //    position: 'bottom',
+                //},
+                title: {
+                    display: true,
+                    text: 'Tipo de ensayo ' + valor[0].TipoEnsayo
+                },
+                //animation: {
+                //    animateScale: true,
+                //    animateRotate: true
+                //}
+            }
+            //options: {
+            //    legend: { display: false }
             //}
-        }
-        //options: {
-        //    legend: { display: false }
-        //}
-    });
+        });
+    }
+}
+
 }

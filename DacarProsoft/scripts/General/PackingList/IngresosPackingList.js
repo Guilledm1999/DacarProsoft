@@ -95,12 +95,17 @@ function ConsultarCabeceraOrdenVenta() {
               ConfigDev.showBorders = true,
                ConfigDev.allowColumnReordering = true,
               //ConfigDev.allowColumnResizing = true,
-                 ConfigDev.filterRow = { visible: true },
-                  ConfigDev.filterPanel = { visible: true },
-                  ConfigDev.headerFilter = { visible: false },
+                 //ConfigDev.filterRow = { visible: true },
+                 // ConfigDev.filterPanel = { visible: true },
+                  //ConfigDev.headerFilter = { visible: false },
                 ConfigDev.columnFixing = {
                     enabled: true
-                },
+                  },
+                  ConfigDev.searchPanel = {
+                      visible: true,
+                      width: 240,
+                      placeholder: "Buscar..."
+                  },
 
               ConfigDev.columns = [
 

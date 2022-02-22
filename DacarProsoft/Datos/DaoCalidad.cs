@@ -434,5 +434,86 @@ namespace DacarProsoft.Datos
                 }
             }
         }
+        public string ObtenerCCABateria(string modeloBateria)
+        {
+            string result = "";
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.DatosTecnicosCalidadBaterias
+                                   where d.Modelo==modeloBateria
+
+                                   select new
+                                   {
+                                       d.CCA
+                                   }).FirstOrDefault();
+
+
+                    result = Listado.CCA;
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return result;
+                }
+            }
+        }
+        public string ObtenerRcBateria(string modeloBateria)
+        {
+            string result = "";
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.DatosTecnicosCalidadBaterias
+                                   where d.Modelo == modeloBateria
+
+                                   select new
+                                   {
+                                       d.RC
+                                   }).FirstOrDefault();
+
+
+                    result = Listado.RC;
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return result;
+                }
+            }
+        }
+        public string ObtenerCapBateria(string modeloBateria)
+        {
+            string result = "";
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.DatosTecnicosCalidadBaterias
+                                   where d.Modelo == modeloBateria
+
+                                   select new
+                                   {
+                                       d.CAP
+                                   }).FirstOrDefault();
+
+
+                    result = Listado.CAP;
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return result;
+                }
+            }
+        }
     }
 }
