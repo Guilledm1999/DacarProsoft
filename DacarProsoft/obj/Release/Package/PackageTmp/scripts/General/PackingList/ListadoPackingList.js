@@ -136,6 +136,9 @@ function EliminarPackingCompl(modelo) {
 }
 
 function ModalConsultarPalletsIngresado(modelo) {
+    console.log("Consulta");
+    console.log(modelo.NombreCliente);
+    console.log(modelo.NumeroOrden);
     NombreCliente =modelo.NombreCliente ;
     NumeroPedido = modelo.NumeroOrden;
     IngresoDetallePacking = modelo.DetalleIngresado;
@@ -788,12 +791,12 @@ function MostrarCabeceraDetallePackingList(PackingIdentificador) {
         success: function (data) {         
             //Muestro datos en la tabla (SI MUESTRA DATOS)
             $.each(data, function () {
-                $('#txtNombreDelCliente').val(data[0].ClientePackingList);
+                $('#txtNombreDelCliente').val(NombreCliente);
                 $('#txtContenedorPackingList').val(data[0].ContenedorPackingList);
                 $('#txtFechaPacking').val(data[0].FechaDePackingList);
                 $('#txtBookingPacking').val(data[0].ReservaPackingList);
                 $('#txtFacturaPackingList').val(data[0].FacturaPedido);
-                $('#txtPedidoPackingList').val(data[0].PedidoPackingList);
+                $('#txtPedidoPackingList').val(NumeroPedido);
                 $('#txtEmbarcacionPackingList').val(data[0].EmbarcacionPackingList);
                 $("#txtIntercambioEirPackingList").val(data[0].IntercambioEirPackingList);
                 $("#txtReferenciaPackingList").val(data[0].ReferenciasPackingList);
@@ -924,7 +927,7 @@ function RegistrarDetallePackingListGeneral() {
         url: "../PackingList/GuardarDetallesPalletsPackingList",
         type: "POST",
         data: {
-            PackingId: PackingIdentificador, Contenedor: $('#txtContenedorPackingList').val(), fecha: $('#txtFechaPacking').val(), Reserva: $('#txtBookingPacking').val(), Factura: $('#txtFacturaPackingList').val(),
+            PackingId: PackingIdentificador, Cliente: NombreCliente, Contenedor: $('#txtContenedorPackingList').val(), fecha: $('#txtFechaPacking').val(), Reserva: $('#txtBookingPacking').val(), Factura: $('#txtFacturaPackingList').val(), Pedido: NumeroPedido,
             Embarcacion: $('#txtEmbarcacionPackingList').val(), IntercambioEir: $("#txtIntercambioEirPackingList").val(), Referencias: $("#txtReferenciaPackingList").val(), Productos: $('#txtProductosPackingList').val()
         }, success: function (e) {
             ConsultarIngresosPacking();

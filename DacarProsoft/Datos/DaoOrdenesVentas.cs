@@ -314,9 +314,39 @@ namespace DacarProsoft.Datos
                 return cantTotal;
             }
         }
+        public string ConsultarNombreForaneo(string ItemCode)
+        {
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                try
+                {
+                    var NombreForaneo = (from d in DB.OITM
+                                         where d.ItemCode == ItemCode
+                                         select new
+                                         {
+                                             d.FrgnName
+                                         }).FirstOrDefault();
+                    if (NombreForaneo.FrgnName != "" && NombreForaneo.FrgnName != null)
+                    {
+                        return NombreForaneo.FrgnName;
+
+                    }
+                    else
+                    {
+                        return "SIN ESPECIFICAR";
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return "Sin Especificar";
+                }
+            }
+        }
         public List<ItemsPackingList> ListadoItemsPackingList(int PackingId)
         {
-
+            string nombreForaneo = null;
             List<ItemsPackingList> lst = new List<ItemsPackingList>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -334,13 +364,13 @@ namespace DacarProsoft.Datos
 
                 foreach (var x in ListadoDetalleOrdenesVentas)
                 {
-
-                    int palletNumer=NumeroPalletPacking(x.PalletPacking.Value);
+                    nombreForaneo = ConsultarNombreForaneo(x.ItemCode);
+                    int palletNumer =NumeroPalletPacking(x.PalletPacking.Value);
                     lst.Add(new ItemsPackingList
                     {
                         PalletPackingDetalleId=x.PalletPackingDetalleId,
                         NumeroPallet= palletNumer,
-                        Descripcion=x.DescriptionCode,
+                        Descripcion= nombreForaneo,
                         ItemCode=x.ItemCode,
                         Cantidad=x.CantidadItem.Value,                      
                     });

@@ -46,7 +46,12 @@ $('#LinkClose6').on("click", function (e) {
 $('#LinkClose7').on("click", function (e) {
     $("#MensajeCancelacionDelPedido").hide('fade');
 });
-
+$('#LinkClose10').on("click", function (e) {
+    $("#MensajeErrorConexionSap").hide('fade');
+});
+$('#LinkClose11').on("click", function (e) {
+    $("#MensajeErrorGeneralSap").hide('fade');
+});
 function PedidosRecibidos() {
     $.ajax({
         url: "../Pedidos/ObtenerPalletIngresados",
@@ -369,6 +374,7 @@ function enviarRegistro() {
             Observaciones: $('#txtObservaciones').val(), array: temp, CantidadNueva: $('#txtCantidadTotalConfirmada').val(), PrecioNuevo: $('#txtPrecioTotal').val(), PesoNuevo: $('#txtPesoTotal').val(),
         },
         success: function (e) {
+            console.log("el mensaje de respuesta es:"+e);
             if (e == "True") {
                 PedidosRecibidos();
                 clearInterval(idIterval);
@@ -380,12 +386,35 @@ function enviarRegistro() {
                     $("#MensajeIngresoExitoso").fadeOut(1500);
                 }, 3000); return;
             } else {
-                $("#pleaseWaitDialog").modal("hide");
-                $("#ModalDetallePedido").modal("hide");
-                $("#MensajeErrorIngreso").show('fade');
-                setTimeout(function () {
-                    $("#MensajeErrorIngreso").fadeOut(1500);
-                }, 3000); return;
+
+                if (e =="Error") {
+                    $("#pleaseWaitDialog").modal("hide");
+                    $("#ModalDetallePedido").modal("hide");
+                    $("#MensajeErrorConexionSap").show('fade');
+                    setTimeout(function () {
+                        $("#MensajeErrorConexionSap").fadeOut(1500);
+                    }, 3000); return;
+                }
+                if (e == "Registrada") {
+                    $("#pleaseWaitDialog").modal("hide");
+                    $("#ModalDetallePedido").modal("hide");
+                    $("#MensajeErrorIngreso").show('fade');
+                    setTimeout(function () {
+                        $("#MensajeErrorIngreso").fadeOut(1500);
+                    }, 3000); return;
+                }
+                else {
+                    $("#pleaseWaitDialog").modal("hide");
+                    $("#ModalDetallePedido").modal("hide");
+
+                    $("#MensajeErrorGeneralSap").text(e);
+                    $("#MensajeErrorGeneralSap").show('fade');
+                    setTimeout(function () {
+                        $("#MensajeErrorGeneralSap").fadeOut(1500);
+                    }, 3000); return;
+                }
+
+               
             }
 
         },

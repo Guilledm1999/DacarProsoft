@@ -1,6 +1,5 @@
 ﻿var valor = null;
 var temp = null;
-var valor = null;
 var char;
 
 $(document).ready(function () {
@@ -843,4 +842,68 @@ function ChartResumenesGarantias() {
     }
 }
 
+}
+function GenerarPdf() {
+    var canvas = document.getElementById('myChart');
+    var dataURL = canvas.toDataURL();
+    SetViewBag(dataURL);
+
+    var url = "../Calidad/GenerarPdfReporte";
+    window.open(url);
+
+    //var formdata = new FormData();
+    //formdata.append("chart", dataURL);
+
+    //$.ajax({
+    //    type: 'POST',
+    //    url: "../Calidad/GenerarPdfReporte",
+    //    processData: false,
+    //    contentType: false,
+    //    data:
+    //        formdata,
+    //    success: function (response) {
+    //        console.log("Esto devuelve");
+    //        console.log(response);
+
+    //        let pdfWindow = window.open("");
+    //        pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf, " + escape(response) + "'></iframe>")
+
+    //        //window.open("data:application/pdf," + response);
+    //        //window.open(response);
+    //    },
+    //})
+
+}
+
+
+function SetViewBag(val) {
+    //console.log("el valor q envio es");
+    //console.log(valor);
+    //var formdata = new FormData();
+    //formdata.append("chart", val);
+    //formdata.append("registros", valor);
+
+
+    $.ajax({
+        type: 'POST',
+        url: '/Calidad/GuardarViewBag',
+        dataType: 'json',
+        data: { chart: val, registros: valor },
+        success: function () {
+          
+        },
+    })
+
+
+    //$.ajax({
+    //    type: "POST",
+    //    url: '/Calidad/GuardarViewBag',
+    //    //processData: false,
+    //    contentType: false,
+    //    data: formdata,
+       
+    //    success: function (r) {
+
+    //    }
+    //});
 }

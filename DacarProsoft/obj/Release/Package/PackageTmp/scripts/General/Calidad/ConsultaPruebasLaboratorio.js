@@ -1,6 +1,5 @@
 ﻿var valor = null;
 var temp = null;
-var valor = null;
 var char;
 
 $(document).ready(function () {
@@ -18,6 +17,12 @@ $('#LinkClose3').on("click", function (e) {
 });
 $('#LinkClose4').on("click", function (e) {
     $("#MensajeSinAnexos").hide('fade');
+});
+$('#LinkClose5').on("click", function (e) {
+    $("#MensajeDobleModelo").hide('fade');
+});
+$('#LinkClose6').on("click", function (e) {
+    $("#MensajeDobleTipoEnsayo").hide('fade');
 });
 
 function ConsultaRegistrosPruebasLaboratorio() {
@@ -643,29 +648,29 @@ function BotonPrueba() {
         .load({ filter: filterExpr })
         .then((result) => {
             valor = result;
-            console.log(result);
         }); 
 }
 
 function ChartResumenesGarantias() {
-    // encontrar solucion para que solo se pueda sacar detalles de una sola bateria
-    var comprobador = null;
-    for (var i in valor.sort()) {
-        if (valor[0].Modelo == valor[i].Modelo) {
-            comprobador = 1;
-        } else {
-            comprobador == 2;
-        }
-    }
-    console.log("Comprobador:" + comprobador);
 
-    if (comprobador == 2) {
-        $("#MensajeErrorGeneral").show('fade');
+    const valorModel = valor.find(element => element.Modelo != valor[0].Modelo);
+    const valorEnsayo = valor.find(element => element.TipoEnsayo != valor[0].TipoEnsayo);
+
+
+    if (valorModel != null) {
+        $("#MensajeDobleModelo").show('fade');
         setTimeout(function () {
-            $("#MensajeErrorGeneral").fadeOut(1500);
+            $("#MensajeDobleModelo").fadeOut(1500);
         }, 3000); return;
     }
-    if (comprobador==1) {
+    else {
+        if (valorEnsayo != null) {
+            $("#MensajeDobleTipoEnsayo").show('fade');
+            setTimeout(function () {
+                $("#MensajeDobleTipoEnsayo").fadeOut(1500);
+            }, 3000); return;
+        } else { 
+
         $("#lblDetallePackingList").text("Analisis Pruebas Laboratorio - Modelo " + valor[0].Modelo);
 
         $("#ModalInformeGrafica").modal("show");
@@ -699,7 +704,6 @@ function ChartResumenesGarantias() {
                     }
                 },
             })
-
         }
         if (valor[0].TipoEnsayo == "RC") {
             console.log("RC");
@@ -836,5 +840,70 @@ function ChartResumenesGarantias() {
             //}
         });
     }
+}
 
+}
+function GenerarPdf() {
+    var canvas = document.getElementById('myChart');
+    var dataURL = canvas.toDataURL();
+    SetViewBag(dataURL);
+
+    var url = "../Calidad/GenerarPdfReporte";
+    window.open(url);
+
+    //var formdata = new FormData();
+    //formdata.append("chart", dataURL);
+
+    //$.ajax({
+    //    type: 'POST',
+    //    url: "../Calidad/GenerarPdfReporte",
+    //    processData: false,
+    //    contentType: false,
+    //    data:
+    //        formdata,
+    //    success: function (response) {
+    //        console.log("Esto devuelve");
+    //        console.log(response);
+
+    //        let pdfWindow = window.open("");
+    //        pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf, " + escape(response) + "'></iframe>")
+
+    //        //window.open("data:application/pdf," + response);
+    //        //window.open(response);
+    //    },
+    //})
+
+}
+
+
+function SetViewBag(val) {
+    //console.log("el valor q envio es");
+    //console.log(valor);
+    //var formdata = new FormData();
+    //formdata.append("chart", val);
+    //formdata.append("registros", valor);
+
+
+    $.ajax({
+        type: 'POST',
+        url: '/Calidad/GuardarViewBag',
+        dataType: 'json',
+        data: { chart: val, registros: valor },
+        success: function () {
+          
+        },
+    })
+
+
+    //$.ajax({
+    //    type: "POST",
+    //    url: '/Calidad/GuardarViewBag',
+    //    //processData: false,
+    //    contentType: false,
+    //    data: formdata,
+       
+    //    success: function (r) {
+
+    //    }
+    //});
 }

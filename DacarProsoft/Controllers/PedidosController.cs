@@ -138,7 +138,7 @@ namespace DacarProsoft.Controllers
         }
 
         [HttpPost]
-        public bool RegistrarPedidoEnSap(int PedidoId, string Orden, DateTime FechaDocumento, DateTime FechaDespacho,string TipoVenta, string Vendedor, 
+        public string RegistrarPedidoEnSap(int PedidoId, string Orden, DateTime FechaDocumento, DateTime FechaDespacho,string TipoVenta, string Vendedor, 
             string Observaciones, List<PedidoClienteDetalle> array,int CantidadNueva, Decimal PrecioNuevo, Decimal PesoNuevo) {
 
             daoPedidos = new DaoPedidos();
@@ -148,85 +148,100 @@ namespace DacarProsoft.Controllers
             DateTime fechaEmisionCliente = DateTime.Now;
             DateTime fechaDespachoCliente =DateTime.Now;
             string incoterm = null;
-            
-            var PedidoCabecera = daoPedidos.ConsultarPedidoCabecera(PedidoId);
-
-            foreach (var x in PedidoCabecera) {
-                cardCode = x.CardCode;
-                cardname = x.NombreCliente;
-                fechaEmisionCliente = x.FechaEmision.Value;
-                fechaDespachoCliente = x.FechaRequerida.Value;
-                incoterm = x.TerminoImportacion;
-            }
-
-            //var PedidoDetalle = daoPedidos.ConsultarPedidoDetalle(PedidoId);
-            
-            var ComprobarOrden = daoPedidos.ComprobarExistenciaOrdenEnSap(Orden);
-
-            if (ComprobarOrden == false)
+            try
             {
-                if (ConexionApiSap.Open())
+                var PedidoCabecera = daoPedidos.ConsultarPedidoCabecera(PedidoId);
+
+                foreach (var x in PedidoCabecera)
                 {
-                    ConexionApiSap.myCompany.StartTransaction();
-                    Documents MyDoc = ConexionApiSap.myCompany.GetBusinessObject(BoObjectTypes.oOrders);
+                    cardCode = x.CardCode;
+                    cardname = x.NombreCliente;
+                    fechaEmisionCliente = x.FechaEmision.Value;
+                    fechaDespachoCliente = x.FechaRequerida.Value;
+                    incoterm = x.TerminoImportacion;
+                }
 
-                    MyDoc.CardCode = cardCode;
-                    MyDoc.CardName = cardname;
-                    MyDoc.DocDate = FechaDocumento;
-                    MyDoc.DocDueDate = fechaDespachoCliente;
-                    MyDoc.TaxDate = fechaEmisionCliente;
-                    //Tipo Venta
-                    MyDoc.UserFields.Fields.Item("U_BPP_MDMT").Value = TipoVenta;
-                    ////Vendedor
-                    //MyDoc.UserFields.Fields.Item("SalesPersonCode").Value = Vendedor;
-                    MyDoc.UserFields.Fields.Item("U_SYP_NUMOCCL").Value = Orden;
-                    MyDoc.UserFields.Fields.Item("U_SYP_INCOTERM").Value = incoterm;
-                    MyDoc.UserFields.Fields.Item("U_U_SYS_FECHADESPACHO").Value = FechaDespacho;
-                    MyDoc.Comments = Observaciones;
-                    MyDoc.DocType = BoDocumentTypes.dDocument_Items;
-                    foreach (var y in array) {
-                        MyDoc.Lines.ItemCode = y.ItemCode;
-                        MyDoc.Lines.ItemDescription = y.ModeloBateria;
-                        MyDoc.Lines.Quantity = Convert.ToDouble(y.CantidadConfirmada);
-                        MyDoc.Lines.UnitPrice = Convert.ToDouble(y.PrecioUnitario);
-                        MyDoc.Lines.DiscountPercent = 0.00;
-                        MyDoc.Lines.UserFields.Fields.Item("U_SYP_HORAED").Value=12;
-                        MyDoc.Lines.TaxCode = "EXE_IVA";
-                        MyDoc.Lines.ProjectCode ="PLANTA";
-                        MyDoc.Lines.WarehouseCode = "06";
-                        MyDoc.Lines.Add();
-                    }
+                //var PedidoDetalle = daoPedidos.ConsultarPedidoDetalle(PedidoId);
 
-                    if (MyDoc.Add() != 0)
+                var ComprobarOrden = daoPedidos.ComprobarExistenciaOrdenEnSap(Orden);
+
+                if (ComprobarOrden == false)
+                {
+                    if (ConexionApiSap.Open())
                     {
-                        string pr = ConexionApiSap.myCompany.GetLastErrorDescription();
-                        Console.WriteLine(pr);
-                        Console.WriteLine(ConexionApiSap.myCompany.GetLastErrorDescription());
-                        ConexionApiSap.myCompany.EndTransaction(BoWfTransOpt.wf_RollBack);
-                        return false;
-                    }
-                    else {
-                        ConexionApiSap.myCompany.EndTransaction(BoWfTransOpt.wf_Commit);
-                        daoPedidos.GuardarActualizacionObservaciones(PedidoId, Observaciones, FechaDocumento, FechaDespacho,CantidadNueva,PrecioNuevo,PesoNuevo);
-                        daoPedidos.GuardarActualizacionEstado(PedidoId,2);
-                        foreach (var z in array) {
-                            daoPedidos.GuardarActualizacionDetallePedido(PedidoId,z.ItemCode,z.CantidadConfirmada.Value);
+                        ConexionApiSap.myCompany.StartTransaction();
+                        Documents MyDoc = ConexionApiSap.myCompany.GetBusinessObject(BoObjectTypes.oOrders);
+
+                        MyDoc.CardCode = cardCode;
+                        MyDoc.CardName = cardname;
+                        MyDoc.DocDate = FechaDocumento;
+                        MyDoc.DocDueDate = fechaDespachoCliente;
+                        MyDoc.TaxDate = fechaEmisionCliente;
+                        //Tipo Venta
+                        MyDoc.UserFields.Fields.Item("U_BPP_MDMT").Value = TipoVenta;
+                        ////Vendedor
+                        //MyDoc.UserFields.Fields.Item("SalesPersonCode").Value = Vendedor;
+                        MyDoc.UserFields.Fields.Item("U_SYP_NUMOCCL").Value = Orden;
+                        MyDoc.UserFields.Fields.Item("U_SYP_INCOTERM").Value = incoterm;
+                        MyDoc.UserFields.Fields.Item("U_U_SYS_FECHADESPACHO").Value = FechaDespacho;
+                        
+
+                        MyDoc.Comments = Observaciones;
+                        MyDoc.DocType = BoDocumentTypes.dDocument_Items;
+                        foreach (var y in array)
+                        {
+                            MyDoc.Lines.ItemCode = y.ItemCode;
+                            MyDoc.Lines.ItemDescription = y.ModeloBateria;
+                            MyDoc.Lines.Quantity = Convert.ToDouble(y.CantidadConfirmada);
+                            MyDoc.Lines.UnitPrice = Convert.ToDouble(y.PrecioUnitario);
+                            MyDoc.Lines.DiscountPercent = 0.00;
+                            MyDoc.Lines.UserFields.Fields.Item("U_SYP_HORAED").Value = 12;
+                            MyDoc.Lines.TaxCode = "EXE_IVA";
+                            MyDoc.Lines.ProjectCode = "PLANTA";
+                            MyDoc.Lines.WarehouseCode = "06";
+                            MyDoc.Lines.Add();
                         }
-                        Console.WriteLine("Se agrego correctamente el pedido con folio: "+ConexionApiSap.myCompany.GetNewObjectKey());
+
+                        if (MyDoc.Add() != 0)
+                        {
+                            string pr = ConexionApiSap.myCompany.GetLastErrorDescription();
+                            Console.WriteLine(pr);
+                            Console.WriteLine(ConexionApiSap.myCompany.GetLastErrorDescription());
+                            //ConexionApiSap.myCompany.EndTransaction(BoWfTransOpt.wf_RollBack);
+                            //ConexionApiSap.myCompany.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit);
+
+                            return pr;
+                        }
+                        else
+                        {
+                            ConexionApiSap.myCompany.EndTransaction(BoWfTransOpt.wf_Commit);
+                            daoPedidos.GuardarActualizacionObservaciones(PedidoId, Observaciones, FechaDocumento, FechaDespacho, CantidadNueva, PrecioNuevo, PesoNuevo);
+                            daoPedidos.GuardarActualizacionEstado(PedidoId, 2);
+                            foreach (var z in array)
+                            {
+                                daoPedidos.GuardarActualizacionDetallePedido(PedidoId, z.ItemCode, z.CantidadConfirmada.Value);
+                            }
+                            Console.WriteLine("Se agrego correctamente el pedido con folio: " + ConexionApiSap.myCompany.GetNewObjectKey());
+                            return "True";
+                        }
                     }
-                    return true;
+                    else
+                    {
+                        return "Error";
+                    }
+
                 }
                 else
                 {
-                    return false;
+
+                    return "Registrada";
                 }
 
             }
-            else {
-
-                return false;
+            catch(Exception ex) {
+                return ex.ToString();
             }
-
+           
         }
 
 
