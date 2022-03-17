@@ -33,8 +33,7 @@ namespace DacarProsoft.Controllers
                 ViewBag.MenuOpciones = datMenuOpciones;
                 var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
                 ViewBag.SubMenuOpciones = datSubMenuOpciones;
-
-              
+             
                 return View();
             }
             else
@@ -47,7 +46,6 @@ namespace DacarProsoft.Controllers
         {
             try
             {
-
                 daoPedidos = new DaoPedidos();
                 var Result = daoPedidos.ConsultarPackingIngreseados();
                 return Json(Result, JsonRequestBehavior.AllowGet);
@@ -62,7 +60,6 @@ namespace DacarProsoft.Controllers
         {
             try
             {
-
                 daoPedidos = new DaoPedidos();
                 var Result = daoPedidos.ConsultarPedidoDetalleFinal(PedidoId);
                 return Json(Result, JsonRequestBehavior.AllowGet);

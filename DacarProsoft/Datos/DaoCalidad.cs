@@ -371,7 +371,7 @@ namespace DacarProsoft.Datos
                         DensidadPreAcondicionamiento=x.DensidadPreAcondicionamiento,
                         TemperaturaIngreso=x.TemperaturaIngreso,
                         TemperaturaPrueba=x.TemperaturaPrueba,
-                        DatoTeoricoPrueba=x.DatoTeoricoPrueba,
+                        DatoTeoricoPrueba=Convert.ToString(Decimal.Round(Convert.ToDecimal(x.DatoTeoricoPrueba),2)),
                         ValorObjetivo=x.ValorObjetivo,
                         ResultadoFinal=x.ResultadoFinal,
                         Observaciones=x.Observaciones,

@@ -75,7 +75,10 @@
         </div>
     </div>
     <div class="card-body">
-        <div id="ContenidoDiv">
+
+        <div class="auto" id="OcultarContenidoDiv" style="display: none">
+
+        @*<div id="ContenidoDiv">*@
             <div class="form-group">
                 <div class="row" style="padding:0px 0px 0px 0px">
                     <div class="col-md-12">
@@ -88,7 +91,7 @@
             <div class="form-group">
                 <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Cliente:</b></label>
-                    <div class="col-md-2">                    
+                    <div class="col-md-2">
                         @Html.DropDownList("Pais", new SelectList(clientes, "CardCode", "NombreCliente"), "--Seleccione el cliente--", new { @class = "js-example-basic-single", id = "txtCliente", onchange = "cargarClientes();", style = "width:100%" })
                     </div>
 
@@ -166,7 +169,7 @@
                         <input type="number" name="NombreItem" id="txtPorcentajeVentas" autocomplete="off" class="form-control" placeholder="$ Pvp Venta" onchange="CalcularProrrateo();">
                     </div>
                     <label for="email" class="col-sm-1 col-form-label"><b>Meses:</b></label>
-                    <div class="col-md-1">                   
+                    <div class="col-md-1">
                         <input type="number" name="NombreItem" id="txtMeses" autocomplete="off" class="form-control" placeholder="# Meses" readonly>
                     </div>
                 </div>
@@ -215,7 +218,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="row" style="padding:0px 0px 10px 0px">          
+                <div class="row" style="padding:0px 0px 10px 0px">
                     <div class="col-md-4">
                         <div class="col-md-12">
                             <ul class="list-group">
@@ -403,7 +406,7 @@
                                         <input class="form-check-input" type="radio" name="inlineRadioOptions8" id="inlineRadio1" value="false">
                                         <label class="form-check-label" for="inlineRadio1">No</label>
                                     </div>
-                                </li>                             
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -412,8 +415,10 @@
             <div align="center">
                 <button type="button" id="btnRegistrarRevision" class="btn btn-primary">Registrar</button>
             </div>
-        </div>
+        @*</div>*@
     </div>
+
+</div>
 </div>
 
 <div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

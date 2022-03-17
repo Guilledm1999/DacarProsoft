@@ -265,6 +265,7 @@
     <Content Include="Images\Imagen1.png" />
     <Content Include="Images\LogoDacar.png" />
     <Content Include="Images\MoldeBateria.png" />
+    <Content Include="Images\NuevoFondoDoc.png" />
     <Content Include="Images\packing.png" />
     <Content Include="Images\PackingNe.png" />
     <Content Include="Images\progress.gif" />

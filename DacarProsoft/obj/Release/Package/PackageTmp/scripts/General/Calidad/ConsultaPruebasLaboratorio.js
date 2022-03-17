@@ -1,6 +1,7 @@
 ﻿var valor = null;
 var temp = null;
 var char;
+var nominal = null;
 
 $(document).ready(function () {
     ConsultaRegistrosPruebasLaboratorio();
@@ -24,6 +25,16 @@ $('#LinkClose5').on("click", function (e) {
 $('#LinkClose6').on("click", function (e) {
     $("#MensajeDobleTipoEnsayo").hide('fade');
 });
+$('#LinkClose7').on("click", function (e) {
+    $("#MensajeCompleteCorreo").hide('fade');
+});
+$('#LinkClose8').on("click", function (e) {
+    $("#MensajeRespuestaEnvio").hide('fade');
+});
+
+
+
+
 
 function ConsultaRegistrosPruebasLaboratorio() {
     $.ajax({
@@ -33,6 +44,10 @@ function ConsultaRegistrosPruebasLaboratorio() {
             temp = msg;
             const locale = getLocale();
             DevExpress.localization.locale(locale);
+            //DevExpress.config({
+            //    decimalSeparator: ".",
+            //    thousandsSeparator: ","
+            //});
             $("#tblPruebasLaboratorioRegistrados").dxDataGrid({
                 dataSource: temp,
                 keyExpr: 'PruebaLaboratorioCalidadId',
@@ -84,8 +99,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                     });
                     e.cancel = true;
                 },
-                
-
+               
                 columns: [
                     {
                         caption: "Anexos", allowExporting: false,
@@ -252,6 +266,12 @@ function ConsultaRegistrosPruebasLaboratorio() {
                     },
                     {
                         dataField: "Peso", caption: "Peso", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 70,
+                        //ValueFormat: "0.##",
+                        format: {
+                            type: "fixedPoint",
+                            precision: 2,
+                            
+                        },
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
@@ -259,10 +279,25 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 .css('text-align', 'center')
                                 .css('margin', '7px 12px 0 0')
                                 .appendTo(header);
-                        }
+                        },
+                    
+                       
+                        //dataType: 'decimal',
+                        //format: { maximumFractionDigits: 2, minimumFractionDigits: 2 },
+                        //calculateDisplayValue: function (rowData) { // combines display values
+                        //    const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+                        //    ValTotal = (rowData.Peso).toLocaleString('en-US', noTruncarDecimales);
+                        //    return ValTotal;
+                        //   // return rowData.capital + " (" + rowData.country + ")";
+                        //}
                     },
                     {
                         dataField: "Voltaje", caption: "Voltaje", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 80,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 2,
+
+                        },
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
@@ -270,7 +305,13 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 .css('text-align', 'center')
                                 .css('margin', '7px 12px 0 0')
                                 .appendTo(header);
-                        }
+                        },
+                        //calculateDisplayValue: function (rowData) { // combines display values
+                        //    const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+                        //    ValTotal = (rowData.Voltaje).toLocaleString('en-US', noTruncarDecimales);
+                        //    return ValTotal;
+                        //    // return rowData.capital + " (" + rowData.country + ")";
+                        //}
                     },
                     {
                         dataField: "DensidadIngreso", caption: "Dens. Ingreso", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 80,
@@ -280,58 +321,123 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 .css('white-space', 'normal')
                                 .css('text-align', 'center')
                                 .appendTo(header);
-                        }
+                        },
+                        //calculateDisplayValue: function (rowData) { // combines display values
+                        //    const noTruncarDecimales = { maximumFractionDigits: 3, minimumFractionDigits: 3 };
+                        //    ValTotal = (rowData.DensidadIngreso).toLocaleString('en-US', noTruncarDecimales);
+                        //    return ValTotal;
+                        //    // return rowData.capital + " (" + rowData.country + ")";
+                        //}
+                        format: {
+                            type: "fixedPoint",
+                            precision: 3,
+
+                        },
+
                     },
 
                     {
-                        dataField: "DensidadPreAcondicionamiento", caption: "Dens. Pre-Acond.", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 85,
+                        dataField: "DensidadPreAcondicionamiento", caption: "Dens. Pre-Acond.", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 85, visible: false,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 3,
+
+                        },
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
                                 .css('white-space', 'normal')
                                 .css('text-align', 'center')
                                 .appendTo(header);
-                        }
+                        },
+                        //calculateDisplayValue: function (rowData) { // combines display values
+                        //    const noTruncarDecimales = { maximumFractionDigits: 3, minimumFractionDigits: 3 };
+                        //    ValTotal = (rowData.DensidadPreAcondicionamiento).toLocaleString('en-US', noTruncarDecimales);
+                        //    return ValTotal;
+                        //    // return rowData.capital + " (" + rowData.country + ")";
+                        //}
                     },
                     {
                         dataField: "TemperaturaIngreso", caption: "Temp. Ingreso", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 80,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 1,
+
+                        },
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
                                 .css('white-space', 'normal')
                                 .css('text-align', 'center')
                                 .appendTo(header);
-                        }
+                        },
+                        //calculateDisplayValue: function (rowData) { // combines display values
+                        //    const noTruncarDecimales = { maximumFractionDigits: 1, minimumFractionDigits: 1 };
+                        //    ValTotal = (rowData.TemperaturaIngreso).toLocaleString('en-US', noTruncarDecimales);
+                        //    return ValTotal;
+                        //    // return rowData.capital + " (" + rowData.country + ")";
+                        //}
                     },
                     {
                         dataField: "TemperaturaPrueba", caption: "Temp. Prueba", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 80,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 1,
+
+                        },
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
                                 .css('white-space', 'normal')
                                 .css('text-align', 'center')
                                 .appendTo(header);
-                        }
+                        },
+                        //calculateDisplayValue: function (rowData) { // combines display values
+                        //    const noTruncarDecimales = { maximumFractionDigits: 1, minimumFractionDigits: 1 };
+                        //    ValTotal = (rowData.TemperaturaPrueba).toLocaleString('en-US', noTruncarDecimales);
+                        //    return ValTotal;
+                        //    // return rowData.capital + " (" + rowData.country + ")";
+                        //}
                     },
                     {
                         dataField: "DatoTeoricoPrueba", caption: "Dato Teorico Prueba", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 90,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 2,
+                        },
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
                                 .css('white-space', 'normal')
                                 .css('text-align', 'center')
                                 .appendTo(header);
-                        }
+                        },
+                        //calculateDisplayValue: function (rowData) { // combines display values
+                        //    const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+                        //    ValTotal = (rowData.DatoTeoricoPrueba).toLocaleString('en-US', noTruncarDecimales);
+                        //    return ValTotal;
+                        //    // return rowData.capital + " (" + rowData.country + ")";
+                        //}
                     },
                     {
-                        dataField: "ValorObjetivo", caption: "Valor Objetivo", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 75,
+                        dataField: "ValorObjetivo", caption: "Valor Objetivo", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 75,visible: false,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 2,
+                        },
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
                                 .css('white-space', 'normal')
                                 .css('text-align', 'center')
                                 .appendTo(header);
-                        }
+                        },
+                        //calculateDisplayValue: function (rowData) { // combines display values
+                        //    const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+                        //    ValTotal = (rowData.ValorObjetivo).toLocaleString('en-US', noTruncarDecimales);
+                        //    return ValTotal;
+                        //    // return rowData.capital + " (" + rowData.country + ")";
+                        //}
                     },
                     {
                         dataField: "ResultadoFinal", caption: "Resultado Final", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 80,
@@ -397,7 +503,11 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                     const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     $("#txtPromedioCCA").val(ValTotal);
-                                    return  ValTotal;
+                                    return ValTotal;
+                                }
+                                else {
+                                    $("#txtPromedioCCA").val("No Aplica");
+                                    return 0;
                                 }
                             }
 
@@ -423,7 +533,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                     return ValTotal;
                                 }
                             }
-                        },{
+                        }, {
                             column: "Peso",
                             summaryType: "avg",
                             showInColumn: "Peso",
@@ -494,7 +604,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
-                                    $("#txtValorObjetivo").val(ValTotal);
+                                    //$("#txtValorObjetivo").val(ValTotal);
                                     return ValTotal;
                                 }
                             }
@@ -530,7 +640,6 @@ function ConsultaRegistrosPruebasLaboratorio() {
                     ],
                 }, 
                 onContentReady: function (e) {
-
                     BotonPrueba();             
                 }, 
             });
@@ -546,7 +655,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
 
     function getLocale() {
         const storageLocale = sessionStorage.getItem('locale');
-        return storageLocale != null ? storageLocale : 'es';
+        return storageLocale != null ? storageLocale : 'en';
     }
 }
 
@@ -656,7 +765,6 @@ function ChartResumenesGarantias() {
     const valorModel = valor.find(element => element.Modelo != valor[0].Modelo);
     const valorEnsayo = valor.find(element => element.TipoEnsayo != valor[0].TipoEnsayo);
 
-
     if (valorModel != null) {
         $("#MensajeDobleModelo").show('fade');
         setTimeout(function () {
@@ -671,7 +779,7 @@ function ChartResumenesGarantias() {
             }, 3000); return;
         } else { 
 
-        $("#lblDetallePackingList").text("Analisis Pruebas Laboratorio - Modelo " + valor[0].Modelo);
+            $("#lblDetallePackingList").text("Analisis Pruebas Laboratorio - Modelo " + valor[0].Modelo);
 
         $("#ModalInformeGrafica").modal("show");
 
@@ -687,8 +795,8 @@ function ChartResumenesGarantias() {
         var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
         var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
 
+
         if (valor[0].TipoEnsayo == "CAP") {
-            console.log("CAP");
             $.ajax({
                 type: 'POST',
                 url: "../Calidad/ConsultarValorTipoDePrueba",
@@ -696,17 +804,18 @@ function ChartResumenesGarantias() {
                 data: { modelo: valor[0].Modelo, valor: 1 },
                 success: function (result) {
                     for (var i in valor) {
+                        
                         nombre.push(valor[i].CodigoIngreso);
                         stock.push(valor[i].ResultadoFinal);
                         //stock2.push(valor[i].DatoTeoricoPrueba);
                         stock2.push(result);
-
+                        $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
+                        nominal = (parseInt(result) * 0.9).toFixed(0);
                     }
                 },
             })
         }
         if (valor[0].TipoEnsayo == "RC") {
-            console.log("RC");
 
             $.ajax({
                 type: 'POST',
@@ -718,14 +827,15 @@ function ChartResumenesGarantias() {
                         nombre.push(valor[i].CodigoIngreso);
                         stock.push(valor[i].ResultadoFinal);
                         stock2.push(result);
+                        $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
+                        nominal = (parseInt(result) * 0.9).toFixed(0);
+
                     }
                 },
             })
 
         }
         if (valor[0].TipoEnsayo == "CCA") {
-            console.log("CCA");
-
             $.ajax({
                 type: 'POST',
                 url: "../Calidad/ConsultarValorTipoDePrueba",
@@ -736,6 +846,10 @@ function ChartResumenesGarantias() {
                         nombre.push(valor[i].CodigoIngreso);
                         stock.push(valor[i].CCA);
                         stock2.push(result);
+                        $("#txtValorObjetivo").val((parseInt(result)).toFixed(0));
+                        nominal = (parseInt(result)).toFixed(0);
+
+
                     }
                 },
             })
@@ -747,6 +861,9 @@ function ChartResumenesGarantias() {
                 nombre.push(valor[i].CodigoIngreso);
                 stock.push(valor[i].ResultadoFinal);
                 stock2.push(valor[i].ValorObjetivo);
+                $("#txtValorObjetivo").val((parseInt(result)).toFixed(0));
+                nominal = (parseInt(result)).toFixed(0);
+
             }
 
         }
@@ -828,7 +945,8 @@ function ChartResumenesGarantias() {
                 //},
                 title: {
                     display: true,
-                    text: 'Tipo de ensayo ' + valor[0].TipoEnsayo
+                    text: 'Tipo de ensayo ' + valor[0].TipoEnsayo,
+                    fontSize: 18,
                 },
                 //animation: {
                 //    animateScale: true,
@@ -848,31 +966,58 @@ function GenerarPdf() {
     var dataURL = canvas.toDataURL();
     SetViewBag(dataURL);
 
-    var url = "../Calidad/GenerarPdfReporte";
+    var url = "../Calidad/GenerarPdfReporte?Nominal=" + nominal;
     window.open(url);
+}
 
-    //var formdata = new FormData();
-    //formdata.append("chart", dataURL);
+function AbrirModalEnvio() {
+    $("#ModalEnvioCorreoElectronico").modal("show");
+    var canvas = document.getElementById('myChart');
+    var dataURL = canvas.toDataURL();
+    SetViewBag(dataURL);
+    //var canvas = document.getElementById('myChart');
+    //var dataURL = canvas.toDataURL();
+    //SetViewBag(dataURL);
 
-    //$.ajax({
-    //    type: 'POST',
-    //    url: "../Calidad/GenerarPdfReporte",
-    //    processData: false,
-    //    contentType: false,
-    //    data:
-    //        formdata,
-    //    success: function (response) {
-    //        console.log("Esto devuelve");
-    //        console.log(response);
+    //var url = "../Calidad/GenerarPdfReporte?Nominal=" + nominal;
+    //window.open(url);
+}
+function EnviarPdf() {
+    $('#BtnEnvio').prop('disabled', true);
+    $("#BtnEnvio").text("Enviando...");
 
-    //        let pdfWindow = window.open("");
-    //        pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf, " + escape(response) + "'></iframe>")
+    if ($("#txtCorreoDestino").val() == "") {
+        $('#BtnEnvio').prop('disabled', false);
+        $("#BtnEnvio").text("Enviar");
 
-    //        //window.open("data:application/pdf," + response);
-    //        //window.open(response);
-    //    },
-    //})
+        $("#MensajeCompleteCorreo").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCorreo").fadeOut(1500);
+        }, 3000);
+    } else {
+        $.ajax({
+            url: '/Calidad/EnviarPdfReporte',
+            type: 'POST',
+            data: { Nominal: nominal, Correo: $("#txtCorreoDestino").val() },
+            success: function (msg) {
+                $('#BtnEnvio').prop('disabled', false);
+                $("#BtnEnvio").text("Enviar");
 
+                $("#txtCorreoDestino").val("");
+                $("#ModalEnvioCorreoElectronico").modal("hide");
+                $("#ModalInformeGrafica").modal("hide");
+
+                $("#MensajeRespuestaEnvio").text(msg);
+                $("#MensajeRespuestaEnvio").show('fade');
+                setTimeout(function () {
+                    $("#MensajeRespuestaEnvio").fadeOut(1500);
+                }, 3000); return;
+            },
+            error: function (msg) {
+                console.log("error");
+            }
+        })
+    }
 }
 
 
@@ -882,8 +1027,6 @@ function SetViewBag(val) {
     //var formdata = new FormData();
     //formdata.append("chart", val);
     //formdata.append("registros", valor);
-
-
     $.ajax({
         type: 'POST',
         url: '/Calidad/GuardarViewBag',
@@ -893,7 +1036,6 @@ function SetViewBag(val) {
           
         },
     })
-
 
     //$.ajax({
     //    type: "POST",

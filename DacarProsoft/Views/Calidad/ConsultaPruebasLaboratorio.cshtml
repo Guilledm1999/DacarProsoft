@@ -62,6 +62,10 @@
             <button id="LinkClose6" type="button" class="close">&times;</button>
             <strong>No se puede escoger diferentes tipos de ensayos para el analisis!</strong>
         </div>
+        <div id="MensajeRespuestaEnvio" class="alert alert-danger collapse">
+            <button id="LinkClose8" type="button" class="close">&times;</button>
+            <strong></strong>
+        </div>
         <div class="loader">
             <div class="dx-viewport">
                 <div class="demo-container">
@@ -177,18 +181,21 @@
                 </button>
             </div>
             <div class="modal-body">
+           
                 <form>
                     <div class="form-group row">
                         <div class="col-sm-3">
                             <div class="col-sm-12">
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <h5 for="formGroupExampleInput">Promedios Generales</h5>
+                                        @*<h5 for="formGroupExampleInput"><a style='box-shadow: 2px 2px 5px #3F51B5 inset'>Promedios Generales</a></h5>*@
+                                        <h5 style="color:darkslateblue" for="formGroupExampleInput">Promedios Generales</h5>
+
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="formGroupExampleInput">CCA</label>
+                                        <label for="formGroupExampleInput">CCA(ET)</label>
                                         <input type="text" class="form-control" id="txtPromedioCCA" placeholder="CCA" readonly>
                                     </div>
                                     <div class="form-group col-md-6">
@@ -198,12 +205,12 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="formGroupExampleInput">Voltaje</label>
+                                        <label for="formGroupExampleInput">Voltaje(OCV)</label>
                                         <input type="text" class="form-control" id="txtPromedioVoltaje" placeholder="Voltaje" readonly>
                                     </div>
 
                                     <div class="form-group col-md-6">
-                                        <label for="formGroupExampleInput">Valor Objetivo</label>
+                                        <label for="formGroupExampleInput">Valor Minimo</label>
                                         <input type="text" class="form-control" id="txtValorObjetivo" placeholder="Valor Objetivo" readonly>
                                     </div>
                                 </div>
@@ -219,26 +226,58 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                  
+
                                 </div>
 
                             </div>
-                            </div>
+                        </div>
 
                         <div class="col-sm-9">
                             <canvas id="myChart" style="width:200%;max-width:800px"></canvas>
                         </div>
 
                     </div>
-                 
+
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GenerarPdf();">Imprimir</button>
+                <button type="button" class="btn btn-success" onclick="AbrirModalEnvio();">Enviar por correo</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ModalEnvioCorreoElectronico" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Envío de reporte por correo electronico</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" @*style="background-color:cornflowerblue"*@>
+                <div id="MensajeCompleteCorreo" class="alert alert-danger collapse">
+                    <button id="LinkClose7" type="button" class="close">&times;</button>
+                    <strong>Ingrese el correo para enviar!</strong>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="formGroupExampleInput">Enviar a:</label>
+                        <input type="email" class="form-control" id="txtCorreoDestino" placeholder="example@bateriasdacar.com">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="BtnEnvio" onclick="EnviarPdf()">Enviar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>

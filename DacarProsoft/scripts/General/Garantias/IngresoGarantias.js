@@ -24,7 +24,7 @@ var IngresoManual = false;
 
 function ocultarDiv() {
     $(".loading-icon").css("display", "none");
-    $("#ContenidoDiv").hide();
+    //$("#ContenidoDiv").hide();
 }
 
 function ConsultaDeVentas() {
@@ -201,7 +201,10 @@ function ConsultarNumeroGarantia() {
                 document.getElementById("txtNumeroFactura").readOnly = false;
                 document.getElementById("txtPorcentajeVentas").readOnly = true;
 
-                $("#ContenidoDiv").show();
+
+                document.getElementById("OcultarContenidoDiv").style.display = ""; 	   //show
+
+                //$("#ContenidoDiv").show();
 
             } else {
                 IngresoManual = false;
@@ -221,7 +224,6 @@ function ConsultarNumeroGarantia() {
                 document.getElementById("txtNumeroFactura").readOnly = true;
                 document.getElementById("txtPorcentajeVentas").readOnly = true;
 
-
                 $("#txtModelo").append('<option value="' + 1 + '">' +
                     msg[0]['ModeloBateria'] + '</option>');
                 document.getElementById("txtModelo").disabled = true;
@@ -239,8 +241,8 @@ function ConsultarNumeroGarantia() {
                 document.getElementById("txtCliente").disabled = true;
 
 
-
-                $("#ContenidoDiv").show();
+                document.getElementById("OcultarContenidoDiv").style.display = ""; 	   //show
+               // $("#ContenidoDiv").show();
                 
                 $("#txtCedula").val(msg[0]['Cedula']);
                 $("#txtNumeroGarantiaObtenido").val(msg[0]['NumeroGarantia']);
