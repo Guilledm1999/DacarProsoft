@@ -11,6 +11,8 @@ namespace DacarProsoft.Models
         public string NombreCliente { get; set; }
         public string Destino { get; set; }
         public string Origen { get; set; }
+        public string Sucursal { get; set; }
+
         public int CantidadPallet { get; set; }
 
         public int PalletNumber { get; set; }

@@ -30,6 +30,7 @@ namespace DacarDatos.Datos
         public Nullable<int> CantidadPallet { get; set; }
         public string Tipo { get; set; }
         public string DetalleIngresado { get; set; }
+        public string Sucursal { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PackingDtl> PackingDtl { get; set; }

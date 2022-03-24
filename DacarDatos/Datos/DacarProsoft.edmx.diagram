@@ -41,11 +41,8 @@
         <AssociationConnector Association="DacarProsoftModel.fk_ChatarraDetalle" />
         <EntityTypeShape EntityType="DacarProsoftModel.ControlCambios" Width="1.5" PointX="14.375" PointY="10.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.GrupoClientes" Width="1.5" PointX="10.375" PointY="14.75" />
-        <EntityTypeShape EntityType="DacarProsoftModel.Packing" Width="1.5" PointX="12.375" PointY="14.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.PackingDtl" Width="1.5" PointX="14.625" PointY="15" />
-        <AssociationConnector Association="DacarProsoftModel.fk_Packing" />
         <EntityTypeShape EntityType="DacarProsoftModel.PalletPacking" Width="1.5" PointX="14.625" PointY="18.25" />
-        <AssociationConnector Association="DacarProsoftModel.fk_PackingPallet" />
         <EntityTypeShape EntityType="DacarProsoftModel.PalletPackingDetalle" Width="1.5" PointX="16.875" PointY="18.625" />
         <AssociationConnector Association="DacarProsoftModel.fk_PalletPackingDetalle" />
         <EntityTypeShape EntityType="DacarProsoftModel.DetalleGeneralPackingList" Width="1.5" PointX="15.375" PointY="5.75" />
@@ -92,6 +89,9 @@
         <EntityTypeShape EntityType="DacarProsoftModel.AutorizacionPackingList" Width="1.5" PointX="24.375" PointY="18.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.DatosTecnicosCalidadBaterias" Width="1.5" PointX="24.375" PointY="21.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.CorreoElectronicoEnviosReportes" Width="1.5" PointX="21.375" PointY="24.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.Packing" Width="1.5" PointX="12.375" PointY="25.625" />
+        <AssociationConnector Association="DacarProsoftModel.fk_Packing" />
+        <AssociationConnector Association="DacarProsoftModel.fk_PackingPallet" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

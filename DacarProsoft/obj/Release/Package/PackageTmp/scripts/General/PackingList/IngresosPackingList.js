@@ -362,11 +362,14 @@ function RegistrarPacking() {
         url: "../PackingList/RegistrarPallet",
         type: "POST",
         data: {
-            NumeroDocumento: $("#txtDocAct").val(), NumeroOrden: $("#txtOrdenAct").val(), NombreCliente: $("#txtClienteAct").val(), Origen: $("#txtOrigenAct").val(), Destino: $("#txtDestinoAct option:selected").text(), CantidadPallet: $("#txtCantidadPallet").val(), IdentificadorDetalle: IdentificadorDetalle, tipo: $("#TipoBusqueda").val(), vari: variable
+            NumeroDocumento: $("#txtDocAct").val(), NumeroOrden: $("#txtOrdenAct").val(), NombreCliente: $("#txtClienteAct").val(), Origen: $("#txtOrigenAct").val(), Destino: $("#txtDestinoAct option:selected").text(), CantidadPallet: $("#txtCantidadPallet").val(), IdentificadorDetalle: IdentificadorDetalle, tipo: $("#TipoBusqueda").val(), vari: variable, Sucursal: $("#txtSucursal").val()
         },
         success: function (msg) {
             IdentificadorPaking = msg;
             ConsultaEstado();
+            $("#txtSucursal").val("");
+            $("#txtCantidadPallet").val("");
+
             $("#ModalIngresoPalletAct").modal("hide");
             ConsultarCabeceraOrdenVenta();
             $("#txtCantidadPallet").val();

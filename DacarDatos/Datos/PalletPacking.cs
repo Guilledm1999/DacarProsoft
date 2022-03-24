@@ -31,8 +31,8 @@ namespace DacarDatos.Datos
         public Nullable<decimal> PesoBruto { get; set; }
         public string CodigoQr { get; set; }
     
-        public virtual Packing Packing { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PalletPackingDetalle> PalletPackingDetalle { get; set; }
+        public virtual Packing Packing { get; set; }
     }
 }

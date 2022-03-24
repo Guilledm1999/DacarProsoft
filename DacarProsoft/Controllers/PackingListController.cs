@@ -175,13 +175,13 @@ namespace DacarProsoft.Controllers
 
 
         [HttpPost]
-        public int RegistrarPallet(string NumeroDocumento, string NumeroOrden, string NombreCliente, string Origen, string Destino, int CantidadPallet, int IdentificadorDetalle, string tipo, int vari)
+        public int RegistrarPallet(string NumeroDocumento, string NumeroOrden, string NombreCliente, string Origen, string Destino, int CantidadPallet, int IdentificadorDetalle, string tipo, int vari, string Sucursal)
         {
             int identificador;
             daoPackilist = new DaoPackingList();
             daoOrdenesVentas = new DaoOrdenesVentas();
             try {
-                var result = daoPackilist.IngresarPacking(Convert.ToInt32(NumeroDocumento), NumeroOrden, NombreCliente, Origen, Destino, CantidadPallet, tipo);
+                var result = daoPackilist.IngresarPacking(Convert.ToInt32(NumeroDocumento), NumeroOrden, NombreCliente, Origen, Destino, CantidadPallet, tipo, Sucursal);
                 identificador = result;
 
                 if (vari == 1) {
@@ -703,6 +703,7 @@ namespace DacarProsoft.Controllers
             string Destino = null;
             string CodigoQr = null;
             int CantidadPallet = 0;
+            string Sucursal = null;
 
             int primerFila = 0;
             int segundaFila = 0;
@@ -726,6 +727,7 @@ namespace DacarProsoft.Controllers
                 PesoNeto = y.PesoNeto;
                 Origen = y.Origen;
                 Destino = y.Destino;
+                Sucursal = y.Sucursal;
                 CantidadPallet = y.CantidadPallet;
                 palletNumber = y.PalletNumber;
                 CodigoQr = y.CodigoQr;
@@ -843,15 +845,15 @@ namespace DacarProsoft.Controllers
             //canvas.Rectangle(rect2);
             canvas2.Stroke();
 
-            Paragraph p3 = new Paragraph("" + Destino).SetFont(bold).SetFontSize(12).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
+            Paragraph p3 = new Paragraph(Sucursal+"/\n" + Destino).SetFixedLeading(10).SetFont(bold).SetFontSize(11).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvas3 = new PdfCanvas(pdf.GetFirstPage());
-            iText.Kernel.Geom.Rectangle rect3 = new iText.Kernel.Geom.Rectangle(170, tercerFila, 107, 42);
+            iText.Kernel.Geom.Rectangle rect3 = new iText.Kernel.Geom.Rectangle(170, tercerFila-5, 107, 42);
             new Canvas(canvas3, rect3)
                     .Add(p3);
             //canvas.Rectangle(rect3);
             canvas3.Stroke();
 
-            Paragraph p4 = new Paragraph("" + Origen).SetFont(bold).SetFontSize(12).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
+            Paragraph p4 = new Paragraph("" + Origen).SetFont(bold).SetFontSize(11).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvas4 = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rect4 = new iText.Kernel.Geom.Rectangle(30, tercerFila, 110, 35);
             new Canvas(canvas4, rect4)

@@ -152,7 +152,8 @@ namespace DacarProsoft.Datos
                                           e.PalletNumber,
                                           e.PesoBruto,
                                           e.PesoNeto,
-                                          e.CodigoQr
+                                          e.CodigoQr,
+                                          d.Sucursal
 
                                       };
 
@@ -166,6 +167,7 @@ namespace DacarProsoft.Datos
                         NombreCliente = x.NombreCliente,
                         Destino = x.Destino,
                         Origen = x.Origen,
+                        Sucursal=x.Sucursal,
                         CantidadPallet=x.CantidadPallet.Value,
                         PalletNumber = x.PalletNumber.Value,
                         PesoBruto = x.PesoBruto.Value,
@@ -646,7 +648,7 @@ namespace DacarProsoft.Datos
             }
         }
 
-        public int IngresarPacking(int NumeroDocumento, string NumeroOrden, string NombreCliente, string Origen, string Destino,int CantidadPallet, string tipo)
+        public int IngresarPacking(int NumeroDocumento, string NumeroOrden, string NombreCliente, string Origen, string Destino,int CantidadPallet, string tipo, string Sucursal)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -662,6 +664,7 @@ namespace DacarProsoft.Datos
                     packing.CantidadPallet = CantidadPallet;
                     packing.Tipo = tipo;
                     packing.DetalleIngresado = "NO";
+                    packing.Sucursal = Sucursal;
 
 
                     DB.Packing.Add(packing);
