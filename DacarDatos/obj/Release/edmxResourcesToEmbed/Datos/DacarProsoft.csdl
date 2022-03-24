@@ -178,6 +178,7 @@
     <EntitySet Name="PruebaLaboratorioCalidad" EntityType="DacarProsoftModel.PruebaLaboratorioCalidad" />
     <EntitySet Name="AutorizacionPackingList" EntityType="DacarProsoftModel.AutorizacionPackingList" />
     <EntitySet Name="DatosTecnicosCalidadBaterias" EntityType="DacarProsoftModel.DatosTecnicosCalidadBaterias" />
+    <EntitySet Name="CorreoElectronicoEnviosReportes" EntityType="DacarProsoftModel.CorreoElectronicoEnviosReportes" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1222,5 +1223,14 @@
     <Property Name="PesoSellada" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="PesoHumedaKg" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="Linea" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CorreoElectronicoEnviosReportes">
+    <Key>
+      <PropertyRef Name="CorreoElectronicoEnviosReportesId" />
+    </Key>
+    <Property Name="CorreoElectronicoEnviosReportesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DireccionCorreo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ClaveCorreo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
   </EntityType>
 </Schema>

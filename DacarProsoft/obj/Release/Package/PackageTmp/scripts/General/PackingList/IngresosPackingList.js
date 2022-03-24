@@ -9,11 +9,11 @@ var cantidadPallet = 0;
 var datosCabecera = null;
 var datosDetalle = null;
 var variable = null;
+
 $(document).ready(function () {
     $('#txtLargoPallet').val(114);
     $('#txtAnchoPallet').val(114);
     $('#txtAltoPallet').val(114);
-
     $("#txtOrigenAct").text("Cd Gye");
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
@@ -27,8 +27,8 @@ function Volumen() {
     var total = ((parseFloat($('#txtLargoPallet').val()) * parseFloat($('#txtAnchoPallet').val()) * parseFloat($('#txtAltoPallet').val())).toFixed(2))/1000000;
     $('#txtVolumenPallet').val(total.toFixed(3));
 }
-function ConsultarIngresosPacking() {
 
+function ConsultarIngresosPacking() {
     $(".result").text("");
     $(".loading-icon").removeClass("hide");
     $(".btn").attr("disabled", true);

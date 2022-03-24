@@ -147,8 +147,6 @@ namespace DacarProsoft.Controllers
                 ViewBag.datSeparador = datSeparador;
                 ViewBag.datTipoEnsayo = datTipoEnsayo;
 
-
-
                 return View();
             }
             else
@@ -164,8 +162,6 @@ namespace DacarProsoft.Controllers
             var cantones = daoCalidad.ModelosBateriasPorTipoVehiculo(id.ToString());
             return Json(new SelectList(cantones, "Value", "Text"));
         }
-
-
         public bool RegistrarPruebasLaboratorio(DateTime FechaIngreso, int CodigoIngreso, string Marca, string TipoNorma, string Normativa, string PreAcondicionamiento, string TipoBateria, string Modelo, string Separador, string TipoEnsayo, string LoteEnsamble,
             string LoteCarga, int CCA, decimal Peso, decimal Voltaje, decimal DensidadIngreso,/* decimal DensidadPreAcondicionamiento,*/ decimal TemperaturaIngreso, decimal TemperaturaPrueba, string DatoTeoricoPrueba/*, decimal ValorObjetivo*/, decimal ResultadoFinal,
             string Observaciones, decimal Calificacion, HttpPostedFileBase[] archivos)
@@ -209,10 +205,7 @@ namespace DacarProsoft.Controllers
                                 archivos[i].SaveAs(path2 + result + "-" + nombreArchivo + filename);
                                 i = i + 1;
                             }
-
                         }
-
-
                     }
                     else
                     {
@@ -249,7 +242,6 @@ namespace DacarProsoft.Controllers
                 //ConexionAccess conexion = new ConexionAccess();
 
                 daoUtilitarios = new DaoUtilitarios();
-
 
                 var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
                 ViewBag.MenuPrincipal = datMenu;
@@ -428,7 +420,7 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-        public ActionResult GenerarPdfReporte(int Nominal)
+        public ActionResult GenerarPdfReporte(int Nominal, int NominalReal)
         {
             string valoview = Session["Grafico"].ToString();
             List<ModelPruebaLaboratorioCalidad> lst = new List<ModelPruebaLaboratorioCalidad>();
@@ -439,6 +431,7 @@ namespace DacarProsoft.Controllers
             decimal ValorObjetivo = 0;
             decimal ResultadoFinal = 0;
             decimal Calificacion = 0;
+            decimal DensidadPromedio = 0;
             int contador = 0;
             iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
 
@@ -500,7 +493,7 @@ namespace DacarProsoft.Controllers
             pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
 
 
-            float[] columnWidth2 = { 60f ,55f, 55f, 55f, 65f, 55f, 55f, 55f, 55f };
+            float[] columnWidth2 = { 60f ,55f, 55f, 55f, 65f, 55f, 105f, 55f, 55f };
             Table tabla2 = new Table(columnWidth2);
 
             tabla2.AddCell(new Cell(1, 9).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE PRUEBAS DE LABORATORIO").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
@@ -510,10 +503,9 @@ namespace DacarProsoft.Controllers
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Separador").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Ensamble").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Carga").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CCA").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Pre-Acondicionamiento").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-
 
             foreach (var x in valor)
             {
@@ -523,7 +515,7 @@ namespace DacarProsoft.Controllers
                 tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.Separador).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
                 tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.LoteEnsamble).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
                 tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.LoteCarga).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.CCA).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.PreAcondicionamiento).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
                 tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.Voltaje).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
                 tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.ResultadoFinal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
@@ -549,29 +541,42 @@ namespace DacarProsoft.Controllers
                 {
                     Calificacion = Calificacion + x.Calificacion.Value;
                 }
+                if (x.DensidadIngreso != null)
+                {
+                    DensidadPromedio = DensidadPromedio + x.DensidadIngreso.Value;
+                }
 
                 contador = contador + 1;
             }
 
-            float[] columnWidth = { 80f, 80f, 80f };
+            float[] columnWidth = { 100f, 80f, 80f, 80f };
             Table tabla = new Table(columnWidth);
 
-            tabla.AddCell(new Cell(1, 3).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("PROMEDIOS GENERALES").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CCA").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("PROMEDIOS GENERALES").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje(OCV)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CCA(Electronic Tester)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Densidad Promedio").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Decimal.Round(Peso/contador,2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Decimal.Round(Voltaje/contador,2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             if (CCA == 0)
             {
                 tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("No Aplica").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             }
-            else {
+            else
+            {
                 tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(CCA / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             }
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Decimal.Round(Peso/contador,2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Decimal.Round(Voltaje/contador,2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Minimo").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+ Decimal.Round(DensidadPromedio /contador,3)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Nominal").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("90%").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado Final").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Calificacion").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+ NominalReal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+ Nominal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Decimal.Round(ResultadoFinal / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Decimal.Round(Calificacion / contador, 1)+"%").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
@@ -598,10 +603,11 @@ namespace DacarProsoft.Controllers
 
             return new FileStreamResult(stream, "application/pdf");
         }
-        public string EnviarPdfReporte(int Nominal, string Correo)
+        public string EnviarPdfReporte(int Nominal, string Correo, string CorreoCopia)
         {
             try
             {
+                daoUtilitarios = new DaoUtilitarios();
                 string valoview = Session["Grafico"].ToString();
             List<ModelPruebaLaboratorioCalidad> lst = new List<ModelPruebaLaboratorioCalidad>();
             var valor = (List<ModelPruebaLaboratorioCalidad>)Session["Registros"];
@@ -612,7 +618,9 @@ namespace DacarProsoft.Controllers
             decimal ResultadoFinal = 0;
             decimal Calificacion = 0;
             int contador = 0;
-            iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
+                string DirCorreo="";
+                string ClavCorreo="";
+                iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
 
          
             var base64arr = valoview.Split(',');
@@ -628,13 +636,12 @@ namespace DacarProsoft.Controllers
             iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
              .Create(bytes))
              .SetTextAlignment(TextAlignment.CENTER).SetWidth(480).SetHeight(240).SetHorizontalAlignment(HorizontalAlignment.CENTER);
-
             document.SetMargins(112, 36, 90, 36);         
 
-
             Paragraph header = new Paragraph("ANALISIS PRUEBAS LABORATORIO " + valor[0].TipoEnsayo)
-         .SetTextAlignment(TextAlignment.CENTER)
-         .SetFontSize(16).SetBold();
+        .SetTextAlignment(TextAlignment.CENTER)
+        .SetFontSize(16).SetBold();
+
             Paragraph Modelo = new Paragraph("Modelo de bateria: " + valor[0].Modelo)
         .SetTextAlignment(TextAlignment.CENTER)
         .SetFontSize(14);
@@ -642,7 +649,6 @@ namespace DacarProsoft.Controllers
             var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
             pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
-
 
             float[] columnWidth2 = { 60f, 55f, 55f, 55f, 65f, 55f, 55f, 55f, 55f };
             Table tabla2 = new Table(columnWidth2);
@@ -657,7 +663,6 @@ namespace DacarProsoft.Controllers
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CCA").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-
 
             foreach (var x in valor)
             {
@@ -698,7 +703,6 @@ namespace DacarProsoft.Controllers
 
                 contador = contador + 1;
             }
-
             float[] columnWidth = { 80f, 80f, 80f };
             Table tabla = new Table(columnWidth);
 
@@ -723,8 +727,6 @@ namespace DacarProsoft.Controllers
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(ResultadoFinal / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Calificacion / contador, 1) + "%").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
-
-
             document.Add(header);
             document.Add(Espacio);
             document.Add(Modelo);
@@ -740,8 +742,25 @@ namespace DacarProsoft.Controllers
             stream.Write(bytesStreams, 0, bytesStreams.Length);
             stream.Position = 0;
 
-            MailMessage mm = new MailMessage("bateriasdacar1975@gmail.com", Correo);
+            var CorreoBase = daoUtilitarios.ConsultarCorreoElectronico();
+             
+
+                foreach (var x in CorreoBase) {
+                    DirCorreo = x.DireccionCorreo;
+                    ClavCorreo = x.ClaveCorreo;
+                }
+
+                //foreach (var address in addresses.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+                //{
+                //    mailMessage.To.Add(address);
+                //}
+
+                MailMessage mm = new MailMessage("bateriasdacar1975@gmail.com", Correo);
             mm.Subject = "ANALISIS PRUEBAS LABORATORIO " + valor[0].TipoEnsayo;
+
+                //MailAddress copy = new MailAddress("Notification_List@contoso.com");
+            mm.CC.Add(CorreoCopia);
+
             mm.Body = "Resultado de ensayo de baterias "+ valor[0].Modelo+ ", con fecha: "+DateTime.Now;
             mm.Attachments.Add(new Attachment(new MemoryStream(bytesStreams), "PruebaLaboratorio"+ valor[0].Modelo+".pdf"));
             mm.IsBodyHtml = true;
@@ -750,11 +769,11 @@ namespace DacarProsoft.Controllers
             smtp.Port = 25;
             smtp.EnableSsl = true;
             NetworkCredential NetworkCred = new NetworkCredential();
-            NetworkCred.UserName = "bateriasdacar1975@gmail.com";
-            NetworkCred.Password = "$$Dacar1975+-";
+            NetworkCred.UserName = DirCorreo;
+            NetworkCred.Password = ClavCorreo;
             smtp.UseDefaultCredentials = true;
             smtp.Credentials = NetworkCred;
-
+                               
                 smtp.Send(mm);
                 return "El envío fue realizado con éxito!";
             }
@@ -764,7 +783,6 @@ namespace DacarProsoft.Controllers
                 return ex.Message;
             }
         }
-
 
         public string GuardarViewBag(string chart, List<ModelPruebaLaboratorioCalidad> registros)
         {
@@ -807,7 +825,6 @@ namespace DacarProsoft.Controllers
             {
                 this.table = table;
             }
-
             public void HandleEvent(Event currentEvent)
             {
                 PdfDocumentEvent docEvent = (PdfDocumentEvent)currentEvent;

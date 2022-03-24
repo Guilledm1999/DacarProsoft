@@ -297,5 +297,38 @@ namespace DacarProsoft.Datos
             return true;
         }
 
+        public List<CorreoElectronicoEnviosReportes> ConsultarCorreoElectronico()
+        {
+                List<CorreoElectronicoEnviosReportes> lst2 = new List<CorreoElectronicoEnviosReportes>();
+                using (DacarProsoftEntities DB = new DacarProsoftEntities())
+                {
+                    var ListadoCorreo = (from d in DB.CorreoElectronicoEnviosReportes
+                                        select new
+                                         {
+                                             d.DireccionCorreo,
+                                             d.ClaveCorreo,
+                                             d.Estado
+                                         }).FirstOrDefault();
+
+                lst2.Add(new CorreoElectronicoEnviosReportes()
+                {
+                    DireccionCorreo = ListadoCorreo.DireccionCorreo,
+                    ClaveCorreo = ListadoCorreo.ClaveCorreo
+                });
+
+                //foreach (var x in ListadoCorreo)
+                //    {
+                //    if (x.Estado==true) {
+                //        lst2.Add(new CorreoElectronicoEnviosReportes()
+                //        {
+                //            DireccionCorreo = x.DireccionCorreo,
+                //            ClaveCorreo = x.ClaveCorreo
+                //        });
+                //    }            
+                //    }
+                    return lst2;
+                }                  
+        }
+
     }
 }

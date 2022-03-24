@@ -2,6 +2,7 @@
 var temp = null;
 var char;
 var nominal = null;
+var nominalReal = null;
 
 $(document).ready(function () {
     ConsultaRegistrosPruebasLaboratorio();
@@ -566,8 +567,9 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "DensidadIngreso",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 2 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    $("#txtDensidadPromedio").val(ValTotal);
                                     return ValTotal;
                                 }
                             }
@@ -809,8 +811,10 @@ function ChartResumenesGarantias() {
                         stock.push(valor[i].ResultadoFinal);
                         //stock2.push(valor[i].DatoTeoricoPrueba);
                         stock2.push(result);
+                        $("#txtValorNominal").val(parseInt(result));
                         $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
                         nominal = (parseInt(result) * 0.9).toFixed(0);
+                        nominalReal = (parseInt(result)).toFixed(0);
                     }
                 },
             })
@@ -827,8 +831,10 @@ function ChartResumenesGarantias() {
                         nombre.push(valor[i].CodigoIngreso);
                         stock.push(valor[i].ResultadoFinal);
                         stock2.push(result);
+                        $("#txtValorNominal").val(parseInt(result));
                         $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
                         nominal = (parseInt(result) * 0.9).toFixed(0);
+                        nominalReal = (parseInt(result)).toFixed(0);
 
                     }
                 },
@@ -840,14 +846,18 @@ function ChartResumenesGarantias() {
                 type: 'POST',
                 url: "../Calidad/ConsultarValorTipoDePrueba",
                 dataType: 'json',
-                data: { modelo: valor[0].Modelo, valor: 3 },
+                data: { modelo: valor[0].Modelo, valor: 2 },
                 success: function (result) {
                     for (var i in valor) {
                         nombre.push(valor[i].CodigoIngreso);
-                        stock.push(valor[i].CCA);
+                        //stock.push(valor[i].CCA);
+                        stock.push(valor[i].ResultadoFinal);
+
                         stock2.push(result);
+                        $("#txtValorNominal").val(parseInt(result));
                         $("#txtValorObjetivo").val((parseInt(result)).toFixed(0));
                         nominal = (parseInt(result)).toFixed(0);
+                        nominalReal = (parseInt(result)).toFixed(0);
 
 
                     }
@@ -860,10 +870,14 @@ function ChartResumenesGarantias() {
             for (var i in valor) {
                 nombre.push(valor[i].CodigoIngreso);
                 stock.push(valor[i].ResultadoFinal);
-                stock2.push(valor[i].ValorObjetivo);
-                $("#txtValorObjetivo").val((parseInt(result)).toFixed(0));
-                nominal = (parseInt(result)).toFixed(0);
+                stock2.push(valor[i].DatoTeoricoPrueba);
 
+                $("#txtValorNominal").val(parseInt(valor[i].DatoTeoricoPrueba));
+
+                $("#txtValorObjetivo").val((parseInt(valor[i].DatoTeoricoPrueba * 0.9)));
+                nominal = (valor[i].DatoTeoricoPrueba * 0.9);
+                nominalReal = (valor[i].DatoTeoricoPrueba);
+                //DatoTeoricoPrueba
             }
 
         }
@@ -966,7 +980,7 @@ function GenerarPdf() {
     var dataURL = canvas.toDataURL();
     SetViewBag(dataURL);
 
-    var url = "../Calidad/GenerarPdfReporte?Nominal=" + nominal;
+    var url = "../Calidad/GenerarPdfReporte?Nominal=" + nominal + "&NominalReal=" + nominalReal;
     window.open(url);
 }
 
@@ -986,7 +1000,7 @@ function EnviarPdf() {
     $('#BtnEnvio').prop('disabled', true);
     $("#BtnEnvio").text("Enviando...");
 
-    if ($("#txtCorreoDestino").val() == "") {
+    if ($("#txtCorreoDestino").val() == "" || $("#txtCorreoCopia").val() == "") {
         $('#BtnEnvio').prop('disabled', false);
         $("#BtnEnvio").text("Enviar");
 
@@ -998,12 +1012,14 @@ function EnviarPdf() {
         $.ajax({
             url: '/Calidad/EnviarPdfReporte',
             type: 'POST',
-            data: { Nominal: nominal, Correo: $("#txtCorreoDestino").val() },
+            data: { Nominal: nominal, Correo: $("#txtCorreoDestino").val(), CorreoCopia: $("#txtCorreoCopia").val() },
             success: function (msg) {
                 $('#BtnEnvio').prop('disabled', false);
                 $("#BtnEnvio").text("Enviar");
 
                 $("#txtCorreoDestino").val("");
+                $("#txtCorreoCopia").val("");
+
                 $("#ModalEnvioCorreoElectronico").modal("hide");
                 $("#ModalInformeGrafica").modal("hide");
 

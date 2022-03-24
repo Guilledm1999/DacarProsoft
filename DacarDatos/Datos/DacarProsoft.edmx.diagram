@@ -91,6 +91,7 @@
         <EntityTypeShape EntityType="DacarProsoftModel.PruebaLaboratorioCalidad" Width="1.5" PointX="9.375" PointY="24.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.AutorizacionPackingList" Width="1.5" PointX="24.375" PointY="18.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.DatosTecnicosCalidadBaterias" Width="1.5" PointX="24.375" PointY="21.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.CorreoElectronicoEnviosReportes" Width="1.5" PointX="21.375" PointY="24.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

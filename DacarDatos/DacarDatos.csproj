@@ -157,6 +157,9 @@
     <Compile Include="Datos\ControlCambios.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\CorreoElectronicoEnviosReportes.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\C_SYP_CLASESN.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>

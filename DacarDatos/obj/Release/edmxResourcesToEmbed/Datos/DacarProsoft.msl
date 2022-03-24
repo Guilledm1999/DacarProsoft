@@ -877,5 +877,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CorreoElectronicoEnviosReportes">
+      <EntityTypeMapping TypeName="DacarProsoftModel.CorreoElectronicoEnviosReportes">
+        <MappingFragment StoreEntitySet="CorreoElectronicoEnviosReportes">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="ClaveCorreo" ColumnName="ClaveCorreo" />
+          <ScalarProperty Name="DireccionCorreo" ColumnName="DireccionCorreo" />
+          <ScalarProperty Name="CorreoElectronicoEnviosReportesId" ColumnName="CorreoElectronicoEnviosReportesId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -162,6 +162,15 @@
     <Property Name="Pass" Type="varchar" MaxLength="255" />
     <Property Name="Estado" Type="int" />
   </EntityType>
+  <EntityType Name="CorreoElectronicoEnviosReportes">
+    <Key>
+      <PropertyRef Name="CorreoElectronicoEnviosReportesId" />
+    </Key>
+    <Property Name="CorreoElectronicoEnviosReportesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DireccionCorreo" Type="varchar" MaxLength="100" />
+    <Property Name="ClaveCorreo" Type="varchar" MaxLength="50" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="DatosTecnicosCalidadBaterias">
     <Key>
       <PropertyRef Name="DatosTecnicosCalidadBateriasId" />
@@ -1043,6 +1052,7 @@
     <EntitySet Name="ClienteClase" EntityType="Self.ClienteClase" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClienteLinea" EntityType="Self.ClienteLinea" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ControlCambios" EntityType="Self.ControlCambios" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CorreoElectronicoEnviosReportes" EntityType="Self.CorreoElectronicoEnviosReportes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DatosTecnicosCalidadBaterias" EntityType="Self.DatosTecnicosCalidadBaterias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DetalleGeneralPackingList" EntityType="Self.DetalleGeneralPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DiasBusqueda" EntityType="Self.DiasBusqueda" Schema="dbo" store:Type="Tables" />
