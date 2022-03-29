@@ -389,6 +389,33 @@
           <Property Name="RecargaBateria" Type="bit" />
           <Property Name="InspeccionEstructuraExterna" Type="bit" />
         </EntityType>
+        <EntityType Name="IngresosDetallesMedicionCarga">
+          <Key>
+            <PropertyRef Name="IngresosDetallesMedicionCargaId" />
+          </Key>
+          <Property Name="IngresosDetallesMedicionCargaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaPrueba" Type="datetime" />
+          <Property Name="IngresosMedicionCargaId" Type="int" />
+          <Property Name="voltaje" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FechaRegistro" Type="datetime" />
+        </EntityType>
+        <EntityType Name="IngresosMedicionCarga">
+          <Key>
+            <PropertyRef Name="IngresosMedicionCargaId" />
+          </Key>
+          <Property Name="IngresosMedicionCargaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaPrueba" Type="datetime" />
+          <Property Name="CodigoIngreso" Type="int" />
+          <Property Name="Marca" Type="varchar" MaxLength="255" />
+          <Property Name="PreAcondicionamiento" Type="varchar" MaxLength="10" />
+          <Property Name="TipoBateria" Type="varchar" MaxLength="50" />
+          <Property Name="Modelo" Type="varchar" MaxLength="50" />
+          <Property Name="Separador" Type="varchar" MaxLength="20" />
+          <Property Name="LoteEnsamble" Type="varchar" MaxLength="20" />
+          <Property Name="LoteCarga" Type="varchar" MaxLength="20" />
+          <Property Name="Peso" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="FechaRegistro" Type="datetime" />
+        </EntityType>
         <EntityType Name="LineasMarcasPropias">
           <Key>
             <PropertyRef Name="LineasMarcasPropiasId" />
@@ -934,6 +961,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_MedicionCarga">
+          <End Role="IngresosMedicionCarga" Type="Self.IngresosMedicionCarga" Multiplicity="0..1" />
+          <End Role="IngresosDetallesMedicionCarga" Type="Self.IngresosDetallesMedicionCarga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngresosMedicionCarga">
+              <PropertyRef Name="IngresosMedicionCargaId" />
+            </Principal>
+            <Dependent Role="IngresosDetallesMedicionCarga">
+              <PropertyRef Name="IngresosMedicionCargaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Packing">
           <End Role="Packing" Type="Self.Packing" Multiplicity="0..1" />
           <End Role="PackingDtl" Type="Self.PackingDtl" Multiplicity="*" />
@@ -1075,6 +1114,8 @@
           <EntitySet Name="IngresoRevisionGarantiaDiagnostico" EntityType="Self.IngresoRevisionGarantiaDiagnostico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="Self.IngresoRevisionGarantiaInspeccionInicial" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoRevisionGarantiaTrabajoRealizado" EntityType="Self.IngresoRevisionGarantiaTrabajoRealizado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngresosDetallesMedicionCarga" EntityType="Self.IngresosDetallesMedicionCarga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngresosMedicionCarga" EntityType="Self.IngresosMedicionCarga" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LineasMarcasPropias" EntityType="Self.LineasMarcasPropias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarcaBateriaPruebaLaboratorio" EntityType="Self.MarcaBateriaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
@@ -1160,6 +1201,10 @@
           <AssociationSet Name="fk_detallePedido" Association="Self.fk_detallePedido">
             <End Role="PedidoClienteCabecera" EntitySet="PedidoClienteCabecera" />
             <End Role="PedidoClienteDetalle" EntitySet="PedidoClienteDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="fk_MedicionCarga" Association="Self.fk_MedicionCarga">
+            <End Role="IngresosMedicionCarga" EntitySet="IngresosMedicionCarga" />
+            <End Role="IngresosDetallesMedicionCarga" EntitySet="IngresosDetallesMedicionCarga" />
           </AssociationSet>
           <AssociationSet Name="fk_Packing" Association="Self.fk_Packing">
             <End Role="Packing" EntitySet="Packing" />
@@ -1368,6 +1413,12 @@
           <AssociationSet Name="fk_PackingPallet" Association="DacarProsoftModel.fk_PackingPallet">
             <End Role="Packing" EntitySet="Packing" />
             <End Role="PalletPacking" EntitySet="PalletPacking" />
+          </AssociationSet>
+          <EntitySet Name="IngresosDetallesMedicionCarga" EntityType="DacarProsoftModel.IngresosDetallesMedicionCarga" />
+          <EntitySet Name="IngresosMedicionCarga" EntityType="DacarProsoftModel.IngresosMedicionCarga" />
+          <AssociationSet Name="fk_MedicionCarga" Association="DacarProsoftModel.fk_MedicionCarga">
+            <End Role="IngresosMedicionCarga" EntitySet="IngresosMedicionCarga" />
+            <End Role="IngresosDetallesMedicionCarga" EntitySet="IngresosDetallesMedicionCarga" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
@@ -2424,6 +2475,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="IngresosDetallesMedicionCarga">
+          <Key>
+            <PropertyRef Name="IngresosDetallesMedicionCargaId" />
+          </Key>
+          <Property Name="IngresosDetallesMedicionCargaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaPrueba" Type="DateTime" Precision="3" />
+          <Property Name="IngresosMedicionCargaId" Type="Int32" />
+          <Property Name="voltaje" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="IngresosMedicionCarga" Relationship="DacarProsoftModel.fk_MedicionCarga" FromRole="IngresosDetallesMedicionCarga" ToRole="IngresosMedicionCarga" />
+        </EntityType>
+        <EntityType Name="IngresosMedicionCarga">
+          <Key>
+            <PropertyRef Name="IngresosMedicionCargaId" />
+          </Key>
+          <Property Name="IngresosMedicionCargaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaPrueba" Type="DateTime" Precision="3" />
+          <Property Name="CodigoIngreso" Type="Int32" />
+          <Property Name="Marca" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PreAcondicionamiento" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TipoBateria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Separador" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LoteEnsamble" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LoteCarga" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Peso" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="IngresosDetallesMedicionCarga" Relationship="DacarProsoftModel.fk_MedicionCarga" FromRole="IngresosMedicionCarga" ToRole="IngresosDetallesMedicionCarga" />
+        </EntityType>
+        <Association Name="fk_MedicionCarga">
+          <End Type="DacarProsoftModel.IngresosMedicionCarga" Role="IngresosMedicionCarga" Multiplicity="0..1" />
+          <End Type="DacarProsoftModel.IngresosDetallesMedicionCarga" Role="IngresosDetallesMedicionCarga" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngresosMedicionCarga">
+              <PropertyRef Name="IngresosMedicionCargaId" />
+            </Principal>
+            <Dependent Role="IngresosDetallesMedicionCarga">
+              <PropertyRef Name="IngresosMedicionCargaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3314,6 +3406,35 @@
                 <ScalarProperty Name="NumeroOrden" ColumnName="NumeroOrden" />
                 <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
                 <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngresosDetallesMedicionCarga">
+            <EntityTypeMapping TypeName="DacarProsoftModel.IngresosDetallesMedicionCarga">
+              <MappingFragment StoreEntitySet="IngresosDetallesMedicionCarga">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="voltaje" ColumnName="voltaje" />
+                <ScalarProperty Name="IngresosMedicionCargaId" ColumnName="IngresosMedicionCargaId" />
+                <ScalarProperty Name="FechaPrueba" ColumnName="FechaPrueba" />
+                <ScalarProperty Name="IngresosDetallesMedicionCargaId" ColumnName="IngresosDetallesMedicionCargaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngresosMedicionCarga">
+            <EntityTypeMapping TypeName="DacarProsoftModel.IngresosMedicionCarga">
+              <MappingFragment StoreEntitySet="IngresosMedicionCarga">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="LoteCarga" ColumnName="LoteCarga" />
+                <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
+                <ScalarProperty Name="Separador" ColumnName="Separador" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="TipoBateria" ColumnName="TipoBateria" />
+                <ScalarProperty Name="PreAcondicionamiento" ColumnName="PreAcondicionamiento" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="CodigoIngreso" ColumnName="CodigoIngreso" />
+                <ScalarProperty Name="FechaPrueba" ColumnName="FechaPrueba" />
+                <ScalarProperty Name="IngresosMedicionCargaId" ColumnName="IngresosMedicionCargaId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -20,7 +20,7 @@ namespace DacarProsoft.Datos
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
                 var ListadoCabeceraOrdenesVentas = from d in DB.ORDR
-                                             where d.U_BPP_MDMT==Exportacion&& d.DocDate >= fechaCorte && d.DocDate <= fechaActual
+                                             where (d.U_BPP_MDMT==Exportacion|| d.U_SYP_NUMOCCL == "E082121A") && d.DocDate >= fechaCorte && d.DocDate <= fechaActual
                                                    orderby d.DocDate descending
                                                    //d.U_SYP_EXPORTACION == Exportacion &&
                                                    //d.U_SYP_EXPORTACION == Exportacion &&

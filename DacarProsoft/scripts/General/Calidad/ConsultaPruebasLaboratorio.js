@@ -34,9 +34,6 @@ $('#LinkClose8').on("click", function (e) {
 });
 
 
-
-
-
 function ConsultaRegistrosPruebasLaboratorio() {
     $.ajax({
         url: "../Calidad/ConsultarRegistrosPruebasLaboratorio",
@@ -642,7 +639,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                     ],
                 }, 
                 onContentReady: function (e) {
-                    BotonPrueba();             
+                    DatosFiltradosTabla();
                 }, 
             });
         },
@@ -752,7 +749,7 @@ function DescargarAnexo() {
     window.open(valor);
 }
 
-function BotonPrueba() {
+function DatosFiltradosTabla() {
     const filterExpr = $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getCombinedFilter(true);
     $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getDataSource()
         .store()
@@ -763,7 +760,6 @@ function BotonPrueba() {
 }
 
 function ChartResumenesGarantias() {
-
     const valorModel = valor.find(element => element.Modelo != valor[0].Modelo);
     const valorEnsayo = valor.find(element => element.TipoEnsayo != valor[0].TipoEnsayo);
 
@@ -908,7 +904,6 @@ function ChartResumenesGarantias() {
                 fill: false
             }]
         };
-
         char = new Chart(ctx, {
             type: "line",
             data: chartdata,
@@ -1012,7 +1007,7 @@ function EnviarPdf() {
         $.ajax({
             url: '/Calidad/EnviarPdfReporte',
             type: 'POST',
-            data: { Nominal: nominal, Correo: $("#txtCorreoDestino").val(), CorreoCopia: $("#txtCorreoCopia").val() },
+            data: { idMeidicionDescarga: nominal, Correo: $("#txtCorreoDestino").val(), CorreoCopia: $("#txtCorreoCopia").val() },
             success: function (msg) {
                 $('#BtnEnvio').prop('disabled', false);
                 $("#BtnEnvio").text("Enviar");

@@ -384,6 +384,33 @@
     <Property Name="RecargaBateria" Type="bit" />
     <Property Name="InspeccionEstructuraExterna" Type="bit" />
   </EntityType>
+  <EntityType Name="IngresosDetallesMedicionCarga">
+    <Key>
+      <PropertyRef Name="IngresosDetallesMedicionCargaId" />
+    </Key>
+    <Property Name="IngresosDetallesMedicionCargaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FechaPrueba" Type="datetime" />
+    <Property Name="IngresosMedicionCargaId" Type="int" />
+    <Property Name="voltaje" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="FechaRegistro" Type="datetime" />
+  </EntityType>
+  <EntityType Name="IngresosMedicionCarga">
+    <Key>
+      <PropertyRef Name="IngresosMedicionCargaId" />
+    </Key>
+    <Property Name="IngresosMedicionCargaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FechaPrueba" Type="datetime" />
+    <Property Name="CodigoIngreso" Type="int" />
+    <Property Name="Marca" Type="varchar" MaxLength="255" />
+    <Property Name="PreAcondicionamiento" Type="varchar" MaxLength="10" />
+    <Property Name="TipoBateria" Type="varchar" MaxLength="50" />
+    <Property Name="Modelo" Type="varchar" MaxLength="50" />
+    <Property Name="Separador" Type="varchar" MaxLength="20" />
+    <Property Name="LoteEnsamble" Type="varchar" MaxLength="20" />
+    <Property Name="LoteCarga" Type="varchar" MaxLength="20" />
+    <Property Name="Peso" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="FechaRegistro" Type="datetime" />
+  </EntityType>
   <EntityType Name="LineasMarcasPropias">
     <Key>
       <PropertyRef Name="LineasMarcasPropiasId" />
@@ -929,6 +956,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_MedicionCarga">
+    <End Role="IngresosMedicionCarga" Type="Self.IngresosMedicionCarga" Multiplicity="0..1" />
+    <End Role="IngresosDetallesMedicionCarga" Type="Self.IngresosDetallesMedicionCarga" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresosMedicionCarga">
+        <PropertyRef Name="IngresosMedicionCargaId" />
+      </Principal>
+      <Dependent Role="IngresosDetallesMedicionCarga">
+        <PropertyRef Name="IngresosMedicionCargaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_Packing">
     <End Role="Packing" Type="Self.Packing" Multiplicity="0..1" />
     <End Role="PackingDtl" Type="Self.PackingDtl" Multiplicity="*" />
@@ -1070,6 +1109,8 @@
     <EntitySet Name="IngresoRevisionGarantiaDiagnostico" EntityType="Self.IngresoRevisionGarantiaDiagnostico" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoRevisionGarantiaInspeccionInicial" EntityType="Self.IngresoRevisionGarantiaInspeccionInicial" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoRevisionGarantiaTrabajoRealizado" EntityType="Self.IngresoRevisionGarantiaTrabajoRealizado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IngresosDetallesMedicionCarga" EntityType="Self.IngresosDetallesMedicionCarga" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IngresosMedicionCarga" EntityType="Self.IngresosMedicionCarga" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LineasMarcasPropias" EntityType="Self.LineasMarcasPropias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarcaBateriaPruebaLaboratorio" EntityType="Self.MarcaBateriaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
@@ -1155,6 +1196,10 @@
     <AssociationSet Name="fk_detallePedido" Association="Self.fk_detallePedido">
       <End Role="PedidoClienteCabecera" EntitySet="PedidoClienteCabecera" />
       <End Role="PedidoClienteDetalle" EntitySet="PedidoClienteDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_MedicionCarga" Association="Self.fk_MedicionCarga">
+      <End Role="IngresosMedicionCarga" EntitySet="IngresosMedicionCarga" />
+      <End Role="IngresosDetallesMedicionCarga" EntitySet="IngresosDetallesMedicionCarga" />
     </AssociationSet>
     <AssociationSet Name="fk_Packing" Association="Self.fk_Packing">
       <End Role="Packing" EntitySet="Packing" />

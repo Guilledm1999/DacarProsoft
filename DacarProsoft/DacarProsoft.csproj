@@ -278,7 +278,9 @@
     <Content Include="scripts\General\Account\Login.js" />
     <Content Include="scripts\General\Articulos\ConsultarItemsChatarra.js" />
     <Content Include="scripts\General\Articulos\ConsultarArticulos.js" />
+    <Content Include="scripts\General\Calidad\ConsultaMedicionDeDescarga.js" />
     <Content Include="scripts\General\Calidad\ConsultaPruebasLaboratorio.js" />
+    <Content Include="scripts\General\Calidad\IngresosMedicionDeDescarga.js" />
     <Content Include="scripts\General\Calidad\IngresosPruebasLaboratorio.js" />
     <Content Include="scripts\General\Calidad\RegistrosVisuaLCN.js" />
     <Content Include="scripts\General\Chatarra\ReporteIngresosChatarraPorFechas.js" />
@@ -589,6 +591,8 @@
     <Content Include="Views\Calidad\IngresosPruebasLaboratorio.cshtml" />
     <Content Include="Views\Calidad\ConsultaPruebasLaboratorio.cshtml" />
     <Content Include="Views\PackingList\ComextListadoPackingList.cshtml" />
+    <Content Include="Views\Calidad\IngresosMedicionDeDescarga.cshtml" />
+    <Content Include="Views\Calidad\ConsultaMedicionDeDescarga.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

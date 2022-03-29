@@ -92,6 +92,9 @@
         <EntityTypeShape EntityType="DacarProsoftModel.Packing" Width="1.5" PointX="12.375" PointY="25.625" />
         <AssociationConnector Association="DacarProsoftModel.fk_Packing" />
         <AssociationConnector Association="DacarProsoftModel.fk_PackingPallet" />
+        <EntityTypeShape EntityType="DacarProsoftModel.IngresosDetallesMedicionCarga" Width="1.5" PointX="27.625" PointY="1.625" />
+        <EntityTypeShape EntityType="DacarProsoftModel.IngresosMedicionCarga" Width="1.5" PointX="25.375" PointY="1" />
+        <AssociationConnector Association="DacarProsoftModel.fk_MedicionCarga" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

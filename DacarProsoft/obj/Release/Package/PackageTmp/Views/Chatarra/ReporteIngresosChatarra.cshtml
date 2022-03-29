@@ -14,7 +14,6 @@
 }
 <br />
 
-
 <div class="card shadow align-top">
     <div class="card-header">
         <h2>Reporte Ingresos Chatarra</h2>
@@ -49,8 +48,12 @@
             <strong>Actualizacion exitosa</strong>
         </div>
         <div id="IngresosdeChatarras"></div>
+        <div class="auto" id="OcultarBoton" style="display: none">
+            <button type="button" class="btn btn-primary" onclick="ChartResumenesChatarras();">Resultados</button>
+        </div>
+
     </div>
-</div>
+    </div>
 
 
 
@@ -149,6 +152,60 @@
     </div>
 </div>
 
+<div id="ModalInformeGrafica" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblDetallePackingList">Reporte Ingresos Chatarra</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            <div class="col-sm-12">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        @*<h5 for="formGroupExampleInput"><a style='box-shadow: 2px 2px 5px #3F51B5 inset'>Promedios Generales</a></h5>*@
+                                        <h5 style="color:darkslateblue" for="formGroupExampleInput">Promedios Generales</h5>
+
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="formGroupExampleInput2">Peso Teorico Total</label>
+                                        <input type="text" class="form-control" id="txtPromedioPeso" placeholder="Peso" readonly>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="formGroupExampleInput">Peso Ingresado Total(OCV)</label>
+                                        <input type="text" class="form-control" id="txtPromedioVoltaje" placeholder="Voltaje" readonly>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="formGroupExampleInput">Desviacion Promedio</label>
+                                        <input type="text" class="form-control" id="txtPromedioCCA" placeholder="CCA" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <canvas id="myChart" style="width:200%;max-width:800px"></canvas>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarPdf();">Imprimir</button>
+                <button type="button" class="btn btn-success" onclick="AbrirModalEnvio();">Enviar por correo</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @*<input type="hidden" id="txtSumaryPesos" />*@
 <input type="hidden" id="txtPesoIngresado" />
@@ -156,3 +213,4 @@
 
 <input type="hidden" value="desv" id="valordesv" />
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>

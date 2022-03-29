@@ -845,7 +845,7 @@ namespace DacarProsoft.Controllers
             //canvas.Rectangle(rect2);
             canvas2.Stroke();
 
-            Paragraph p3 = new Paragraph(Sucursal+"/\n" + Destino).SetFixedLeading(10).SetFont(bold).SetFontSize(11).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
+            Paragraph p3 = new Paragraph(Sucursal+"/" + Destino).SetFixedLeading(10).SetFont(bold).SetFontSize(11).SetHorizontalAlignment(HorizontalAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER);
             PdfCanvas canvas3 = new PdfCanvas(pdf.GetFirstPage());
             iText.Kernel.Geom.Rectangle rect3 = new iText.Kernel.Geom.Rectangle(170, tercerFila-5, 107, 42);
             new Canvas(canvas3, rect3)

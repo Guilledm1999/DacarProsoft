@@ -515,5 +515,312 @@ namespace DacarProsoft.Datos
                 }
             }
         }
+        public int ObtenerCodigoIngresoMedicionCarga()
+        {
+            int result = 0;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.IngresosMedicionCarga
+                                   orderby d.IngresosMedicionCargaId descending
+                                   select new
+                                   {
+                                       d.CodigoIngreso
+                                   }).FirstOrDefault();
+
+                    if (Listado != null)
+                    {
+                        result = Listado.CodigoIngreso.Value + 1;
+                    }
+                    else {
+                        result = 1;
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return result;
+                }
+            }
+        }
+
+        public List<ModelPruebaLaboratorioCalidad> ConsultarIngresosMedicionesVoltaje()
+        {
+            string fechaIngreso;
+            string fechaRegistro;
+            List<ModelPruebaLaboratorioCalidad> lst = new List<ModelPruebaLaboratorioCalidad>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.IngresosMedicionCarga
+                               orderby d.IngresosMedicionCargaId descending
+                               select new
+                               {
+                                   d.IngresosMedicionCargaId,
+                                   d.FechaPrueba,
+                                   d.CodigoIngreso,
+                                   d.Marca,                              
+                                   d.PreAcondicionamiento,
+                                   d.TipoBateria,
+                                   d.Modelo,
+                                   d.Separador,
+                                   d.LoteEnsamble,
+                                   d.LoteCarga,
+                                   d.Peso,
+                                   //d.Voltaje,
+                                   d.FechaRegistro
+                               }).ToList();
+
+                foreach (var x in Listado.Distinct())
+                {
+                    DateTime fecha = Convert.ToDateTime(x.FechaPrueba, CultureInfo.InvariantCulture);
+                    fechaIngreso = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime fecha2 = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
+                    fechaRegistro = fecha2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    lst.Add(new ModelPruebaLaboratorioCalidad
+                    {
+                        PruebaLaboratorioCalidadId = x.IngresosMedicionCargaId,
+                        FechaIngreso = fechaIngreso,
+                        CodigoIngreso = x.CodigoIngreso,
+                        Marca = x.Marca,         
+                        PreAcondicionamiento = x.PreAcondicionamiento,
+                        TipoBateria = x.TipoBateria,
+                        Modelo = x.Modelo,
+                        Separador = x.Separador,
+                        LoteEnsamble = x.LoteEnsamble,
+                        LoteCarga = x.LoteCarga,
+                        Peso = x.Peso,
+                        //Voltaje = x.Voltaje,                  
+                        FechaRegistro = fechaRegistro
+                    });
+                }
+                return lst;
+            }
+        }
+        public int IngresarPruebaMedicionBateria(DateTime FechaIngreso, int CodigoIngreso, string Marca, string PreAcondicionamiento, string TipoBateria, string Modelo, string Separador, string LoteEnsamble,
+          string LoteCarga, decimal Peso, decimal Voltaje)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new IngresosMedicionCarga();
+                    result.FechaPrueba = FechaIngreso;
+                    result.CodigoIngreso = CodigoIngreso;
+                    result.Marca = Marca;
+                    result.PreAcondicionamiento = PreAcondicionamiento;
+                    result.TipoBateria = TipoBateria;
+                    result.Modelo = Modelo;
+                    result.Separador = Separador;
+                    result.LoteEnsamble = LoteEnsamble;
+                    result.LoteCarga = LoteCarga;
+                    result.Peso = Peso;
+                    //result.Voltaje = Voltaje;
+                  
+                    result.FechaRegistro = DateTime.Now;
+
+                    DB.IngresosMedicionCarga.Add(result);
+                    DB.SaveChanges();
+
+                    int resultId = result.IngresosMedicionCargaId;
+                    return resultId;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+
+        public bool IngresarDetalleMedicionBateria(int IngresosMedicionCargaId, DateTime FechaPrueba, decimal Voltaje)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new IngresosDetallesMedicionCarga();
+                    result.IngresosMedicionCargaId = IngresosMedicionCargaId;
+                    result.FechaPrueba = FechaPrueba;
+                    result.voltaje = Voltaje;
+                    result.FechaRegistro = DateTime.Now;
+
+                    DB.IngresosDetallesMedicionCarga.Add(result);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public List<ModelPruebaLaboratorioCalidad> ConsultarMedicionesDeDescargas()
+        {
+            string fechaIngreso;
+            string fechaRegistro;
+            List<ModelPruebaLaboratorioCalidad> lst = new List<ModelPruebaLaboratorioCalidad>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.IngresosMedicionCarga
+                               orderby d.IngresosMedicionCargaId descending
+                               select new
+                               {   
+                                   d.IngresosMedicionCargaId,
+                                   d.FechaPrueba,
+                                   d.CodigoIngreso,
+                                   d.Marca,                                
+                                   d.PreAcondicionamiento,
+                                   d.TipoBateria,
+                                   d.Modelo,
+                                   d.Separador,
+                                   d.LoteEnsamble,
+                                   d.LoteCarga,
+                                   d.Peso,                              
+                                   d.FechaRegistro
+                               }).ToList();
+
+                foreach (var x in Listado.Distinct())
+                {
+                    int Contador=ContarRegistrosMedicionesDeDescargas(x.IngresosMedicionCargaId);
+                    DateTime fecha = Convert.ToDateTime(x.FechaPrueba, CultureInfo.InvariantCulture);
+                    fechaIngreso = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime fecha2 = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
+                    fechaRegistro = fecha2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    lst.Add(new ModelPruebaLaboratorioCalidad
+                    {
+                        PruebaLaboratorioCalidadId = x.IngresosMedicionCargaId,
+                        FechaIngreso = fechaIngreso,
+                        CodigoIngreso = x.CodigoIngreso,
+                        Marca = x.Marca,                      
+                        PreAcondicionamiento = x.PreAcondicionamiento,
+                        TipoBateria = x.TipoBateria,
+                        Modelo = x.Modelo,
+                        Separador = x.Separador,
+                        LoteEnsamble = x.LoteEnsamble,
+                        LoteCarga = x.LoteCarga,
+                        Peso = x.Peso,                      
+                        FechaRegistro = fechaRegistro,
+                        ContadorRegistros=Contador
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<ModelPruebaLaboratorioCalidad> ConsultarMedicionesDeDescargasPorId(int idMedicionDescarga)
+        {
+            string fechaIngreso;
+            string fechaRegistro;
+            List<ModelPruebaLaboratorioCalidad> lst = new List<ModelPruebaLaboratorioCalidad>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.IngresosMedicionCarga
+                               where d.IngresosMedicionCargaId==idMedicionDescarga
+                               orderby d.IngresosMedicionCargaId descending
+                               select new
+                               {
+                                   d.IngresosMedicionCargaId,
+                                   d.FechaPrueba,
+                                   d.CodigoIngreso,
+                                   d.Marca,
+                                   d.PreAcondicionamiento,
+                                   d.TipoBateria,
+                                   d.Modelo,
+                                   d.Separador,
+                                   d.LoteEnsamble,
+                                   d.LoteCarga,
+                                   d.Peso,
+                                   d.FechaRegistro
+                               }).ToList();
+
+                foreach (var x in Listado.Distinct())
+                {
+                    int Contador = ContarRegistrosMedicionesDeDescargas(x.IngresosMedicionCargaId);
+                    DateTime fecha = Convert.ToDateTime(x.FechaPrueba, CultureInfo.InvariantCulture);
+                    fechaIngreso = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime fecha2 = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
+                    fechaRegistro = fecha2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    lst.Add(new ModelPruebaLaboratorioCalidad
+                    {
+                        PruebaLaboratorioCalidadId = x.IngresosMedicionCargaId,
+                        FechaIngreso = fechaIngreso,
+                        CodigoIngreso = x.CodigoIngreso,
+                        Marca = x.Marca,
+                        PreAcondicionamiento = x.PreAcondicionamiento,
+                        TipoBateria = x.TipoBateria,
+                        Modelo = x.Modelo,
+                        Separador = x.Separador,
+                        LoteEnsamble = x.LoteEnsamble,
+                        LoteCarga = x.LoteCarga,
+                        Peso = x.Peso,
+                        FechaRegistro = fechaRegistro,
+                        ContadorRegistros = Contador
+                    });
+                }
+                return lst;
+            }
+        }
+        public int ContarRegistrosMedicionesDeDescargas(int IngresosMedicionCargaId)
+        {
+            int result = 0;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.IngresosDetallesMedicionCarga
+                                   where d.IngresosMedicionCargaId==IngresosMedicionCargaId
+                                   orderby d.IngresosMedicionCargaId descending
+                                   select new
+                                   {
+                                       d.IngresosMedicionCargaId
+                                   }).Count();
+
+                    
+
+                    return Listado;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return result;
+                }
+            }
+        }
+        public List<ModelPruebaLaboratorioCalidad> ConsultarDetalleMedicionDescarga(int idMedicionDescarga)
+        {
+            string fechaIngreso;
+            List<ModelPruebaLaboratorioCalidad> lst = new List<ModelPruebaLaboratorioCalidad>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.IngresosDetallesMedicionCarga
+                               where d.IngresosMedicionCargaId== idMedicionDescarga
+                               orderby d.IngresosDetallesMedicionCargaId 
+                               ascending
+                               select new
+                               {
+                                 d.IngresosDetallesMedicionCargaId,
+                                 d.FechaPrueba,
+                                 d.voltaje
+                               }).ToList();
+
+                foreach (var x in Listado.Distinct())
+                {
+                    DateTime fecha = Convert.ToDateTime(x.FechaPrueba, CultureInfo.InvariantCulture);
+                    fechaIngreso = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    
+                    lst.Add(new ModelPruebaLaboratorioCalidad
+                    {
+                        PruebaLaboratorioCalidadId = x.IngresosDetallesMedicionCargaId,
+                        FechaIngreso = fechaIngreso,
+                        Voltaje=x.voltaje
+                    });
+                }
+                return lst;
+            }
+        }
     }
 }

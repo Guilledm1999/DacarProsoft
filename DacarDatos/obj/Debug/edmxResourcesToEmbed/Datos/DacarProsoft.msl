@@ -888,5 +888,34 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="IngresosDetallesMedicionCarga">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresosDetallesMedicionCarga">
+        <MappingFragment StoreEntitySet="IngresosDetallesMedicionCarga">
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="voltaje" ColumnName="voltaje" />
+          <ScalarProperty Name="IngresosMedicionCargaId" ColumnName="IngresosMedicionCargaId" />
+          <ScalarProperty Name="FechaPrueba" ColumnName="FechaPrueba" />
+          <ScalarProperty Name="IngresosDetallesMedicionCargaId" ColumnName="IngresosDetallesMedicionCargaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IngresosMedicionCarga">
+      <EntityTypeMapping TypeName="DacarProsoftModel.IngresosMedicionCarga">
+        <MappingFragment StoreEntitySet="IngresosMedicionCarga">
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="Peso" ColumnName="Peso" />
+          <ScalarProperty Name="LoteCarga" ColumnName="LoteCarga" />
+          <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
+          <ScalarProperty Name="Separador" ColumnName="Separador" />
+          <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+          <ScalarProperty Name="TipoBateria" ColumnName="TipoBateria" />
+          <ScalarProperty Name="PreAcondicionamiento" ColumnName="PreAcondicionamiento" />
+          <ScalarProperty Name="Marca" ColumnName="Marca" />
+          <ScalarProperty Name="CodigoIngreso" ColumnName="CodigoIngreso" />
+          <ScalarProperty Name="FechaPrueba" ColumnName="FechaPrueba" />
+          <ScalarProperty Name="IngresosMedicionCargaId" ColumnName="IngresosMedicionCargaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

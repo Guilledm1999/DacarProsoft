@@ -792,6 +792,8 @@ namespace DacarProsoft.Controllers
             return null;
         }
 
+
+
         public class BackgroundPageEvent : IEventHandler
         {
             iText.Layout.Element.Image imgBack;
@@ -837,5 +839,490 @@ namespace DacarProsoft.Controllers
                     .Close();
             }
         }
+        public ActionResult IngresosMedicionDeDescarga()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                //ConexionAccess conexion = new ConexionAccess();
+
+                daoUtilitarios = new DaoUtilitarios();
+                daoCalidad = new DaoCalidad();
+
+                var datModelosMarcasPropias = daoCalidad.ConsultarModelosMarcasPropias();
+
+                var datMarcas = daoCalidad.MarcaBateria();
+                var datTipoNorma = daoCalidad.TipoNorma();
+                var Normativa = daoCalidad.Normativa();
+                var datSeparador = daoCalidad.Separador();
+                var datTipoEnsayo = daoCalidad.TipoEnsayo();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                ViewBag.MarcasPropias = datModelosMarcasPropias;
+
+                ViewBag.datMarcas = datMarcas;
+                ViewBag.datTipoNorma = datTipoNorma;
+                ViewBag.Normativa = Normativa;
+                ViewBag.datSeparador = datSeparador;
+                ViewBag.datTipoEnsayo = datTipoEnsayo;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public int ConsultarCodigoRegistroMedicionDeDescarga()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                int result = daoCalidad.ObtenerCodigoIngresoMedicionCarga();
+
+                return result;
+                //return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ConsultarRegistrosMedicionesDescarga()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                var result = daoCalidad.ConsultarIngresosMedicionesVoltaje();
+                var json = Json(result, JsonRequestBehavior.AllowGet);
+                json.MaxJsonLength = 50000000;
+                return json;
+                //return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public bool RegistrarPruebasMedicionDescarga(DateTime FechaIngreso, int CodigoIngreso, string Marca, string PreAcondicionamiento, string TipoBateria, string Modelo, string Separador, string LoteEnsamble,
+        string LoteCarga, decimal Peso, decimal Voltaje)
+        {       
+                daoCalidad = new DaoCalidad();
+                var result = daoCalidad.IngresarPruebaMedicionBateria(FechaIngreso, CodigoIngreso, Marca, PreAcondicionamiento, TipoBateria, Modelo, Separador, LoteEnsamble,LoteCarga, Peso, Voltaje);
+                var result2 = daoCalidad.IngresarDetalleMedicionBateria(result, FechaIngreso, Voltaje);
+                return result2;
+          
+        }
+
+        public bool RegistrarNuevaMedicionDescarga(int IdPruebaMedicionDescarga, DateTime FechaMedicion, decimal Voltaje)
+        {
+            daoCalidad = new DaoCalidad();
+            var result = daoCalidad.IngresarDetalleMedicionBateria(IdPruebaMedicionDescarga, FechaMedicion, Voltaje);
+            return result;
+
+        }
+        public ActionResult ConsultaMedicionDeDescarga()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                //ConexionAccess conexion = new ConexionAccess();
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ConsultarRegistrosMedicionesDescargas()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                var result = daoCalidad.ConsultarMedicionesDeDescargas();
+                var json = Json(result, JsonRequestBehavior.AllowGet);
+                json.MaxJsonLength = 50000000;
+                return json;
+                //return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ConsultarDetallesMedicionDescarga(int idMedicion)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                var result = daoCalidad.ConsultarDetalleMedicionDescarga(idMedicion);
+                var json = Json(result, JsonRequestBehavior.AllowGet);
+                json.MaxJsonLength = 50000000;
+                return json;
+                //return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public ActionResult GenerarPdfReporteAutodescarga(int idMeidicionDescarga)
+        {
+            daoCalidad = new DaoCalidad();
+
+            string valoview = Session["GraficoAutodescarga"].ToString();
+
+            var MedicionDescarga = daoCalidad.ConsultarMedicionesDeDescargasPorId(idMeidicionDescarga);
+
+            var MedicionDescargaDetalle = daoCalidad.ConsultarDetalleMedicionDescarga(idMeidicionDescarga);
+
+            int ContadorMedicionDescargaDetalle = daoCalidad.ContarRegistrosMedicionesDeDescargas(idMeidicionDescarga);
+
+            string modeloBateria = "";
+            int codigo = 0;
+            string lEnsamble = "";
+            string lCarga = "";
+            string preAcondicionamiento = "";
+            decimal peso = 0;
+
+
+            foreach (var x in MedicionDescarga) {
+                modeloBateria = x.Modelo;
+                codigo = x.CodigoIngreso.Value;
+                lEnsamble = x.LoteEnsamble;
+                lCarga = x.LoteCarga;
+                preAcondicionamiento = x.PreAcondicionamiento;
+                peso = x.Peso.Value;
+            }
+
+
+            iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
+
+      
+            var base64arr = valoview.Split(',');
+            Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER);
+            byte[] bytes = Convert.FromBase64String(base64arr[1]);
+
+            MemoryStream stream = new MemoryStream();
+            PdfWriter writer = new PdfWriter(stream);
+
+            PdfDocument pdf = new PdfDocument(writer);
+         
+            Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4, true);
+
+            iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
+             .Create(bytes))
+             .SetTextAlignment(TextAlignment.CENTER).SetWidth(480).SetHeight(240).SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            document.SetMargins(112, 36, 90, 36);
+
+            Paragraph header = new Paragraph("PRUEBAS AUTODESCARGA")
+         .SetTextAlignment(TextAlignment.CENTER)
+         .SetFontSize(16).SetBold();
+            Paragraph Modelo = new Paragraph("Modelo de bateria: " + modeloBateria)
+        .SetTextAlignment(TextAlignment.CENTER)
+        .SetFontSize(14);
+
+            var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
+            iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
+
+            float[] columnWidth2 = { 80f, 80f, 80f};
+            Table tabla2 = new Table(columnWidth2);
+            tabla2.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE AUTODESCARGAS").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("#").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            int contador = 1;
+            decimal voltajeMayor = 0;
+            decimal voltajeMenor = 0;
+
+
+            var ValorAlto = MedicionDescargaDetalle.OrderBy((v) => v.PruebaLaboratorioCalidadId).FirstOrDefault();
+            var ValorBajo = MedicionDescargaDetalle.OrderByDescending((v) => v.PruebaLaboratorioCalidadId).FirstOrDefault();
+
+            voltajeMenor = ValorBajo.Voltaje.Value;
+            voltajeMayor = ValorAlto.Voltaje.Value;
+
+            //var numeroMayor = MedicionDescargaDetalle.Min();
+            foreach (var y in MedicionDescargaDetalle) {
+
+
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + contador).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.FechaIngreso).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.Voltaje).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                contador = contador + 1; ;
+            }
+
+            float[] columnWidth = {80f, 80f, 80f,80f };
+            Table tabla = new Table(columnWidth);
+
+            tabla.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("TABLA RESUMEN").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Codigo").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Ensamble").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Carga").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Pre-Acondicionamiento").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+codigo).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+lEnsamble).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+lCarga).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+preAcondicionamiento).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("# Mediciones").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje Inicial").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje Final").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+ ContadorMedicionDescargaDetalle).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+ voltajeMayor).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+voltajeMenor).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+peso).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            document.Add(header);
+            document.Add(Espacio);
+
+            document.Add(Modelo);
+            document.Add(tabla.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+            document.Add(Espacio);
+            document.Add(img);
+            document.Add(Espacio);
+            document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+
+            document.Close();
+
+
+            byte[] bytesStreams = stream.ToArray();
+            stream = new MemoryStream();
+            stream.Write(bytesStreams, 0, bytesStreams.Length);
+            stream.Position = 0;
+
+            return new FileStreamResult(stream, "application/pdf");
+        }
+        public string GuardarViewBagDetalleAutodescarga(string chart)
+        {
+            Session["GraficoAutodescarga"] = chart;
+
+            return null;
+        }
+
+        public string EnviarPdfReporteAutodescarga(int idMeidicionDescarga, string Correo, string CorreoCopia)
+        {
+            try
+            {
+                daoUtilitarios = new DaoUtilitarios();
+            daoCalidad = new DaoCalidad();
+                string DirCorreo = "";
+                string ClavCorreo = "";
+                string valoview = Session["GraficoAutodescarga"].ToString();
+
+            var MedicionDescarga = daoCalidad.ConsultarMedicionesDeDescargasPorId(idMeidicionDescarga);
+
+            var MedicionDescargaDetalle = daoCalidad.ConsultarDetalleMedicionDescarga(idMeidicionDescarga);
+
+            int ContadorMedicionDescargaDetalle = daoCalidad.ContarRegistrosMedicionesDeDescargas(idMeidicionDescarga);
+
+            string modeloBateria = "";
+            int codigo = 0;
+            string lEnsamble = "";
+            string lCarga = "";
+            string preAcondicionamiento = "";
+            decimal peso = 0;
+
+
+            foreach (var x in MedicionDescarga)
+            {
+                modeloBateria = x.Modelo;
+                codigo = x.CodigoIngreso.Value;
+                lEnsamble = x.LoteEnsamble;
+                lCarga = x.LoteCarga;
+                preAcondicionamiento = x.PreAcondicionamiento;
+                peso = x.Peso.Value;
+            }
+
+
+            iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
+
+
+            var base64arr = valoview.Split(',');
+            Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER);
+            byte[] bytes = Convert.FromBase64String(base64arr[1]);
+
+            MemoryStream stream = new MemoryStream();
+            PdfWriter writer = new PdfWriter(stream);
+
+            PdfDocument pdf = new PdfDocument(writer);
+
+            Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4, true);
+
+            iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
+             .Create(bytes))
+             .SetTextAlignment(TextAlignment.CENTER).SetWidth(480).SetHeight(240).SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            document.SetMargins(112, 36, 90, 36);
+
+            Paragraph header = new Paragraph("PRUEBAS AUTODESCARGA")
+         .SetTextAlignment(TextAlignment.CENTER)
+         .SetFontSize(16).SetBold();
+            Paragraph Modelo = new Paragraph("Modelo de bateria: " + modeloBateria)
+        .SetTextAlignment(TextAlignment.CENTER)
+        .SetFontSize(14);
+
+            var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
+            iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
+
+            float[] columnWidth2 = { 80f, 80f, 80f };
+            Table tabla2 = new Table(columnWidth2);
+            tabla2.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE AUTODESCARGAS").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("#").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            int contador = 1;
+            decimal voltajeMayor = 0;
+            decimal voltajeMenor = 0;
+
+                
+                var ValorAlto = MedicionDescargaDetalle.OrderBy((v) => v.PruebaLaboratorioCalidadId).FirstOrDefault();
+                var ValorBajo = MedicionDescargaDetalle.OrderByDescending((v) => v.PruebaLaboratorioCalidadId).FirstOrDefault();
+
+
+                voltajeMenor = ValorBajo.Voltaje.Value;
+            voltajeMayor = ValorAlto.Voltaje.Value;
+
+            //var numeroMayor = MedicionDescargaDetalle.Min();
+            foreach (var y in MedicionDescargaDetalle)
+            {
+
+
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + contador).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.FechaIngreso).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.Voltaje).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                contador = contador + 1; ;
+            }
+
+            float[] columnWidth = { 80f, 80f, 80f, 80f };
+            Table tabla = new Table(columnWidth);
+
+            tabla.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("TABLA RESUMEN").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Codigo").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Ensamble").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Carga").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Pre-Acondicionamiento").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + codigo).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + lEnsamble).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + lCarga).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + preAcondicionamiento).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("# Mediciones").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje Inicial").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje Final").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + ContadorMedicionDescargaDetalle).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + voltajeMayor).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + voltajeMenor).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + peso).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            document.Add(header);
+            document.Add(Espacio);
+
+            document.Add(Modelo);
+            document.Add(tabla.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+            document.Add(Espacio);
+            document.Add(img);
+            document.Add(Espacio);
+            document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+
+            document.Close();
+
+            byte[] bytesStreams = stream.ToArray();
+            stream = new MemoryStream();
+            stream.Write(bytesStreams, 0, bytesStreams.Length);
+            stream.Position = 0;
+
+
+            var CorreoBase = daoUtilitarios.ConsultarCorreoElectronico();
+
+
+            foreach (var x in CorreoBase)
+            {
+                DirCorreo = x.DireccionCorreo;
+                ClavCorreo = x.ClaveCorreo;
+            }
+
+            //foreach (var address in addresses.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+            //{
+            //    mailMessage.To.Add(address);
+            //}
+            MailMessage mm = new MailMessage("bateriasdacar1975@gmail.com", Correo);
+            mm.Subject = "PRUEBAS AUTODESCARGAS " + modeloBateria;
+
+            //MailAddress copy = new MailAddress("Notification_List@contoso.com");
+            mm.CC.Add(CorreoCopia);
+
+            mm.Body = "Resultados de pruebas de autodescargas , con fecha: " + DateTime.Now;
+            mm.Attachments.Add(new Attachment(new MemoryStream(bytesStreams), "PruebasAutodescarga" + modeloBateria + ".pdf"));
+            mm.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 25;
+            smtp.EnableSsl = true;
+            NetworkCredential NetworkCred = new NetworkCredential();
+            NetworkCred.UserName = DirCorreo;
+            NetworkCred.Password = ClavCorreo;
+            smtp.UseDefaultCredentials = true;
+            smtp.Credentials = NetworkCred;
+
+            smtp.Send(mm);
+            return "El envío fue realizado con éxito!";
+        }
+            catch (Exception ex)
+            {
+                //throw new Exception("No se ha podido enviar el email", ex.InnerException);
+                return ex.Message;
+            }
+        }      
     }
 }

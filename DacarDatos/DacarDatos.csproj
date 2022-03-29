@@ -247,6 +247,12 @@
     <Compile Include="Datos\IngresoRevisionGarantiaTrabajoRealizado.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\IngresosDetallesMedicionCarga.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\IngresosMedicionCarga.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\INV1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>

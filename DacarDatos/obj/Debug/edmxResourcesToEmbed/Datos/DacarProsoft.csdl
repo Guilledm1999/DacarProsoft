@@ -179,6 +179,12 @@
       <End Role="Packing" EntitySet="Packing" />
       <End Role="PalletPacking" EntitySet="PalletPacking" />
     </AssociationSet>
+    <EntitySet Name="IngresosDetallesMedicionCarga" EntityType="DacarProsoftModel.IngresosDetallesMedicionCarga" />
+    <EntitySet Name="IngresosMedicionCarga" EntityType="DacarProsoftModel.IngresosMedicionCarga" />
+    <AssociationSet Name="fk_MedicionCarga" Association="DacarProsoftModel.fk_MedicionCarga">
+      <End Role="IngresosMedicionCarga" EntitySet="IngresosMedicionCarga" />
+      <End Role="IngresosDetallesMedicionCarga" EntitySet="IngresosDetallesMedicionCarga" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1231,6 +1237,47 @@
       </Principal>
       <Dependent Role="PalletPacking">
         <PropertyRef Name="PackingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="IngresosDetallesMedicionCarga">
+    <Key>
+      <PropertyRef Name="IngresosDetallesMedicionCargaId" />
+    </Key>
+    <Property Name="IngresosDetallesMedicionCargaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FechaPrueba" Type="DateTime" Precision="3" />
+    <Property Name="IngresosMedicionCargaId" Type="Int32" />
+    <Property Name="voltaje" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="IngresosMedicionCarga" Relationship="DacarProsoftModel.fk_MedicionCarga" FromRole="IngresosDetallesMedicionCarga" ToRole="IngresosMedicionCarga" />
+  </EntityType>
+  <EntityType Name="IngresosMedicionCarga">
+    <Key>
+      <PropertyRef Name="IngresosMedicionCargaId" />
+    </Key>
+    <Property Name="IngresosMedicionCargaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FechaPrueba" Type="DateTime" Precision="3" />
+    <Property Name="CodigoIngreso" Type="Int32" />
+    <Property Name="Marca" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="PreAcondicionamiento" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="TipoBateria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Separador" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="LoteEnsamble" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="LoteCarga" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Peso" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="IngresosDetallesMedicionCarga" Relationship="DacarProsoftModel.fk_MedicionCarga" FromRole="IngresosMedicionCarga" ToRole="IngresosDetallesMedicionCarga" />
+  </EntityType>
+  <Association Name="fk_MedicionCarga">
+    <End Type="DacarProsoftModel.IngresosMedicionCarga" Role="IngresosMedicionCarga" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.IngresosDetallesMedicionCarga" Role="IngresosDetallesMedicionCarga" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IngresosMedicionCarga">
+        <PropertyRef Name="IngresosMedicionCargaId" />
+      </Principal>
+      <Dependent Role="IngresosDetallesMedicionCarga">
+        <PropertyRef Name="IngresosMedicionCargaId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

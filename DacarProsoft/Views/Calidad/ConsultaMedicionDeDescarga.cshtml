@@ -1,0 +1,175 @@
+﻿
+@{
+    ViewBag.Title = "ConsultaMedicionDeDescarga";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+<style>
+
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        color: black;
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        background-color: #D7F1FF;
+        /*background-color: #3355FF;*/
+        color: black;
+        font-weight: bold;
+    }
+
+    .dx-data-row {
+        font-size: 10pt;
+        padding: 2pt;
+    }
+
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
+        vertical-align: top;
+    }
+
+    #tblPruebasMedicionesDescarga {
+        height: 500px;
+    }
+    #tblDetalleMedicionesDescarga {
+        height: 400px;
+    }
+
+    .dx-header-filter::before {
+        color: dodgerblue;
+    }
+
+    .dx-header-filter-empty::before {
+        color: rgba(149, 149, 149, 0.5);
+    }
+</style>
+<br />
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Consulta de Autodescargas</h2>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="MensajeGuardadoExitoso" class="alert alert-success collapse">
+            <button id="LinkClose3" type="button" class="close">&times;</button>
+            <strong>Registrado con exito!</strong>
+        </div>
+        <div id="MensajeDobleModelo" class="alert alert-danger collapse">
+            <button id="LinkClose5" type="button" class="close">&times;</button>
+            <strong>No se puede escoger diferentes modelos de baterias para el analisis!</strong>
+        </div>
+        <div id="MensajeDobleTipoEnsayo" class="alert alert-danger collapse">
+            <button id="LinkClose6" type="button" class="close">&times;</button>
+            <strong>No se puede escoger diferentes tipos de ensayos para el analisis!</strong>
+        </div>
+        <div id="MensajeRespuestaEnvio" class="alert alert-danger collapse">
+            <button id="LinkClose8" type="button" class="close">&times;</button>
+            <strong></strong>
+        </div>
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                </div>
+                <div class="form-group col-md-10">
+                    <div class="form-row">
+                        <div class="loader">
+                            <div class="dx-viewport">
+                                <div class="demo-container">
+                                    <div class="options">
+                                        <div class="option">
+                                            <div id="column-lines"></div>
+                                        </div>
+                                    </div>
+                                    <div id="tblPruebasMedicionesDescarga"> </div>
+                                    <button type="button" class="btn btn-primary" onclick="ChartResumenesGarantias();">Resultados</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-1">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalMedicionesRegistradas" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary">
+                <h5 class="modal-title" id="lblDetalleMedicionDescarga">Mediciones de voltaje registradas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <div class="form-row">                                       
+                                            <div id="tblDetalleMedicionesDescarga"> </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-9">
+                            <canvas id="myChart" style="width:200%;max-width:800px"></canvas>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="GenerarPdf();">Imprimir</button>
+                <button type="button" class="btn btn-success" onclick="AbrirModalEnvio();">Enviar por correo</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalEnvioCorreoElectronico" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Envío de reporte por correo electronico</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" @*style="background-color:cornflowerblue"*@>
+                <div id="MensajeCompleteCorreo" class="alert alert-danger collapse">
+                    <button id="LinkClose7" type="button" class="close">&times;</button>
+                    <strong>Ingrese el correo para enviar!</strong>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="formGroupExampleInput">Enviar a:</label>
+                        <input type="email" class="form-control" id="txtCorreoDestino" placeholder="example@bateriasdacar.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="formGroupExampleInput">Copiar a:</label>
+                        <input type="email" class="form-control" id="txtCorreoCopia" placeholder="example@bateriasdacar.com">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="BtnEnvio" onclick="EnviarPdf()">Enviar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>

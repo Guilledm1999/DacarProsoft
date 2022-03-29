@@ -26,7 +26,7 @@ function InformeIngresosDeChatarra() {
     var select = $("#anioClass option:selected").text();
     //var val = $("#grupoCliente option:selected").val();
     //var select2 = $("#grupoCliente option:selected").text();
-
+    document.getElementById("OcultarBoton").style.display = "";
  $.ajax({
      //url: "../Chatarra/ConsultaModificarIngresoChatarraLocal?anio=" + select + " &codigoCliente=" + val + " &codigos=" + select2,
      url: "../Chatarra/ConsultaModificarIngresoChatarraLocal?anio=" + select,
@@ -96,7 +96,7 @@ function InformeIngresosDeChatarra() {
                   },
                   ,
                 {
-                    dataField: "PesoTeoricoTotalCalculado", caption: "Peso Teorico Total", alignment: "right", allowFiltering: false, width: 130, allowEditing: false
+                    dataField: "PesoTeoricoTotalCalculado", caption: "Peso Teorico", alignment: "right", allowFiltering: false, width: 130, allowEditing: false
 ,
                     
                 calculateCellValue: function (rowData) {
@@ -146,20 +146,33 @@ function InformeIngresosDeChatarra() {
            ConfigDev.summary = {
                totalItems: [
                {
-                   name: "CantidadTotal",
-                   column: "CantidadTotal",
-                   summaryType: "sum",
+                       name: "TipoIngreso",
+                       column: "TipoIngreso",
+                   summaryType: "count",
                    displayFormat: "Cantidad Total",
-                   showInColumn: "CantidadTotal",
+                       showInColumn: "TipoIngreso",
                    customizeText: function (e) {
                        if (e.value != 0 && e.value != "") {
                            $("#txtSumaryPesos").val(e.value);
-                           return "Total: " + (e.value);
+                           return "Totales: ";
                        }
                    }
                }
-           
-               , {
+                   ,
+                   {
+                       name: "CantidadTotal",
+                       column: "CantidadTotal",
+                       summaryType: "sum",
+                       displayFormat: "Cantidad Total",
+                       showInColumn: "CantidadTotal",
+                       customizeText: function (e) {
+                           if (e.value != 0 && e.value != "") {
+                               $("#txtSumaryPesos").val(e.value);
+                               return (e.value);
+                           }
+                       }
+                   }
+                   , {
                    column: "PesoTeoricoTotalCalculado",
                    summaryType: "sum",
                    showInColumn: "PesoTeoricoTotalCalculado",
@@ -170,7 +183,7 @@ function InformeIngresosDeChatarra() {
                            $("#txtPesoTeorico").val(e.value);
                            const noTruncarDecimales = { maximumFractionDigits: 2 };
                            ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
-                           return "Total: " + ValTotal;
+                           return ValTotal;
                        }
                    }
 
@@ -187,7 +200,7 @@ function InformeIngresosDeChatarra() {
                            $("#txtPesoIngresado").val(e.value);
                            const noTruncarDecimales = { maximumFractionDigits: 2 };
                            ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
-                           return "Total: " + ValTotal;
+                           return ValTotal;
                        }
                    }
 
@@ -209,7 +222,7 @@ function InformeIngresosDeChatarra() {
                             } else {
                                 desviacion = (100 - subtotal) * -1;
                             }
-                            return "Total: " + desviacion.toFixed(2)+"%";
+                            return "Prom: " + desviacion.toFixed(2)+"%";
                          }
                      }
 

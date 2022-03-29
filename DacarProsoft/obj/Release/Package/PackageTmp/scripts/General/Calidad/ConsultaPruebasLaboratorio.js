@@ -34,9 +34,6 @@ $('#LinkClose8').on("click", function (e) {
 });
 
 
-
-
-
 function ConsultaRegistrosPruebasLaboratorio() {
     $.ajax({
         url: "../Calidad/ConsultarRegistrosPruebasLaboratorio",

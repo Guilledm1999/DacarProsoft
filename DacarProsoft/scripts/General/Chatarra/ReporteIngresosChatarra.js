@@ -8,6 +8,7 @@ var botonCal = 0;
 var DetalleCalculoIndividual = null;
 var modTemp = null;
 var modIng = null;
+var valor = null;
 
 
 $(document).ready(function () {
@@ -26,27 +27,36 @@ function InformeIngresosDeChatarra() {
     var select = $("#anioClass option:selected").text();
     //var val = $("#grupoCliente option:selected").val();
     //var select2 = $("#grupoCliente option:selected").text();
-
+    document.getElementById("OcultarBoton").style.display = "";
  $.ajax({
      //url: "../Chatarra/ConsultaModificarIngresoChatarraLocal?anio=" + select + " &codigoCliente=" + val + " &codigos=" + select2,
      url: "../Chatarra/ConsultaModificarIngresoChatarraLocal?anio=" + select,
-
         type: "GET"
        , success: function (msg) {
            $("#cargaImg").hide();
-           ConfigDev.dataSource = msg;
-           ConfigDev.columnAutoWidth = true,
-           ConfigDev.keyExpr = "DocEntry",
-           ConfigDev.showBorders = true,
-            ConfigDev.allowColumnReordering = false,
-              ConfigDev.filterRow = { visible: false },
-               ConfigDev.filterPanel = { visible: false },
-               ConfigDev.headerFilter = { visible: true },
-             ConfigDev.columnFixing = {
+
+           $("#IngresosdeChatarras").dxDataGrid({
+           dataSource : msg,
+           columnAutoWidth : true,
+               keyExpr: "DocEntry",
+               showBorders: true,
+            allowColumnReordering : false,
+              filterRow : { visible: false },
+               filterPanel : { visible: false },
+               headerFilter : { visible: true },
+             columnFixing : {
                  enabled: true
-             },
+               },
+               paging: {
+                   pageSize: 10
+               },
+               pager: {
+                   showPageSizeSelector: true,
+                   allowedPageSizes: [5, 10, 100],
+                   showInfo: true
+               },
           
-           ConfigDev.columns = [            
+           columns : [            
                 { dataField: "DocEntry", visible: false },
                 { dataField: "CardCode", visible: false },
                   {
@@ -96,7 +106,7 @@ function InformeIngresosDeChatarra() {
                   },
                   ,
                 {
-                    dataField: "PesoTeoricoTotalCalculado", caption: "Peso Teorico Total", alignment: "right", allowFiltering: false, width: 130, allowEditing: false
+                    dataField: "PesoTeoricoTotalCalculado", caption: "Peso Teorico", alignment: "right", allowFiltering: false, width: 130, allowEditing: false
 ,
                     
                 calculateCellValue: function (rowData) {
@@ -141,25 +151,40 @@ function InformeIngresosDeChatarra() {
 
                   { dataField: "ModoIngreso", visible: false, allowEditing: false },
 
-           ];
-
-           ConfigDev.summary = {
+           ],
+           summary : {
                totalItems: [
                {
-                   name: "CantidadTotal",
-                   column: "CantidadTotal",
-                   summaryType: "sum",
+                       name: "TipoIngreso",
+                       column: "TipoIngreso",
+                   summaryType: "count",
                    displayFormat: "Cantidad Total",
-                   showInColumn: "CantidadTotal",
+                       showInColumn: "TipoIngreso",
                    customizeText: function (e) {
                        if (e.value != 0 && e.value != "") {
                            $("#txtSumaryPesos").val(e.value);
-                           return "Total: " + (e.value);
+                           return "Totales: ";
                        }
                    }
                }
-           
-               , {
+                   ,
+                   {
+                       name: "CantidadTotal",
+                       column: "CantidadTotal",
+                       summaryType: "sum",
+                       displayFormat: "Cantidad Total",
+                       showInColumn: "CantidadTotal",
+                       customizeText: function (e) {
+                           if (e.value != 0 && e.value != "") {
+                               $("#txtSumaryPesos").val(e.value);
+
+                               $("#txtCantitadTotalReporte").val(e.value);
+
+                               return (e.value);
+                           }
+                       }
+                   }
+                   , {
                    column: "PesoTeoricoTotalCalculado",
                    summaryType: "sum",
                    showInColumn: "PesoTeoricoTotalCalculado",
@@ -168,9 +193,12 @@ function InformeIngresosDeChatarra() {
                    customizeText: function (e) {
                        if (e.value != 0 && e.value != "") {
                            $("#txtPesoTeorico").val(e.value);
-                           const noTruncarDecimales = { maximumFractionDigits: 2 };
+                           const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+
                            ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
-                           return "Total: " + ValTotal;
+                           $("#txtPesoTeoricoReporte").val(ValTotal);
+
+                           return ValTotal;
                        }
                    }
 
@@ -185,9 +213,11 @@ function InformeIngresosDeChatarra() {
                    customizeText: function (e) {
                        if (e.value != 0 && e.value != "") {
                            $("#txtPesoIngresado").val(e.value);
-                           const noTruncarDecimales = { maximumFractionDigits: 2 };
+                           const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
                            ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
-                           return "Total: " + ValTotal;
+                           $("#txtPesoIngresadoReporte").val(ValTotal);
+
+                           return ValTotal;
                        }
                    }
 
@@ -208,20 +238,30 @@ function InformeIngresosDeChatarra() {
                                 desviacion = subtotal - 100;
                             } else {
                                 desviacion = (100 - subtotal) * -1;
-                            }
-                            return "Total: " + desviacion.toFixed(2)+"%";
+                             }
+                             $("#txtDesviacionPromedioReporte").val(desviacion.toFixed(2));
+
+                            return "Prom: " + desviacion.toFixed(2)+"%";
                          }
                      }
 
                  },
              
                ],
-           }
+               },
+               onContentReady: function (e) {
+                   DatosFiltradosTabla();
+               },
+     });
            $(".btn").attr("disabled", false);
            $(".btn-txt").text("Consultar");
-           $("#IngresosdeChatarras").dxDataGrid(ConfigDev);
+          // $("#IngresosdeChatarras").dxDataGrid(ConfigDev);
+     },
 
-       },
+     //onContentReady: function (e) {
+     //    DatosFiltradosTabla();
+     //},
+
        error: function (msg) {
            $(".btn").attr("disabled", false);
            $(".btn-txt").text("Consultar");
@@ -1015,4 +1055,17 @@ function RegistrarModificacionIndividualChatarra(docEntry, detalle) {
             }
         })    
 }
+function DatosFiltradosTabla() {
+    const filterExpr = $("#IngresosdeChatarras").dxDataGrid("instance").getCombinedFilter(true);
+    $("#IngresosdeChatarras").dxDataGrid("instance").getDataSource()
+        .store()
+        .load({ filter: filterExpr })
+        .then((result) => {
+            valor = result;
+        });
+}
 
+function ChartResumenesChatarras() {
+
+    $("#ModalInformeGrafica").modal("show");
+}

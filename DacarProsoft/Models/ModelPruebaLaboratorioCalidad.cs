@@ -33,5 +33,7 @@ namespace DacarProsoft.Models
         public string Observaciones { get; set; }
         public Nullable<decimal> Calificacion { get; set; }
         public string FechaRegistro { get; set; }
+        public int ContadorRegistros { get; set; }
+
     }
 }
