@@ -999,7 +999,7 @@ namespace DacarProsoft.Controllers
             }
         }
 
-        public ActionResult GenerarPdfReporteAutodescarga(int idMeidicionDescarga)
+        public ActionResult GenerarPdfReporteAutodescarga(int idMeidicionDescarga, string variable)
         {
             daoCalidad = new DaoCalidad();
 
@@ -1060,33 +1060,40 @@ namespace DacarProsoft.Controllers
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
             pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
 
-            float[] columnWidth2 = { 80f, 80f, 80f};
+
+            float[] columnWidth2 = { 80f, 80f, 80f, 80f, 80f};
             Table tabla2 = new Table(columnWidth2);
-            tabla2.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE AUTODESCARGAS").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
-            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("#").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell(1, 7).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE AUTODESCARGAS").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(Border.NO_BORDER));
+
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             int contador = 1;
             decimal voltajeMayor = 0;
             decimal voltajeMenor = 0;
 
-
             var ValorAlto = MedicionDescargaDetalle.OrderBy((v) => v.PruebaLaboratorioCalidadId).FirstOrDefault();
             var ValorBajo = MedicionDescargaDetalle.OrderByDescending((v) => v.PruebaLaboratorioCalidadId).FirstOrDefault();
+
 
             voltajeMenor = ValorBajo.Voltaje.Value;
             voltajeMayor = ValorAlto.Voltaje.Value;
 
             //var numeroMayor = MedicionDescargaDetalle.Min();
-            foreach (var y in MedicionDescargaDetalle) {
-
-
-                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + contador).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            foreach (var y in MedicionDescargaDetalle)
+            {
                 tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.FechaIngreso).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
                 tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.Voltaje).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                if (contador % 2 == 1) {
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(Border.NO_BORDER));
+                }
+
                 contador = contador + 1; ;
             }
+
 
             float[] columnWidth = {80f, 80f, 80f,80f };
             Table tabla = new Table(columnWidth);
@@ -1123,7 +1130,9 @@ namespace DacarProsoft.Controllers
             document.Add(Espacio);
             document.Add(img);
             document.Add(Espacio);
-            document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+            if (variable== "Si") {
+                document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+            }
 
             document.Close();
 
@@ -1142,7 +1151,7 @@ namespace DacarProsoft.Controllers
             return null;
         }
 
-        public string EnviarPdfReporteAutodescarga(int idMeidicionDescarga, string Correo, string CorreoCopia)
+        public string EnviarPdfReporteAutodescarga(int idMeidicionDescarga, string Correo, string CorreoCopia, string variable)
         {
             try
             {
@@ -1208,37 +1217,41 @@ namespace DacarProsoft.Controllers
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
             pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
 
-            float[] columnWidth2 = { 80f, 80f, 80f };
-            Table tabla2 = new Table(columnWidth2);
-            tabla2.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE AUTODESCARGAS").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
-            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("#").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                float[] columnWidth2 = { 80f, 80f, 80f, 80f, 80f };
+                Table tabla2 = new Table(columnWidth2);
+                tabla2.AddCell(new Cell(1, 7).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE AUTODESCARGAS").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
-            int contador = 1;
-            decimal voltajeMayor = 0;
-            decimal voltajeMenor = 0;
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(Border.NO_BORDER));
 
-                
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                int contador = 1;
+                decimal voltajeMayor = 0;
+                decimal voltajeMenor = 0;
+
                 var ValorAlto = MedicionDescargaDetalle.OrderBy((v) => v.PruebaLaboratorioCalidadId).FirstOrDefault();
                 var ValorBajo = MedicionDescargaDetalle.OrderByDescending((v) => v.PruebaLaboratorioCalidadId).FirstOrDefault();
 
 
                 voltajeMenor = ValorBajo.Voltaje.Value;
-            voltajeMayor = ValorAlto.Voltaje.Value;
+                voltajeMayor = ValorAlto.Voltaje.Value;
 
-            //var numeroMayor = MedicionDescargaDetalle.Min();
-            foreach (var y in MedicionDescargaDetalle)
-            {
+                //var numeroMayor = MedicionDescargaDetalle.Min();
+                foreach (var y in MedicionDescargaDetalle)
+                {
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.FechaIngreso).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.Voltaje).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                    if (contador % 2 == 1)
+                    {
+                        tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(Border.NO_BORDER));
+                    }
 
+                    contador = contador + 1; ;
+                }
 
-                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + contador).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.FechaIngreso).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + y.Voltaje).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-                contador = contador + 1; ;
-            }
-
-            float[] columnWidth = { 80f, 80f, 80f, 80f };
+                float[] columnWidth = { 80f, 80f, 80f, 80f };
             Table tabla = new Table(columnWidth);
 
             tabla.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("TABLA RESUMEN").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
@@ -1273,9 +1286,11 @@ namespace DacarProsoft.Controllers
             document.Add(Espacio);
             document.Add(img);
             document.Add(Espacio);
-            document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+                if (variable == "Si") {
+                    document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+                }
 
-            document.Close();
+                document.Close();
 
             byte[] bytesStreams = stream.ToArray();
             stream = new MemoryStream();

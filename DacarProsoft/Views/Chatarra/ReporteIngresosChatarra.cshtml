@@ -14,6 +14,17 @@
 }
 <br />
 
+<style>
+    #IngresosdeChatarras {
+        margin-top: 20px;
+    }
+
+    .currency {
+        text-align: center;
+    }
+
+</style>
+
 <div class="card shadow align-top">
     <div class="card-header">
         <h2>Reporte Ingresos Chatarra</h2>
@@ -47,15 +58,23 @@
             <button id="LinkClose9" type="button" class="close">&times;</button>
             <strong>Actualizacion exitosa</strong>
         </div>
+        <div id="MensajeUnicoCliente" class="alert alert-danger collapse">
+            <button id="LinkClose15" type="button" class="close">&times;</button>
+            <strong>Solo se puede escoger un cliente para el reporte!</strong>
+        </div>
+        <div id="MensajeRespuestaEnvio" class="alert alert-danger collapse">
+            <button id="LinkClose8" type="button" class="close">&times;</button>
+            <strong></strong>
+        </div>
         <div id="IngresosdeChatarras"></div>
+
+        @*<div id="IngresosdeChatarras"></div>*@
         <div class="auto" id="OcultarBoton" style="display: none">
             <button type="button" class="btn btn-primary" onclick="ChartResumenesChatarras();">Resultados</button>
         </div>
 
     </div>
     </div>
-
-
 
 <div class="modal" tabindex="-1" role="dialog" id="ModalDetalleChatarraModificacion">
     <div class="modal-dialog modal-xl" role="document">
@@ -75,7 +94,7 @@
                     <button id="LinkClose3" type="button" class="close">&times;</button>
                     <strong>Error al guardar!</strong>
                 </div>
-               
+
                 <div id="MensajeIngresePeso" class="alert alert-danger collapse">
                     <button id="LinkClose4" type="button" class="close">&times;</button>
                     <strong>Ingrese Peso Bulto</strong>
@@ -92,12 +111,13 @@
                     <button id="LinkClose" type="button" class="close">&times;</button>
                     <strong>Ingrese valores o calcule</strong>
                 </div>
+                
                 <div id="ChatarraDetalle"></div>
                 <div id="ChatarraDetalles2"></div>
 
                 <br />
                 <div class="form-group row">
-                 
+
                     <label for="email" class="col-sm-3 col-form-label"><b>Bodega:</b></label>
                     <div class="col-md-2">
                         <input type="number" name="NombreItem" id="TipoBodega" autocomplete="off" readonly class="form-control">
@@ -164,46 +184,74 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group row">
-                            <div class="col-sm-12">
-                                <div class="form-row">
-                                   
+                        <div class="col-sm-4">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="formGroupExampleInput2">Cantidad</label>
+                                    <input type="text" class="form-control" id="txtCantitadTotalReporte" placeholder="Cantidad" readonly>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-2">
-
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="formGroupExampleInput2">Cantidad</label>
-                                        <input type="text" class="form-control" id="txtCantitadTotalReporte" placeholder="Cantidad" readonly>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="formGroupExampleInput">Peso Teorico Total(kg)</label>
-                                        <input type="text" class="form-control" id="txtPesoTeoricoReporte" placeholder="Peso teorico total" readonly>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="formGroupExampleInput">Peso Ingresado Total(kg)</label>
-                                        <input type="text" class="form-control" id="txtPesoIngresadoReporte" placeholder="Peso ingresado total" readonly>
-                                    </div>
-                                    <div class="form-group col-md-2">
-                                        <label for="formGroupExampleInput">Desviacion Promedio(%)</label>
-                                        <input type="text" class="form-control" id="txtDesviacionPromedioReporte" placeholder="Desviacion Promedio" readonly>
-                                    </div>
-                                    <div class="form-group col-md-2">
-
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label for="formGroupExampleInput">Peso Teorico Total(kg)</label>
+                                    <input type="text" class="form-control" id="txtPesoTeoricoReporte" placeholder="Peso teorico total" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="formGroupExampleInput">Peso Ingresado Total(kg)</label>
+                                    <input type="text" class="form-control" id="txtPesoIngresadoReporte" placeholder="Peso ingresado total" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="formGroupExampleInput">Desviacion Promedio(%)</label>
+                                    <input type="text" class="form-control" id="txtDesviacionPromedioReporte" placeholder="Desviacion Promedio" readonly>
                                 </div>
                             </div>
-                        <div class="form-group row">
+                        </div>
+                        <div class="col-sm-8">
                             <canvas id="myChart" style="width:200%;max-width:800px"></canvas>
+
                         </div>
 
                     </div>
 
-                </form>
+</form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="GenerarPdf();">Imprimir</button>
                 <button type="button" class="btn btn-success" onclick="AbrirModalEnvio();">Enviar por correo</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalEnvioCorreoElectronico" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header alert-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Envío de reporte por correo electronico</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" @*style="background-color:cornflowerblue"*@>
+                <div id="MensajeCompleteCorreo" class="alert alert-danger collapse">
+                    <button id="LinkClose7" type="button" class="close">&times;</button>
+                    <strong>Ingrese el correo para enviar!</strong>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="formGroupExampleInput">Enviar a:</label>
+                        <input type="email" class="form-control" id="txtCorreoDestino" placeholder="example@bateriasdacar.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="formGroupExampleInput">Copiar a:</label>
+                        <input type="email" class="form-control" id="txtCorreoCopia" placeholder="example@bateriasdacar.com">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="BtnEnvio" onclick="EnviarPdf()">Enviar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

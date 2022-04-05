@@ -13,7 +13,6 @@ namespace DacarProsoft.Datos
     {
         private DaoUtilitarios daoUtilitarios { get; set; } = null;
 
-
         public List<Moign> ListadoCabeceraChatarraSap(string tipoIngreso)
         {
             string clienteLinea=null;
@@ -24,13 +23,11 @@ namespace DacarProsoft.Datos
             DateTime fechaActual = DateTime.Now;
             DateTime fechaCorte = fechaActual.AddDays(-(dias));
 
-
             daoUtilitarios = new DaoUtilitarios();
             var Result = daoUtilitarios.ConsultarBusquedaIngresoMercanciasTipo();
             List<Moign> lst = new List<Moign>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
-            {
-              
+            {       
                 var ListadoCabeceraChatarra = from d in DB.OIGN
                                               join e in DB.OCRD on d.U_SYP_CODCL equals e.CardCode
                                               join f in DB.OCRG on e.GroupCode equals f.GroupCode
@@ -50,7 +47,6 @@ namespace DacarProsoft.Datos
                                                   d.U_SYP_TmovIng,
                                                   d.U_DC_KILOS
                                               };
-
                 foreach (var x in ListadoCabeceraChatarra)
                 {
                     var NombreGrupo = GrupoCliente(x.GroupCode);
@@ -66,7 +62,6 @@ namespace DacarProsoft.Datos
                             clienteClase = y.ClienteClase;
                             codGroup = y.GroupCode;
                         }
-
 
                             DateTime fechaDoc = Convert.ToDateTime(x.DocDate, CultureInfo.InvariantCulture);
                         string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -111,12 +106,9 @@ namespace DacarProsoft.Datos
                             TipoIngreso = tipoIngreso
                         });
                     }
-
-
                 }
                 return lst;
             }
-
         }
 
         public List<Moign> ListadoCabeceraChatarraSapDescCliente(string tipoIngreso,int codigoCliente)
@@ -128,13 +120,11 @@ namespace DacarProsoft.Datos
             DateTime fechaActual = DateTime.Now;
             DateTime fechaCorte = fechaActual.AddDays(-(dias));
 
-
             daoUtilitarios = new DaoUtilitarios();
             var Result = daoUtilitarios.ConsultarBusquedaIngresoMercanciasTipo();
             List<Moign> lst = new List<Moign>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
-
                 var ListadoCabeceraChatarra = from d in DB.OIGN
                                               join e in DB.OCRD on d.U_SYP_CODCL equals e.CardCode
                                               join f in DB.OCRG on e.GroupCode equals f.GroupCode
@@ -152,11 +142,8 @@ namespace DacarProsoft.Datos
                                                   d.U_DC_KILOS
                                               };
 
-
-
                 foreach (var x in ListadoCabeceraChatarra)
                 {
-
 
                     var busqueda = BusquedaLocal(x.DocNum);
                     if (busqueda == false)
@@ -169,7 +156,6 @@ namespace DacarProsoft.Datos
                             clienteClase = y.ClienteClase;
                             codGroup = y.GroupCode;
                         }
-
 
                         DateTime fechaDoc = Convert.ToDateTime(x.DocDate, CultureInfo.InvariantCulture);
                         string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -202,7 +188,6 @@ namespace DacarProsoft.Datos
                             TipoIngreso = tipoIngreso
                         });
                     }
-
 
                 }
                 return lst;
@@ -243,7 +228,6 @@ namespace DacarProsoft.Datos
             }
         }
 
-
         public List<MdlOpdn> ListadoCompraCabeceraChatarraSap(string tipoIngreso)
         {
             string tipoCliente = null;
@@ -258,7 +242,6 @@ namespace DacarProsoft.Datos
             List<MdlOpdn> lst = new List<MdlOpdn>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
-
                 var ListadoCabeceraChatarra = from d in DB.OPDN
                                               where d.DocDate >= fechaCorte && d.DocDate <= fechaActual && d.U_SYP_TmovIng == "COMP-CHAT"
                                               orderby d.DocDate descending
@@ -322,7 +305,6 @@ namespace DacarProsoft.Datos
                         }
                         else {
                             NumeroOrdenCliente = x.U_SYP_NUMOCCL;
-
                         }
                         lst.Add(new MdlOpdn
                         {
@@ -344,7 +326,6 @@ namespace DacarProsoft.Datos
                 }
                 return lst;
             }
-
         }
 
         public List<MdlOpdn> ListadoCompraCabeceraChatarraSapDescCliente(string tipoIngreso, int codigoCliente)
@@ -358,9 +339,6 @@ namespace DacarProsoft.Datos
             List<MdlOpdn> lst = new List<MdlOpdn>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
-
-
-
                 var ListadoCabeceraChatarra = from d in DB.OPDN
                                               join e in DB.OCRD on d.U_SYP_CODCL equals e.CardCode
                                               join f in DB.OCRG on e.GroupCode equals f.GroupCode
@@ -1151,7 +1129,7 @@ namespace DacarProsoft.Datos
                 //if (codigos == "--Todos--") {
                     var ListadoModelos = from d in DB.Chatarra
                                          join e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
-                                         where (d.FechaRegistro != null) && ((d.FechaRegistro).Value.Year == anio)
+                                         where (d.FechaRegistro != null) && ((d.FechaRegistro).Year == anio)
                                          orderby d.FechaRegistro descending
 
                                          select new
@@ -1276,7 +1254,7 @@ namespace DacarProsoft.Datos
                 //{
                     var ListadoModelos = from d in DB.Chatarra
                                          join e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
-                                         where (d.FechaRegistro != null) && ((d.FechaRegistro).Value.Year == anio)
+                                         where (d.FechaRegistro != null) && ((d.FechaRegistro).Year == anio)
                                          orderby d.FechaRegistro descending
 
                                          select new
@@ -1938,5 +1916,95 @@ namespace DacarProsoft.Datos
             }
 
         }
+
+        public List<GenericoParaGroupBy> ReporteClienteChatarrasPorMeses(int anioBusqueda, string NombreCliente)
+        {
+            string Mes;
+
+            List<GenericoParaGroupBy> lst = new List<GenericoParaGroupBy>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = from d in DB.Chatarra join
+                              e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry 
+                              where 
+                              d.Cliente==NombreCliente &&
+                              d.FechaRegistro.Year == anioBusqueda
+                              group new { d, e } by new { d.FechaRegistro.Month} into ut
+                              orderby ut.Key.Month
+                              select new
+                              {
+                                  contador= ut.Sum(val=>val.e.CantidadTotal),
+                                  MonthNumber = ut.Key.Month
+                              };
+
+                foreach (var x in Listado)
+                {
+                    Mes = BuscarNombreMes(x.MonthNumber);
+                    lst.Add(new GenericoParaGroupBy
+                    {
+                        Descripcion = Mes,
+                        Valor = x.contador.Value
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        public List<GenericoParaGroupBy> ReporteGeneralChatarrasPorMeses(int anioBusqueda)
+        {
+            string Mes;
+
+            List<GenericoParaGroupBy> lst = new List<GenericoParaGroupBy>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = from d in DB.Chatarra
+                              join
+        e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
+                              where                           
+                              d.FechaRegistro.Year == anioBusqueda
+                              group new { d, e } by new { d.FechaRegistro.Month } into ut
+                              orderby ut.Key.Month
+                              select new
+                              {
+                                  contador = ut.Sum(val => val.e.CantidadTotal),
+                                  MonthNumber = ut.Key.Month
+                              };
+
+                foreach (var x in Listado)
+                {
+                    Mes = BuscarNombreMes(x.MonthNumber);
+                    lst.Add(new GenericoParaGroupBy
+                    {
+                        Descripcion = Mes,
+                        Valor = x.contador.Value
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        public string BuscarNombreMes(int num)
+        {
+
+            string result;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var valor = (from d in DB.Meses
+                             where d.Orden == num
+                             select new
+                             {
+                                 d.Nombre
+                             }).FirstOrDefault();
+                result = valor.Nombre;
+
+                return result;
+
+            }
+        }
+
     }
 }

@@ -43,7 +43,6 @@ namespace DacarDatos.Datos
         public virtual DbSet<Marcas> Marcas { get; set; }
         public virtual DbSet<IngresoMercanciasTipoDescripcion> IngresoMercanciasTipoDescripcion { get; set; }
         public virtual DbSet<DiasBusqueda> DiasBusqueda { get; set; }
-        public virtual DbSet<Chatarra> Chatarra { get; set; }
         public virtual DbSet<PackingListDetalle> PackingListDetalle { get; set; }
         public virtual DbSet<Accesos> Accesos { get; set; }
         public virtual DbSet<Paises> Paises { get; set; }
@@ -98,6 +97,7 @@ namespace DacarDatos.Datos
         public virtual DbSet<Packing> Packing { get; set; }
         public virtual DbSet<IngresosDetallesMedicionCarga> IngresosDetallesMedicionCarga { get; set; }
         public virtual DbSet<IngresosMedicionCarga> IngresosMedicionCarga { get; set; }
+        public virtual DbSet<Chatarra> Chatarra { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {

@@ -33,7 +33,6 @@ $('#LinkClose8').on("click", function (e) {
     $("#MensajeRespuestaEnvio").hide('fade');
 });
 
-
 function ConsultaRegistrosPruebasLaboratorio() {
     $.ajax({
         url: "../Calidad/ConsultarRegistrosPruebasLaboratorio",
@@ -56,7 +55,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                 showRowLines: true,
                 rowAlternationEnabled: false,
                 allowColumnReordering: true,
-                allowColumnResizing: false,       
+                allowColumnResizing: false,
 
                 searchPanel: {
                     visible: true,
@@ -67,25 +66,20 @@ function ConsultaRegistrosPruebasLaboratorio() {
                     visible: true
                 },
                 filterPanel: { visible: true },
-
-               
                 loadPanel: {
                     enabled: false,
                 },
                 scrolling: {
                     mode: 'infinite',
-                },
-                          
+                },                
                 export: {
                     enabled: true,
                     allowExportSelectedData: false
                 },
                 repaintChangesOnly: true,
-
                 onExporting: function (e) {
                     var workbook = new ExcelJS.Workbook();
                     var worksheet = workbook.addWorksheet('Ingresos Pruebas');
-
                     DevExpress.excelExporter.exportDataGrid({
                         component: e.component,
                         worksheet: worksheet,
@@ -96,8 +90,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                         });
                     });
                     e.cancel = true;
-                },
-               
+                },              
                 columns: [
                     {
                         caption: "Anexos", allowExporting: false,
@@ -114,7 +107,6 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             var btnAnexo = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ModalRegistrarAnexo(" + JSON.stringify(options.data) + ")'>Ingreso</a>";
                             var lblEspacio = "<a> </a>"
                             var btnAnexo2 = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ModalObtenerRutaAnexos(" + JSON.stringify(options.data) + ")'>Consulta</a>";
-
                            // var nav = "<nav class='menu'> <ul> <li><a href='#'>Ingreso</a></li>  <li><a href='#'>Consulta</a></li>  </ul> </nav>";
 
                             $("<div>")
@@ -122,7 +114,6 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 .appendTo(container);
                         }
                     },
-
                     { dataField: "PruebaLaboratorioCalidadId", visible: false },
                     {
                         dataField: "FechaIngreso", caption: "Fecha Ingreso", alignment: "left", dataType: "date", allowHeaderFiltering: true, allowSearch: false, width: 100,
@@ -154,7 +145,6 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 .css('margin', '7px 0 0 0')
                                 .appendTo(header);
                         }
-
                     },
                     {
                         dataField: "TipoNorma", caption: "Tipo Norma", alignment: "left", allowHeaderFiltering: true, allowSearch: true, width: 90,
@@ -278,16 +268,6 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 .css('margin', '7px 12px 0 0')
                                 .appendTo(header);
                         },
-                    
-                       
-                        //dataType: 'decimal',
-                        //format: { maximumFractionDigits: 2, minimumFractionDigits: 2 },
-                        //calculateDisplayValue: function (rowData) { // combines display values
-                        //    const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
-                        //    ValTotal = (rowData.Peso).toLocaleString('en-US', noTruncarDecimales);
-                        //    return ValTotal;
-                        //   // return rowData.capital + " (" + rowData.country + ")";
-                        //}
                     },
                     {
                         dataField: "Voltaje", caption: "Voltaje", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 80,
@@ -304,12 +284,6 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 .css('margin', '7px 12px 0 0')
                                 .appendTo(header);
                         },
-                        //calculateDisplayValue: function (rowData) { // combines display values
-                        //    const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
-                        //    ValTotal = (rowData.Voltaje).toLocaleString('en-US', noTruncarDecimales);
-                        //    return ValTotal;
-                        //    // return rowData.capital + " (" + rowData.country + ")";
-                        //}
                     },
                     {
                         dataField: "DensidadIngreso", caption: "Dens. Ingreso", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 80,
@@ -329,9 +303,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                         format: {
                             type: "fixedPoint",
                             precision: 3,
-
                         },
-
                     },
 
                     {
@@ -639,7 +611,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                     ],
                 }, 
                 onContentReady: function (e) {
-                    BotonPrueba();             
+                    DatosFiltradosTabla();
                 }, 
             });
         },
@@ -749,7 +721,7 @@ function DescargarAnexo() {
     window.open(valor);
 }
 
-function BotonPrueba() {
+function DatosFiltradosTabla() {
     const filterExpr = $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getCombinedFilter(true);
     $("#tblPruebasLaboratorioRegistrados").dxDataGrid("instance").getDataSource()
         .store()
@@ -760,7 +732,6 @@ function BotonPrueba() {
 }
 
 function ChartResumenesGarantias() {
-
     const valorModel = valor.find(element => element.Modelo != valor[0].Modelo);
     const valorEnsayo = valor.find(element => element.TipoEnsayo != valor[0].TipoEnsayo);
 
@@ -905,7 +876,6 @@ function ChartResumenesGarantias() {
                 fill: false
             }]
         };
-
         char = new Chart(ctx, {
             type: "line",
             data: chartdata,
@@ -1009,7 +979,7 @@ function EnviarPdf() {
         $.ajax({
             url: '/Calidad/EnviarPdfReporte',
             type: 'POST',
-            data: { Nominal: nominal, Correo: $("#txtCorreoDestino").val(), CorreoCopia: $("#txtCorreoCopia").val() },
+            data: { idMeidicionDescarga: nominal, Correo: $("#txtCorreoDestino").val(), CorreoCopia: $("#txtCorreoCopia").val() },
             success: function (msg) {
                 $('#BtnEnvio').prop('disabled', false);
                 $("#BtnEnvio").text("Enviar");

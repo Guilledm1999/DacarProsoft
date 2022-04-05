@@ -32,7 +32,6 @@
     <EntitySet Name="Marcas" EntityType="DacarProsoftModel.Marcas" />
     <EntitySet Name="IngresoMercanciasTipoDescripcion" EntityType="DacarProsoftModel.IngresoMercanciasTipoDescripcion" />
     <EntitySet Name="DiasBusqueda" EntityType="DacarProsoftModel.DiasBusqueda" />
-    <EntitySet Name="Chatarra" EntityType="DacarProsoftModel.Chatarra" />
     <EntitySet Name="PackingListDetalle" EntityType="DacarProsoftModel.PackingListDetalle" />
     <FunctionImport Name="LoginUsuario" ReturnType="Collection(DacarProsoftModel.LoginUsuario_Result)">
       <Parameter Name="username" Mode="In" Type="String" />
@@ -65,14 +64,6 @@
     <EntitySet Name="ChatarraPesos" EntityType="DacarProsoftModel.ChatarraPesos" />
     <EntitySet Name="ChatarraDetalle" EntityType="DacarProsoftModel.ChatarraDetalle" />
     <EntitySet Name="ChatarraDetalleIndividual" EntityType="DacarProsoftModel.ChatarraDetalleIndividual" />
-    <AssociationSet Name="fk_Chatarra" Association="DacarProsoftModel.fk_Chatarra">
-      <End Role="Chatarra" EntitySet="Chatarra" />
-      <End Role="ChatarraDetalle" EntitySet="ChatarraDetalle" />
-    </AssociationSet>
-    <AssociationSet Name="fk_ChatarraDetalle" Association="DacarProsoftModel.fk_ChatarraDetalle">
-      <End Role="Chatarra" EntitySet="Chatarra" />
-      <End Role="ChatarraDetalleIndividual" EntitySet="ChatarraDetalleIndividual" />
-    </AssociationSet>
     <EntitySet Name="ControlCambios" EntityType="DacarProsoftModel.ControlCambios" />
     <EntitySet Name="GrupoClientes" EntityType="DacarProsoftModel.GrupoClientes" />
     <FunctionImport Name="spActualizarUsuario">
@@ -184,6 +175,15 @@
     <AssociationSet Name="fk_MedicionCarga" Association="DacarProsoftModel.fk_MedicionCarga">
       <End Role="IngresosMedicionCarga" EntitySet="IngresosMedicionCarga" />
       <End Role="IngresosDetallesMedicionCarga" EntitySet="IngresosDetallesMedicionCarga" />
+    </AssociationSet>
+    <EntitySet Name="Chatarra" EntityType="DacarProsoftModel.Chatarra" />
+    <AssociationSet Name="fk_Chatarra" Association="DacarProsoftModel.fk_Chatarra">
+      <End Role="Chatarra" EntitySet="Chatarra" />
+      <End Role="ChatarraDetalle" EntitySet="ChatarraDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_ChatarraDetalle" Association="DacarProsoftModel.fk_ChatarraDetalle">
+      <End Role="Chatarra" EntitySet="Chatarra" />
+      <End Role="ChatarraDetalleIndividual" EntitySet="ChatarraDetalleIndividual" />
     </AssociationSet>
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
@@ -354,27 +354,6 @@
     <Property Name="DiasBusquedaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="NumeroDias" Type="Int32" />
   </EntityType>
-  <EntityType Name="Chatarra">
-    <Key>
-      <PropertyRef Name="ChatarraId" />
-    </Key>
-    <Property Name="ChatarraId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="DocEntry" Type="Int32" />
-    <Property Name="NumeroDocumento" Type="Int32" />
-    <Property Name="Fecha" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-    <Property Name="Identificacion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-    <Property Name="Cliente" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-    <Property Name="TipoIngreso" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-    <Property Name="Comentarios" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-    <Property Name="BodegaId" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
-    <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="ChatarraDetalle" Relationship="DacarProsoftModel.fk_Chatarra" FromRole="Chatarra" ToRole="ChatarraDetalle" />
-    <NavigationProperty Name="ChatarraDetalleIndividual" Relationship="DacarProsoftModel.fk_ChatarraDetalle" FromRole="Chatarra" ToRole="ChatarraDetalleIndividual" />
-    <Property Name="CardCode" Type="Int32" />
-    <Property Name="ClienteLinea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="ClienteClase" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="NumeroPedido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="PackingListDetalle">
     <Key>
       <PropertyRef Name="PackingListDetalleId" />
@@ -542,30 +521,6 @@
     <Property Name="DesviacionIndividual" Type="Decimal" Precision="18" Scale="2" />
     <NavigationProperty Name="Chatarra" Relationship="DacarProsoftModel.fk_ChatarraDetalle" FromRole="ChatarraDetalleIndividual" ToRole="Chatarra" />
   </EntityType>
-  <Association Name="fk_Chatarra">
-    <End Type="DacarProsoftModel.Chatarra" Role="Chatarra" Multiplicity="0..1" />
-    <End Type="DacarProsoftModel.ChatarraDetalle" Role="ChatarraDetalle" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Chatarra">
-        <PropertyRef Name="ChatarraId" />
-      </Principal>
-      <Dependent Role="ChatarraDetalle">
-        <PropertyRef Name="ChatarraId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_ChatarraDetalle">
-    <End Type="DacarProsoftModel.Chatarra" Role="Chatarra" Multiplicity="0..1" />
-    <End Type="DacarProsoftModel.ChatarraDetalleIndividual" Role="ChatarraDetalleIndividual" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Chatarra">
-        <PropertyRef Name="ChatarraId" />
-      </Principal>
-      <Dependent Role="ChatarraDetalleIndividual">
-        <PropertyRef Name="ChatarraId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="ControlCambios">
     <Key>
       <PropertyRef Name="ControlCambioId" />
@@ -1278,6 +1233,51 @@
       </Principal>
       <Dependent Role="IngresosDetallesMedicionCarga">
         <PropertyRef Name="IngresosMedicionCargaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Chatarra">
+    <Key>
+      <PropertyRef Name="ChatarraId" />
+    </Key>
+    <Property Name="ChatarraId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DocEntry" Type="Int32" />
+    <Property Name="NumeroDocumento" Type="Int32" />
+    <Property Name="NumeroPedido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Fecha" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Identificacion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="Cliente" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="CardCode" Type="Int32" />
+    <Property Name="ClienteLinea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ClienteClase" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TipoIngreso" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Comentarios" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="BodegaId" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+    <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="ChatarraDetalle" Relationship="DacarProsoftModel.fk_Chatarra" FromRole="Chatarra" ToRole="ChatarraDetalle" />
+    <NavigationProperty Name="ChatarraDetalleIndividual" Relationship="DacarProsoftModel.fk_ChatarraDetalle" FromRole="Chatarra" ToRole="ChatarraDetalleIndividual" />
+  </EntityType>
+  <Association Name="fk_Chatarra">
+    <End Type="DacarProsoftModel.Chatarra" Role="Chatarra" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.ChatarraDetalle" Role="ChatarraDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chatarra">
+        <PropertyRef Name="ChatarraId" />
+      </Principal>
+      <Dependent Role="ChatarraDetalle">
+        <PropertyRef Name="ChatarraId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_ChatarraDetalle">
+    <End Type="DacarProsoftModel.Chatarra" Role="Chatarra" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.ChatarraDetalleIndividual" Role="ChatarraDetalleIndividual" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chatarra">
+        <PropertyRef Name="ChatarraId" />
+      </Principal>
+      <Dependent Role="ChatarraDetalleIndividual">
+        <PropertyRef Name="ChatarraId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

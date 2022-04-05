@@ -389,6 +389,7 @@
     <Compile Include="Models\DetalleProrrateo.cs" />
     <Compile Include="Models\EventoPagina .cs" />
     <Compile Include="Models\GarantiaDetalle.cs" />
+    <Compile Include="Models\GenericoParaGroupBy.cs" />
     <Compile Include="Models\InfoPallets.cs" />
     <Compile Include="Models\InformacionClienteSap.cs" />
     <Compile Include="Models\IngresoGarantiasModel.cs" />

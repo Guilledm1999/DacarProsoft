@@ -23,7 +23,6 @@
         <EntityTypeShape EntityType="DacarProsoftModel.Marcas" Width="1.5" PointX="0.75" PointY="13.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresoMercanciasTipoDescripcion" Width="1.5" PointX="7.5" PointY="6.625" />
         <EntityTypeShape EntityType="DacarProsoftModel.DiasBusqueda" Width="1.5" PointX="7.375" PointY="8.75" />
-        <EntityTypeShape EntityType="DacarProsoftModel.Chatarra" Width="1.5" PointX="3.375" PointY="14.125" />
         <EntityTypeShape EntityType="DacarProsoftModel.PackingListDetalle" Width="1.5" PointX="12" PointY="1.25" />
         <EntityTypeShape EntityType="DacarProsoftModel.Accesos" Width="1.5" PointX="3.375" PointY="0.75" />
         <AssociationConnector Association="DacarProsoftModel.FK__Accesos__MenuId__37A5467C" />
@@ -37,8 +36,6 @@
         <EntityTypeShape EntityType="DacarProsoftModel.ChatarraPesos" Width="1.5" PointX="8.375" PointY="14.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.ChatarraDetalle" Width="1.5" PointX="5.625" PointY="18.375" />
         <EntityTypeShape EntityType="DacarProsoftModel.ChatarraDetalleIndividual" Width="1.5" PointX="5.625" PointY="14.125" />
-        <AssociationConnector Association="DacarProsoftModel.fk_Chatarra" />
-        <AssociationConnector Association="DacarProsoftModel.fk_ChatarraDetalle" />
         <EntityTypeShape EntityType="DacarProsoftModel.ControlCambios" Width="1.5" PointX="14.375" PointY="10.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.GrupoClientes" Width="1.5" PointX="10.375" PointY="14.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.PackingDtl" Width="1.5" PointX="14.625" PointY="15" />
@@ -95,6 +92,9 @@
         <EntityTypeShape EntityType="DacarProsoftModel.IngresosDetallesMedicionCarga" Width="1.5" PointX="27.625" PointY="1.625" />
         <EntityTypeShape EntityType="DacarProsoftModel.IngresosMedicionCarga" Width="1.5" PointX="25.375" PointY="1" />
         <AssociationConnector Association="DacarProsoftModel.fk_MedicionCarga" />
+        <EntityTypeShape EntityType="DacarProsoftModel.Chatarra" Width="1.5" PointX="3.375" PointY="14.75" />
+        <AssociationConnector Association="DacarProsoftModel.fk_Chatarra" />
+        <AssociationConnector Association="DacarProsoftModel.fk_ChatarraDetalle" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

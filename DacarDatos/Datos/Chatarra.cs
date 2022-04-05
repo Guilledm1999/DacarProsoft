@@ -24,17 +24,17 @@ namespace DacarDatos.Datos
         public int ChatarraId { get; set; }
         public Nullable<int> DocEntry { get; set; }
         public Nullable<int> NumeroDocumento { get; set; }
+        public string NumeroPedido { get; set; }
         public string Fecha { get; set; }
         public string Identificacion { get; set; }
         public string Cliente { get; set; }
-        public string TipoIngreso { get; set; }
-        public string Comentarios { get; set; }
-        public string BodegaId { get; set; }
-        public Nullable<System.DateTime> FechaRegistro { get; set; }
         public Nullable<int> CardCode { get; set; }
         public string ClienteLinea { get; set; }
         public string ClienteClase { get; set; }
-        public string NumeroPedido { get; set; }
+        public string TipoIngreso { get; set; }
+        public string Comentarios { get; set; }
+        public string BodegaId { get; set; }
+        public System.DateTime FechaRegistro { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatarraDetalle> ChatarraDetalle { get; set; }

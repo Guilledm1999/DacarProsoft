@@ -90,7 +90,7 @@
     <Property Name="TipoIngreso" Type="varchar" MaxLength="150" />
     <Property Name="Comentarios" Type="varchar" MaxLength="200" />
     <Property Name="BodegaId" Type="varchar" MaxLength="70" />
-    <Property Name="FechaRegistro" Type="datetime" />
+    <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="ChatarraDetalle">
     <Key>

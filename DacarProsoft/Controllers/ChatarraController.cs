@@ -3,10 +3,13 @@ using DacarProsoft.Models;
 using iText.IO.Font.Constants;
 using iText.IO.Image;
 using iText.Kernel.Colors;
+using iText.Kernel.Events;
 using iText.Kernel.Font;
 using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
 using iText.Kernel.Pdf.Canvas.Draw;
 using iText.Layout;
+using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using System;
@@ -14,6 +17,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -1037,7 +1042,6 @@ namespace DacarProsoft.Controllers
                 daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
                 var Result = daoIngresoMercanciasSap.ConsultaDeRegistrosChatarrasGeneralPorFechas(anioInicial, anioFinal, Convert.ToInt32(OpcionFiltrado));
 
-
                 var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
                 serializer.MaxJsonLength = int.MaxValue;
 
@@ -1052,6 +1056,259 @@ namespace DacarProsoft.Controllers
             {
                 Console.WriteLine(ex);
                 throw;
+            }
+        }
+        public JsonResult ConsultaIngresosChatarraPorCliente(int anio, string cliente)
+        {
+
+            try
+            {
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+                var Result = daoIngresoMercanciasSap.ReporteClienteChatarrasPorMeses(anio, cliente);
+
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ConsultaIngresosChatarraGenerales(int anio)
+        {
+
+            try
+            {
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+                var Result = daoIngresoMercanciasSap.ReporteGeneralChatarrasPorMeses(anio);
+
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public string GuardarViewBagDetalleChatarra(string chart, List<IngresosChatarras> registros)
+        {
+            Session["GraficoChatarra"] = chart;
+            Session["RegistrosChatarra"] = registros;
+
+            return null;
+        }
+
+      
+        public ActionResult GenerarPdfReporteChatarra(int Cantidad, string PesoTeorico, string PesoIngresado, string Desviacion)
+        {
+            string valoview = Session["GraficoChatarra"].ToString();
+            List<IngresosChatarras> lst = new List<IngresosChatarras>();
+            var valor = (List<IngresosChatarras>)Session["RegistrosChatarra"];
+
+            iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
+
+
+            var base64arr = valoview.Split(',');
+            Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER);
+            byte[] bytes = Convert.FromBase64String(base64arr[1]);
+
+            MemoryStream stream = new MemoryStream();
+            PdfWriter writer = new PdfWriter(stream);
+
+            PdfDocument pdf = new PdfDocument(writer);
+
+            Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4, true);
+
+            iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
+             .Create(bytes))
+             .SetTextAlignment(TextAlignment.CENTER).SetWidth(480).SetHeight(240).SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            document.SetMargins(112, 36, 90, 36);
+
+            Paragraph header = new Paragraph("REPORTE CHATARRAS")
+         .SetTextAlignment(TextAlignment.CENTER)
+         .SetFontSize(16).SetBold();
+
+            var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
+            iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
+
+
+            float[] columnWidth2 = { 80f, 80f};
+            Table tabla2 = new Table(columnWidth2);
+            tabla2.AddCell(new Cell(1, 2).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("RESUMEN DE CHATARRAS").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Cantidad").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso Teorico").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Cantidad).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + PesoTeorico).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso Ingresado").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Desviacion").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+           tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+PesoIngresado).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Desviacion).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            document.Add(header);
+            document.Add(Espacio);
+            document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+
+            document.Add(Espacio);
+            document.Add(img);
+            document.Add(Espacio);
+
+            document.Close();
+            byte[] bytesStreams = stream.ToArray();
+            stream = new MemoryStream();
+            stream.Write(bytesStreams, 0, bytesStreams.Length);
+            stream.Position = 0;
+
+            return new FileStreamResult(stream, "application/pdf");
+        }
+
+        public class BackgroundPageEvent : IEventHandler
+        {
+            iText.Layout.Element.Image imgBack;
+            public BackgroundPageEvent(iText.Layout.Element.Image imgBackPage)
+            {
+                imgBack = imgBackPage;
+            }
+            public void HandleEvent(Event @event)
+            {
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)@event;
+                PdfDocument pdfDoc = docEvent.GetDocument();
+                PdfPage page = docEvent.GetPage();
+                iText.Kernel.Geom.Rectangle pageSize = page.GetPageSize();
+
+                PdfCanvas pdfCanvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
+                //GetLastContentStream page.NewContentStreamBefore()
+                pdfCanvas.SaveState();
+
+                Canvas canvas = new Canvas(pdfCanvas, page.GetPageSize());
+                canvas.Add(imgBack.ScaleAbsolute(pageSize.GetWidth(), pageSize.GetHeight()));
+
+                pdfCanvas.RestoreState();
+                pdfCanvas.Release();
+            }
+        }
+        private class TableHeaderEventHandler : IEventHandler
+        {
+            private Table table;
+
+            public TableHeaderEventHandler(Table table)
+            {
+                this.table = table;
+            }
+            public void HandleEvent(Event currentEvent)
+            {
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)currentEvent;
+                PdfDocument pdfDoc = docEvent.GetDocument();
+                PdfPage page = docEvent.GetPage();
+                PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
+
+                new Canvas(canvas, new iText.Kernel.Geom.Rectangle(35, 730, page.GetPageSize().GetRight() - 78, 81))
+                    .Add(table)
+                    .Close();
+            }
+        }
+        public string EnviarPdfReporteChatarra(int Cantidad, string PesoTeorico, string PesoIngresado, string Desviacion, string Correo, string CorreoCopia)
+        {
+            try
+            {
+                daoUtilitarios = new DaoUtilitarios();
+                string valoview = Session["GraficoChatarra"].ToString();
+            List<IngresosChatarras> lst = new List<IngresosChatarras>();
+            var valor = (List<IngresosChatarras>)Session["RegistrosChatarra"];
+
+            iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
+
+
+            var base64arr = valoview.Split(',');
+            Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER);
+            byte[] bytes = Convert.FromBase64String(base64arr[1]);
+
+            MemoryStream stream = new MemoryStream();
+            PdfWriter writer = new PdfWriter(stream);
+
+            PdfDocument pdf = new PdfDocument(writer);
+
+            Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4, true);
+
+            iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
+             .Create(bytes))
+             .SetTextAlignment(TextAlignment.CENTER).SetWidth(480).SetHeight(240).SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            document.SetMargins(112, 36, 90, 36);
+
+            Paragraph header = new Paragraph("REPORTE CHATARRAS")
+         .SetTextAlignment(TextAlignment.CENTER)
+         .SetFontSize(16).SetBold();
+
+            var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
+            iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
+
+
+            float[] columnWidth2 = { 80f, 80f };
+            Table tabla2 = new Table(columnWidth2);
+            tabla2.AddCell(new Cell(1, 2).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("RESUMEN DE CHATARRAS").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Cantidad").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso Teorico").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Cantidad).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + PesoTeorico).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso Ingresado").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Desviacion").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + PesoIngresado).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Desviacion).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            document.Add(header);
+            document.Add(Espacio);
+            document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+
+            document.Add(Espacio);
+            document.Add(img);
+            document.Add(Espacio);
+
+            document.Close();
+            byte[] bytesStreams = stream.ToArray();
+            stream = new MemoryStream();
+            stream.Write(bytesStreams, 0, bytesStreams.Length);
+            stream.Position = 0;
+
+
+            var CorreoBase = daoUtilitarios.ConsultarCorreoElectronico();
+            string DirCorreo = "";
+            string ClavCorreo = "";
+            foreach (var x in CorreoBase)
+            {
+                DirCorreo = x.DireccionCorreo;
+                ClavCorreo = x.ClaveCorreo;
+            }
+         
+            MailMessage mm = new MailMessage("bateriasdacar1975@gmail.com", Correo);
+            mm.Subject = "Reporte Chatarras ";
+
+            mm.CC.Add(CorreoCopia);
+
+            mm.Body = "Resultados del reporte de chatarras , con fecha: " + DateTime.Now;
+            mm.Attachments.Add(new Attachment(new MemoryStream(bytesStreams), "ReporteChatarras-" + DateTime.Now.Year + "-" + DateTime.Now.Month +"-"+DateTime.Now.Day+ ".pdf"));
+            mm.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 25;
+            smtp.EnableSsl = true;
+            NetworkCredential NetworkCred = new NetworkCredential();
+            NetworkCred.UserName = DirCorreo;
+            NetworkCred.Password = ClavCorreo;
+            smtp.UseDefaultCredentials = true;
+            smtp.Credentials = NetworkCred;
+            smtp.Send(mm);
+            return "El envío fue realizado con éxito!";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
     }
