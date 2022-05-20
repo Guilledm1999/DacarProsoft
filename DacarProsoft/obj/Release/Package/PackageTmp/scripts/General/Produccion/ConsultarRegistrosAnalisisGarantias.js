@@ -51,9 +51,7 @@ function ConsultaRegistrosAnalisisGarantias() {
                 scrolling: {
                     mode: 'infinite',
                 },
-                sorting: {
-                    mode: 'none',
-                },
+            
                 //pager: {
                 //    visible: true,
                 //    allowedPageSizes: [5, 10, 50],

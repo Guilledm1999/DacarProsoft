@@ -43,6 +43,9 @@ function InformeIngresosDeChatarra() {
              columnFixing : {
                  enabled: true
                },
+               export: {
+                   enabled: true,
+               },
                paging: {
                    pageSize: 10
                },
@@ -50,7 +53,22 @@ function InformeIngresosDeChatarra() {
                    showPageSizeSelector: true,
                    allowedPageSizes: [5, 10, 100],
                    showInfo: true
-               }, 
+               },
+               onExporting(e) {
+                   const workbook = new ExcelJS.Workbook();
+                   const worksheet = workbook.addWorksheet('Chatarra');
+
+                   DevExpress.excelExporter.exportDataGrid({
+                       component: e.component,
+                       worksheet,
+                       autoFilterEnabled: true,
+                   }).then(() => {
+                       workbook.xlsx.writeBuffer().then((buffer) => {
+                           saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'IngresoChatarra.xlsx');
+                       });
+                   });
+                   e.cancel = true;
+               },
            columns : [            
                 { dataField: "DocEntry", visible: false },
                 { dataField: "CardCode", visible: false },
@@ -65,25 +83,25 @@ function InformeIngresosDeChatarra() {
                       }
                  },
                  {
-                     dataField: "NumeroDocumento", caption: "# Documento", allowEditing: false, fixed: false
+                     dataField: "NumeroDocumento", caption: "# Documento", allowEditing: false, fixed: false, allowFiltering: false
                  },
                  {
-                     dataField: "NumeroPedido", caption: "# Pedido", allowEditing: false, fixed: false
+                     dataField: "NumeroPedido", caption: "# Pedido", allowEditing: false, fixed: false, allowFiltering: false
                  },
                  {
-                     dataField: "CedulaCliente", caption: "Identificacion", allowEditing: false, width: 130
+                     dataField: "CedulaCliente", caption: "Identificacion", allowEditing: false, width: 130, allowFiltering: false
                  },
                  {
                     dataField: "NombreCliente", caption: "Cliente", allowEditing: false, fixed: false, width: 250
                  },      
                  {
-                    dataField: "GroupCode", caption: "Tipo Cliente", allowEditing: false
+                     dataField: "GroupCode", caption: "Tipo Cliente", allowEditing: false
                  },
                  {
                      dataField: "ClienteLinea", caption: "Cliente Linea", allowEditing: false
                  },
                  {
-                      dataField: "ClienteClase", caption: "Cliente Clase", allowEditing: false
+                     dataField: "ClienteClase", caption: "Cliente Clase", allowEditing: false
                  },
                  {
                      dataField: "MesIngreso", caption: "Mes Ingreso", allowEditing: false
@@ -92,17 +110,17 @@ function InformeIngresosDeChatarra() {
                      dataField: "TipoIngreso", caption: "Tipo Ingreso", allowEditing: false
                  },
                  {
-                      dataField: "CantidadTotal", caption: "Cantidad", allowFiltering: false, allowEditing: false,
+                     dataField: "CantidadTotal", caption: "Cantidad(Uds.)", allowFiltering: false, allowEditing: false,
                  },
                   ,
                  {
-                    dataField: "PesoTeoricoTotalCalculado", caption: "Peso Teorico", alignment: "right", allowFiltering: false, width: 130, allowEditing: false,
+                    dataField: "PesoTeoricoTotalCalculado", caption: "Peso Teorico(kg)", alignment: "right", allowFiltering: false, width: 130, allowEditing: false,
                 calculateCellValue: function (rowData) {
                     return (rowData.PesoTeoricoTotalCalculado).toFixed(2);               
                 }
                 }, 
                  {
-                     dataField: "PesoBultoIngresado", caption: "Peso Ingresado", alignment: "right", allowFiltering: false, width: 130, allowEditing: false,
+                     dataField: "PesoBultoIngresado", caption: "Peso Ingresado(kg)", alignment: "right", allowFiltering: false, width: 135, allowEditing: false,
                      calculateCellValue: function (rowData) {
                          return (rowData.PesoBultoIngresado).toFixed(2);                        
                      }
@@ -122,7 +140,7 @@ function InformeIngresosDeChatarra() {
                     dataField: "Comments", caption: "Comentarios", allowFiltering: false, allowEditing: false
                 },
                  {
-                     dataField: "FechaIngreso", caption: "Fecha Ingreso", allowEditing: false
+                     dataField: "FechaIngreso", caption: "Fecha Ingreso", allowEditing: false ,dataType: 'date',
                  },
                   { dataField: "ModoIngreso", visible: false, allowEditing: false },
            ],
@@ -915,163 +933,83 @@ function RegistrarModificacionIndividualChatarra(docEntry, detalle) {
 }
 
 function ChartResumenesChatarras() {
-    const valorModel = valor.find(element => element.CardCode != valor[0].CardCode);
-    //const valorEnsayo = valor.find(element => element.TipoEnsayo != valor[0].TipoEnsayo);
-    if (valorModel != null) {
-        $("#lblDetallePackingList").text("Reporte de Chatarras");
-        $("#ModalInformeGrafica").modal("show");
-        if (char != null) {
-            char.destroy();
+    $("#lblDetallePackingList").text("Reporte de Chatarras");
+    $("#ModalInformeGrafica").modal("show");
+    if (char != null) {
+        char.destroy();
+    }
+    var ctx = $("#myChart")
+    var nombre = [];
+    var stock = [];
+    var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
+    var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
+        //error al consultar datos, verificar consulta
+
+    var result2 = [];
+    valor.reduce(function (res, value) {
+        if (!res[value.MesIngreso]) {
+            res[value.MesIngreso] = { Identificador: value.MesIngreso, cantidad: 0 };
+            result2.push(res[value.MesIngreso])
         }
-        var ctx = $("#myChart")
-        var nombre = [];
-        var stock = [];
-        var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
-        var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
-        $.ajax({
-            type: 'POST',
-            url: "../Chatarra/ConsultaIngresosChatarraGenerales",
-            dataType: 'json',
-            data: { anio: $("#anioClass option:selected").text()},
-            success: function (result) {
-                for (var i in result) {
-                    nombre.push(result[i].Descripcion);
-                    stock.push(result[i].Valor);
+        res[value.MesIngreso].cantidad += value.CantidadTotal;
+        return res;
+    }, {});
+    console.log(result2);
 
-                }
-            },
-        })
-
-        var chartdata = {
-            labels: nombre,
-            datasets: [{
-                label: 'Resultado',
-                backgroundColor: color,
-                borderColor: color,
-                borderWidth: 2,
-                cubicInterpolationMode: 'monotone',
-                backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
-                borderColor: 'rgba(7,59,251,0.5)',// Color del borde
-                data: stock,
-                fill: false
-            }]
-        };
-        char = new Chart(ctx, {
-            type: "bar",
-            data: chartdata,
-            options: {
-                responsive: true,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            fixedStepSize: 1,
-                            beginAtZero: true,
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: "Cantidades",
-                            fontColor: "black"
-                        }
-                    }],
-                    xAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: "Meses",
-                            fontColor: "black"
-                        }
-                    }],
-                },
-                interaction: {
-                    intersect: false,
-                },
-                title: {
-                    display: true,
-                    text: 'Cantidades por meses',
-                    fontSize: 18,
-                },
-            }
-        });
-
-        //$("#MensajeUnicoCliente").show('fade');
-        //setTimeout(function () {
-        //    $("#MensajeUnicoCliente").fadeOut(1500);
-        //}, 3000); return;
+    for (var i in result2) {
+        nombre.push(result2[i].Identificador);
+        stock.push(result2[i].cantidad);
     }
-    else {
-        $("#lblDetallePackingList").text("Reporte de Chatarras");
-            $("#ModalInformeGrafica").modal("show");
-            if (char != null) {
-                char.destroy();
-            }
-            var ctx = $("#myChart")
-            var nombre = [];
-            var stock = [];
-            var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
-            var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
-                $.ajax({
-                    type: 'POST',
-                    url: "../Chatarra/ConsultaIngresosChatarraPorCliente",
-                    dataType: 'json',
-                    data: { anio: $("#anioClass option:selected").text() ,cliente: valor[0].NombreCliente },
-                    success: function (result) {
-                        for (var i in result) {
-                            nombre.push(result[i].Descripcion);
-                            stock.push(result[i].Valor);
-                       
-                        }
+
+    var chartdata = {
+        labels: nombre,
+        datasets: [{
+            label: 'Resultado',
+            backgroundColor: color,
+            borderColor: color,
+            borderWidth: 2,
+            cubicInterpolationMode: 'monotone',
+            backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
+            borderColor: 'rgba(7,59,251,0.5)',// Color del borde
+            data: stock,
+            fill: false
+        }]
+    };
+    char = new Chart(ctx, {
+        type: "bar",
+        data: chartdata,
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        fixedStepSize: 1,
+                        beginAtZero: true,
                     },
-                })
-           
-            var chartdata = {
-                labels: nombre,
-                datasets: [{
-                    label: 'Resultado',
-                    backgroundColor: color,
-                    borderColor: color,
-                    borderWidth: 2,
-                    cubicInterpolationMode: 'monotone',
-                    backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
-                    borderColor: 'rgba(7,59,251,0.5)',// Color del borde
-                    data: stock,
-                    fill: false
-                }]
-            };
-            char = new Chart(ctx, {
-                type: "bar",
-                data: chartdata,
-                options: {
-                    responsive: true,
-                    scales: {
-                        yAxes: [{                       
-                                ticks: {
-                                fixedStepSize: 1,
-                                beginAtZero: true,
-                                },
-                            scaleLabel: {
-                                display: true,
-                                labelString: "Cantidades",
-                                fontColor: "black"
-                            }
-                        }],
-                        xAxes: [{
-                            scaleLabel: {
-                                display: true,
-                                labelString: "Meses",
-                                fontColor: "black"
-                            }
-                        }],
-                    },
-                    interaction: {
-                        intersect: false,
-                    },                 
-                    title: {
+                    scaleLabel: {
                         display: true,
-                        text: 'Cantidades por meses',
-                        fontSize: 18,
-                    },            
-                }
-            });       
-    }
+                        labelString: "Cantidades",
+                        fontColor: "black"
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Meses",
+                        fontColor: "black"
+                    }
+                }],
+            },
+            interaction: {
+                intersect: false,
+            },
+            title: {
+                display: true,
+                text: 'Cantidades por meses',
+                fontSize: 18,
+            },
+        }
+    });
 }
 
 function DatosFiltradosTabla() {

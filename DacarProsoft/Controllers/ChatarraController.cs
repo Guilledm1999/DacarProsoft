@@ -1090,6 +1090,38 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public JsonResult ConsultaIngresosChatarraGeneralesAnioAndTipo(int anio, string tipo)
+        {
+
+            try
+            {
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+                var Result = daoIngresoMercanciasSap.ReporteGeneralChatarrasPorMesesPorTipo(anio,tipo);
+
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ConsultaIngresosChatarraGeneralesAnioAndTipoCliente(int anio, string tipo)
+        {
+
+            try
+            {
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+                var Result = daoIngresoMercanciasSap.ReporteGeneralChatarrasPorMesesPorTipoCliente(anio, Convert.ToInt32(tipo));
+
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
         public string GuardarViewBagDetalleChatarra(string chart, List<IngresosChatarras> registros)
         {
             Session["GraficoChatarra"] = chart;
@@ -1247,7 +1279,6 @@ namespace DacarProsoft.Controllers
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
             pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
 
-
             float[] columnWidth2 = { 80f, 80f };
             Table tabla2 = new Table(columnWidth2);
             tabla2.AddCell(new Cell(1, 2).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("RESUMEN DE CHATARRAS").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
@@ -1311,5 +1342,58 @@ namespace DacarProsoft.Controllers
                 return ex.Message;
             }
         }
+        public ActionResult ReporteIngresosChatarraSap()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                daoUtilitarios = new DaoUtilitarios();
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+
+                var dat = daoIngresoMercanciasSap.ConsultarAniosVentas();
+                ViewBag.anos = dat;
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                //return View("GenericRedirect", (object)"ViewBag.anosAccount");
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public JsonResult ConsultaIngresosChatarraConDesviacionSap(int anio)
+        {
+
+            try
+            {
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+                var Result = daoIngresoMercanciasSap.ReporteGeneralChatarrasPorDesviacionesSap(anio);
+
+                var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                serializer.MaxJsonLength = int.MaxValue;
+
+                var json = Json(Result, JsonRequestBehavior.AllowGet);
+                json.MaxJsonLength = int.MaxValue;
+                return json;
+                //return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        
     }
 }

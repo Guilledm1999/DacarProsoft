@@ -34,6 +34,11 @@ function PedidosConfirmados() {
                     showInfo: true,
                     showNavigationButtons: true
                 },
+                searchPanel: {
+                    visible: true,
+                    width: 240,
+                    placeholder: "Buscar..."
+                },
                 columns: [
 
                     { dataField: "NumeroPedidoId", visible: false },

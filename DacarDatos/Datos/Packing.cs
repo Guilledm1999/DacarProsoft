@@ -31,6 +31,8 @@ namespace DacarDatos.Datos
         public string Tipo { get; set; }
         public string DetalleIngresado { get; set; }
         public string Sucursal { get; set; }
+        public Nullable<System.DateTime> FechaRegistro { get; set; }
+        public Nullable<int> NumeroContenedor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PackingDtl> PackingDtl { get; set; }

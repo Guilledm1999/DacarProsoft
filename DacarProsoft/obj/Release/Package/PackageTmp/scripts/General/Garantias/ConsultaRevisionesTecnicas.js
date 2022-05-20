@@ -76,9 +76,9 @@ function RevisionesTecnicas() {
                 scrolling: {
                     mode: 'infinite',
                 },
-                sorting: {
-                    mode: 'none',
-                },
+                //sorting: {
+                //    mode: 'none',
+                //},
                 headerFilter: {
                     visible: true
                 },
@@ -89,6 +89,11 @@ function RevisionesTecnicas() {
                 //    showInfo: true,
                 //    showNavigationButtons: true
                 //},
+                searchPanel : {
+                    visible: true,
+                    width: 240,
+                    placeholder: "Buscar..."
+                },
                 export: {
                     enabled: true,
                     allowExportSelectedData: true

@@ -442,8 +442,11 @@
     <EntitySet Name="OINV" EntityType="SBODACARPRODModel.OINV" />
     <EntitySet Name="OSLP" EntityType="SBODACARPRODModel.OSLP" />
     <EntitySet Name="ITM1" EntityType="SBODACARPRODModel.ITM1" />
+    <EntitySet Name="OHEM" EntityType="SBODACARPRODModel.OHEM" />
+    <EntitySet Name="OCTG" EntityType="SBODACARPRODModel.OCTG" />
     <EntitySet Name="IGN1" EntityType="SBODACARPRODModel.IGN1" />
     <EntitySet Name="PDN1" EntityType="SBODACARPRODModel.PDN1" />
+    <EntitySet Name="ReporteIngresoChatarraConDesviacionRN" EntityType="SBODACARPRODModel.ReporteIngresoChatarraConDesviacionRN" />
   </EntityContainer>
   <EntityType Name="VU_REPORTEPRODUCCION">
     <Key>
@@ -1369,6 +1372,21 @@
     <Property Name="U_DAC_UNIMED" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="U_DAC_PESOPLOMO" Type="Decimal" Precision="19" Scale="6" />
     <Property Name="U_DAC_PESOPRODUCTO" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="U_DAC_SUBAREA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_FECHADQ" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_PLACA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_SERIE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_MODELO" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_PLANTA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_VALRASEGR" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_ESTATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_AVALPR" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_BANCO" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_PRENDA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_VALRENDS" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_COMENT1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_COMENT2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_COMENT3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="OPDN">
     <Key>
@@ -3806,6 +3824,177 @@
     <Property Name="UomEntry" Type="Int32" />
     <Property Name="PriceType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
   </EntityType>
+  <EntityType Name="OHEM">
+    <Key>
+      <PropertyRef Name="empID" />
+    </Key>
+    <Property Name="empID" Type="Int32" Nullable="false" />
+    <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="middleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="sex" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="jobTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="type" Type="Int32" />
+    <Property Name="dept" Type="Int16" />
+    <Property Name="branch" Type="Int16" />
+    <Property Name="workStreet" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="workBlock" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="workZip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="workCity" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="workCounty" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="workCountr" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="workState" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="manager" Type="Int32" />
+    <Property Name="userId" Type="Int32" />
+    <Property Name="salesPrson" Type="Int32" />
+    <Property Name="officeTel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="officeExt" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="pager" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="homeTel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="startDate" Type="DateTime" Precision="3" />
+    <Property Name="status" Type="Int32" />
+    <Property Name="salary" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="salaryUnit" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="emplCost" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="empCostUnt" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="termDate" Type="DateTime" Precision="3" />
+    <Property Name="termReason" Type="Int32" />
+    <Property Name="bankCode" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="bankBranch" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="bankBranNo" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="bankAcount" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="homeStreet" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="homeBlock" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="homeZip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="homeCity" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="homeCounty" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="homeCountr" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="homeState" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="birthDate" Type="DateTime" Precision="3" />
+    <Property Name="brthCountr" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="martStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="nChildren" Type="Int16" />
+    <Property Name="govID" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="citizenshp" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="passportNo" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+    <Property Name="passportEx" Type="DateTime" Precision="3" />
+    <Property Name="picture" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="remark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="attachment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="salaryCurr" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="empCostCur" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="WorkBuild" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="HomeBuild" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="position" Type="Int32" />
+    <Property Name="AtcEntry" Type="Int32" />
+    <Property Name="AddrTypeW" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AddrTypeH" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="StreetNoW" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="StreetNoH" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DispMidNam" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="NamePos" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="DispComma" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="CostCenter" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyNum" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="VacPreYear" Type="Int32" />
+    <Property Name="VacCurYear" Type="Int32" />
+    <Property Name="MunKey" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TaxClass" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="InTaxLiabi" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="EmTaxCCode" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+    <Property Name="RelPartner" Type="String" MaxLength="9" FixedLength="false" Unicode="true" />
+    <Property Name="ExemptAmnt" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="ExemptUnit" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="AddiAmnt" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="AddiUnit" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TaxOName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TaxONum" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="HeaInsName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HeaInsCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HeaInsType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="SInsurNum" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="StatusOfP" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="StatusOfE" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="BCodeDateV" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="DevBAOwner" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="FNameSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SurnameSP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LogInstanc" Type="Int32" />
+    <Property Name="UserSign" Type="Int16" />
+    <Property Name="UserSign2" Type="Int16" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="PersGroup" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="JTCode" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+    <Property Name="ExtEmpNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="BirthPlace" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PymMeth" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="ExemptCurr" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="AddiCurr" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="STDCode" Type="Int32" />
+    <Property Name="FatherName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="CPF" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CRC" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ContResp" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="RepLegal" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="DirfDeclar" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="UF_CRC" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="IDType" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="BPLId" Type="Int32" />
+    <Property Name="ManualNUM" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="PassIssue" Type="DateTime" Precision="3" />
+    <Property Name="PassIssuer" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+    <Property Name="QualCode" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="PRWebAccss" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="PrePRWeb" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="BPLink" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="NaturalPer" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="DPPStatus" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="EnRligion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="EnRligionP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="EncryptIV" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="EnGovID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="EnPassport" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateTS" Type="Int32" />
+    <Property Name="UpdateTS" Type="Int32" />
+    <Property Name="EnInsurNum" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="U_BPP_IDEMP" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+    <Property Name="U_BPP_TIPODOC" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="OCTG">
+    <Key>
+      <PropertyRef Name="GroupNum" />
+    </Key>
+    <Property Name="GroupNum" Type="Int16" Nullable="false" />
+    <Property Name="PymntGroup" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PayDuMonth" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="ExtraMonth" Type="Int16" />
+    <Property Name="ExtraDays" Type="Int16" />
+    <Property Name="PaymntsNum" Type="Int16" />
+    <Property Name="CredLimit" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="VolumDscnt" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="LatePyChrg" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="ObligLimit" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="ListNum" Type="Int16" />
+    <Property Name="Payments" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="NumOfPmnts" Type="Int16" />
+    <Property Name="Payment1" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="DataSource" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="UserSign" Type="Int16" />
+    <Property Name="OpenRcpt" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="DiscCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="DunningCod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="BslineDate" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="InstNum" Type="Int16" />
+    <Property Name="TolDays" Type="Int16" />
+    <Property Name="VATFirst" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="CrdMthd" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="CshRelev" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+  </EntityType>
   <EntityType Name="IGN1">
     <Key>
       <PropertyRef Name="DocEntry" />
@@ -4125,8 +4314,8 @@
     <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-    <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOBRUTO" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="U_DC_PESOREAL" Type="Decimal" Precision="19" Scale="6" />
   </EntityType>
   <EntityType Name="PDN1">
     <Key>
@@ -4447,7 +4636,29 @@
     <Property Name="U_SYP_CODART" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="U_NOMBRECUENTA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="U_DC_PROMO" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-    <Property Name="U_DC_PESOBRUTO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="U_DC_PESOREAL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="U_DC_PESOBRUTO" Type="Decimal" Precision="19" Scale="6" />
+    <Property Name="U_DC_PESOREAL" Type="Decimal" Precision="19" Scale="6" />
+  </EntityType>
+  <EntityType Name="ReporteIngresoChatarraConDesviacionRN">
+    <Key>
+      <PropertyRef Name="Tipo_Cliente" />
+      <PropertyRef Name="Tipo_Ingreso" />
+    </Key>
+    <Property Name="N_Documento" Type="Int32" />
+    <Property Name="Pedido" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Identificador" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Tipo_Cliente" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Cliente_Linea" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Cliente_Clase" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Tipo_Ingreso" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="Cantidad" Type="Decimal" Precision="38" Scale="6" />
+    <Property Name="Peso_Teorico" Type="Decimal" Precision="38" Scale="11" />
+    <Property Name="Peso_Real" Type="Decimal" Precision="38" Scale="11" />
+    <Property Name="Desviacion" Type="Decimal" Precision="38" Scale="6" />
+    <Property Name="Bodega" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+    <Property Name="Vendedor" Type="String" MaxLength="155" FixedLength="false" Unicode="true" />
+    <Property Name="Comentarios" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+    <Property Name="Fecha" Type="DateTime" Precision="3" />
   </EntityType>
 </Schema>

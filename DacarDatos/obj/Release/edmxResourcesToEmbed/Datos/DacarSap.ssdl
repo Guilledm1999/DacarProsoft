@@ -333,8 +333,8 @@
     <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
     <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
     <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
-    <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
-    <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
+    <Property Name="U_DC_PESOBRUTO" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="U_DC_PESOREAL" Type="numeric" Precision="19" Scale="6" />
   </EntityType>
   <EntityType Name="INV1">
     <Key>
@@ -1107,6 +1107,177 @@
     <Property Name="PriceList" Type="smallint" />
     <Property Name="DiscRel" Type="char" MaxLength="1" />
     <Property Name="EffecPrice" Type="char" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="OCTG">
+    <Key>
+      <PropertyRef Name="GroupNum" />
+    </Key>
+    <Property Name="GroupNum" Type="smallint" Nullable="false" />
+    <Property Name="PymntGroup" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="PayDuMonth" Type="char" MaxLength="1" />
+    <Property Name="ExtraMonth" Type="smallint" />
+    <Property Name="ExtraDays" Type="smallint" />
+    <Property Name="PaymntsNum" Type="smallint" />
+    <Property Name="CredLimit" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="VolumDscnt" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="LatePyChrg" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="ObligLimit" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="ListNum" Type="smallint" />
+    <Property Name="Payments" Type="char" MaxLength="1" />
+    <Property Name="NumOfPmnts" Type="smallint" />
+    <Property Name="Payment1" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="DataSource" Type="char" MaxLength="1" />
+    <Property Name="UserSign" Type="smallint" />
+    <Property Name="OpenRcpt" Type="char" MaxLength="1" />
+    <Property Name="DiscCode" Type="nvarchar" MaxLength="20" />
+    <Property Name="DunningCod" Type="nvarchar" MaxLength="20" />
+    <Property Name="BslineDate" Type="char" MaxLength="1" />
+    <Property Name="InstNum" Type="smallint" />
+    <Property Name="TolDays" Type="smallint" />
+    <Property Name="VATFirst" Type="char" MaxLength="1" />
+    <Property Name="CrdMthd" Type="char" MaxLength="1" />
+    <Property Name="CshRelev" Type="char" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="OHEM">
+    <Key>
+      <PropertyRef Name="empID" />
+    </Key>
+    <Property Name="empID" Type="int" Nullable="false" />
+    <Property Name="lastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="firstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="middleName" Type="nvarchar" MaxLength="50" />
+    <Property Name="sex" Type="char" MaxLength="1" />
+    <Property Name="jobTitle" Type="nvarchar" MaxLength="20" />
+    <Property Name="type" Type="int" />
+    <Property Name="dept" Type="smallint" />
+    <Property Name="branch" Type="smallint" />
+    <Property Name="workStreet" Type="nvarchar" MaxLength="100" />
+    <Property Name="workBlock" Type="nvarchar" MaxLength="100" />
+    <Property Name="workZip" Type="nvarchar" MaxLength="20" />
+    <Property Name="workCity" Type="nvarchar" MaxLength="100" />
+    <Property Name="workCounty" Type="nvarchar" MaxLength="100" />
+    <Property Name="workCountr" Type="nvarchar" MaxLength="3" />
+    <Property Name="workState" Type="nvarchar" MaxLength="3" />
+    <Property Name="manager" Type="int" />
+    <Property Name="userId" Type="int" />
+    <Property Name="salesPrson" Type="int" />
+    <Property Name="officeTel" Type="nvarchar" MaxLength="20" />
+    <Property Name="officeExt" Type="nvarchar" MaxLength="20" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="20" />
+    <Property Name="pager" Type="nvarchar" MaxLength="20" />
+    <Property Name="homeTel" Type="nvarchar" MaxLength="20" />
+    <Property Name="fax" Type="nvarchar" MaxLength="20" />
+    <Property Name="email" Type="nvarchar" MaxLength="100" />
+    <Property Name="startDate" Type="datetime" />
+    <Property Name="status" Type="int" />
+    <Property Name="salary" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="salaryUnit" Type="char" MaxLength="1" />
+    <Property Name="emplCost" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="empCostUnt" Type="char" MaxLength="1" />
+    <Property Name="termDate" Type="datetime" />
+    <Property Name="termReason" Type="int" />
+    <Property Name="bankCode" Type="nvarchar" MaxLength="30" />
+    <Property Name="bankBranch" Type="nvarchar" MaxLength="100" />
+    <Property Name="bankBranNo" Type="nvarchar" MaxLength="30" />
+    <Property Name="bankAcount" Type="nvarchar" MaxLength="100" />
+    <Property Name="homeStreet" Type="nvarchar" MaxLength="100" />
+    <Property Name="homeBlock" Type="nvarchar" MaxLength="100" />
+    <Property Name="homeZip" Type="nvarchar" MaxLength="20" />
+    <Property Name="homeCity" Type="nvarchar" MaxLength="100" />
+    <Property Name="homeCounty" Type="nvarchar" MaxLength="100" />
+    <Property Name="homeCountr" Type="nvarchar" MaxLength="3" />
+    <Property Name="homeState" Type="nvarchar" MaxLength="3" />
+    <Property Name="birthDate" Type="datetime" />
+    <Property Name="brthCountr" Type="nvarchar" MaxLength="3" />
+    <Property Name="martStatus" Type="char" MaxLength="1" />
+    <Property Name="nChildren" Type="smallint" />
+    <Property Name="govID" Type="nvarchar" MaxLength="64" />
+    <Property Name="citizenshp" Type="nvarchar" MaxLength="3" />
+    <Property Name="passportNo" Type="nvarchar" MaxLength="64" />
+    <Property Name="passportEx" Type="datetime" />
+    <Property Name="picture" Type="nvarchar" MaxLength="200" />
+    <Property Name="remark" Type="ntext" />
+    <Property Name="attachment" Type="ntext" />
+    <Property Name="salaryCurr" Type="nvarchar" MaxLength="3" />
+    <Property Name="empCostCur" Type="nvarchar" MaxLength="3" />
+    <Property Name="WorkBuild" Type="ntext" />
+    <Property Name="HomeBuild" Type="ntext" />
+    <Property Name="position" Type="int" />
+    <Property Name="AtcEntry" Type="int" />
+    <Property Name="AddrTypeW" Type="nvarchar" MaxLength="100" />
+    <Property Name="AddrTypeH" Type="nvarchar" MaxLength="100" />
+    <Property Name="StreetNoW" Type="nvarchar" MaxLength="100" />
+    <Property Name="StreetNoH" Type="nvarchar" MaxLength="100" />
+    <Property Name="DispMidNam" Type="char" MaxLength="1" />
+    <Property Name="NamePos" Type="char" MaxLength="1" />
+    <Property Name="DispComma" Type="char" MaxLength="1" />
+    <Property Name="CostCenter" Type="nvarchar" MaxLength="8" />
+    <Property Name="CompanyNum" Type="nvarchar" MaxLength="20" />
+    <Property Name="VacPreYear" Type="int" />
+    <Property Name="VacCurYear" Type="int" />
+    <Property Name="MunKey" Type="nvarchar" MaxLength="20" />
+    <Property Name="TaxClass" Type="nvarchar" MaxLength="2" />
+    <Property Name="InTaxLiabi" Type="nvarchar" MaxLength="2" />
+    <Property Name="EmTaxCCode" Type="nvarchar" MaxLength="9" />
+    <Property Name="RelPartner" Type="nvarchar" MaxLength="9" />
+    <Property Name="ExemptAmnt" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="ExemptUnit" Type="nvarchar" MaxLength="20" />
+    <Property Name="AddiAmnt" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="AddiUnit" Type="nvarchar" MaxLength="20" />
+    <Property Name="TaxOName" Type="nvarchar" MaxLength="50" />
+    <Property Name="TaxONum" Type="nvarchar" MaxLength="20" />
+    <Property Name="HeaInsName" Type="nvarchar" MaxLength="50" />
+    <Property Name="HeaInsCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="HeaInsType" Type="nvarchar" MaxLength="20" />
+    <Property Name="SInsurNum" Type="nvarchar" MaxLength="20" />
+    <Property Name="StatusOfP" Type="nvarchar" MaxLength="2" />
+    <Property Name="StatusOfE" Type="nvarchar" MaxLength="2" />
+    <Property Name="BCodeDateV" Type="nvarchar" MaxLength="20" />
+    <Property Name="DevBAOwner" Type="char" MaxLength="1" />
+    <Property Name="FNameSP" Type="nvarchar" MaxLength="50" />
+    <Property Name="SurnameSP" Type="nvarchar" MaxLength="50" />
+    <Property Name="LogInstanc" Type="int" />
+    <Property Name="UserSign" Type="smallint" />
+    <Property Name="UserSign2" Type="smallint" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="PersGroup" Type="nvarchar" MaxLength="5" />
+    <Property Name="JTCode" Type="nvarchar" MaxLength="5" />
+    <Property Name="ExtEmpNo" Type="nvarchar" MaxLength="20" />
+    <Property Name="BirthPlace" Type="nvarchar" MaxLength="100" />
+    <Property Name="PymMeth" Type="nvarchar" MaxLength="2" />
+    <Property Name="ExemptCurr" Type="nvarchar" MaxLength="3" />
+    <Property Name="AddiCurr" Type="nvarchar" MaxLength="3" />
+    <Property Name="STDCode" Type="int" />
+    <Property Name="FatherName" Type="nvarchar" MaxLength="150" />
+    <Property Name="CPF" Type="nvarchar" MaxLength="100" />
+    <Property Name="CRC" Type="nvarchar" MaxLength="20" />
+    <Property Name="ContResp" Type="char" MaxLength="1" />
+    <Property Name="RepLegal" Type="char" MaxLength="1" />
+    <Property Name="DirfDeclar" Type="char" MaxLength="1" />
+    <Property Name="UF_CRC" Type="nvarchar" MaxLength="3" />
+    <Property Name="IDType" Type="nvarchar" MaxLength="30" />
+    <Property Name="Active" Type="char" MaxLength="1" />
+    <Property Name="BPLId" Type="int" />
+    <Property Name="ManualNUM" Type="nvarchar" MaxLength="60" />
+    <Property Name="PassIssue" Type="datetime" />
+    <Property Name="PassIssuer" Type="nvarchar" MaxLength="254" />
+    <Property Name="QualCode" Type="nvarchar" MaxLength="3" />
+    <Property Name="PRWebAccss" Type="char" MaxLength="1" />
+    <Property Name="PrePRWeb" Type="char" MaxLength="1" />
+    <Property Name="BPLink" Type="nvarchar" MaxLength="15" />
+    <Property Name="NaturalPer" Type="char" MaxLength="1" />
+    <Property Name="DPPStatus" Type="char" MaxLength="1" />
+    <Property Name="EnRligion" Type="ntext" />
+    <Property Name="EnRligionP" Type="ntext" />
+    <Property Name="EncryptIV" Type="nvarchar" MaxLength="100" />
+    <Property Name="EnGovID" Type="ntext" />
+    <Property Name="EnPassport" Type="ntext" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateTS" Type="int" />
+    <Property Name="UpdateTS" Type="int" />
+    <Property Name="EnInsurNum" Type="ntext" />
+    <Property Name="U_BPP_IDEMP" Type="nvarchar" MaxLength="16" />
+    <Property Name="U_BPP_TIPODOC" Type="nvarchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="OIGN">
     <Key>
@@ -2566,6 +2737,21 @@
     <Property Name="U_DAC_UNIMED" Type="nvarchar" MaxLength="50" />
     <Property Name="U_DAC_PESOPLOMO" Type="numeric" Precision="19" Scale="6" />
     <Property Name="U_DAC_PESOPRODUCTO" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="U_DAC_SUBAREA" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_FECHADQ" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_PLACA" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_SERIE" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_MODELO" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_PLANTA" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_VALRASEGR" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_ESTATUS" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_AVALPR" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_BANCO" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_PRENDA" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_VALRENDS" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_COMENT1" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_COMENT2" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_COMENT3" Type="nvarchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="OPDN">
     <Key>
@@ -4023,8 +4209,8 @@
     <Property Name="U_SYP_CODART" Type="nvarchar" MaxLength="20" />
     <Property Name="U_NOMBRECUENTA" Type="nvarchar" MaxLength="250" />
     <Property Name="U_DC_PROMO" Type="nvarchar" MaxLength="25" />
-    <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
-    <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
+    <Property Name="U_DC_PESOBRUTO" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="U_DC_PESOREAL" Type="numeric" Precision="19" Scale="6" />
   </EntityType>
   <EntityType Name="RDR1">
     <Key>
@@ -4349,6 +4535,30 @@
     <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.ReporteIngresoChatarraConDesviacionRN' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="ReporteIngresoChatarraConDesviacionRN">
+    <Key>
+      <PropertyRef Name="Tipo_Cliente" />
+      <PropertyRef Name="Tipo_Ingreso" />
+    </Key>
+    <Property Name="N_Documento" Type="int" />
+    <Property Name="Pedido" Type="nvarchar" MaxLength="20" />
+    <Property Name="Identificador" Type="nvarchar" MaxLength="15" />
+    <Property Name="Cliente" Type="nvarchar" MaxLength="100" />
+    <Property Name="Tipo_Cliente" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Cliente_Linea" Type="nvarchar" MaxLength="100" />
+    <Property Name="Cliente_Clase" Type="nvarchar" MaxLength="100" />
+    <Property Name="Tipo_Ingreso" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="Cantidad" Type="numeric" Precision="38" Scale="6" />
+    <Property Name="Peso_Teorico" Type="numeric" Precision="38" Scale="11" />
+    <Property Name="Peso_Real" Type="numeric" Precision="38" Scale="11" />
+    <Property Name="Desviacion" Type="numeric" Precision="38" Scale="6" />
+    <Property Name="Bodega" Type="nvarchar" MaxLength="8" />
+    <Property Name="Vendedor" Type="nvarchar" MaxLength="155" />
+    <Property Name="Comentarios" Type="nvarchar" MaxLength="254" />
+    <Property Name="Fecha" Type="datetime" />
+  </EntityType>
+  <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.vConsultaArticulos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="vConsultaArticulos">
     <Key>
@@ -4444,6 +4654,8 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
     <EntitySet Name="ITM1" EntityType="Self.ITM1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OCRD" EntityType="Self.OCRD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OCRG" EntityType="Self.OCRG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OCTG" EntityType="Self.OCTG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OHEM" EntityType="Self.OHEM" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OIGN" EntityType="Self.OIGN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OINV" EntityType="Self.OINV" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OITM" EntityType="Self.OITM" Schema="dbo" store:Type="Tables" />
@@ -4452,6 +4664,26 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
     <EntitySet Name="OSLP" EntityType="Self.OSLP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PDN1" EntityType="Self.PDN1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RDR1" EntityType="Self.RDR1" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReporteIngresoChatarraConDesviacionRN" EntityType="Self.ReporteIngresoChatarraConDesviacionRN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ReporteIngresoChatarraConDesviacionRN].[N_Documento] AS [N_Documento], 
+    [ReporteIngresoChatarraConDesviacionRN].[Pedido] AS [Pedido], 
+    [ReporteIngresoChatarraConDesviacionRN].[Identificador] AS [Identificador], 
+    [ReporteIngresoChatarraConDesviacionRN].[Cliente] AS [Cliente], 
+    [ReporteIngresoChatarraConDesviacionRN].[Tipo_Cliente] AS [Tipo_Cliente], 
+    [ReporteIngresoChatarraConDesviacionRN].[Cliente_Linea] AS [Cliente_Linea], 
+    [ReporteIngresoChatarraConDesviacionRN].[Cliente_Clase] AS [Cliente_Clase], 
+    [ReporteIngresoChatarraConDesviacionRN].[Tipo_Ingreso] AS [Tipo_Ingreso], 
+    [ReporteIngresoChatarraConDesviacionRN].[Cantidad] AS [Cantidad], 
+    [ReporteIngresoChatarraConDesviacionRN].[Peso_Teorico] AS [Peso_Teorico], 
+    [ReporteIngresoChatarraConDesviacionRN].[Peso_Real] AS [Peso_Real], 
+    [ReporteIngresoChatarraConDesviacionRN].[Desviacion] AS [Desviacion], 
+    [ReporteIngresoChatarraConDesviacionRN].[Bodega] AS [Bodega], 
+    [ReporteIngresoChatarraConDesviacionRN].[Vendedor] AS [Vendedor], 
+    [ReporteIngresoChatarraConDesviacionRN].[Comentarios] AS [Comentarios], 
+    [ReporteIngresoChatarraConDesviacionRN].[Fecha] AS [Fecha]
+    FROM [dbo].[ReporteIngresoChatarraConDesviacionRN] AS [ReporteIngresoChatarraConDesviacionRN]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="vConsultaArticulos" EntityType="Self.vConsultaArticulos" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [vConsultaArticulos].[Codigo] AS [Codigo], 

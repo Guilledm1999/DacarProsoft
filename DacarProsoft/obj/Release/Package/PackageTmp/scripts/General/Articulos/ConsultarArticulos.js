@@ -18,9 +18,14 @@ function ConsultarArticulos() {
                ConfigDev.allowColumnResizing = true,
                ConfigDev.columnAutoWidth = true,
                ConfigDev.showBorders = true,
-            ConfigDev.filterRow = { visible: true },
+               ConfigDev.filterRow = { visible: false },
            ConfigDev.filterPanel = { visible: true },
-           ConfigDev.headerFilter = { visible: true },
+               ConfigDev.headerFilter = { visible: true },
+               ConfigDev.searchPanel= {
+               visible: true,
+                   width: 240,
+                       placeholder: "Buscar..."
+           },
            ConfigDev.columns = [
                 { dataField: "Codigo", caption: "Codigo" },
                 { dataField: "Descripcion", caption: "Descripcion" },

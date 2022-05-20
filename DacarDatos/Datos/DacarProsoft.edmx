@@ -216,6 +216,7 @@
           <Property Name="IntercambioEirPackingList" Type="varchar" MaxLength="255" />
           <Property Name="ReferenciasPackingList" Type="varchar" MaxLength="255" />
           <Property Name="ProductosPackingList" Type="varchar" MaxLength="255" />
+          <Property Name="FechaActualizacion" Type="datetime" />
         </EntityType>
         <EntityType Name="DiasBusqueda">
           <Key>
@@ -275,6 +276,28 @@
           <Property Name="GrupoClienteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GroupCode" Type="int" />
           <Property Name="GroupName" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="GuiaPackingList">
+          <Key>
+            <PropertyRef Name="GuiaPackingListId" />
+          </Key>
+          <Property Name="GuiaPackingListId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PackingId" Type="int" />
+          <Property Name="FechaRegistro" Type="datetime" />
+          <Property Name="PesoBruto" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PesoTara" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RazonSocial" Type="varchar" MaxLength="100" />
+          <Property Name="Ruc" Type="varchar" MaxLength="20" />
+          <Property Name="Direccion" Type="varchar" MaxLength="100" />
+          <Property Name="Placa" Type="varchar" MaxLength="10" />
+          <Property Name="SelloA" Type="varchar" MaxLength="20" />
+          <Property Name="SelloB" Type="varchar" MaxLength="20" />
+          <Property Name="SelloC" Type="varchar" MaxLength="20" />
+          <Property Name="SelloD" Type="varchar" MaxLength="20" />
+          <Property Name="ElaboradoPor" Type="varchar" MaxLength="100" />
+          <Property Name="AutorizadoPor" Type="varchar" MaxLength="100" />
+          <Property Name="FechaActualizacion" Type="datetime" />
+          <Property Name="PuntoPartida" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="IngresoGarantias">
           <Key>
@@ -509,6 +532,8 @@
           <Property Name="Tipo" Type="varchar" MaxLength="5" />
           <Property Name="DetalleIngresado" Type="varchar" MaxLength="5" />
           <Property Name="Sucursal" Type="varchar" MaxLength="100" />
+          <Property Name="FechaRegistro" Type="datetime" />
+          <Property Name="NumeroContenedor" Type="int" />
         </EntityType>
         <EntityType Name="PackingDtl">
           <Key>
@@ -687,6 +712,28 @@
           <Property Name="Observaciones" Type="varchar" MaxLength="255" />
           <Property Name="Calificacion" Type="decimal" Precision="18" Scale="2" />
           <Property Name="FechaRegistro" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PruebasLaboratorioCCA">
+          <Key>
+            <PropertyRef Name="PruebasLaboratorioCCAId" />
+          </Key>
+          <Property Name="PruebasLaboratorioCCAId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FechaPrueba" Type="datetime" />
+          <Property Name="CodigoIngreso" Type="int" />
+          <Property Name="TipoBateria" Type="varchar" MaxLength="100" />
+          <Property Name="Modelo" Type="varchar" MaxLength="100" />
+          <Property Name="Separador" Type="varchar" MaxLength="50" />
+          <Property Name="LoteEnsamble" Type="varchar" MaxLength="50" />
+          <Property Name="LoteCarga" Type="varchar" MaxLength="50" />
+          <Property Name="Temperatura" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Peso" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Voltaje" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="DatoTeoricoPrueba" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ResultadoFinal" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="rendimiento" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="200" />
+          <Property Name="TipoPruebaCCA" Type="int" />
+          <Property Name="NumeroOrden" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="RutaBasesAccessCalidad">
           <Key>
@@ -1107,6 +1154,7 @@
           <EntitySet Name="FechasPedidos" EntityType="Self.FechasPedidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="Self.FiltrosCategoriaReporteGarantias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GuiaPackingList" EntityType="Self.GuiaPackingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoInspeccionInicialDensidadCelda" EntityType="Self.IngresoInspeccionInicialDensidadCelda" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoMercanciasTipoDescripcion" EntityType="Self.IngresoMercanciasTipoDescripcion" Schema="dbo" store:Type="Tables" />
@@ -1138,6 +1186,7 @@
           <EntitySet Name="PedidoClienteDetalleFinal" EntityType="Self.PedidoClienteDetalleFinal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProvinciasEcuador" EntityType="Self.ProvinciasEcuador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PruebaLaboratorioCalidad" EntityType="Self.PruebaLaboratorioCalidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PruebasLaboratorioCCA" EntityType="Self.PruebasLaboratorioCCA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RutaBasesAccessCalidad" EntityType="Self.RutaBasesAccessCalidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RutaInstalacionSoftware" EntityType="Self.RutaInstalacionSoftware" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SecuencialRevisionTecnica" EntityType="Self.SecuencialRevisionTecnica" Schema="dbo" store:Type="Tables" />
@@ -1396,15 +1445,6 @@
           <EntitySet Name="AutorizacionPackingList" EntityType="DacarProsoftModel.AutorizacionPackingList" />
           <EntitySet Name="DatosTecnicosCalidadBaterias" EntityType="DacarProsoftModel.DatosTecnicosCalidadBaterias" />
           <EntitySet Name="CorreoElectronicoEnviosReportes" EntityType="DacarProsoftModel.CorreoElectronicoEnviosReportes" />
-          <EntitySet Name="Packing" EntityType="DacarProsoftModel.Packing" />
-          <AssociationSet Name="fk_Packing" Association="DacarProsoftModel.fk_Packing">
-            <End Role="Packing" EntitySet="Packing" />
-            <End Role="PackingDtl" EntitySet="PackingDtl" />
-          </AssociationSet>
-          <AssociationSet Name="fk_PackingPallet" Association="DacarProsoftModel.fk_PackingPallet">
-            <End Role="Packing" EntitySet="Packing" />
-            <End Role="PalletPacking" EntitySet="PalletPacking" />
-          </AssociationSet>
           <EntitySet Name="IngresosDetallesMedicionCarga" EntityType="DacarProsoftModel.IngresosDetallesMedicionCarga" />
           <EntitySet Name="IngresosMedicionCarga" EntityType="DacarProsoftModel.IngresosMedicionCarga" />
           <AssociationSet Name="fk_MedicionCarga" Association="DacarProsoftModel.fk_MedicionCarga">
@@ -1420,6 +1460,17 @@
             <End Role="Chatarra" EntitySet="Chatarra" />
             <End Role="ChatarraDetalleIndividual" EntitySet="ChatarraDetalleIndividual" />
           </AssociationSet>
+          <EntitySet Name="Packing" EntityType="DacarProsoftModel.Packing" />
+          <AssociationSet Name="fk_Packing" Association="DacarProsoftModel.fk_Packing">
+            <End Role="Packing" EntitySet="Packing" />
+            <End Role="PackingDtl" EntitySet="PackingDtl" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PackingPallet" Association="DacarProsoftModel.fk_PackingPallet">
+            <End Role="Packing" EntitySet="Packing" />
+            <End Role="PalletPacking" EntitySet="PalletPacking" />
+          </AssociationSet>
+          <EntitySet Name="GuiaPackingList" EntityType="DacarProsoftModel.GuiaPackingList" />
+          <EntitySet Name="PruebasLaboratorioCCA" EntityType="DacarProsoftModel.PruebasLaboratorioCCA" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1841,6 +1892,7 @@
           <Property Name="IntercambioEirPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ReferenciasPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ProductosPackingList" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FechaActualizacion" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="SubMenuOpciones">
           <Key>
@@ -2389,47 +2441,6 @@
           <Property Name="ClaveCorreo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Estado" Type="Boolean" />
         </EntityType>
-        <EntityType Name="Packing">
-          <Key>
-            <PropertyRef Name="PackingId" />
-          </Key>
-          <Property Name="PackingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NumeroDocumento" Type="Int32" />
-          <Property Name="NumeroOrden" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NombreCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Origen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Destino" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CantidadPallet" Type="Int32" />
-          <Property Name="Tipo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DetalleIngresado" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Sucursal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="PackingDtl" Relationship="DacarProsoftModel.fk_Packing" FromRole="Packing" ToRole="PackingDtl" />
-          <NavigationProperty Name="PalletPacking" Relationship="DacarProsoftModel.fk_PackingPallet" FromRole="Packing" ToRole="PalletPacking" />
-        </EntityType>
-        <Association Name="fk_Packing">
-          <End Type="DacarProsoftModel.Packing" Role="Packing" Multiplicity="0..1" />
-          <End Type="DacarProsoftModel.PackingDtl" Role="PackingDtl" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Packing">
-              <PropertyRef Name="PackingId" />
-            </Principal>
-            <Dependent Role="PackingDtl">
-              <PropertyRef Name="PackingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_PackingPallet">
-          <End Type="DacarProsoftModel.Packing" Role="Packing" Multiplicity="0..1" />
-          <End Type="DacarProsoftModel.PalletPacking" Role="PalletPacking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Packing">
-              <PropertyRef Name="PackingId" />
-            </Principal>
-            <Dependent Role="PalletPacking">
-              <PropertyRef Name="PackingId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="IngresosDetallesMedicionCarga">
           <Key>
             <PropertyRef Name="IngresosDetallesMedicionCargaId" />
@@ -2516,6 +2527,93 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Packing">
+          <Key>
+            <PropertyRef Name="PackingId" />
+          </Key>
+          <Property Name="PackingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroDocumento" Type="Int32" />
+          <Property Name="NumeroOrden" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Origen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Destino" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CantidadPallet" Type="Int32" />
+          <Property Name="Tipo" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DetalleIngresado" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Sucursal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PackingDtl" Relationship="DacarProsoftModel.fk_Packing" FromRole="Packing" ToRole="PackingDtl" />
+          <NavigationProperty Name="PalletPacking" Relationship="DacarProsoftModel.fk_PackingPallet" FromRole="Packing" ToRole="PalletPacking" />
+          <Property Name="NumeroContenedor" Type="Int32" />
+        </EntityType>
+        <Association Name="fk_Packing">
+          <End Type="DacarProsoftModel.Packing" Role="Packing" Multiplicity="0..1" />
+          <End Type="DacarProsoftModel.PackingDtl" Role="PackingDtl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Packing">
+              <PropertyRef Name="PackingId" />
+            </Principal>
+            <Dependent Role="PackingDtl">
+              <PropertyRef Name="PackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PackingPallet">
+          <End Type="DacarProsoftModel.Packing" Role="Packing" Multiplicity="0..1" />
+          <End Type="DacarProsoftModel.PalletPacking" Role="PalletPacking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Packing">
+              <PropertyRef Name="PackingId" />
+            </Principal>
+            <Dependent Role="PalletPacking">
+              <PropertyRef Name="PackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="GuiaPackingList">
+          <Key>
+            <PropertyRef Name="GuiaPackingListId" />
+          </Key>
+          <Property Name="GuiaPackingListId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PackingId" Type="Int32" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <Property Name="PesoBruto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PesoTara" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RazonSocial" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Ruc" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Placa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SelloA" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SelloB" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SelloC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SelloD" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ElaboradoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AutorizadoPor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaActualizacion" Type="DateTime" Precision="3" />
+          <Property Name="PuntoPartida" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PruebasLaboratorioCCA">
+          <Key>
+            <PropertyRef Name="PruebasLaboratorioCCAId" />
+          </Key>
+          <Property Name="PruebasLaboratorioCCAId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FechaPrueba" Type="DateTime" Precision="3" />
+          <Property Name="CodigoIngreso" Type="Int32" />
+          <Property Name="TipoBateria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Separador" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoteEnsamble" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoteCarga" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Temperatura" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Peso" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Voltaje" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="DatoTeoricoPrueba" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ResultadoFinal" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="rendimiento" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TipoPruebaCCA" Type="Int32" />
+          <Property Name="NumeroOrden" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2852,6 +2950,7 @@
           <EntitySetMapping Name="DetalleGeneralPackingList">
             <EntityTypeMapping TypeName="DacarProsoftModel.DetalleGeneralPackingList">
               <MappingFragment StoreEntitySet="DetalleGeneralPackingList">
+                <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
                 <ScalarProperty Name="ProductosPackingList" ColumnName="ProductosPackingList" />
                 <ScalarProperty Name="ReferenciasPackingList" ColumnName="ReferenciasPackingList" />
                 <ScalarProperty Name="IntercambioEirPackingList" ColumnName="IntercambioEirPackingList" />
@@ -3373,22 +3472,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Packing">
-            <EntityTypeMapping TypeName="DacarProsoftModel.Packing">
-              <MappingFragment StoreEntitySet="Packing">
-                <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
-                <ScalarProperty Name="DetalleIngresado" ColumnName="DetalleIngresado" />
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-                <ScalarProperty Name="CantidadPallet" ColumnName="CantidadPallet" />
-                <ScalarProperty Name="Destino" ColumnName="Destino" />
-                <ScalarProperty Name="Origen" ColumnName="Origen" />
-                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
-                <ScalarProperty Name="NumeroOrden" ColumnName="NumeroOrden" />
-                <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
-                <ScalarProperty Name="PackingId" ColumnName="PackingId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="IngresosDetallesMedicionCarga">
             <EntityTypeMapping TypeName="DacarProsoftModel.IngresosDetallesMedicionCarga">
               <MappingFragment StoreEntitySet="IngresosDetallesMedicionCarga">
@@ -3435,6 +3518,70 @@
                 <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
                 <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
                 <ScalarProperty Name="ChatarraId" ColumnName="ChatarraId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Packing">
+            <EntityTypeMapping TypeName="DacarProsoftModel.Packing">
+              <MappingFragment StoreEntitySet="Packing">
+                <ScalarProperty Name="NumeroContenedor" ColumnName="NumeroContenedor" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+                <ScalarProperty Name="DetalleIngresado" ColumnName="DetalleIngresado" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="CantidadPallet" ColumnName="CantidadPallet" />
+                <ScalarProperty Name="Destino" ColumnName="Destino" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="NumeroOrden" ColumnName="NumeroOrden" />
+                <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+                <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GuiaPackingList">
+            <EntityTypeMapping TypeName="DacarProsoftModel.GuiaPackingList">
+              <MappingFragment StoreEntitySet="GuiaPackingList">
+                <ScalarProperty Name="PuntoPartida" ColumnName="PuntoPartida" />
+                <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+                <ScalarProperty Name="AutorizadoPor" ColumnName="AutorizadoPor" />
+                <ScalarProperty Name="ElaboradoPor" ColumnName="ElaboradoPor" />
+                <ScalarProperty Name="SelloD" ColumnName="SelloD" />
+                <ScalarProperty Name="SelloC" ColumnName="SelloC" />
+                <ScalarProperty Name="SelloB" ColumnName="SelloB" />
+                <ScalarProperty Name="SelloA" ColumnName="SelloA" />
+                <ScalarProperty Name="Placa" ColumnName="Placa" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Ruc" ColumnName="Ruc" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="PesoTara" ColumnName="PesoTara" />
+                <ScalarProperty Name="PesoBruto" ColumnName="PesoBruto" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+                <ScalarProperty Name="GuiaPackingListId" ColumnName="GuiaPackingListId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PruebasLaboratorioCCA">
+            <EntityTypeMapping TypeName="DacarProsoftModel.PruebasLaboratorioCCA">
+              <MappingFragment StoreEntitySet="PruebasLaboratorioCCA">
+                <ScalarProperty Name="NumeroOrden" ColumnName="NumeroOrden" />
+                <ScalarProperty Name="TipoPruebaCCA" ColumnName="TipoPruebaCCA" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="rendimiento" ColumnName="rendimiento" />
+                <ScalarProperty Name="ResultadoFinal" ColumnName="ResultadoFinal" />
+                <ScalarProperty Name="DatoTeoricoPrueba" ColumnName="DatoTeoricoPrueba" />
+                <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="Temperatura" ColumnName="Temperatura" />
+                <ScalarProperty Name="LoteCarga" ColumnName="LoteCarga" />
+                <ScalarProperty Name="LoteEnsamble" ColumnName="LoteEnsamble" />
+                <ScalarProperty Name="Separador" ColumnName="Separador" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="TipoBateria" ColumnName="TipoBateria" />
+                <ScalarProperty Name="CodigoIngreso" ColumnName="CodigoIngreso" />
+                <ScalarProperty Name="FechaPrueba" ColumnName="FechaPrueba" />
+                <ScalarProperty Name="PruebasLaboratorioCCAId" ColumnName="PruebasLaboratorioCCAId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

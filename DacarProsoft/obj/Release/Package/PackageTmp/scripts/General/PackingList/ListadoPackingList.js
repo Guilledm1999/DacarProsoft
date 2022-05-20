@@ -14,8 +14,13 @@ var NumeroPedido = null;
 var IngresoDetallePacking = null;
 var etiqueta = null;
 var etiquetaPalletPacking = null;
-
-
+var CantidadPallets = null;
+var GuiaPackingList = null;
+var DestinoPacking = null;
+var ContenedorNumer = null;
+var valorDocEntry = null;
+var detFactImpr = null;
+var formaPago = null;
 $(document).ready(function () {
 
     $("#txtNuevoLargoPallet").val(114);
@@ -81,13 +86,22 @@ function mostrarIngresosPallet() {
                        },
                       {
                           dataField: "NombreCliente", caption: "Cliente", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
-                      },
+                     },
+                     {
+                         dataField: "Mes", caption: "Mes", allowEditing: false, headerFilter: true, allowHeaderFiltering: true, alignment: "right",
+                     },
+                     {
+                         dataField: "FechaRegistro", caption: "Fecha Registro", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
+                     },
                       {
                           dataField: "Origen", visible: false
                       },
                        {
                            dataField: "Destino", visible: false
-                       },
+                     },
+                     {
+                         dataField: "NumeroContenedor", caption: "Contenedor", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
+                     },
                        {
                            dataField: "CantidadPallet", caption: "Pallet Totales", alignment: "right", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
                        }, {
@@ -103,9 +117,10 @@ function mostrarIngresosPallet() {
                       {
                           caption: "Acciones",
                           cellTemplate: function (container, options) {
-                              var btEliminar = "<a style='box-shadow: 2px 2px 5px #FB0716 inset' onclick='EliminarPackingCompl(" + JSON.stringify(options.data) + ")'>Eliminar</a>";
-                              var btnDetalle = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ModalConsultarPalletsIngresado(" + JSON.stringify(options.data) + ")'>Pallets</a>";
-                              var btnPackingList = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ConsultaEstado(" + JSON.stringify(options.data) + ")'>Ingreso Pallets</a>";
+
+                              var btEliminar = "<button class='btn-primary' onclick='EliminarPackingCompl(" + JSON.stringify(options.data) + ")'>Eliminar</button>";
+                              var btnDetalle = "<button class='btn-success' onclick='ModalConsultarPalletsIngresado(" + JSON.stringify(options.data) + ")'>Consultar Packing List</button>";
+                              var btnPackingList = "<button class='btn-primary' onclick='ConsultaEstado(" + JSON.stringify(options.data) + ")'>Ingreso Pallets</button>";
 
                               //var btEliminar = "<i class='fas fa-trash-alt' onclick=" + "'EliminarPackingCompl(" + JSON.stringify(options.data) + ")'> </i>";
                               //var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarPalletsIngresado(" + JSON.stringify(options.data) + ")'>Pallets</button>";
@@ -142,8 +157,10 @@ function ModalConsultarPalletsIngresado(modelo) {
     NombreCliente =modelo.NombreCliente ;
     NumeroPedido = modelo.NumeroOrden;
     IngresoDetallePacking = modelo.DetalleIngresado;
-
+    CantidadPallets = modelo.CantidadPallet;
     PackingIdentificador = modelo.PackingId;
+    ContenedorNumer = modelo.NumeroContenedor;
+    DestinoPacking = modelo.Destino;
     $.ajax({
         url: "../PackingList/ObtenerPalletList?PackingId=" + modelo.PackingId,
         type: "GET"
@@ -154,17 +171,23 @@ function ModalConsultarPalletsIngresado(modelo) {
                ConfigDev.showBorders = true,
                 ConfigDev.allowColumnReordering = true,
                //ConfigDev.allowColumnResizing = true,
-                  ConfigDev.filterRow = { visible: false },
+                   ConfigDev.filterRow = { visible: false },
                    ConfigDev.filterPanel = { visible: false },
                    ConfigDev.headerFilter = { visible: false },
-                 ConfigDev.columnFixing = {
+                   ConfigDev.columnFixing = {
                      enabled: true
-                 },
+                   },
+                   ConfigDev.paging= { 
+                   pageSize: 30,
+                   },
+                   ConfigDev.pager= {
+                   visible: false,
+                   },
                ConfigDev.columns = [
                    { dataField: "PalletPacking1", visible: false },
                    { dataField: "PackingId", visible: false },
-                     {
-                         dataField: "PalletNumber", caption: "Numero de Pallet", allowEditing: false
+                   {
+                       dataField: "PalletNumber", caption: "# Pallet", allowEditing: false, width:60
                      },
                      {
                          dataField: "AnchoPallet", visible: false
@@ -179,27 +202,35 @@ function ModalConsultarPalletsIngresado(modelo) {
                         dataField: "Cantidad", caption: "Cantidad Items", allowEditing: false
                     },
                      {
-                         dataField: "VolumenPallet", caption: "Volumen", allowEditing: false
+                         dataField: "VolumenPallet", caption: "Volumen(m³)", allowEditing: false,
+                         format: {
+                             type: "fixedPoint",
+                             precision: 2,
+                         },
                      },
                      {
-                         dataField: "PesoNeto", caption: "Peso Neto", alignment: "right"
+                         dataField: "PesoNeto", caption: "Peso Neto(kg)", alignment: "right",
+                         format: {
+                             type: "fixedPoint",
+                             precision: 2,
+                         },
                      }, {
-                         dataField: "PesoBruto", caption: "Peso Bruto", allowEditing: false
+                         dataField: "PesoBruto", caption: "Peso Bruto(kg)", allowEditing: false,
+                         format: {
+                             type: "fixedPoint",
+                             precision: 2,
+                         },
                      },                 
                     {
                         caption: "Acciones",
-
                         cellTemplate: function (container, options) {
-
                             //var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarDetallePalletIngresado(" + JSON.stringify(options.data) + ")'>Detalle</button>";
                             var lblEspacio = "<a> </a>"
                             //var btnPackingList = "<button class='btn-warning' onclick='ConsultarEtiqueta(" + JSON.stringify(options.data) + ")'>Imprimir</button>";
-                            var btnEliminar = "<a style='box-shadow: 2px 2px 5px #FB0716 inset' onclick='EliminarPallet(" + JSON.stringify(options.data) + ")'>Eliminar</a>";
-                            var btnDetalle = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ModalConsultarDetallePalletIngresado(" + JSON.stringify(options.data) + ")'>Detalle</a>";
-                            var btnPackingList = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='ConsultarEtiqueta(" + JSON.stringify(options.data) + ")'>Imprimir</a>";
-
+                            var btnEliminar = "<button class='btn-warning' onclick='EliminarPallet(" + JSON.stringify(options.data) + ")'>Eliminar</button>";
+                            var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarDetallePalletIngresado(" + JSON.stringify(options.data) + ")'>Detalle</button>";
+                            var btnPackingList = "<button class='btn-primary' onclick='ConsultarEtiqueta(" + JSON.stringify(options.data) + ")'>Imprimir</button>";
                             //var btnEliminar = "<i class='fas fa-trash-alt' onclick='EliminarPallet(" + JSON.stringify(options.data) + ")'> </i>";
-
                             $("<div>")
                                 .append($(btnDetalle), $(lblEspacio), $(btnPackingList), $(lblEspacio), $(btnEliminar))
                                 .appendTo(container);
@@ -225,6 +256,59 @@ $('#AfirmacionEliminacion').on("click", function (e) {
 $('#AfirmacionEliminacionPacking').on("click", function (e) {
     AfirmacionEliminacionPackin();
 });
+
+$('#btnActualizarCantidadPallets').on("click", function (e) {
+    $("#ModalActualizarPallet").modal("show");
+    $('#txtCantidadActualPallets').val(CantidadPallets);
+    ;
+});
+
+$('#ActualizarPalletsPacking').on("click", function (e) {
+    var valorNuevaCant = $('#txtNuevaCantidadPallets').val();
+    if (valorNuevaCant.length == 0 || valorNuevaCant==0) {
+        $("#MensajePackingValorCeroPallets").show('fade');
+        setTimeout(function () {
+            $("#MensajePackingValorCeroPallets").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    actualizarValorPallets();
+    PackingIdentificador;
+});
+
+function actualizarValorPallets() {
+    $.ajax({
+        url: "../PackingList/ActualizarCantidadPallet",
+        type: "POST",
+        data: {
+            PackingId: PackingIdentificador, NuevaCantidad: $('#txtNuevaCantidadPallets').val()
+        },
+        success: function (msg) {
+            if (msg == 'True') {
+                mostrarIngresosPallet();
+                $("#ModalActualizarPallet").modal("hide");
+                $("#ModalListadoDePallets").modal("hide");
+
+                  $("#MensajeActulalizacionCorrecta").show('fade');
+                  setTimeout(function () {
+                      $("#MensajeActulalizacionCorrecta").fadeOut(1500);
+                  }, 3000);
+                  
+            } else {
+                  $("#MensajeErrorGuardado").show('fade');
+                  setTimeout(function () {
+                      $("#MensajeErrorGuardado").fadeOut(1500);
+                  }, 3000);
+            }
+        },
+        error: function (msg) {
+            $("#MensajeErrorGeneral").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorGeneral").fadeOut(1500);
+            }, 3000);
+        }
+    })
+}
 
 function EliminarPallet(modelo) {
     tempPalletId = modelo.PalletPacking1;
@@ -478,7 +562,9 @@ $('#LinkClose12').on("click", function (e) {
 $('#LinkClose13').on("click", function (e) {
     $("#MensajeActualizado").hide('fade');
 });
-
+$('#LinkCloseCeroPallets').on("click", function (e) {
+    $("#MensajePackingValorCeroPallets").hide('fade');
+});
 
 function IngresoNuevoPacking(modelo) {
     document.getElementById("RegistrarPallet").disabled = true;
@@ -763,7 +849,6 @@ $('#DetallePackingList').on("click", function (e) {
         document.getElementById('ImprimirRegistroPackingList').disabled = true;
         document.getElementById('ActualizarDetallePackingList').disabled = true;
 
-
     }
     $('#txtContenedorPackingList').val("");
     $('#txtFechaPacking').val("");
@@ -779,8 +864,8 @@ $('#DetallePackingList').on("click", function (e) {
     $("#txtNombreDelCliente").val(NombreCliente);
     $("#txtPedidoPackingList").val(NumeroPedido);
 
-    BuscarDetallesPalletPackingList(PackingIdentificador);
-    BuscarItemsPackingList(PackingIdentificador);
+    //BuscarDetallesPalletPackingList(PackingIdentificador);
+    //BuscarItemsPackingList(PackingIdentificador);
 });
 
 function MostrarCabeceraDetallePackingList(PackingIdentificador) {
@@ -817,20 +902,21 @@ function BuscarItemsPackingList(PackingId) {
     $.ajax({
         url: "../PackingList/ConsultaItemsPackingList?PackingId=" + PackingId,
         type: "GET"
-             , success: function (msg) {
-                 ConfigDev.dataSource = msg;
-                 ConfigDev.keyExpr = "ItemCode",
-                 ConfigDev.columnAutoWidth = true,
-                 ConfigDev.showBorders = true,
-                  ConfigDev.allowColumnReordering = true,
+        , success: function (msg) {
+            $("#tblResumenGuia").dxDataGrid({
+                 dataSource : msg,
+                 keyExpr : "ItemCode",
+                 columnAutoWidth : true,
+                 showBorders : true,
+                  allowColumnReordering : true,
                  //ConfigDev.allowColumnResizing = true,
-                    ConfigDev.filterRow = { visible: false },
-                     ConfigDev.filterPanel = { visible: false },
-                     ConfigDev.headerFilter = { visible: false },
-                   ConfigDev.columnFixing = {
+                    filterRow : { visible: false },
+                     filterPanel : { visible: false },
+                     headerFilter : { visible: false },
+                   columnFixing : {
                        enabled: true
                    },
-                 ConfigDev.columns = [
+                 columns : [
                      {
                          caption: "Detalle Items en Pallets", alignment: "center",
                          columns: [
@@ -838,15 +924,48 @@ function BuscarItemsPackingList(PackingId) {
                              {
                              dataField: "NumeroPallet", caption: "# Pallet", allowEditing: false, alignment: "left"
                          }, {
-                             dataField: "ItemCode", caption: "Codigo Item", allowEditing: false, alignment: "left"
+                                 dataField: "ItemCode", caption: "Codigo Item", allowEditing: false, alignment: "left", visible: false
                          }, {
                              dataField: "Descripcion", caption: "Descripcion", allowEditing: false, alignment: "left"
                          }, {
                              dataField: "Cantidad", caption: "Cantidad", allowEditing: false, alignment: "left"
                          }]
                      },
-                 ];
-                 $("#tblItemsDetallePackingListIngresados").dxDataGrid(ConfigDev);
+                ],
+                summary: {
+                    recalculateWhileEditing: true,
+                    totalItems: [
+                        {
+                            name: "NumeroPallet",
+                            column: "NumeroPallet",
+                            summaryType: "count",
+                            displayFormat: "Total: {0}",
+                            showInColumn: "DescriptionItem",
+                            customizeText: function (e) {
+                                if (e.value != 0 && e.value != "") {
+                                    return "Totales:"
+                                }
+                            }
+                        },
+                        {
+                            name: "Cantidad",
+                            column: "Cantidad",
+                            summaryType: "sum",
+                            displayFormat: "Total: {0}",
+                            showInColumn: "Cantidad",
+                            customizeText: function (e) {
+                                if (e.value != 0 && e.value != "") {
+                                    return (e.value)
+                                }
+                            }
+                        }
+                    ],
+                },
+            });
+                 //$("#tblItemsDetallePackingListIngresados").dxDataGrid(ConfigDev);
+
+                 //$("#tblResumenGuia").dxDataGrid(ConfigDev);
+                 
              },
         error: function (msg) {
             $("#MensajeErrorGeneral").show('fade');
@@ -951,6 +1070,600 @@ function RegistrarDetallePackingListGeneral() {
 $('#ActualizarDetallePackingList').on("click", function (e) {
     ActualizarDetallePackingListGeneral();
 });
+
+$('#GenerarFacturaPacking').on("click", function (e) {
+    // = modelo.NombreCliente;
+    // = modelo.NumeroOrden;
+
+    if (IngresoDetallePacking == "SI") {
+        consultarInfoFact();
+
+    } else {
+        $("#MensajeIngresarInformacionPacking").show('fade');
+        setTimeout(function () {
+            $("#MensajeIngresarInformacionPacking").fadeOut(1500);
+        }, 3000);
+    }
+   
+
+    
+});
+function consultarInfoFact() {
+    $.ajax({
+        url: "../PackingList/BuscarDatosFactPacking",
+        type: "POST",
+        async: false,
+        data: {
+            numeroOrden: NumeroPedido,
+        },
+        success: function (msg) {
+            if (msg != null) {
+                formaPago = msg[0].terminoPago;
+                $("#txtTelefonoFactPacking").val(msg[0].Telefono);
+                $("#txtEnvioFactPackingList").val(msg[0].enviarA);
+                $("#txtFactPackingList").val(msg[0].numeroFact);
+                $("#txtMetodoEnvioFactPackingList").val(msg[0].metodoEnvio);
+                $("#txtFechaFactPackingList").val(msg[0].Fecha);
+                $("#txtContenedorFactPackingList").val(ContenedorNumer);
+                $("#txtDestinoFactPackingList").val(DestinoPacking);
+                $("#txtVendedorFactPackingList").val(msg[0].vendedor);
+                valorDocEntry = msg[0].docentry;
+
+                consultarInfoDetFact();
+                $("#txtClienteFactPacking").val(NombreCliente);
+                $("#txtOrdenFactPackingList").val(NumeroPedido);
+
+                $("#ModalFacturaPackingList").modal("show");
+                $("#ModalListadoDePallets").modal("hide");
+
+            }
+        },
+        error: function (msg) {
+            $("#MensajeErrorGeneral").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorGeneral").fadeOut(1500);
+            }, 3000);
+            return;
+        }
+    })
+}
+
+
+function prueba() {
+    var request = new XMLHttpRequest();
+    request.responseType = "blob";
+    request.open("GET", "../PackingList/pdf");
+    request.onload = function () {
+        var url = window.URL.createObjectURL(this.response);
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.href = url;
+        a.download = this.response.name || "download-" + $.now()
+        a.click();
+    }
+    request.send();
+}
+$('#ImprimirFactRegistroPackingList').on("click", function (e) {
+    //prueba();
+    generarPdfFact();
+    //$.ajax({
+    //    url: "../PackingList/pdf",
+    //    type: "GET",
+    //    success: function (msg) {
+
+    //    },
+    //    error: function (msg) {
+    //        $("#MensajeErrorGeneral").show('fade');
+    //        setTimeout(function () {
+    //            $("#MensajeErrorGeneral").fadeOut(1500);
+    //        }, 3000);
+    //        return;
+    //    }
+    //})
+});
+
+function generarPdfFact() {
+    console.log(detFactImpr);
+    var url = "../PackingList/ImprimirFact?numeroFactura=" + $("#txtFactPackingList").val() + "&numeroOrden=" + NumeroPedido + "&fecha=" + $("#txtFechaFactPackingList").val() + "&cliente=" + $("#txtClienteFactPacking").val()+"&enviar="+ $("#txtEnvioFactPackingList").val()+"&telefono="+$("#txtTelefonoFactPacking").val()+
+        "&vendedor=" + $("#txtVendedorFactPackingList").val() + "&destino=" + $("#txtDestinoFactPackingList").val() + "&contenedor=" + $("#txtContenedorFactPackingList").val() + "&metodo=" + $("#txtMetodoEnvioFactPackingList").val() + "&valorEntry=" + valorDocEntry + "&packingId=" + PackingIdentificador + "&formaPago=" + formaPago;
+    window.open(url);
+    $("#ModalListadoDePallets").modal("hide");
+}
+
+function ImprimirFact() {
+    $.ajax({
+        url: "../PackingList/ImprimirFact",
+        type: "POST",
+        async: false,
+        data: {
+            numeroFactura: $("#txtFactPackingList").val(), numeroOrden: NumeroPedido, fecha: $("#txtFechaFactPackingList").val(), cliente: $("#txtTelefonoFactPacking").val(), enviar: $("#txtEnvioFactPackingList").val(), telefono: $("#txtTelefonoFactPacking").val()
+            , vendedor: $("#txtVendedorFactPackingList").val(), destino: $("#txtDestinoFactPackingList").val(), contenedor: $("#txtContenedorFactPackingList").val(), metodo: $("#txtMetodoEnvioFactPackingList").val(), detFact: detFactImpr
+        },
+        success: function (msg) {
+         
+        },
+        error: function (msg) {
+            $("#MensajeErrorGeneral").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorGeneral").fadeOut(1500);
+            }, 3000);
+            return;
+        }
+    })
+}
+function consultarInfoDetFact() {
+    $.ajax({
+        url: "../PackingList/BuscarDatosDetalleFactPacking",
+        type: "POST",
+        async: false,
+        data: {
+            docEntry: valorDocEntry,
+        },
+        success: function (msg) {
+            detFactImpr = msg;
+            $("#tblResumenFactura").dxDataGrid({
+                dataSource: msg,
+                keyExpr: "numeroItem",
+                columnAutoWidth: true,
+                showBorders: true,
+                allowColumnReordering: true,
+                //ConfigDev.allowColumnResizing = true,
+                filterRow: { visible: false },
+                filterPanel: { visible: false },
+                headerFilter: { visible: false },
+                columnFixing: {
+                    enabled: true
+                },
+                columns: [
+                    {
+                        caption: "Detalle Items en Pallets", alignment: "center",
+                        columns: [
+                            {
+                                dataField: "numeroItem", caption: "Item", allowEditing: false, alignment: "left"
+                            }, {
+                                dataField: "CustomerPartNumber", caption: "Codigo Item", allowEditing: false, alignment: "left", visible: false
+                            }, {
+                                dataField: "DacarPArtNumber", caption: "Descripcion", allowEditing: false, alignment: "left", visible: false
+                            }, {
+                                dataField: "Description", caption: "Descripcion", allowEditing: false, alignment: "left"
+                            }, {
+                                dataField: "Quantity", caption: "Cantidad", allowEditing: false, alignment: "left"
+                            }, {
+                                dataField: "Price", caption: "Precio Unitario", allowEditing: false, alignment: "left", format: {
+                                    type: "currency",
+                                    precision: 2,
+                                },
+                            }, {
+                                dataField: "TotalPrice", caption: "Precio Total", allowEditing: false, alignment: "left", format: {
+                                    type: "currency",
+                                    precision: 2,
+                                },
+                            }]
+                    },
+                ],
+                summary: {
+                    recalculateWhileEditing: true,
+                    totalItems: [
+                        {
+                            name: "numeroItem",
+                            column: "numeroItem",
+                            summaryType: "count",
+                            displayFormat: "Total: {0}",
+                            showInColumn: "numeroItem",
+                            customizeText: function (e) {
+                                if (e.value != 0 && e.value != "") {
+                                    return "Subtotal:"
+                                }
+                            }
+                        },
+                        {
+                            name: "Quantity",
+                            column: "Quantity",
+                            summaryType: "sum",
+                            displayFormat: "Total: {0}",
+                            showInColumn: "Quantity",
+                            customizeText: function (e) {
+                                if (e.value != 0 && e.value != "") {
+                                    return (e.value)
+                                }
+                            }
+                        }
+                        ,
+                        {
+                            name: "TotalPrice",
+                            column: "TotalPrice",
+                            summaryType: "sum",
+                            displayFormat: "Total: {0}",
+                            showInColumn: "TotalPrice",
+                            customizeText: function (e) {
+                                if (e.value != 0 && e.value != "") {
+                                    return "$"+(e.value).toFixed(2)
+                                }
+                            }
+                        }
+                    ],
+                },
+            });
+        },
+        error: function (msg) {
+
+        }
+    })
+}
+
+$('#GenerarGuiaPacking').on("click", function (e) {
+    if (IngresoDetallePacking == "SI") {
+        BuscarItemsPackingList(PackingIdentificador);
+        ConsultarDetalleGuiaPackingList(PackingIdentificador);
+        console.log("guia:" + GuiaPackingList);
+        if (GuiaPackingList.length === 0) {
+            $('#txtPesoBrutoGuia').val("");
+            $('#txtPesoTaraGuia').val("");
+            $('#txtRazonSocialGuia').val("");
+            $('#txtRucGuia').val("");
+            $('#txtDireccionGuia').val("");
+            $('#txtPlacaGuia').val("");
+            $('#txtGuiaSelloA').val("");
+            $('#txtGuiaSelloB').val("");
+            $('#txtGuiaSelloC').val("");
+            $('#txtGuiaSelloD').val("");
+            $('#txtElaboradoPorGuia').val("");
+            $('#txtAutorizadoPorGuia').val("");
+
+            $('#txtNombreDelClienteGuia').attr("readonly", true);
+            $('#txtFechaPackingGuia').attr("readonly", true);
+            $('#txtPuntoPartidaGuia').attr("readonly", false);
+            $('#txtBookingPackingGuia').attr("readonly", true);
+            $('#txtPedidoPackingListGuia').attr("readonly", true);
+            $('#txtContenedorGuia').attr("readonly", true);
+            $('#txtPesoBrutoGuia').attr("readonly", false);
+            $('#txtPesoTaraGuia').attr("readonly", false);
+            $('#txtRazonSocialGuia').attr("readonly", false);
+            $("#txtRucGuia").attr("readonly", false);
+            $("#txtDireccionGuia").attr("readonly", false);
+            $('#txtPlacaGuia').attr("readonly", false);
+            $("#txtGuiaSelloA").attr("readonly", false);
+            $("#txtGuiaSelloB").attr("readonly", false);
+            $("#txtGuiaSelloC").attr("readonly", false);
+            $('#txtGuiaSelloD').attr("readonly", false);
+            $("#txtElaboradoPorGuia").attr("readonly", false);
+            $("#txtAutorizadoPorGuia").attr("readonly", false);
+            document.getElementById('RegistrarDetallePackingListGuia').disabled = false;
+            document.getElementById('ImprimirRegistroPackingListGuia').disabled = true;
+            document.getElementById('ActualizarDetallePackingListGuia').disabled = true;
+        } else {
+
+            //$('#txtPuntoPartidaGuia').val(GuiaPackingList[0].PuntoPartida);
+            $('#txtPesoBrutoGuia').val(GuiaPackingList[0].PesoBruto);
+            $('#txtPesoTaraGuia').val(GuiaPackingList[0].PesoTara);
+            $('#txtRazonSocialGuia').val(GuiaPackingList[0].RazonSocial);
+            $('#txtRucGuia').val(GuiaPackingList[0].Ruc);
+            $('#txtDireccionGuia').val(GuiaPackingList[0].Direccion);
+            $('#txtPlacaGuia').val(GuiaPackingList[0].Placa);
+            $('#txtGuiaSelloA').val(GuiaPackingList[0].SelloA);
+            $('#txtGuiaSelloB').val(GuiaPackingList[0].SelloB);
+            $('#txtGuiaSelloC').val(GuiaPackingList[0].SelloC);
+            $('#txtGuiaSelloD').val(GuiaPackingList[0].SelloD);
+            $('#txtElaboradoPorGuia').val(GuiaPackingList[0].ElaboradoPor);
+            $('#txtAutorizadoPorGuia').val(GuiaPackingList[0].AutorizadoPor);
+
+            $('#txtNombreDelClienteGuia').attr("readonly", true);
+            $('#txtFechaPackingGuia').attr("readonly", true);
+            $('#txtPuntoPartidaGuia').attr("readonly", false);
+            $('#txtBookingPackingGuia').attr("readonly", true);
+            $('#txtPedidoPackingListGuia').attr("readonly", true);
+            $('#txtContenedorGuia').attr("readonly", true);
+            $('#txtPesoBrutoGuia').attr("readonly", false);
+            $('#txtPesoTaraGuia').attr("readonly", false);
+            $('#txtRazonSocialGuia').attr("readonly", false);
+            $("#txtRucGuia").attr("readonly", false);
+            $("#txtDireccionGuia").attr("readonly", false);
+            $('#txtPlacaGuia').attr("readonly", false);
+            $("#txtGuiaSelloA").attr("readonly", false);
+            $("#txtGuiaSelloB").attr("readonly", false);
+            $("#txtGuiaSelloC").attr("readonly", false);
+            $('#txtGuiaSelloD').attr("readonly", false);
+            $("#txtElaboradoPorGuia").attr("readonly", false);
+            $("#txtAutorizadoPorGuia").attr("readonly", false);
+
+            document.getElementById('RegistrarDetallePackingListGuia').disabled = true;
+            document.getElementById('ImprimirRegistroPackingListGuia').disabled = false;
+            document.getElementById('ActualizarDetallePackingListGuia').disabled = false;
+        }
+
+        MostrarCabeceraDetalleGuiaPackingList(PackingIdentificador);
+        $("#ModalGuiaPackingList").modal("show");
+    }
+    else {
+        $("#MensajeIngresarInformacionPacking").show('fade');
+        setTimeout(function () {
+            $("#MensajeIngresarInformacionPacking").fadeOut(1500);
+        }, 3000);
+    }
+   
+});
+
+$('#LinkCloseCompleteGuia').on("click", function (e) {
+    $("#MensajeCompleteCamposGuia").hide('fade');
+});
+$('#LinkCloseErrorGuardadoGuia').on("click", function (e) {
+    $("#MensajeErrorGuardarGuia").hide('fade');
+});
+$('#LinkCloseIngresarInformacionPacking').on("click", function (e) {
+    $("#MensajeIngresarInformacionPacking").hide('fade');
+});
+$('#RegistrarDetallePackingListGuia').on("click", function (e) {
+    var var1 =$('#txtPesoBrutoGuia').val();
+    var var2 =$('#txtPesoTaraGuia').val();
+    var var3 =$('#txtRazonSocialGuia').val();
+    var var4 =$('#txtRucGuia').val();
+    var var5 =$('#txtDireccionGuia').val();
+    var var6 =$('#txtPlacaGuia').val();
+    var var7 =$('#txtGuiaSelloA').val();
+    var var8 =$('#txtGuiaSelloB').val();
+    var var9 =$('#txtGuiaSelloC').val();
+    var var10 =$('#txtGuiaSelloD').val();
+    var var11 =$('#txtElaboradoPorGuia').val();
+    var var12 =$('#txtAutorizadoPorGuia').val();
+
+    if (var1.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (var2.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var3.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var4.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var5.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var6.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var7.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var8.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var9.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var10.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var11.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var12.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+
+    RegistrarGuiaPackingList();
+});
+
+$('#ActualizarDetallePackingListGuia').on("click", function (e) {
+    var var1 = $('#txtPesoBrutoGuia').val();
+    var var2 = $('#txtPesoTaraGuia').val();
+    var var3 = $('#txtRazonSocialGuia').val();
+    var var4 = $('#txtRucGuia').val();
+    var var5 = $('#txtDireccionGuia').val();
+    var var6 = $('#txtPlacaGuia').val();
+    var var7 = $('#txtGuiaSelloA').val();
+    var var8 = $('#txtGuiaSelloB').val();
+    var var9 = $('#txtGuiaSelloC').val();
+    var var10 = $('#txtGuiaSelloD').val();
+    var var11 = $('#txtElaboradoPorGuia').val();
+    var var12 = $('#txtAutorizadoPorGuia').val();
+
+    if (var1.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (var2.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var3.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var4.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var5.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var6.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var7.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var8.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var9.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var10.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var11.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    } if (var12.length == 0) {
+        $("#MensajeCompleteCamposGuia").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposGuia").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    ActualizarGuiaPackingList();
+});
+
+function RegistrarGuiaPackingList() {
+    $.ajax({
+        url: "../PackingList/GuardarDetallesGuiaPackingList",
+        type: "POST",
+        data: {
+            PackingId: PackingIdentificador, pesoBruto: $('#txtPesoBrutoGuia').val(), pesoTara: $('#txtPesoTaraGuia').val(), razonSocial: $('#txtRazonSocialGuia').val(), ruc: $('#txtRucGuia').val(), direccion: $('#txtDireccionGuia').val(), placa: $('#txtPlacaGuia').val(),
+            selloA: $('#txtGuiaSelloA').val(), selloB: $("#txtGuiaSelloB").val(), selloC: $("#txtGuiaSelloC").val(), selloD: $('#txtGuiaSelloD').val(), elaboradoPor: $('#txtElaboradoPorGuia').val()
+            , autorizadoPor: $('#txtAutorizadoPorGuia').val(), puntoPartida: $('#txtPuntoPartidaGuia option:selected').text()
+        },
+        success: function (e) {
+            ConsultarIngresosPacking();
+            $("#ModalGuiaPackingList").modal("hide");
+            $("#ModalListadoDePallets").modal("hide");
+
+            $("#MensajeGuardado").show('fade');
+            setTimeout(function () {
+                $("#MensajeGuardado").fadeOut(1500);
+            }, 3000);
+        },
+        error: function (msg) {
+            $("#MensajeErrorGuardarGuia").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorGuardarGuia").fadeOut(1500);
+            }, 3000);
+        }
+    }) 
+}
+function ActualizarGuiaPackingList() {
+    $.ajax({
+        url: "../PackingList/ActualizarDetallesGuiaPalletsPackingList",
+        type: "POST",
+        data: {
+            PackingId: PackingIdentificador, pesoBruto: $('#txtPesoBrutoGuia').val(), pesoTara: $('#txtPesoTaraGuia').val(), razonSocial: $('#txtRazonSocialGuia').val(), ruc: $('#txtRucGuia').val(), direccion: $('#txtDireccionGuia').val(), placa: $('#txtPlacaGuia').val(),
+            selloA: $('#txtGuiaSelloA').val(), selloB: $("#txtGuiaSelloB").val(), selloC: $("#txtGuiaSelloC").val(), selloD: $('#txtGuiaSelloD').val(), elaboradoPor: $('#txtElaboradoPorGuia').val()
+            , autorizadoPor: $('#txtAutorizadoPorGuia').val(), puntoPartida: $('#txtPuntoPartidaGuia option:selected').text()
+        },
+        success: function (e) {
+            ConsultarIngresosPacking();
+            $("#ModalGuiaPackingList").modal("hide");
+            $("#ModalListadoDePallets").modal("hide");
+
+            $("#MensajeActulalizacionCorrecta").show('fade');
+            setTimeout(function () {
+                $("#MensajeActulalizacionCorrecta").fadeOut(1500);
+            }, 3000);
+        },
+        error: function (msg) {
+            $("#MensajeErrorGuardarGuia").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorGuardarGuia").fadeOut(1500);
+            }, 3000);
+        }
+    })
+}
+
+function ConsultarDetalleGuiaPackingList(PackingIdentificador) {
+    $.ajax({
+        url: "../PackingList/DetallesGuiasPackingList?PackingId=" + PackingIdentificador,
+        type: 'GET',
+        async: false,
+        success: function (data) {
+            GuiaPackingList = data;
+        }  
+    });
+}
+function MostrarCabeceraDetalleGuiaPackingList(PackingIdentificador) {
+    $.ajax({
+        url: "../PackingList/DetallesGeneralesPalletsPackingList?PackingId=" + PackingIdentificador,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            //Muestro datos en la tabla (SI MUESTRA DATOS)
+            $.each(data, function () {
+                $('#txtNombreDelClienteGuia').val(NombreCliente);
+                $('#txtContenedorGuia').val(data[0].ContenedorPackingList);
+                $('#txtFechaPackingGuia').val(data[0].FechaDePackingList);
+                $('#txtBookingPackingGuia').val(data[0].ReservaPackingList);
+                $('#txtPedidoPackingListGuia').val(NumeroPedido);
+            });
+        },
+        error: function (msg) {
+            $("#MensajeErrorGeneral").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorGeneral").fadeOut(1500);
+            }, 3000);
+        },
+    }
+    );
+}
 
 function ActualizarDetallePackingListGeneral() {
     $.ajax({

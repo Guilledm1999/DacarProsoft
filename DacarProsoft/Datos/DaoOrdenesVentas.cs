@@ -15,12 +15,14 @@ namespace DacarProsoft.Datos
             var dias = BusquedaxDias();
             DateTime fechaActual = DateTime.Now;
             DateTime fechaCorte = fechaActual.AddDays(-(dias));
-
+            CultureInfo ci = new CultureInfo("es-MX");
+            ci = new CultureInfo("es-MX");
+            TextInfo textInfo = ci.TextInfo;
             List<CabeceraOrdenVenta> lst = new List<CabeceraOrdenVenta>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
                 var ListadoCabeceraOrdenesVentas = from d in DB.ORDR
-                                             where (d.U_BPP_MDMT==Exportacion|| d.U_SYP_NUMOCCL == "E082121A") && d.DocDate >= fechaCorte && d.DocDate <= fechaActual
+                                             where d.U_BPP_MDMT==Exportacion&& d.DocDate >= fechaCorte && d.DocDate <= fechaActual
                                                    orderby d.DocDate descending
                                                    //d.U_SYP_EXPORTACION == Exportacion &&
                                                    //d.U_SYP_EXPORTACION == Exportacion &&
@@ -46,6 +48,7 @@ namespace DacarProsoft.Datos
                         string fechaContabilizacion = fechaCont.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                         DateTime fechaDoc = Convert.ToDateTime(x.TaxDate, CultureInfo.InvariantCulture);
                         string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        string mesIngreso = MonthName(fechaDoc.Month);
 
                         lst.Add(new CabeceraOrdenVenta
                         {
@@ -57,13 +60,68 @@ namespace DacarProsoft.Datos
                             CardName = x.CardName,
                             NumeroOrden=x.U_SYP_NUMOCCL,
                             DocTotal = x.DocTotal.Value,
-                            SypExportacion = Exportacion
+                            SypExportacion = Exportacion,
+                            Mes = textInfo.ToTitleCase(mesIngreso)
+                        });
+                    }
+                }
+                var ListadoCabeceraFactOrdenesVentas = from d in DB.OINV
+                                                   where d.U_SYP_NUMOCCL == "04-DACAR2021-B" || d.U_SYP_NUMOCCL == "239" || d.U_SYP_NUMOCCL == "NJ52021-10" ||
+                                                   d.U_SYP_NUMOCCL == "8266" || d.U_SYP_NUMOCCL == "ARPO0046750" || d.U_SYP_NUMOCCL == "M61521-1" ||
+                                                   d.U_SYP_NUMOCCL == "40104" || d.U_SYP_NUMOCCL == "40105" || d.U_SYP_NUMOCCL == "DAC03-22" || d.U_SYP_NUMOCCL == "36680"
+                                                   || d.U_SYP_NUMOCCL == "KENDCR9921" || d.U_SYP_NUMOCCL == "9152021PAM1"
+                                                   || d.U_SYP_NUMOCCL == "DAC03-22" || d.U_SYP_NUMOCCL == "26757" || d.U_SYP_NUMOCCL == "MONICA821F"
+                                                   || d.U_SYP_NUMOCCL == "M70721-1" || d.U_SYP_NUMOCCL == "I80321-5" || d.U_SYP_NUMOCCL == "N82321-2"
+                                                       orderby d.DocDate descending
+                                                   //d.U_SYP_EXPORTACION == Exportacion &&
+                                                   //d.U_SYP_EXPORTACION == Exportacion &&
+
+                                                   select new
+                                                   {
+                                                       d.DocEntry,
+                                                       d.DocNum,
+                                                       d.DocDate,
+                                                       d.TaxDate,
+                                                       d.CardCode,
+                                                       d.CardName,
+                                                       d.DocTotal,
+                                                       d.U_SYP_NUMOCCL
+                                                   };
+                foreach (var x in ListadoCabeceraFactOrdenesVentas)
+                {
+                    var busqueda = BusquedaLocal(x.DocNum.Value);
+                    if (busqueda == false)
+                    {
+                        DateTime fechaCont = Convert.ToDateTime(x.DocDate, CultureInfo.InvariantCulture);
+                        string fechaContabilizacion = fechaCont.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        DateTime fechaDoc = Convert.ToDateTime(x.TaxDate, CultureInfo.InvariantCulture);
+                        string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        string mesIngreso = MonthName(fechaDoc.Month);
+
+                        lst.Add(new CabeceraOrdenVenta
+                        {
+                            DocEntry = x.DocEntry,
+                            DocNum = x.DocNum.Value,
+                            DocDate = fechaContabilizacion,
+                            TaxDate = fechaDocumento,
+                            CardCode = x.CardCode,
+                            CardName = x.CardName,
+                            NumeroOrden = x.U_SYP_NUMOCCL,
+                            DocTotal = x.DocTotal.Value,
+                            SypExportacion = Exportacion,
+                            Mes = textInfo.ToTitleCase(mesIngreso)
 
                         });
                     }
                 }
+
                 return lst;
             }
+        }
+        public string MonthName(int month)
+        {
+            DateTimeFormatInfo dtinfo = new CultureInfo("es-MX", false).DateTimeFormat;
+            return dtinfo.GetMonthName(month);
         }
 
         public List<CabeceraOrdenVenta> ListadoCabeceraFacturasReservaSap(string FactRese)
@@ -71,7 +129,9 @@ namespace DacarProsoft.Datos
             var dias = BusquedaxDias();
             DateTime fechaActual = DateTime.Now;
             DateTime fechaCorte = fechaActual.AddDays(-(dias));
-
+            CultureInfo ci = new CultureInfo("es-MX");
+            ci = new CultureInfo("es-MX");
+            TextInfo textInfo = ci.TextInfo;
             List<CabeceraOrdenVenta> lst = new List<CabeceraOrdenVenta>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
@@ -102,6 +162,7 @@ namespace DacarProsoft.Datos
                         string fechaContabilizacion = fechaCont.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                         DateTime fechaDoc = Convert.ToDateTime(x.TaxDate, CultureInfo.InvariantCulture);
                         string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        string mesIngreso = MonthName(fechaDoc.Month);
 
                         lst.Add(new CabeceraOrdenVenta
                         {
@@ -113,9 +174,11 @@ namespace DacarProsoft.Datos
                             CardName = x.CardName,
                             NumeroOrden = x.U_SYP_NUMOCCL,
                             DocTotal = x.DocTotal.Value,
+                            Mes = textInfo.ToTitleCase(mesIngreso)
                         });
                     }
                 }
+
                 return lst;
             }
         }
@@ -124,6 +187,9 @@ namespace DacarProsoft.Datos
             var dias = BusquedaxDias();
             DateTime fechaActual = DateTime.Now;
             DateTime fechaCorte = fechaActual.AddDays(-(dias));
+            CultureInfo ci = new CultureInfo("es-MX");
+            ci = new CultureInfo("es-MX");
+            TextInfo textInfo = ci.TextInfo;
 
             List<CabeceraOrdenVenta> lst = new List<CabeceraOrdenVenta>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
@@ -155,6 +221,7 @@ namespace DacarProsoft.Datos
                         string fechaContabilizacion = fechaCont.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                         DateTime fechaDoc = Convert.ToDateTime(x.TaxDate, CultureInfo.InvariantCulture);
                         string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        string mesIngreso = MonthName(fechaDoc.Month);
 
                         lst.Add(new CabeceraOrdenVenta
                         {
@@ -166,6 +233,8 @@ namespace DacarProsoft.Datos
                             CardName = x.CardName,
                             NumeroOrden = x.U_SYP_NUMOCCL,
                             DocTotal = x.DocTotal.Value,
+                            Mes = textInfo.ToTitleCase(mesIngreso)
+
                         });
                     }
                 }

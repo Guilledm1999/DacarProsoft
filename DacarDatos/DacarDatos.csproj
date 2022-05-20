@@ -223,6 +223,9 @@
     <Compile Include="Datos\GrupoClientes.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\GuiaPackingList.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\IGN1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
@@ -295,6 +298,12 @@
     <Compile Include="Datos\OCRG.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\OCTG.cs">
+      <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\OHEM.cs">
+      <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\OIGN.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
@@ -355,7 +364,13 @@
     <Compile Include="Datos\PruebaLaboratorioCalidad.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\PruebasLaboratorioCCA.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\RDR1.cs">
+      <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\ReporteIngresoChatarraConDesviacionRN.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\RutaBasesAccessCalidad.cs">

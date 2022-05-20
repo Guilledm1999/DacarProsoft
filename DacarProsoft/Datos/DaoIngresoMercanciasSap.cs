@@ -1255,7 +1255,7 @@ namespace DacarProsoft.Datos
                     var ListadoModelos = from d in DB.Chatarra
                                          join e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
                                          where (d.FechaRegistro != null) && ((d.FechaRegistro).Year == anio)
-                                         orderby d.FechaRegistro descending
+                                         orderby d.FechaRegistro.Month
 
                                          select new
                                          {
@@ -1287,9 +1287,9 @@ namespace DacarProsoft.Datos
                         }
                         DateTime fechaDoc = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
                         int mes = fechaDoc.Month;
-                        DateTime fecha = Convert.ToDateTime(fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
+                        DateTime fecha = Convert.ToDateTime(fechaDoc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
                         String mesIngreso = MonthName(fecha.Month);
-                        string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        string fechaDocumento = fechaDoc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                         lst.Add(new IngresosChatarras
                         {
                             DocEntry = x.DocEntry.Value,
@@ -1315,67 +1315,7 @@ namespace DacarProsoft.Datos
                         });
                     }
                     return lst;
-                //}
-                //else {
-                //    var ListadoModelos = from d in DB.Chatarra
-                //                         join e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
-                //                         where (d.FechaRegistro != null) && d.CardCode == codigoCliente && ((d.FechaRegistro).Value.Year == anio)
-                //                         orderby d.FechaRegistro descending
-
-                //                         select new
-                //                         {
-                //                             d.DocEntry,
-                //                             d.NumeroDocumento,
-                //                             d.Identificacion,
-                //                             d.Cliente,
-                //                             d.TipoIngreso,
-                //                             d.CardCode,
-                //                             d.ClienteClase,
-                //                             d.ClienteLinea,
-                //                             d.Comentarios,
-                //                             d.BodegaId,
-                //                             d.FechaRegistro,
-                //                             e.PesoTeoricoTotalCalculado,
-                //                             e.PesoBultoIngresado,
-                //                             e.CantidadTotal,
-                //                             e.PesoAjustadoTotal,
-                //                             e.Desviacion,
-                //                             e.ModoIngreso
-                //                         };
-
-                //    foreach (var x in ListadoModelos)
-                //    {
-                //        DateTime fechaDoc = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
-                //        int mes = fechaDoc.Month;
-                //        DateTime fecha = Convert.ToDateTime(fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
-                //        String mesIngreso = MonthName(fecha.Month);
-                //        string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                //        lst.Add(new IngresosChatarras
-                //        {
-                //            DocEntry = x.DocEntry.Value,
-                //            NumeroDocumento = x.NumeroDocumento.Value,
-                //            CedulaCliente = x.Identificacion,
-                //            NombreCliente = x.Cliente,
-                //            CardCode = x.CardCode.Value,
-                //            ClienteLinea = x.ClienteLinea,
-                //            ClienteClase = x.ClienteClase,
-                //            TipoIngreso = x.TipoIngreso,
-                //            Comments = x.Comentarios,
-                //            CantidadTotal = x.CantidadTotal.Value,
-                //            PesoTeoricoTotalCalculado = x.PesoTeoricoTotalCalculado.Value,
-                //            PesoBultoIngresado = x.PesoBultoIngresado.Value,
-                //            PesoAjustadoTotal = x.PesoAjustadoTotal.Value,
-                //            Desviacion = x.Desviacion,
-                //            Bodega = x.BodegaId,
-                //            FechaIngreso = fechaDocumento,
-                //            MesIngreso = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(mesIngreso),
-                //            ModoIngreso = (x.ModoIngreso).Value
-                //        });
-                //    }
-                //    return lst;
-                //}
-
-             
+                       
             }
         }
         public List<IngresosChatarras> ConsultarModificarIngresosChatarraImprimir(int DocEntry)
@@ -1420,9 +1360,9 @@ namespace DacarProsoft.Datos
                     }
                     DateTime fechaDoc = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
                     int mes = fechaDoc.Month;
-                    DateTime fecha = Convert.ToDateTime(fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
+                    DateTime fecha = Convert.ToDateTime(fechaDoc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
                     String mesIngreso = MonthName(fecha.Month);
-                    string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    string fechaDocumento = fechaDoc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                     lst.Add(new IngresosChatarras
                     {
                         DocEntry = x.DocEntry.Value,
@@ -1720,9 +1660,11 @@ namespace DacarProsoft.Datos
 
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
+                
                 var regi = (from d in DB.ChatarraDetalleIndividual
                             where d.ChatarraDetalleIndividual1 == ChatarraDetalleId
                             select d).FirstOrDefault();
+                
                 try
                 {
                     regi.PesoNetoIndividual = PesoIngresadoIndividual;
@@ -1987,6 +1929,79 @@ namespace DacarProsoft.Datos
             }
 
         }
+        public List<GenericoParaGroupBy> ReporteGeneralChatarrasPorMesesPorTipo(int anioBusqueda, string tipo)
+        {
+            string Mes;
+
+            List<GenericoParaGroupBy> lst = new List<GenericoParaGroupBy>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = from d in DB.Chatarra
+                              join
+        e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
+                              where
+                              d.FechaRegistro.Year == anioBusqueda && d.TipoIngreso == tipo
+                              group new { d, e } by new { d.FechaRegistro.Month } into ut
+                              orderby ut.Key.Month
+                              select new
+                              {
+                                  contador = ut.Sum(val => val.e.CantidadTotal),
+                                  MonthNumber = ut.Key.Month
+                              };
+
+                foreach (var x in Listado)
+                {
+                    Mes = BuscarNombreMes(x.MonthNumber);
+                    lst.Add(new GenericoParaGroupBy
+                    {
+                        Descripcion = Mes,
+                        Valor = x.contador.Value
+                    });
+                }
+                return lst;
+
+            }
+
+        }
+        public List<GenericoParaGroupBy> ReporteGeneralChatarrasPorMesesPorTipoCliente(int anioBusqueda, int cardCode)
+        {
+            string Mes;
+            var groupCode = GrupoCliente((cardCode));
+
+            List<GenericoParaGroupBy> lst = new List<GenericoParaGroupBy>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = from d in DB.Chatarra
+                              join
+                              e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
+                              join 
+                              f in DB.GrupoClientes on d.CardCode equals f.GroupCode
+                              where
+                              d.FechaRegistro.Year == anioBusqueda && f.GroupCode == cardCode
+                              group new { d, e } by new { d.FechaRegistro.Month } into ut
+                              orderby ut.Key.Month
+                              select new
+                              {
+                                  contador = ut.Sum(val => val.e.CantidadTotal),
+                                  MonthNumber = ut.Key.Month
+                              };
+
+                foreach (var x in Listado)
+                {
+                    Mes = BuscarNombreMes(x.MonthNumber);
+                    lst.Add(new GenericoParaGroupBy
+                    {
+                        Descripcion = Mes,
+                        Valor = x.contador.Value
+                    });
+                }
+                return lst;
+
+            }
+
+        }
         public string BuscarNombreMes(int num)
         {
 
@@ -2006,5 +2021,156 @@ namespace DacarProsoft.Datos
             }
         }
 
+        public List<ReporteChatarraConDesviacion> ReporteGeneralChatarrasPorDesviacionesSap(int anioBusqueda)
+        {
+            int contador = 1;          
+            string fechaRegistro;
+            List<ReporteChatarraConDesviacion> lst = new List<ReporteChatarraConDesviacion>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1()) { 
+
+                var Listado = from d in DB.ReporteIngresoChatarraConDesviacionRN
+                              where d.Fecha.Value.Year== anioBusqueda
+                              orderby d.Fecha.Value.Month
+                              select new
+                              {
+                                  d.N_Documento,
+                                  d.Pedido,
+                                  d.Identificador,
+                                  d.Cliente,
+                                  d.Tipo_Cliente,
+                                  d.Cliente_Linea,
+                                  d.Cliente_Clase,
+                                  d.Tipo_Ingreso,
+                                  d.Cantidad,
+                                  d.Peso_Teorico,
+                                  d.Peso_Real,
+                                  d.Desviacion,
+                                  d.Bodega,
+                                  d.Vendedor,
+                                  d.Comentarios,
+                                  d.Fecha
+                              };
+ 
+                foreach (var x in Listado)
+                {
+                    if (x.Peso_Teorico!=null) {
+                        DateTime FechaRegistro = Convert.ToDateTime(x.Fecha, CultureInfo.InvariantCulture);
+                        fechaRegistro = FechaRegistro.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                        lst.Add(new ReporteChatarraConDesviacion
+                        {
+                            Id = contador,
+                            N_Documento = x.N_Documento,
+                            Pedido = x.Pedido,
+                            Identificador = x.Identificador,
+                            Cliente = x.Cliente,
+                            Tipo_Cliente = x.Tipo_Cliente,
+                            Cliente_Linea = x.Cliente_Linea,
+                            Cliente_Clase = x.Cliente_Clase,
+                            Tipo_Ingreso = x.Tipo_Ingreso,
+                            Cantidad = x.Cantidad,
+                            Peso_Teorico = Decimal.Round(x.Peso_Teorico.Value, 2),
+                            Peso_Real = Decimal.Round(x.Peso_Real.Value, 2),
+                            Desviacion = Decimal.Round(x.Desviacion.Value, 2),
+                            Bodega = x.Bodega,
+                            Vendedor = x.Vendedor,
+                            Comentarios = x.Comentarios,
+                            FechaRegistro = fechaRegistro
+                        });
+                        contador++;
+                    }
+                   
+                }
+                return lst;
+
+            }
+
+        }
+        public List<Mign1> ListadoNotasCreditoDetalleChatarraSap(int DocEntry)
+        {
+            decimal pesoChatarra = 0;
+            List<Mign1> lst = new List<Mign1>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                var ListadoDetalleChatarra = from d in DB.IGN1
+                                             where d.DocEntry == DocEntry
+                                             select new
+                                             {
+                                                 d.ItemCode,
+                                                 d.Dscription,
+                                                 d.Quantity,
+                                                 d.U_DC_PESOBRUTO,
+                                                 d.U_DC_PESOREAL,                                     
+                                             };
+
+                foreach (var x in ListadoDetalleChatarra)
+                {
+
+                    var modeloChatarra = ConsultarModelosPorCodigoItemSap(x.ItemCode);
+                    foreach (var y in modeloChatarra)
+                    {
+                        pesoChatarra = y.PesoArticulo;
+                    }
+                    lst.Add(new Mign1
+                    {
+                        DocEntry = DocEntry,
+                        ItemCode = x.ItemCode,
+                        Description = x.Dscription,
+                        Cantidad = Convert.ToInt32(x.Quantity),
+                        PesoTeoricoUnitario = pesoChatarra,
+                        //PesoTeoricoSubtotal = (x.Quantity.Value * pesoChatarra),
+                        PesoTeoricoSubtotal = x.U_DC_PESOBRUTO.Value,
+                        PesoIngresado=x.U_DC_PESOREAL.Value
+
+
+                    });
+                }
+                return lst;
+            }
+
+        }
+        public List<MdlPdn1> ListadoCompraDetalleChatarraSap(int DocEntry)
+        {
+            decimal pesoChatarra = 0;
+            decimal precioChatarra = 0;
+            List<MdlPdn1> lst = new List<MdlPdn1>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                var ListadoDetalleChatarra = from d in DB.PDN1
+                                             where d.DocEntry == DocEntry
+                                             select new
+                                             {
+                                                 d.ItemCode,
+                                                 d.Dscription,
+                                                 d.Quantity,
+                                             };
+
+                foreach (var x in ListadoDetalleChatarra)
+                {
+                    //var modeloDetalleChatarra=  ConsultarModelosPorDescripcion(x.Dscription);
+                    var modeloChatarra = ConsultarModelosPorCodigoItemSap(x.ItemCode);
+                    foreach (var y in modeloChatarra)
+                    {
+                        pesoChatarra = y.PesoArticulo;
+                        precioChatarra = y.UltimoPrecioCompra;
+                    }
+                    lst.Add(new MdlPdn1
+                    {
+                        DocEntry = DocEntry,
+                        ItemCode = x.ItemCode,
+                        Description = x.Dscription,
+                        Cantidad = Convert.ToInt32(x.Quantity),
+                        //PesoTeoricoUnitario = decimal.Round(pesoChatarra, 2),
+                        //PesoTeoricoSubtotal = decimal.Round((x.Quantity.Value * pesoChatarra), 2),
+                        PesoTeoricoUnitario = pesoChatarra,
+                        PesoTeoricoSubtotal = (x.Quantity.Value * pesoChatarra),
+                        //PesoTeoricoAjustado = 0,
+                        //PesoTeoricoAjustadoTotal = 0
+                    });
+                }
+                return lst;
+            }
+
+        }
     }
 }

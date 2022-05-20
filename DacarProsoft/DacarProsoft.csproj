@@ -261,6 +261,7 @@
     <Content Include="Images\DisenoPackingNew.png" />
     <Content Include="Images\ETPACKINGLIST-02.png" />
     <Content Include="Images\fondoDc.png" />
+    <Content Include="Images\FondoPortal.png" />
     <Content Include="Images\HojaMembretadaBackup.jpg" />
     <Content Include="Images\HojaMembretada.jpg" />
     <Content Include="Images\Imagen1.png" />
@@ -274,6 +275,8 @@
     <Content Include="Images\SeguridadIndustrial.png" />
     <Content Include="Images\SeguridadIndustrialSinFondo.png" />
     <Content Include="Images\spinning-circles.svg" />
+    <Content Include="Images\Visto_Bueno.png" />
+    <Content Include="Images\xmal.png" />
     <Content Include="scripts\General\Accesos\Accesos.js" />
     <Content Include="scripts\General\Account\Login.js" />
     <Content Include="scripts\General\Articulos\ConsultarItemsChatarra.js" />
@@ -281,12 +284,14 @@
     <Content Include="scripts\General\Calidad\ConsultaMedicionDeDescarga.js" />
     <Content Include="scripts\General\Calidad\ConsultaPruebasLaboratorio.js" />
     <Content Include="scripts\General\Calidad\IngresosMedicionDeDescarga.js" />
+    <Content Include="scripts\General\Calidad\IngresosPruebasCCALocal.js" />
     <Content Include="scripts\General\Calidad\IngresosPruebasLaboratorio.js" />
     <Content Include="scripts\General\Calidad\RegistrosVisuaLCN.js" />
     <Content Include="scripts\General\Chatarra\ReporteIngresosChatarraPorFechas.js" />
     <Content Include="scripts\General\Chatarra\ReporteIngresosChatarra.js" />
     <Content Include="scripts\General\Chatarra\ConsultaIngresoChatarra.js" />
     <Content Include="scripts\General\Chatarra\IngresoChatarraSap.js" />
+    <Content Include="scripts\General\Chatarra\ReporteIngresosChatarraSap.js" />
     <Content Include="scripts\General\CrearUsuario\ConsultarUsuariosPortal.js" />
     <Content Include="scripts\General\CrearUsuario\CrearUsuariosPortal.js" />
     <Content Include="scripts\General\Garantias\IngresoGarantias.js" />
@@ -387,6 +392,8 @@
     <Compile Include="Models\DetalleOrdenVenta.cs" />
     <Compile Include="Models\DetallePallet.cs" />
     <Compile Include="Models\DetalleProrrateo.cs" />
+    <Compile Include="Models\DetFactPackingList.cs" />
+    <Compile Include="Models\EncaFactPackingList.cs" />
     <Compile Include="Models\EventoPagina .cs" />
     <Compile Include="Models\GarantiaDetalle.cs" />
     <Compile Include="Models\GenericoParaGroupBy.cs" />
@@ -416,6 +423,7 @@
     <Compile Include="Models\PedidosRegistradosSap.cs" />
     <Compile Include="Models\PesoPrecioArticulo.cs" />
     <Compile Include="Models\IngresosChatarras.cs" />
+    <Compile Include="Models\ReporteChatarraConDesviacion.cs" />
     <Compile Include="Models\ReporteGarandiasDetalleFinal.cs" />
     <Compile Include="Models\ReporteGeneralDeControl.cs" />
     <Compile Include="Models\ReporteGeneralPedidosExterior.cs" />
@@ -594,6 +602,8 @@
     <Content Include="Views\PackingList\ComextListadoPackingList.cshtml" />
     <Content Include="Views\Calidad\IngresosMedicionDeDescarga.cshtml" />
     <Content Include="Views\Calidad\ConsultaMedicionDeDescarga.cshtml" />
+    <Content Include="Views\Calidad\IngresosPruebasCCALocal.cshtml" />
+    <Content Include="Views\Chatarra\ReporteIngresosChatarraSap.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

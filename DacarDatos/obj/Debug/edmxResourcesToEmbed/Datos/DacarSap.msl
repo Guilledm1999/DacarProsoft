@@ -1015,6 +1015,21 @@
     <EntitySetMapping Name="OITM">
       <EntityTypeMapping TypeName="SBODACARPRODModel.OITM">
         <MappingFragment StoreEntitySet="OITM">
+          <ScalarProperty Name="U_DAC_COMENT3" ColumnName="U_DAC_COMENT3" />
+          <ScalarProperty Name="U_DAC_COMENT2" ColumnName="U_DAC_COMENT2" />
+          <ScalarProperty Name="U_DAC_COMENT1" ColumnName="U_DAC_COMENT1" />
+          <ScalarProperty Name="U_DAC_VALRENDS" ColumnName="U_DAC_VALRENDS" />
+          <ScalarProperty Name="U_DAC_PRENDA" ColumnName="U_DAC_PRENDA" />
+          <ScalarProperty Name="U_DAC_BANCO" ColumnName="U_DAC_BANCO" />
+          <ScalarProperty Name="U_DAC_AVALPR" ColumnName="U_DAC_AVALPR" />
+          <ScalarProperty Name="U_DAC_ESTATUS" ColumnName="U_DAC_ESTATUS" />
+          <ScalarProperty Name="U_DAC_VALRASEGR" ColumnName="U_DAC_VALRASEGR" />
+          <ScalarProperty Name="U_DAC_PLANTA" ColumnName="U_DAC_PLANTA" />
+          <ScalarProperty Name="U_DAC_MODELO" ColumnName="U_DAC_MODELO" />
+          <ScalarProperty Name="U_DAC_SERIE" ColumnName="U_DAC_SERIE" />
+          <ScalarProperty Name="U_DAC_PLACA" ColumnName="U_DAC_PLACA" />
+          <ScalarProperty Name="U_DAC_FECHADQ" ColumnName="U_DAC_FECHADQ" />
+          <ScalarProperty Name="U_DAC_SUBAREA" ColumnName="U_DAC_SUBAREA" />
           <ScalarProperty Name="U_DAC_PESOPRODUCTO" ColumnName="U_DAC_PESOPRODUCTO" />
           <ScalarProperty Name="U_DAC_PESOPLOMO" ColumnName="U_DAC_PESOPLOMO" />
           <ScalarProperty Name="U_DAC_UNIMED" ColumnName="U_DAC_UNIMED" />
@@ -3795,6 +3810,179 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="OHEM">
+      <EntityTypeMapping TypeName="SBODACARPRODModel.OHEM">
+        <MappingFragment StoreEntitySet="OHEM">
+          <ScalarProperty Name="U_BPP_TIPODOC" ColumnName="U_BPP_TIPODOC" />
+          <ScalarProperty Name="U_BPP_IDEMP" ColumnName="U_BPP_IDEMP" />
+          <ScalarProperty Name="EnInsurNum" ColumnName="EnInsurNum" />
+          <ScalarProperty Name="UpdateTS" ColumnName="UpdateTS" />
+          <ScalarProperty Name="CreateTS" ColumnName="CreateTS" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="EnPassport" ColumnName="EnPassport" />
+          <ScalarProperty Name="EnGovID" ColumnName="EnGovID" />
+          <ScalarProperty Name="EncryptIV" ColumnName="EncryptIV" />
+          <ScalarProperty Name="EnRligionP" ColumnName="EnRligionP" />
+          <ScalarProperty Name="EnRligion" ColumnName="EnRligion" />
+          <ScalarProperty Name="DPPStatus" ColumnName="DPPStatus" />
+          <ScalarProperty Name="NaturalPer" ColumnName="NaturalPer" />
+          <ScalarProperty Name="BPLink" ColumnName="BPLink" />
+          <ScalarProperty Name="PrePRWeb" ColumnName="PrePRWeb" />
+          <ScalarProperty Name="PRWebAccss" ColumnName="PRWebAccss" />
+          <ScalarProperty Name="QualCode" ColumnName="QualCode" />
+          <ScalarProperty Name="PassIssuer" ColumnName="PassIssuer" />
+          <ScalarProperty Name="PassIssue" ColumnName="PassIssue" />
+          <ScalarProperty Name="ManualNUM" ColumnName="ManualNUM" />
+          <ScalarProperty Name="BPLId" ColumnName="BPLId" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="IDType" ColumnName="IDType" />
+          <ScalarProperty Name="UF_CRC" ColumnName="UF_CRC" />
+          <ScalarProperty Name="DirfDeclar" ColumnName="DirfDeclar" />
+          <ScalarProperty Name="RepLegal" ColumnName="RepLegal" />
+          <ScalarProperty Name="ContResp" ColumnName="ContResp" />
+          <ScalarProperty Name="CRC" ColumnName="CRC" />
+          <ScalarProperty Name="CPF" ColumnName="CPF" />
+          <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+          <ScalarProperty Name="STDCode" ColumnName="STDCode" />
+          <ScalarProperty Name="AddiCurr" ColumnName="AddiCurr" />
+          <ScalarProperty Name="ExemptCurr" ColumnName="ExemptCurr" />
+          <ScalarProperty Name="PymMeth" ColumnName="PymMeth" />
+          <ScalarProperty Name="BirthPlace" ColumnName="BirthPlace" />
+          <ScalarProperty Name="ExtEmpNo" ColumnName="ExtEmpNo" />
+          <ScalarProperty Name="JTCode" ColumnName="JTCode" />
+          <ScalarProperty Name="PersGroup" ColumnName="PersGroup" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="UserSign2" ColumnName="UserSign2" />
+          <ScalarProperty Name="UserSign" ColumnName="UserSign" />
+          <ScalarProperty Name="LogInstanc" ColumnName="LogInstanc" />
+          <ScalarProperty Name="SurnameSP" ColumnName="SurnameSP" />
+          <ScalarProperty Name="FNameSP" ColumnName="FNameSP" />
+          <ScalarProperty Name="DevBAOwner" ColumnName="DevBAOwner" />
+          <ScalarProperty Name="BCodeDateV" ColumnName="BCodeDateV" />
+          <ScalarProperty Name="StatusOfE" ColumnName="StatusOfE" />
+          <ScalarProperty Name="StatusOfP" ColumnName="StatusOfP" />
+          <ScalarProperty Name="SInsurNum" ColumnName="SInsurNum" />
+          <ScalarProperty Name="HeaInsType" ColumnName="HeaInsType" />
+          <ScalarProperty Name="HeaInsCode" ColumnName="HeaInsCode" />
+          <ScalarProperty Name="HeaInsName" ColumnName="HeaInsName" />
+          <ScalarProperty Name="TaxONum" ColumnName="TaxONum" />
+          <ScalarProperty Name="TaxOName" ColumnName="TaxOName" />
+          <ScalarProperty Name="AddiUnit" ColumnName="AddiUnit" />
+          <ScalarProperty Name="AddiAmnt" ColumnName="AddiAmnt" />
+          <ScalarProperty Name="ExemptUnit" ColumnName="ExemptUnit" />
+          <ScalarProperty Name="ExemptAmnt" ColumnName="ExemptAmnt" />
+          <ScalarProperty Name="RelPartner" ColumnName="RelPartner" />
+          <ScalarProperty Name="EmTaxCCode" ColumnName="EmTaxCCode" />
+          <ScalarProperty Name="InTaxLiabi" ColumnName="InTaxLiabi" />
+          <ScalarProperty Name="TaxClass" ColumnName="TaxClass" />
+          <ScalarProperty Name="MunKey" ColumnName="MunKey" />
+          <ScalarProperty Name="VacCurYear" ColumnName="VacCurYear" />
+          <ScalarProperty Name="VacPreYear" ColumnName="VacPreYear" />
+          <ScalarProperty Name="CompanyNum" ColumnName="CompanyNum" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="DispComma" ColumnName="DispComma" />
+          <ScalarProperty Name="NamePos" ColumnName="NamePos" />
+          <ScalarProperty Name="DispMidNam" ColumnName="DispMidNam" />
+          <ScalarProperty Name="StreetNoH" ColumnName="StreetNoH" />
+          <ScalarProperty Name="StreetNoW" ColumnName="StreetNoW" />
+          <ScalarProperty Name="AddrTypeH" ColumnName="AddrTypeH" />
+          <ScalarProperty Name="AddrTypeW" ColumnName="AddrTypeW" />
+          <ScalarProperty Name="AtcEntry" ColumnName="AtcEntry" />
+          <ScalarProperty Name="position" ColumnName="position" />
+          <ScalarProperty Name="HomeBuild" ColumnName="HomeBuild" />
+          <ScalarProperty Name="WorkBuild" ColumnName="WorkBuild" />
+          <ScalarProperty Name="empCostCur" ColumnName="empCostCur" />
+          <ScalarProperty Name="salaryCurr" ColumnName="salaryCurr" />
+          <ScalarProperty Name="attachment" ColumnName="attachment" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+          <ScalarProperty Name="picture" ColumnName="picture" />
+          <ScalarProperty Name="passportEx" ColumnName="passportEx" />
+          <ScalarProperty Name="passportNo" ColumnName="passportNo" />
+          <ScalarProperty Name="citizenshp" ColumnName="citizenshp" />
+          <ScalarProperty Name="govID" ColumnName="govID" />
+          <ScalarProperty Name="nChildren" ColumnName="nChildren" />
+          <ScalarProperty Name="martStatus" ColumnName="martStatus" />
+          <ScalarProperty Name="brthCountr" ColumnName="brthCountr" />
+          <ScalarProperty Name="birthDate" ColumnName="birthDate" />
+          <ScalarProperty Name="homeState" ColumnName="homeState" />
+          <ScalarProperty Name="homeCountr" ColumnName="homeCountr" />
+          <ScalarProperty Name="homeCounty" ColumnName="homeCounty" />
+          <ScalarProperty Name="homeCity" ColumnName="homeCity" />
+          <ScalarProperty Name="homeZip" ColumnName="homeZip" />
+          <ScalarProperty Name="homeBlock" ColumnName="homeBlock" />
+          <ScalarProperty Name="homeStreet" ColumnName="homeStreet" />
+          <ScalarProperty Name="bankAcount" ColumnName="bankAcount" />
+          <ScalarProperty Name="bankBranNo" ColumnName="bankBranNo" />
+          <ScalarProperty Name="bankBranch" ColumnName="bankBranch" />
+          <ScalarProperty Name="bankCode" ColumnName="bankCode" />
+          <ScalarProperty Name="termReason" ColumnName="termReason" />
+          <ScalarProperty Name="termDate" ColumnName="termDate" />
+          <ScalarProperty Name="empCostUnt" ColumnName="empCostUnt" />
+          <ScalarProperty Name="emplCost" ColumnName="emplCost" />
+          <ScalarProperty Name="salaryUnit" ColumnName="salaryUnit" />
+          <ScalarProperty Name="salary" ColumnName="salary" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="startDate" ColumnName="startDate" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="fax" ColumnName="fax" />
+          <ScalarProperty Name="homeTel" ColumnName="homeTel" />
+          <ScalarProperty Name="pager" ColumnName="pager" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="officeExt" ColumnName="officeExt" />
+          <ScalarProperty Name="officeTel" ColumnName="officeTel" />
+          <ScalarProperty Name="salesPrson" ColumnName="salesPrson" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="manager" ColumnName="manager" />
+          <ScalarProperty Name="workState" ColumnName="workState" />
+          <ScalarProperty Name="workCountr" ColumnName="workCountr" />
+          <ScalarProperty Name="workCounty" ColumnName="workCounty" />
+          <ScalarProperty Name="workCity" ColumnName="workCity" />
+          <ScalarProperty Name="workZip" ColumnName="workZip" />
+          <ScalarProperty Name="workBlock" ColumnName="workBlock" />
+          <ScalarProperty Name="workStreet" ColumnName="workStreet" />
+          <ScalarProperty Name="branch" ColumnName="branch" />
+          <ScalarProperty Name="dept" ColumnName="dept" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="jobTitle" ColumnName="jobTitle" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="middleName" ColumnName="middleName" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="empID" ColumnName="empID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OCTG">
+      <EntityTypeMapping TypeName="SBODACARPRODModel.OCTG">
+        <MappingFragment StoreEntitySet="OCTG">
+          <ScalarProperty Name="CshRelev" ColumnName="CshRelev" />
+          <ScalarProperty Name="CrdMthd" ColumnName="CrdMthd" />
+          <ScalarProperty Name="VATFirst" ColumnName="VATFirst" />
+          <ScalarProperty Name="TolDays" ColumnName="TolDays" />
+          <ScalarProperty Name="InstNum" ColumnName="InstNum" />
+          <ScalarProperty Name="BslineDate" ColumnName="BslineDate" />
+          <ScalarProperty Name="DunningCod" ColumnName="DunningCod" />
+          <ScalarProperty Name="DiscCode" ColumnName="DiscCode" />
+          <ScalarProperty Name="OpenRcpt" ColumnName="OpenRcpt" />
+          <ScalarProperty Name="UserSign" ColumnName="UserSign" />
+          <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+          <ScalarProperty Name="Payment1" ColumnName="Payment1" />
+          <ScalarProperty Name="NumOfPmnts" ColumnName="NumOfPmnts" />
+          <ScalarProperty Name="Payments" ColumnName="Payments" />
+          <ScalarProperty Name="ListNum" ColumnName="ListNum" />
+          <ScalarProperty Name="ObligLimit" ColumnName="ObligLimit" />
+          <ScalarProperty Name="LatePyChrg" ColumnName="LatePyChrg" />
+          <ScalarProperty Name="VolumDscnt" ColumnName="VolumDscnt" />
+          <ScalarProperty Name="CredLimit" ColumnName="CredLimit" />
+          <ScalarProperty Name="PaymntsNum" ColumnName="PaymntsNum" />
+          <ScalarProperty Name="ExtraDays" ColumnName="ExtraDays" />
+          <ScalarProperty Name="ExtraMonth" ColumnName="ExtraMonth" />
+          <ScalarProperty Name="PayDuMonth" ColumnName="PayDuMonth" />
+          <ScalarProperty Name="PymntGroup" ColumnName="PymntGroup" />
+          <ScalarProperty Name="GroupNum" ColumnName="GroupNum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="IGN1">
       <EntityTypeMapping TypeName="SBODACARPRODModel.IGN1">
         <MappingFragment StoreEntitySet="IGN1">
@@ -4436,6 +4624,28 @@
           <ScalarProperty Name="TargetType" ColumnName="TargetType" />
           <ScalarProperty Name="LineNum" ColumnName="LineNum" />
           <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReporteIngresoChatarraConDesviacionRN">
+      <EntityTypeMapping TypeName="SBODACARPRODModel.ReporteIngresoChatarraConDesviacionRN">
+        <MappingFragment StoreEntitySet="ReporteIngresoChatarraConDesviacionRN">
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Comentarios" ColumnName="Comentarios" />
+          <ScalarProperty Name="Vendedor" ColumnName="Vendedor" />
+          <ScalarProperty Name="Bodega" ColumnName="Bodega" />
+          <ScalarProperty Name="Desviacion" ColumnName="Desviacion" />
+          <ScalarProperty Name="Peso_Real" ColumnName="Peso_Real" />
+          <ScalarProperty Name="Peso_Teorico" ColumnName="Peso_Teorico" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Tipo_Ingreso" ColumnName="Tipo_Ingreso" />
+          <ScalarProperty Name="Cliente_Clase" ColumnName="Cliente_Clase" />
+          <ScalarProperty Name="Cliente_Linea" ColumnName="Cliente_Linea" />
+          <ScalarProperty Name="Tipo_Cliente" ColumnName="Tipo_Cliente" />
+          <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+          <ScalarProperty Name="Identificador" ColumnName="Identificador" />
+          <ScalarProperty Name="Pedido" ColumnName="Pedido" />
+          <ScalarProperty Name="N_Documento" ColumnName="N_Documento" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

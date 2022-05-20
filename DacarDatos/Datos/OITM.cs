@@ -350,5 +350,20 @@ namespace DacarDatos.Datos
         public string U_DAC_UNIMED { get; set; }
         public Nullable<decimal> U_DAC_PESOPLOMO { get; set; }
         public Nullable<decimal> U_DAC_PESOPRODUCTO { get; set; }
+        public string U_DAC_SUBAREA { get; set; }
+        public string U_DAC_FECHADQ { get; set; }
+        public string U_DAC_PLACA { get; set; }
+        public string U_DAC_SERIE { get; set; }
+        public string U_DAC_MODELO { get; set; }
+        public string U_DAC_PLANTA { get; set; }
+        public string U_DAC_VALRASEGR { get; set; }
+        public string U_DAC_ESTATUS { get; set; }
+        public string U_DAC_AVALPR { get; set; }
+        public string U_DAC_BANCO { get; set; }
+        public string U_DAC_PRENDA { get; set; }
+        public string U_DAC_VALRENDS { get; set; }
+        public string U_DAC_COMENT1 { get; set; }
+        public string U_DAC_COMENT2 { get; set; }
+        public string U_DAC_COMENT3 { get; set; }
     }
 }

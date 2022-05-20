@@ -434,6 +434,37 @@ namespace DacarProsoft.Datos
                 }
             }
         }
+        public int ObtenerCodigoIngresoPruebaCCA()
+        {
+            int result = 0;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.PruebasLaboratorioCCA
+                                   orderby d.PruebasLaboratorioCCAId descending
+                                   select new
+                                   {
+                                       d.CodigoIngreso
+                                   }).FirstOrDefault();
+
+                    if (Listado == null) {
+                        result = 5000;
+                    }
+                    else{
+                        result = Listado.CodigoIngreso.Value + 1;
+                    }
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return result;
+                }
+            }
+        }
+
         public string ObtenerCCABateria(string modeloBateria)
         {
             string result = "";

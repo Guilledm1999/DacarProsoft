@@ -242,13 +242,12 @@ function ConsultaRegistrosPruebasLaboratorio() {
                         }
                     },
                     {
-                        dataField: "CCA", caption: "CCA", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 70,
+                        dataField: "CCA", caption: "CCA Electronico", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 100,
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
                                 .css('white-space', 'normal')
                                 .css('text-align', 'center')
-                                .css('margin', '7px 12px 0 0')
                                 .appendTo(header);
                         }
                     },
@@ -431,7 +430,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                         }
                     },
                     {
-                        dataField: "Observaciones", caption: "Observaciones", alignment: "right", allowHeaderFiltering: false, allowSearch: false, width: 115,
+                        dataField: "Observaciones", caption: "Observaciones", alignment: "right", allowHeaderFiltering: false, allowSearch: true, width: 115,
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
@@ -761,12 +760,15 @@ function ChartResumenesGarantias() {
         var nombre = [];
         var stock = [];
         var stock2 = [];
+        var minimo = [];
 
         var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
         var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
 
 
-        if (valor[0].TipoEnsayo == "CAP") {
+            if (valor[0].TipoEnsayo == "C20") {
+                valor.reverse();
+
             $.ajax({
                 type: 'POST',
                 url: "../Calidad/ConsultarValorTipoDePrueba",
@@ -777,6 +779,7 @@ function ChartResumenesGarantias() {
                         
                         nombre.push(valor[i].CodigoIngreso);
                         stock.push(valor[i].ResultadoFinal);
+                        minimo.push((parseInt(result) * 0.9).toFixed(0));
                         //stock2.push(valor[i].DatoTeoricoPrueba);
                         stock2.push(result);
                         $("#txtValorNominal").val(parseInt(result));
@@ -788,7 +791,7 @@ function ChartResumenesGarantias() {
             })
         }
         if (valor[0].TipoEnsayo == "RC") {
-
+            valor.reverse();
             $.ajax({
                 type: 'POST',
                 url: "../Calidad/ConsultarValorTipoDePrueba",
@@ -798,6 +801,7 @@ function ChartResumenesGarantias() {
                     for (var i in valor) {
                         nombre.push(valor[i].CodigoIngreso);
                         stock.push(valor[i].ResultadoFinal);
+                        minimo.push((parseInt(result) * 0.9).toFixed(0));
                         stock2.push(result);
                         $("#txtValorNominal").val(parseInt(result));
                         $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
@@ -809,7 +813,9 @@ function ChartResumenesGarantias() {
             })
 
         }
-        if (valor[0].TipoEnsayo == "CCA") {
+            if (valor[0].TipoEnsayo == "CCA") {
+                valor.reverse();
+
             $.ajax({
                 type: 'POST',
                 url: "../Calidad/ConsultarValorTipoDePrueba",
@@ -820,8 +826,8 @@ function ChartResumenesGarantias() {
                         nombre.push(valor[i].CodigoIngreso);
                         //stock.push(valor[i].CCA);
                         stock.push(valor[i].ResultadoFinal);
-
                         stock2.push(result);
+                        minimo.push((parseInt(result) * 0.9).toFixed(0));
                         $("#txtValorNominal").val(parseInt(result));
                         $("#txtValorObjetivo").val((parseInt(result)).toFixed(0));
                         nominal = (parseInt(result)).toFixed(0);
@@ -833,7 +839,9 @@ function ChartResumenesGarantias() {
             })
 
         }
-        if (valor[0].TipoEnsayo == "CICLOS") {
+            if (valor[0].TipoEnsayo == "CICLOS") {
+                valor.reverse();
+
             console.log("CICLOS");
             for (var i in valor) {
                 nombre.push(valor[i].CodigoIngreso);
@@ -841,16 +849,16 @@ function ChartResumenesGarantias() {
                 stock2.push(valor[i].DatoTeoricoPrueba);
 
                 $("#txtValorNominal").val(parseInt(valor[i].DatoTeoricoPrueba));
-
+                minimo.push((parseInt(result) * 0.9).toFixed(0));
                 $("#txtValorObjetivo").val((parseInt(valor[i].DatoTeoricoPrueba * 0.9)));
                 nominal = (valor[i].DatoTeoricoPrueba * 0.9);
-                nominalReal = (valor[i].DatoTeoricoPrueba);
+                nominalReal = (valor[i].DatoTeoricoPrueba);          
                 //DatoTeoricoPrueba
             }
 
         }
 
-
+            //FechaIngreso
         var chartdata = {
             labels: nombre,
             datasets: [{
@@ -862,6 +870,9 @@ function ChartResumenesGarantias() {
                 backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
                 borderColor: 'rgba(7,59,251,0.5)',// Color del borde
                 data: stock,
+                pointRadius: 5,
+                pointHoverRadius: 10,
+                pointHitRadius: 30,
                 fill: false
             },
             {
@@ -873,8 +884,30 @@ function ChartResumenesGarantias() {
                 backgroundColor: 'rgba(251, 7, 7, 0.5)',// Color de fondo
                 borderColor: 'rgba(251, 7, 7, 0.5)',// Color del borde
                 data: stock2,
+                pointRadius: 5,
+                pointHoverRadius: 10,
+                pointHitRadius: 30,
                 fill: false
-            }]
+                }
+                ,
+                {
+                    label: 'Minimo',
+                    backgroundColor: color,
+                    borderColor: color,
+                    borderWidth: 2,
+                    cubicInterpolationMode: 'monotone',
+                    backgroundColor: 'rgba(255, 236, 0, 0.5)',// Color de fondo
+                    borderColor: 'rgba(255, 236, 0, 0.5)',// Color del borde
+                    data: minimo,
+                    pointRadius: 5,
+                    pointHoverRadius: 10,
+                    pointHitRadius: 30,
+                    //pointBorderWidth: 2,
+                    lineTension: 0,
+                    //backgroundColor: 'transparent',
+                    borderDash: [5, 5],
+                    fill: false
+                }]
         };
         char = new Chart(ctx, {
             type: "line",
@@ -902,8 +935,6 @@ function ChartResumenesGarantias() {
                             fontColor: "black"
                         }
                     }],
-
-
                 },
                 interaction: {
                     intersect: false,
@@ -929,6 +960,7 @@ function ChartResumenesGarantias() {
                     text: 'Tipo de ensayo ' + valor[0].TipoEnsayo,
                     fontSize: 18,
                 },
+
                 //animation: {
                 //    animateScale: true,
                 //    animateRotate: true
@@ -942,11 +974,13 @@ function ChartResumenesGarantias() {
 }
 
 }
+
 function GenerarPdf() {
     var canvas = document.getElementById('myChart');
     var dataURL = canvas.toDataURL();
     SetViewBag(dataURL);
 
+    console.log("valor de nominal " + nominal + " y el real "+nominalReal);
     var url = "../Calidad/GenerarPdfReporte?Nominal=" + nominal + "&NominalReal=" + nominalReal;
     window.open(url);
 }
@@ -979,7 +1013,7 @@ function EnviarPdf() {
         $.ajax({
             url: '/Calidad/EnviarPdfReporte',
             type: 'POST',
-            data: { idMeidicionDescarga: nominal, Correo: $("#txtCorreoDestino").val(), CorreoCopia: $("#txtCorreoCopia").val() },
+            data: { Nominal: nominal, NominalReal: nominalReal, Correo: $("#txtCorreoDestino").val(), CorreoCopia: $("#txtCorreoCopia").val() },
             success: function (msg) {
                 $('#BtnEnvio').prop('disabled', false);
                 $("#BtnEnvio").text("Enviar");

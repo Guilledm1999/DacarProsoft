@@ -1,5 +1,29 @@
 ﻿<link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<style>
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+    .dx-datagrid-headers .dx-header-row {
+        color: black;
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        background-color: #D7F1FF;
+        /*background-color: #3355FF;*/
+        color: black;
+        font-weight: bold;
+    }
+    .dx-data-row {
+        font-size: 10pt;
+        padding: 2pt;
+    }
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
+        vertical-align: top;
+    }
+</style>
 @{
     ViewBag.Title = "ListadoPackingList";
     Layout = "~/Views/Compartida/_Layout.cshtml";
@@ -9,7 +33,6 @@
     var paisOrigen = ViewBag.PaisOrigencal;
 }
 <br />
-
 <div class="card shadow align-top">
     <div class="card-header">
         <h2>Packing List Ingresados</h2>
@@ -21,18 +44,16 @@
                     <select class="form-control" aria-label="Default select example" id="TipoBusqueda">
                         <option value="1">Exportacion</option>
                         <option value="2">Local</option>
-                        <option value="3">Facturas Reserva</option>
-                        <option value="4">Facturas</option>
+                        @*<option value="3">Facturas Reserva</option>
+                            <option value="4">Facturas</option>*@
                     </select>
                 </div>
-
                 <div class="col-md-2">
                     <button class="btn btn-primary" onclick="ConsultarIngresosPacking()">
                         <i class="loading-icon fa fa-spinner fa-spin hide"></i>
                         <span class="btn-txt">Consultar</span>
                     </button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -51,7 +72,7 @@
         </div>
         <div id="MensajeErrorGuardado" class="alert alert-danger collapse">
             <button id="LinkClose6" type="button" class="close">&times;</button>
-            <strong>Error de Guardad0!!</strong>
+            <strong>Error de Guardado!!</strong>
         </div>
         <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
             <button id="LinkClose7" type="button" class="close">&times;</button>
@@ -77,12 +98,16 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="lblPalletsIngresados">Pallets Ingresados</h4>
+                <h4 class="modal-title" id="lblPalletsIngresados">Packing List</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <div id="MensajeIngresarInformacionPacking" class="alert alert-danger collapse">
+                    <button id="LinkCloseIngresarInformacionPacking" type="button" class="close">&times;</button>
+                    <strong>Debe ingresar información del packing list antes !</strong>
+                </div>
                 <div id="MensajeEliminacionCorecta" class="alert alert-danger collapse">
                     <button id="LinkClose11" type="button" class="close">&times;</button>
                     <strong>Eliminacion correcta!</strong>
@@ -115,20 +140,99 @@
                     <button id="LinkClose10" type="button" class="close">&times;</button>
                     <strong>Pallets completos, no puede ingresar más!</strong>
                 </div>
-                  <div id="tblListadoPalletsIngresados"> </div>
-                <br />
                 <div class="form-group row">
-                    <div class="col-sm-5">
+                    <div class="col-sm-4">
                     </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary" id="DetallePackingList">Detalle Packing List</button>
+                    <div class="col-sm-4">
+                        <div class="col-sm-12">
+                            <div align="center">
+                                <button type="button" class="btn btn-primary" id="DetallePackingList">Ingresar o Actualizar Informacion del Packing List</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-4">
                     </div>
                 </div>
-
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="col-sm-12">
+                            <div align="center">
+                                <button type="button" class="btn btn-success" id="btnActualizarCantidadPallets">Actualizar Cantidad de Pallets</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="col-sm-12">
+                            <div align="center">
+                                <button type="button" class="btn btn-success" id="GenerarFacturaPacking">Generar Factura</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="col-sm-12">
+                            <div align="center">
+                                <button type="button" class="btn btn-success" id="GenerarGuiaPacking">Generar Guía</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
+                </div>
+                <br />
+                <h5>Informacion Pallets</h5>
+                <div id="tblListadoPalletsIngresados"> </div>
+            </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ModalActualizarPallet" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b class="modal-title" id="lblNumberPalletNuevo">Actualizacion de Pallets</b>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="MensajePackingValorCeroPallets" class="alert alert-danger collapse">
+                    <button id="LinkCloseCeroPallets" type="button" class="close">&times;</button>
+                    <strong>El valor no puede ser "0" o estar vacio</strong>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-1">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputEmail4">Cantidad actual:</label>
+                        <input type="number" name="Orden" id="txtCantidadActualPallets" autocomplete="off" class="form-control" readonly>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="inputPassword4">Nueva Cantidad:</label>
+                        <input type="number" name="PalletNumber" id="txtNuevaCantidadPallets" autocomplete="off" class="form-control">
+                    </div>
+                    <div class="form-group col-md-1">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="ActualizarPalletsPacking">Actualizar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
@@ -223,16 +327,15 @@
                         <div class="col-sm-2">
                         </div>
                     </div>
-</form>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-secondary" onclick="ModificarPallet()">Modificar</button>
+                @*<button type="button" class="btn btn-secondary" onclick="ModificarPallet()">Modificar</button>*@
             </div>
         </div>
     </div>
 </div>
-
 
 <div id="ModalPalletIngresoNuevo" class="modal fade" role="dialog" style="overflow-y: scroll;">
     <div class="modal-dialog modal-xl" role="document">
@@ -325,8 +428,6 @@
     </div>
 </div>
 
-
-
 <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -351,7 +452,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>        
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="AfirmacionEliminacionPacking">Si</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
@@ -368,7 +469,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>         
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="AfirmacionEticketa">Si</button>
                 <button type="button" class="btn btn-primary" id="NgacionEticketa">No</button>
@@ -398,7 +499,7 @@
                         </div>
                         <label for="email" class="col-sm-2 col-form-label"><b>Contenedor:</b></label>
                         <div class="col-sm-3">
-                            <input type="text" id="txtContenedorPackingList" autocomplete="off"  class="form-control" required>
+                            <input type="text" id="txtContenedorPackingList" autocomplete="off" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -422,7 +523,7 @@
                         </div>
                         <label for="email" class="col-sm-2 col-form-label"><b>#Pedido:</b></label>
                         <div class="col-sm-3">
-                            <input type="text" id="txtPedidoPackingList" autocomplete="off" readonly class="form-control" >
+                            <input type="text" id="txtPedidoPackingList" autocomplete="off" readonly class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -449,24 +550,24 @@
                             <input type="text" id="txtProductosPackingList" autocomplete="off" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-2">
+                    @*<div class="form-group row">
+                            <div class="col-sm-2">
+                            </div>
+                            <div class="col-sm-8">
+                                <div id="tblDetallePackingListIngresados"> </div>
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
                         </div>
-                        <div class="col-sm-8">
-                            <div id="tblDetallePackingListIngresados"> </div>
-                        </div>
-                        <div class="col-sm-2">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-2">
-                        </div>
-                        <div class="col-sm-8">
-                            <div id="tblItemsDetallePackingListIngresados"> </div>
-                        </div>
-                        <div class="col-sm-2">
-                        </div>
-                    </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2">
+                            </div>
+                            <div class="col-sm-8">
+                                <div id="tblItemsDetallePackingListIngresados"> </div>
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                        </div>*@
                 </form>
             </div>
             <div class="modal-footer">
@@ -480,6 +581,269 @@
     </div>
 </div>
 
+<div id="ModalFacturaPackingList" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblDetallePackingList">FACTURA PACKING LIST</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b># Factura:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtFactPackingList" autocomplete="off"  class="form-control">
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b># Orden:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtOrdenFactPackingList" autocomplete="off"  class="form-control">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Fecha:</b></label>
+                        <div class="col-sm-3">
+                            <input type="date" id="txtFechaFactPackingList" autocomplete="off" class="form-control">
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Cliente:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtClienteFactPacking" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Enviar a:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtEnvioFactPackingList" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Telefono:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtTelefonoFactPacking" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Vendedor:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtVendedorFactPackingList" autocomplete="off"  class="form-control">
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Destino:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtDestinoFactPackingList" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b># Contenedor:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtContenedorFactPackingList" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Metodo de envio:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtMetodoEnvioFactPackingList" autocomplete="off"  class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-sm-1">
+                        </div>
+                        <div class="col-sm-10">
+                            <div id="tblResumenFactura"></div>
+
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="ImprimirFactRegistroPackingList">Imprimir</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="ModalGuiaPackingList" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblDetallePackingList">Guia de Packing List</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="MensajeCompleteCamposGuia" class="alert alert-danger collapse">
+                    <button id="LinkCloseCompleteGuia" type="button" class="close">&times;</button>
+                    <strong>Complete campos para registrar guía!</strong>
+                </div>
+                <div id="MensajeErrorGuardarGuia" class="alert alert-danger collapse">
+                    <button id="LinkCloseErrorGuardadoGuia" type="button" class="close">&times;</button>
+                    <strong>Ocurrio un error al guardar la guía!</strong>
+                </div>
+                <form>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Cliente:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtNombreDelClienteGuia" autocomplete="off" readonly class="form-control">
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Fecha Emision:</b></label>
+                        <div class="col-sm-3">
+                            <input type="date" id="txtFechaPackingGuia" autocomplete="off" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Punto Partida:</b></label>
+                        <div class="col-sm-3">
+                            <select class="form-control" id="txtPuntoPartidaGuia">
+                                <option value="1" selected>Planta Dacar</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Reserva:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtBookingPackingGuia" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>#Pedido:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtPedidoPackingListGuia" autocomplete="off" class="form-control">
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Contenedor:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtContenedorGuia" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Peso Bruto:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtPesoBrutoGuia" autocomplete="off" class="form-control">
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Peso Tara:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtPesoTaraGuia" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-sm-6">
+                            <h5>Datos del transportista</h5>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Razon Social:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtRazonSocialGuia" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Ruc:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtRucGuia" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Direccion:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtDireccionGuia" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Placa:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtPlacaGuia" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <h5>Sellos</h5>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Sello A:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtGuiaSelloA" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Sello B:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtGuiaSelloB" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Sello C:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtGuiaSelloC" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Sello D:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtGuiaSelloD" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <h5>Autorizaciones</h5>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Elaborado por:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtElaboradoPorGuia" autocomplete="off" class="form-control" required>
+                        </div>
+                        <div class="col-sm-1">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Autorizado por:</b></label>
+                        <div class="col-sm-3">
+                            <input type="text" id="txtAutorizadoPorGuia" autocomplete="off" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="tblResumenGuia"></div>
+                        </div>
+                        <div class="col-sm-3">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="ImprimirRegistroPackingListGuia">Imprimir</button>
+                <button type="button" class="btn btn-primary" id="ActualizarDetallePackingListGuia">Actualizar</button>
+                <button type="button" class="btn btn-primary" id="RegistrarDetallePackingListGuia">Registrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="ModalAfirmacionFondoPacking" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -496,7 +860,6 @@
         </div>
     </div>
 </div>
-
 <input type="hidden" id="txtNumeroPalle" />
 <input type="hidden" id="txtIdPallet" />
 <input type="hidden" id="txtIdPacking" />

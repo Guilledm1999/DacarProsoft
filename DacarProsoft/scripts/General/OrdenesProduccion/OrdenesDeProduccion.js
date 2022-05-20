@@ -34,8 +34,13 @@ function ConsultarPedidos() {
            ConfigDev.allowColumnReordering = true,
            ConfigDev.allowColumnResizing = true,
            ConfigDev.columnAutoWidth = true,
-           ConfigDev.showBorders = true,       
-              ConfigDev.filterRow = { visible: true },
+               ConfigDev.showBorders = true,
+               ConfigDev.searchPanel= {
+               visible: true,
+                   width: 240,
+                       placeholder: "Buscar..."
+           },
+              ConfigDev.filterRow = { visible: false },
                ConfigDev.filterPanel = { visible: true },
                ConfigDev.headerFilter = { visible: true },
            ConfigDev.grouping = {

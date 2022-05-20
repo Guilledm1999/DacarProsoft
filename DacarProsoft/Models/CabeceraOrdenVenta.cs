@@ -14,7 +14,7 @@ namespace DacarProsoft.Models
         public string CardCode { get; set; }
         public string CardName { get; set; }
         public string NumeroOrden { get; set; }
-
+        public string Mes { get; set; }
         public string SypExportacion { get; set; }
         public decimal DocTotal { get; set; }
 

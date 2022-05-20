@@ -26,5 +26,6 @@ namespace DacarDatos.Datos
         public string IntercambioEirPackingList { get; set; }
         public string ReferenciasPackingList { get; set; }
         public string ProductosPackingList { get; set; }
+        public Nullable<System.DateTime> FechaActualizacion { get; set; }
     }
 }

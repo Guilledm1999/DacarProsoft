@@ -62,8 +62,13 @@ function ConsultarCabeceraIngresosChatarra() {
            ConfigDev.showBorders = true,
            ConfigDev.paging = {
                pageSize: 10
+               },
+               ConfigDev.searchPanel= {
+               visible: true,
+                   width: 240,
+                       placeholder: "Buscar..."
            },
-              ConfigDev.filterRow = { visible: true },
+              ConfigDev.filterRow = { visible: false },
                ConfigDev.filterPanel = { visible: true },
                ConfigDev.headerFilter = { visible: true },
            ConfigDev.columns = [

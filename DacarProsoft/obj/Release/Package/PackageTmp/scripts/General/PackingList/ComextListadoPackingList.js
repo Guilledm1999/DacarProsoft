@@ -1,5 +1,6 @@
 ﻿var idPacking = null;
 $(document).ready(function () {
+    mostrarIngresosPallet();
     $(".loading-icon").css("display", "none");
     $(document).on('click', '.fa', function (event) {
         event.preventDefault();
@@ -38,7 +39,7 @@ function ConsultarIngresosPacking() {
 function mostrarIngresosPallet() {
     var valor = $("#TipoBusqueda").val();
     $.ajax({
-        url: "../PackingList/ObtenerPalletIngresadosComext?tipo=" + valor,
+        url: "../PackingList/ObtenerPalletIngresadosComext",
         type: "GET"
         , success: function (msg) {
             $("#tblIngresosdePacking").dxDataGrid({
@@ -76,9 +77,6 @@ function mostrarIngresosPallet() {
                 scrolling: {
                     mode: 'infinite',
                 },
-                sorting: {
-                    mode: 'none',
-                },
                 export: {
                     enabled: true,
                     allowExportSelectedData: false
@@ -101,19 +99,22 @@ function mostrarIngresosPallet() {
                 columns: [                  
                     { dataField: "PackingId", visible: false },
                     {
-                        dataField: "NumeroDocumento", caption: "Numero Documento", allowEditing: false, allowHeaderFiltering: false
+                        dataField: "NumeroDocumento", caption: "# Secuencial Sap", allowEditing: false, allowHeaderFiltering: false
                     },
                     {
                         dataField: "NumeroOrden", caption: "Numero Orden", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
                     },
                     {
-                        dataField: "NombreCliente", caption: "Cliente", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
+                        dataField: "NombreCliente", caption: "Cliente", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
                     },
                     {
-                        dataField: "Origen", caption: "Origen", allowEditing: false, headerFilter: true, allowHeaderFiltering: false
+                        dataField: "Mes", caption: "Mes", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
                     },
                     {
-                        dataField: "Destino", caption: "Destino", allowEditing: false, headerFilter: true, allowHeaderFiltering: false
+                        dataField: "Origen", caption: "Origen", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
+                    },
+                    {
+                        dataField: "Destino", caption: "Destino", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
                     },
                     {
                         dataField: "CantidadPallet", visible: false
@@ -121,16 +122,19 @@ function mostrarIngresosPallet() {
                         dataField: "PalletFaltantes", visible: false
                     },
                     {
-                        dataField: "Estado", caption: "Estado", alignment: "right", allowEditing: false
+                        dataField: "Estado", caption: "Estado Orden",  allowEditing: false
                     },
-                    ,
+                   
                     {
-                        dataField: "DetalleIngresado", visible: false
+                        dataField: "DetalleIngresado", caption: "Estado Packing List",  allowEditing: false
+                    },
+                    {
+                        dataField: "FechaRegistro", caption: "Fecha Registro", allowEditing: false, allowHeaderFiltering: true ,dataType: 'date',
                     },
                     {
                         caption: "Acciones",
                         cellTemplate: function (container, options) {
-                            var btnDetalle = "<a style='box-shadow: 2px 2px 5px #999 inset' onclick='generarInformePackingListPDF(" + JSON.stringify(options.data) + ")'>Imprimir</a>";
+                            var btnDetalle = "<button class='btn-primary' onclick='generarInformePackingListPDF(" + JSON.stringify(options.data) + ")'>Imprimir</button>";
 
                             $("<div>")
                                 .append($(btnDetalle))
@@ -156,7 +160,7 @@ function mostrarIngresosPallet() {
 
 
 function generarInformePackingListPDF(modelo) {
-    if (modelo.DetalleIngresado == "NO" || modelo.Estado == "Incompleto") {
+    if (modelo.DetalleIngresado == "Incompleto" || modelo.Estado == "Incompleto") {
         $("#MensajePackingSinDetalle").show('fade');
         setTimeout(function () {
             $("#MensajePackingSinDetalle").fadeOut(1500);

@@ -59,6 +59,11 @@ function PedidosConfirmados() {
                 paging: {
                     pageSize: 10
                 },
+                searchPanel: {
+                    visible: true,
+                    width: 240,
+                    placeholder: "Buscar..."
+                },
                 pager: {
                     visible: true,
                     allowedPageSizes: [5, 10, 50],

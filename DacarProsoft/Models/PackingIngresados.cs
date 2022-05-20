@@ -17,6 +17,10 @@ namespace DacarProsoft.Models
         public int CantidadPallet { set; get; }
         public int PalletFaltantes { set; get; }
         public string Estado { set; get; }
+        public string EstadoPackingList { set; get; }
+        public string FechaRegistro { set; get; }
+        public string Mes { set; get; }
+        public int NumeroContenedor { set; get; }
 
     }
 }

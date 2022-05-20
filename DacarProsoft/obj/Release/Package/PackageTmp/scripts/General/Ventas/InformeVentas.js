@@ -48,7 +48,12 @@ function ConsultarVentas() {
            ConfigDev.showBorders = true,
            ConfigDev.columnFixing = {
                enabled: true
-           },
+               },
+               ConfigDev.searchPanel = {
+                   visible: true,
+                   width: 240,
+                   placeholder: "Buscar..."
+               },
            ConfigDev.keyExpr = "Secuencia",
            ConfigDev.grouping = {
            autoExpandAll: false,

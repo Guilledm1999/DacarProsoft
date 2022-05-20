@@ -1,8 +1,10 @@
 ﻿using DacarProsoft.Datos;
 using DacarProsoft.Models;
+using iText.IO.Font.Constants;
 using iText.IO.Image;
 using iText.Kernel.Colors;
 using iText.Kernel.Events;
+using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
 using iText.Layout;
@@ -420,7 +422,8 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-        public ActionResult GenerarPdfReporte(int Nominal, int NominalReal)
+
+        public ActionResult GenerarPdfReporte(decimal Nominal, decimal NominalReal)
         {
             string valoview = Session["Grafico"].ToString();
             List<ModelPruebaLaboratorioCalidad> lst = new List<ModelPruebaLaboratorioCalidad>();
@@ -445,48 +448,38 @@ namespace DacarProsoft.Controllers
             MemoryStream stream = new MemoryStream();
             PdfWriter writer = new PdfWriter(stream);
 
-            PdfDocument pdf = new PdfDocument(writer);
-            //Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A5, true);
-            //Obtener valores de cm a pulgadas y de ahi multiplicar x 72
-            //iText.Kernel.Geom.Rectangle rectangle13x21 = new iText.Kernel.Geom.Rectangle(368.50f, 595.28f);
-
-            //iText.Kernel.Geom.Rectangle rectangle11x16 = new iText.Kernel.Geom.Rectangle(325.98f, 453.54f);
-            //iText.Kernel.Geom.Rectangle rectangle10x15 = new iText.Kernel.Geom.Rectangle(283.46f, 425.20f);
+            PdfDocument pdf = new PdfDocument(writer);        
             Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4, true);
-            //Document document = new Document(pdf, new iText.Kernel.Geom.PageSize(rectangle10x15));
             iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
              .Create(bytes))
              .SetTextAlignment(TextAlignment.CENTER).SetWidth(480).SetHeight(240).SetHorizontalAlignment(HorizontalAlignment.CENTER);
 
             document.SetMargins(112, 36, 90, 36);
-            /*
-            float[] cellWidth = { 105f, 310f, 105f };
-            Table tablaEncabezado = new Table(cellWidth);
-
-            Cell cell10 = new Cell().Add(new Paragraph("celda1:").SetHeight(50f));
-            tablaEncabezado.AddCell(cell10.SetTextAlignment(TextAlignment.LEFT));
-            Cell cell7 = new Cell().Add(new Paragraph("celda2").SetHeight(50f));
-            tablaEncabezado.AddCell(cell7.SetTextAlignment(TextAlignment.LEFT));
-            Cell cell2 = new Cell().Add(new Paragraph("celda3").SetHeight(50f));
-            tablaEncabezado.AddCell(cell2.SetTextAlignment(TextAlignment.LEFT));
-
-            int numberOfPages = pdf.GetNumberOfPages();
-            for (int i = 1; i <= numberOfPages; i++)
-            {
-                // Write aligned text to the specified by parameters point
-                document.ShowTextAligned(new Paragraph("page " + i + " of " + numberOfPages),
-                        559, 806, i, TextAlignment.RIGHT, VerticalAlignment.TOP, 0);
-            }
-
-            pdf.AddEventHandler(PdfDocumentEvent.START_PAGE, new TableHeaderEventHandler(tablaEncabezado));*/
-
-
-            Paragraph header = new Paragraph("ANALISIS PRUEBAS LABORATORIO "+valor[0].TipoEnsayo)
+         
+            Paragraph header = new Paragraph("ANÁLISIS PRUEBAS LABORATORIO ")
          .SetTextAlignment(TextAlignment.CENTER)
          .SetFontSize(16).SetBold();
-            Paragraph Modelo = new Paragraph("Modelo de bateria: "+valor[0].Modelo)
-        .SetTextAlignment(TextAlignment.CENTER)
-        .SetFontSize(14);
+            Paragraph TipoEnsayo = new Paragraph("Tipo de ensayo: " + valor[0].TipoEnsayo+" | "+ "Modelo de bateria: " + valor[0].Modelo)
+    .SetTextAlignment(TextAlignment.CENTER)
+    .SetFontSize(14);
+
+            string tipEnsayo="";
+
+            if (valor[0].TipoEnsayo=="C20") {
+                tipEnsayo = "(AH)";
+            }
+            if (valor[0].TipoEnsayo == "CCA")
+            {
+                tipEnsayo = "(Amp.)";
+            }
+            if (valor[0].TipoEnsayo == "CICLOS")
+            {
+                tipEnsayo = "(Ciclos)";
+            }
+            if (valor[0].TipoEnsayo == "RC")
+            {
+                tipEnsayo = "(Minutos)";
+            }
 
             var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
@@ -498,14 +491,14 @@ namespace DacarProsoft.Controllers
 
             tabla2.AddCell(new Cell(1, 9).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE PRUEBAS DE LABORATORIO").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Codigo").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Código").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Norma").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Separador").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Ensamble").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Carga").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Pre-Acondicionamiento").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado"+ tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
             foreach (var x in valor)
             {
@@ -548,15 +541,39 @@ namespace DacarProsoft.Controllers
 
                 contador = contador + 1;
             }
+       
+            if ((Calificacion / contador) > 90)
+            {
+                var pathVistoBueno = System.IO.Path.Combine(Server.MapPath("~/Images/Visto_Bueno.png"));
+                iText.Layout.Element.Image VistoBueno = new iText.Layout.Element.Image(ImageDataFactory.Create(pathVistoBueno));
+                //PdfFont font = PdfFontFactory.CreateFont(FONT, iText.IO.Font.PdfEncodings.IDENTITY_H);
+                VistoBueno.SetFixedPosition(435, 585);
+                ////img.SetFixedPosition(25, 100);
+                VistoBueno.SetHeight(10);
+                VistoBueno.SetWidth(10);
+                document.Add(VistoBueno);
 
-            float[] columnWidth = { 100f, 80f, 80f, 80f };
+            }
+            else {
+                var pathVistoBueno = System.IO.Path.Combine(Server.MapPath("~/Images/xmal.png"));
+                iText.Layout.Element.Image VistoBueno = new iText.Layout.Element.Image(ImageDataFactory.Create(pathVistoBueno));
+                //PdfFont font = PdfFontFactory.CreateFont(FONT, iText.IO.Font.PdfEncodings.IDENTITY_H);
+                VistoBueno.SetFixedPosition(435, 585);
+                ////img.SetFixedPosition(25, 100);
+                VistoBueno.SetHeight(10);
+                VistoBueno.SetWidth(10);
+                document.Add(VistoBueno);
+
+            }
+
+            float[] columnWidth = { 100f, 102f, 106f, 100f };
             Table tabla = new Table(columnWidth);
 
             tabla.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("PROMEDIOS GENERALES").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso(kg)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje(OCV)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CCA(Electronic Tester)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Densidad Promedio").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Densidad (gr/cm3)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
 
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Decimal.Round(Peso/contador,2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
@@ -571,22 +588,18 @@ namespace DacarProsoft.Controllers
             }
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+ Decimal.Round(DensidadPromedio /contador,3)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Nominal").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("90%").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Nominal" + tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Mínimo Aceptable").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado Final").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Calificacion").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado Final" + tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Calificación").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+ NominalReal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+ Nominal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Decimal.Round(ResultadoFinal / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph(""+Decimal.Round(Calificacion / contador, 1)+"%").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
-        
-
             document.Add(header);
-            document.Add(Espacio);
-
-            document.Add(Modelo);
+            document.Add(TipoEnsayo);
             document.Add(tabla.SetHorizontalAlignment(HorizontalAlignment.CENTER));
             document.Add(Espacio);
             document.Add(img);
@@ -603,7 +616,7 @@ namespace DacarProsoft.Controllers
 
             return new FileStreamResult(stream, "application/pdf");
         }
-        public string EnviarPdfReporte(int Nominal, string Correo, string CorreoCopia)
+        public string EnviarPdfReporte(decimal Nominal, decimal NominalReal, string Correo, string CorreoCopia)
         {
             try
             {
@@ -617,12 +630,13 @@ namespace DacarProsoft.Controllers
             decimal ValorObjetivo = 0;
             decimal ResultadoFinal = 0;
             decimal Calificacion = 0;
-            int contador = 0;
+            decimal DensidadPromedio = 0;
+
+                int contador = 0;
                 string DirCorreo="";
                 string ClavCorreo="";
                 iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
 
-         
             var base64arr = valoview.Split(',');
             Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER);
             byte[] bytes = Convert.FromBase64String(base64arr[1]);
@@ -630,23 +644,39 @@ namespace DacarProsoft.Controllers
             MemoryStream stream = new MemoryStream();
             PdfWriter writer = new PdfWriter(stream);
 
-            PdfDocument pdf = new PdfDocument(writer);
-           
+            PdfDocument pdf = new PdfDocument(writer);   
             Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4, true);
             iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
              .Create(bytes))
              .SetTextAlignment(TextAlignment.CENTER).SetWidth(480).SetHeight(240).SetHorizontalAlignment(HorizontalAlignment.CENTER);
-            document.SetMargins(112, 36, 90, 36);         
+            document.SetMargins(112, 36, 90, 36);
 
-            Paragraph header = new Paragraph("ANALISIS PRUEBAS LABORATORIO " + valor[0].TipoEnsayo)
-        .SetTextAlignment(TextAlignment.CENTER)
-        .SetFontSize(16).SetBold();
+                Paragraph header = new Paragraph("ANÁLISIS PRUEBAS LABORATORIO ")
+            .SetTextAlignment(TextAlignment.CENTER)
+            .SetFontSize(16).SetBold();
+                Paragraph TipoEnsayo = new Paragraph("Tipo de ensayo: " + valor[0].TipoEnsayo + " | " + "Modelo de bateria: " + valor[0].Modelo)
+            .SetTextAlignment(TextAlignment.CENTER)
+            .SetFontSize(14);
+                string tipEnsayo = "";
 
-            Paragraph Modelo = new Paragraph("Modelo de bateria: " + valor[0].Modelo)
-        .SetTextAlignment(TextAlignment.CENTER)
-        .SetFontSize(14);
+                if (valor[0].TipoEnsayo == "C20")
+                {
+                    tipEnsayo = "(AH)";
+                }
+                if (valor[0].TipoEnsayo == "CCA")
+                {
+                    tipEnsayo = "(Amp.)";
+                }
+                if (valor[0].TipoEnsayo == "CICLOS")
+                {
+                    tipEnsayo = "(Ciclos)";
+                }
+                if (valor[0].TipoEnsayo == "RC")
+                {
+                    tipEnsayo = "(Minutos)";
+                }
 
-            var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
+                var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
             pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
 
@@ -655,14 +685,14 @@ namespace DacarProsoft.Controllers
 
             tabla2.AddCell(new Cell(1, 9).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE PRUEBAS DE LABORATORIO").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Codigo").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Código").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Norma").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Separador").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Ensamble").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Carga").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CCA").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado"+ tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
             foreach (var x in valor)
             {
@@ -700,36 +730,70 @@ namespace DacarProsoft.Controllers
                 {
                     Calificacion = Calificacion + x.Calificacion.Value;
                 }
-
-                contador = contador + 1;
+                    if (x.DensidadIngreso != null)
+                    {
+                        DensidadPromedio = DensidadPromedio + x.DensidadIngreso.Value;
+                    }
+                    contador = contador + 1;
             }
-            float[] columnWidth = { 80f, 80f, 80f };
-            Table tabla = new Table(columnWidth);
+                if ((Calificacion / contador) > 90)
+                {
+                    var pathVistoBueno = System.IO.Path.Combine(Server.MapPath("~/Images/Visto_Bueno.png"));
+                    iText.Layout.Element.Image VistoBueno = new iText.Layout.Element.Image(ImageDataFactory.Create(pathVistoBueno));
+                    //PdfFont font = PdfFontFactory.CreateFont(FONT, iText.IO.Font.PdfEncodings.IDENTITY_H);
+                    VistoBueno.SetFixedPosition(435, 585);
+                    ////img.SetFixedPosition(25, 100);
+                    VistoBueno.SetHeight(10);
+                    VistoBueno.SetWidth(10);
+                    document.Add(VistoBueno);
+                }
+                else
+                {
+                    var pathVistoBueno = System.IO.Path.Combine(Server.MapPath("~/Images/xmal.png"));
+                    iText.Layout.Element.Image VistoBueno = new iText.Layout.Element.Image(ImageDataFactory.Create(pathVistoBueno));
+                    //PdfFont font = PdfFontFactory.CreateFont(FONT, iText.IO.Font.PdfEncodings.IDENTITY_H);
+                    VistoBueno.SetFixedPosition(435, 585);
+                    ////img.SetFixedPosition(25, 100);
+                    VistoBueno.SetHeight(10);
+                    VistoBueno.SetWidth(10);
+                    document.Add(VistoBueno);
+                }
+                float[] columnWidth = { 100f, 102f, 106f, 100f };
+                Table tabla = new Table(columnWidth);
 
-            tabla.AddCell(new Cell(1, 3).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("PROMEDIOS GENERALES").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CCA").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            if (CCA == 0)
-            {
-                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("No Aplica").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            }
-            else
-            {
-                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(CCA / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            }
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Peso / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Voltaje / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Minimo").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado Final").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Calificacion").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Nominal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(ResultadoFinal / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Calificacion / contador, 1) + "%").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("PROMEDIOS GENERALES").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso(kg)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje(OCV)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CCA(Electronic Tester)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Densidad (gr/cm3)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
 
-            document.Add(header);
-            document.Add(Espacio);
-            document.Add(Modelo);
+
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Peso / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Voltaje / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                if (CCA == 0)
+                {
+                    tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("No Aplica").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                }
+                else
+                {
+                    tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(CCA / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                }
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(DensidadPromedio / contador, 3)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Nominal"+tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Mínimo Aceptable").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado Final"+tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Calificación").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + NominalReal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Nominal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(ResultadoFinal / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Calificacion / contador, 1) + "%").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+
+                document.Add(header);
+                document.Add(TipoEnsayo);
             document.Add(tabla.SetHorizontalAlignment(HorizontalAlignment.CENTER));
             document.Add(Espacio);
             document.Add(img);
@@ -1174,7 +1238,6 @@ namespace DacarProsoft.Controllers
             string preAcondicionamiento = "";
             decimal peso = 0;
 
-
             foreach (var x in MedicionDescarga)
             {
                 modeloBateria = x.Modelo;
@@ -1338,6 +1401,67 @@ namespace DacarProsoft.Controllers
                 //throw new Exception("No se ha podido enviar el email", ex.InnerException);
                 return ex.Message;
             }
-        }      
+        }
+        public ActionResult IngresosPruebasCCALocal()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                //ConexionAccess conexion = new ConexionAccess();
+
+                daoUtilitarios = new DaoUtilitarios();
+                daoCalidad = new DaoCalidad();
+
+                var datModelosMarcasPropias = daoCalidad.ConsultarModelosMarcasPropias();
+
+                var datMarcas = daoCalidad.MarcaBateria();
+                var datTipoNorma = daoCalidad.TipoNorma();
+                var Normativa = daoCalidad.Normativa();
+                var datSeparador = daoCalidad.Separador();
+                var datTipoEnsayo = daoCalidad.TipoEnsayo();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                ViewBag.MarcasPropias = datModelosMarcasPropias;
+
+                ViewBag.datMarcas = datMarcas;
+                ViewBag.datTipoNorma = datTipoNorma;
+                ViewBag.Normativa = Normativa;
+                ViewBag.datSeparador = datSeparador;
+                ViewBag.datTipoEnsayo = datTipoEnsayo;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public int ConsultarCodigoRegistroPruebaCCALocal()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                int result = daoCalidad.ObtenerCodigoIngresoPruebaCCA();
+
+                return result;
+                //return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
     }
 }

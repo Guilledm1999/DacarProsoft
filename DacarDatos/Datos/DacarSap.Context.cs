@@ -41,7 +41,10 @@ namespace DacarDatos.Datos
         public virtual DbSet<OINV> OINV { get; set; }
         public virtual DbSet<OSLP> OSLP { get; set; }
         public virtual DbSet<ITM1> ITM1 { get; set; }
+        public virtual DbSet<OHEM> OHEM { get; set; }
+        public virtual DbSet<OCTG> OCTG { get; set; }
         public virtual DbSet<IGN1> IGN1 { get; set; }
         public virtual DbSet<PDN1> PDN1 { get; set; }
+        public virtual DbSet<ReporteIngresoChatarraConDesviacionRN> ReporteIngresoChatarraConDesviacionRN { get; set; }
     }
 }

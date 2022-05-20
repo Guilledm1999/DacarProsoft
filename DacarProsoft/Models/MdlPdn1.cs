@@ -16,5 +16,7 @@ namespace DacarProsoft.Models
         public decimal PesoTeoricoSubtotal { set; get; }
         public decimal PesoTeoricoAjustado { set; get; }
         public decimal PesoTeoricoAjustadoTotal { set; get; }
+        public decimal Desviacion { set; get; }
+
     }
 }

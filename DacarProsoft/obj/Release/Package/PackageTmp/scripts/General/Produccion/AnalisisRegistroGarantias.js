@@ -35,9 +35,7 @@ function ConsultaRegistrosGarantias() {
                     scrolling: {
                         mode: 'infinite',
                     },
-                    sorting: {
-                        mode: 'none',
-                    },
+                   
                     headerFilter: {
                         visible: true
                     },

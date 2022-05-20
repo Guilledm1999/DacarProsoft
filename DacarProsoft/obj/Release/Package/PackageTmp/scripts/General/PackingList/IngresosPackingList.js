@@ -27,7 +27,34 @@ function Volumen() {
     var total = ((parseFloat($('#txtLargoPallet').val()) * parseFloat($('#txtAnchoPallet').val()) * parseFloat($('#txtAltoPallet').val())).toFixed(2))/1000000;
     $('#txtVolumenPallet').val(total.toFixed(3));
 }
+function NumeroContenedores() {
+    $('#txtContenedorUno').val("");
+    $('#txtContenedorDos').val("");
+    $('#txtContenedorTres').val("");
 
+    if ($("#txtNumeroContenedores option:selected").val() == 1) {
+        document.getElementById("OcultarContenidoDiv1").style.display = "";
+        document.getElementById("OcultarContenidoDiv2").style.display = "none";
+        document.getElementById("OcultarContenidoDiv3").style.display = "none";
+
+    }
+     if ($("#txtNumeroContenedores option:selected").val() == 2) {
+         document.getElementById("OcultarContenidoDiv1").style.display = "";
+         document.getElementById("OcultarContenidoDiv2").style.display = "";
+         document.getElementById("OcultarContenidoDiv3").style.display = "none";
+    }
+     if ($("#txtNumeroContenedores option:selected").val() == 3) {
+         document.getElementById("OcultarContenidoDiv1").style.display = "";
+         document.getElementById("OcultarContenidoDiv2").style.display = "";
+         document.getElementById("OcultarContenidoDiv3").style.display = "";
+    }
+    if ($("#txtNumeroContenedores option:selected").val() == "") {
+        document.getElementById("OcultarContenidoDiv1").style.display = "none";
+        document.getElementById("OcultarContenidoDiv2").style.display = "none";
+        document.getElementById("OcultarContenidoDiv3").style.display = "none";
+    }
+
+}
 function ConsultarIngresosPacking() {
     $(".result").text("");
     $(".loading-icon").removeClass("hide");
@@ -46,6 +73,9 @@ $('#LinkClose3').on("click", function (e) {
 });
 $('#LinkClose10').on("click", function (e) {
     $("#MensajePackingCompletos").hide('fade');
+});
+$('#LinkCloseCompleteCampos').on("click", function (e) {
+    $("#MensajeCompleteCamposNecesarios").hide('fade');
 });
 
 
@@ -96,8 +126,8 @@ function ConsultarCabeceraOrdenVenta() {
                ConfigDev.allowColumnReordering = true,
               //ConfigDev.allowColumnResizing = true,
                  //ConfigDev.filterRow = { visible: true },
-                 // ConfigDev.filterPanel = { visible: true },
-                  //ConfigDev.headerFilter = { visible: false },
+                  // ConfigDev.filterPanel = { visible: true },
+                  ConfigDev.headerFilter = { visible: true },
                 ConfigDev.columnFixing = {
                     enabled: true
                   },
@@ -114,41 +144,61 @@ function ConsultarCabeceraOrdenVenta() {
                        dataField: "SypExportacion", visible: false,
                    },
                    {
-                       dataField: "NumeroOrden", caption: "Numero Orden", fixed: true, allowEditing: false, alignment: "left"
-                   },
+                       dataField: "NumeroOrden", caption: "Numero Orden", fixed: true, allowEditing: false, alignment: "left", headerFilter: true, allowHeaderFiltering: false
+                  }
+                  ,
+                  {
+                      caption: "Detalle Orden", width:100,
+
+                      cellTemplate: function (container, options) {
+
+                          var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarDetalleIngresosChatarra(" + JSON.stringify(options.data) + ")'>Detalle</button>";
+                          //var lblEspacio = "<a> </a>"
+                          //var btnPackingList = "<button class='btn-warning' onclick='IngresoPalletAct(" + JSON.stringify(options.data) + ")'>Registrar Orden</button>";
+
+
+
+                          $("<div>")
+                              .append($(btnDetalle)/*, $(lblEspacio), $(btnPackingList)*/)
+                              .appendTo(container);
+                      }
+                  },
                     {
-                        dataField: "DocNum", caption: "Numero Documento", allowEditing: false, alignment: "left"
-                    },
-                    {
-                        dataField: "DocDate", caption: "Fecha Contabilizacion", allowEditing: false, alignment: "left"
+                        dataField: "DocNum", caption: "Numero Documento", allowEditing: false, alignment: "left", headerFilter: true, allowHeaderFiltering: false
+                  },
+                  {
+                      dataField: "Mes", caption: "Mes", allowEditing: false, alignment: "left", headerFilter: true, allowHeaderFiltering: true
+                  },
+                  {
+                      dataField: "DocDate", caption: "Fecha Contabilizacion", allowEditing: false, alignment: "left", headerFilter: true, allowHeaderFiltering: false, visible:false
                     },
                    {
-                       dataField: "TaxDate", caption: "Fecha Documento", allowEditing: false, alignment: "left"
+                       dataField: "TaxDate", caption: "Fecha Documento", allowEditing: false, alignment: "left", headerFilter: true, allowHeaderFiltering: false
                    },
                    {
-                       dataField: "CardCode", caption: "Identificacion", allowEditing: false, alignment: "left"
+                       dataField: "CardCode", caption: "Identificacion", allowEditing: false, alignment: "left", headerFilter: true, allowHeaderFiltering: false, visible: false
                    },
                     {
-                        dataField: "CardName", caption: "Cliente", allowEditing: false, alignment: "left"
+                        dataField: "CardName", caption: "Cliente", allowEditing: false, alignment: "left", headerFilter: true, allowHeaderFiltering: false
                     },
                     {
-                        dataField: "DocTotal", caption: "Valor Total", alignment: "right", visible: false, calculateCellValue: function (rowData) {
+                      dataField: "DocTotal", caption: "Valor Total", alignment: "right", visible: false, headerFilter: true, allowHeaderFiltering: false, calculateCellValue: function (rowData) {
                             return (rowData.DocTotal).toFixed(2);
                         }
                     },  
                    {
-                       caption: "Acciones",
+                       caption: "Acciones", width: 140,
 
                        cellTemplate: function (container, options) {
 
-                           var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarDetalleIngresosChatarra(" + JSON.stringify(options.data) + ")'>Detalle</button>";
-                           var lblEspacio = "<a> </a>"
-                           var btnPackingList = "<button class='btn-warning' onclick='IngresoPalletAct(" + JSON.stringify(options.data) + ")'>Packing List</button>";
+                           //var btnDetalle = "<button class='btn-primary' onclick='ModalConsultarDetalleIngresosChatarra(" + JSON.stringify(options.data) + ")'>Detalle de Orden</button>";
+                           //var lblEspacio = "<a> </a>"
+                           var btnPackingList = "<button class='btn-warning' onclick='IngresoPalletAct(" + JSON.stringify(options.data) + ")'>Registrar Orden</button>";
                           
 
 
                            $("<div>")
-                               .append($(btnDetalle), $(lblEspacio), $(btnPackingList))
+                               .append(/*$(btnDetalle), $(lblEspacio),*/ $(btnPackingList))
                                .appendTo(container);
                        }
                    }
@@ -173,12 +223,15 @@ function ConsultarCabeceraOrdenVenta() {
 function ModalConsultarDetalleIngresosChatarra(modelo) {
     var urlcontrolador = null;
 
-    if (variable = 1) {
-        urlcontrolador = "../PackingList/ConsultaOrdenVentaDetalle?DocEntry=" + modelo.DocEntry;
-    }
-    if (variable = 2) {
-        urlcontrolador = "../PackingList/ConsultaFactReservaDetalle?DocEntry=" + modelo.DocEntry;
-    }
+    //if (variable = 1) {
+
+    urlcontrolador = "../PackingList/ConsultaOrdenVentaDetalle?DocEntry=" + modelo.DocEntry;
+    //console.log("url:" + urlcontrolador);
+    //console.log("doc entry:" + modelo.DocEntry);
+    //}
+    //if (variable = 2) {
+       // urlcontrolador = "../PackingList/ConsultaFactReservaDetalle?DocEntry=" + modelo.DocEntry;
+    //}
 
     $.ajax({
         url: urlcontrolador,
@@ -354,27 +407,60 @@ function IngresoPalletAct(modelo) {
 
 
 $('#RegistrarPaking').on("click", function (e) {
-    RegistrarPacking();
+    validarIngresos();
 });
+function validarIngresos() {
+    var valor1 = $("#txtOrdenAct").val();
+    var valor3 = $("#txtNumeroContenedores").val();
+  
+    if (valor1.length == 0) {
+        $("#MensajeCompleteCamposNecesarios").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposNecesarios").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+
+    if (valor3.length == 0) {
+        $("#MensajeCompleteCamposNecesarios").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCamposNecesarios").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    RegistrarPacking();
+}
 
 function RegistrarPacking() {
+    var NumeroCont = $("#txtNumeroContenedores").val();
     $.ajax({
         url: "../PackingList/RegistrarPallet",
         type: "POST",
         data: {
-            NumeroDocumento: $("#txtDocAct").val(), NumeroOrden: $("#txtOrdenAct").val(), NombreCliente: $("#txtClienteAct").val(), Origen: $("#txtOrigenAct").val(), Destino: $("#txtDestinoAct option:selected").text(), CantidadPallet: $("#txtCantidadPallet").val(), IdentificadorDetalle: IdentificadorDetalle, tipo: $("#TipoBusqueda").val(), vari: variable, Sucursal: $("#txtSucursal").val()
+            NumeroDocumento: $("#txtDocAct").val(), NumeroOrden: $("#txtOrdenAct").val(), NombreCliente: $("#txtClienteAct").val(), Origen: $("#txtOrigenAct").val(), Destino: $("#txtDestinoAct option:selected").text(), IdentificadorDetalle: IdentificadorDetalle, tipo: $("#TipoBusqueda").val(), vari: variable, Sucursal: $("#txtSucursal").val(),
+            numeroContenedor: NumeroCont,
         },
         success: function (msg) {
-            IdentificadorPaking = msg;
-            ConsultaEstado();
-            $("#txtSucursal").val("");
-            $("#txtCantidadPallet").val("");
+            if (msg==0) {
+                $("#ModalIngresoPalletAct").modal("hide");
+                $("#MensajeErrorGuardado").show('fade');
+                setTimeout(function () {
+                    $("#MensajeErrorGuardado").fadeOut(1500);
+                }, 3000);
+            }
+            else {
+                location.href = "../PackingList/ListadoPackingList";
+            }
 
-            $("#ModalIngresoPalletAct").modal("hide");
-            ConsultarCabeceraOrdenVenta();
-            $("#txtCantidadPallet").val();
+            //alert("Listo");
+            //IdentificadorPaking = msg;
+            //ConsultaEstado();
+            //$("#txtSucursal").val("");
+            //$("#txtCantidadPallet").val("");
 
-
+            //$("#ModalIngresoPalletAct").modal("hide");
+            //ConsultarCabeceraOrdenVenta();
+            //$("#txtCantidadPallet").val();
         },
         error: function (msg) {
             $("#ModalIngresoPalletAct").modal("hide");
@@ -468,7 +554,6 @@ function AbrirPallet() {
     //if (variable = 2) {
     //    urlcontrolador2 = "../PackingList/ConsultaFactReservaDetalle?DocEntry=" + modelo.DocEntry;
     //}
-
 
     $.ajax({
         url: "../PackingList/ObtenerDetallePallet?IdentificadorPacking=" + IdentificadorPaking,
