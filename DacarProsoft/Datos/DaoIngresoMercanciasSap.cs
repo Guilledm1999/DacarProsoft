@@ -12,7 +12,6 @@ namespace DacarProsoft.Datos
     public class DaoIngresoMercanciasSap
     {
         private DaoUtilitarios daoUtilitarios { get; set; } = null;
-
         public List<Moign> ListadoCabeceraChatarraSap(string tipoIngreso)
         {
             string clienteLinea=null;
@@ -62,8 +61,7 @@ namespace DacarProsoft.Datos
                             clienteClase = y.ClienteClase;
                             codGroup = y.GroupCode;
                         }
-
-                            DateTime fechaDoc = Convert.ToDateTime(x.DocDate, CultureInfo.InvariantCulture);
+                        DateTime fechaDoc = Convert.ToDateTime(x.DocDate, CultureInfo.InvariantCulture);
                         string fechaDocumento = fechaDoc.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                         String Comentario = x.Comments;
                         decimal kilo = 0;
@@ -87,7 +85,6 @@ namespace DacarProsoft.Datos
                         else
                         {
                             NumeroOrdenCliente = x.U_SYP_NUMOCCL;
-
                         }
                         lst.Add(new Moign
                         {
@@ -1483,7 +1480,6 @@ namespace DacarProsoft.Datos
                 {
                     dias = x.NumeroDias.Value;
                 }
-
                 return dias;
             }
         }
@@ -1497,27 +1493,20 @@ namespace DacarProsoft.Datos
         public List<SelectListItem> ConsultarAniosVentas()
         {
             DateTime fechaActual = DateTime.Now;
-
             List<SelectListItem> anios = new List<SelectListItem>();
             int ano = Convert.ToInt32(fechaActual.Year);
             int i = 0;
-
             for (i = 0; i <= 3; i++)
             {
                 anios.Add(new SelectListItem() { Text = Convert.ToString(ano - i), Value = Convert.ToString(ano - i) });
-
             }
             return anios;
-
         }
-
 
         public List<DetalleChatarraGuardado> DetallaModificacionChatarra(int DocEntry,int ModoIngreso)
         {
             List<DetalleChatarraGuardado> lst = new List<DetalleChatarraGuardado>();
-
             var modoIngr = ConsultarModoIngreso(DocEntry);
-
             if (modoIngr == 1)
             {
                 using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -1553,9 +1542,7 @@ namespace DacarProsoft.Datos
                    PesoTeoricoAjustadoTotal=x.PesoTotalAjustado.Value
 
                         });
-
                     }
-
                     return lst;
                 }
             }
@@ -1594,19 +1581,13 @@ namespace DacarProsoft.Datos
                             PesoNetoTipo=x.PesoNetoIndividual.Value,
                             PesoTeoricoAjustado = x.PesoUnitarioAjustado.Value,
                             PesoTeoricoAjustadoTotal = x.PesoTotalAjustado.Value,
-                            DesviacionIndividual=x.DesviacionIndividual.Value
-                            
+                            DesviacionIndividual=x.DesviacionIndividual.Value                          
                         });
-
                     }
-
                     return lst;
                 }
-
             }
-
         }
-
         public int ConsultarModoIngreso(int DocEntry)
         {
             int val = 0;
@@ -1623,7 +1604,6 @@ namespace DacarProsoft.Datos
                 {
                     val = x.ModoIngreso.Value;
                 }
-
                 return val;
             }
         }
@@ -1631,7 +1611,6 @@ namespace DacarProsoft.Datos
         public bool GuardarActualizacionDetalle(int ChatarraDetalleId, decimal PesoUnitarioAjustado, decimal PesoTotalAjustado)
         {
             List<IngresosChatarras> lst = new List<IngresosChatarras>();
-
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
                 var regi = (from d in DB.ChatarraDetalle                               
@@ -1643,28 +1622,22 @@ namespace DacarProsoft.Datos
                     regi.PesoTotalAjustado = PesoTotalAjustado;
                     DB.SaveChanges();
                     return true;
-
                 }
                 catch (Exception ex) {
                     Console.WriteLine(ex);
                     return false;
-
                 }
-
-            }
-            
+            }           
         }
         public bool GuardarActualizacionDetalleIndividual(int ChatarraDetalleId, decimal PesoIngresadoIndividual, decimal PesoUnitarioAjustado, decimal PesoTotalAjustado, decimal DesviacionIndividual)
         {
             List<IngresosChatarras> lst = new List<IngresosChatarras>();
 
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
-            {
-                
+            {        
                 var regi = (from d in DB.ChatarraDetalleIndividual
                             where d.ChatarraDetalleIndividual1 == ChatarraDetalleId
-                            select d).FirstOrDefault();
-                
+                            select d).FirstOrDefault();               
                 try
                 {
                     regi.PesoNetoIndividual = PesoIngresadoIndividual;
@@ -1673,17 +1646,13 @@ namespace DacarProsoft.Datos
                     regi.DesviacionIndividual = DesviacionIndividual;
                     DB.SaveChanges();
                     return true;
-
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
                     return false;
-
                 }
-
             }
-
         }
         public bool GuardarActualizacionPesosTotales(int DocEntry, decimal PesoTeoricoTotalCal, decimal PesoBultoIng,decimal PesoAjustadoTot,string desviacionTot)
         {
@@ -1703,15 +1672,12 @@ namespace DacarProsoft.Datos
 
                     DB.SaveChanges();
                     return true;
-
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
                     return false;
-
                 }
-
             }
 
         }
@@ -1725,7 +1691,6 @@ namespace DacarProsoft.Datos
                                      {
                                          d.GroupName
                                      };
-
                 foreach (var x in ListadoModelos)
                 {
                     if (x.GroupName != null && x.GroupName != "")
@@ -1752,7 +1717,6 @@ namespace DacarProsoft.Datos
                                                  join e in DB.Chatarra on d.ChatarraId equals e.ChatarraId 
                                                  join f in DB.GrupoClientes on e.CardCode equals f.GroupCode
                                                  //join f in DB.GrupoClientes on e.CardCode equals f.GroupName
-
                                                  where e.FechaRegistro >= fechaInicio && e.FechaRegistro <= fechaFin
                                                  select new
                                                  {
@@ -1775,7 +1739,6 @@ namespace DacarProsoft.Datos
 
                     foreach (var x in ListadoDetalleChatarra)
                     {
-                        //mes=
                         DateTime FechaRegistro = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
                         fechaRegistro = FechaRegistro.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
                         lst.Add(new IngresosGenralesChatarra
@@ -1853,10 +1816,8 @@ namespace DacarProsoft.Datos
                         });
                     }
                     return lst;
-                }
-              
+                }             
             }
-
         }
 
         public List<GenericoParaGroupBy> ReporteClienteChatarrasPorMeses(int anioBusqueda, string NombreCliente)
@@ -1866,7 +1827,6 @@ namespace DacarProsoft.Datos
             List<GenericoParaGroupBy> lst = new List<GenericoParaGroupBy>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
-
                 var Listado = from d in DB.Chatarra join
                               e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry 
                               where 
@@ -1879,7 +1839,6 @@ namespace DacarProsoft.Datos
                                   contador= ut.Sum(val=>val.e.CantidadTotal),
                                   MonthNumber = ut.Key.Month
                               };
-
                 foreach (var x in Listado)
                 {
                     Mes = BuscarNombreMes(x.MonthNumber);
@@ -1890,10 +1849,9 @@ namespace DacarProsoft.Datos
                     });
                 }
                 return lst;
-
             }
-
         }
+
         public List<GenericoParaGroupBy> ReporteGeneralChatarrasPorMeses(int anioBusqueda)
         {
             string Mes;
@@ -1901,10 +1859,9 @@ namespace DacarProsoft.Datos
             List<GenericoParaGroupBy> lst = new List<GenericoParaGroupBy>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
-
                 var Listado = from d in DB.Chatarra
                               join
-        e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
+                              e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
                               where                           
                               d.FechaRegistro.Year == anioBusqueda
                               group new { d, e } by new { d.FechaRegistro.Month } into ut
@@ -1914,7 +1871,6 @@ namespace DacarProsoft.Datos
                                   contador = ut.Sum(val => val.e.CantidadTotal),
                                   MonthNumber = ut.Key.Month
                               };
-
                 foreach (var x in Listado)
                 {
                     Mes = BuscarNombreMes(x.MonthNumber);
@@ -1925,21 +1881,18 @@ namespace DacarProsoft.Datos
                     });
                 }
                 return lst;
-
             }
-
         }
+
         public List<GenericoParaGroupBy> ReporteGeneralChatarrasPorMesesPorTipo(int anioBusqueda, string tipo)
         {
             string Mes;
-
             List<GenericoParaGroupBy> lst = new List<GenericoParaGroupBy>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
-
                 var Listado = from d in DB.Chatarra
                               join
-        e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
+                              e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
                               where
                               d.FechaRegistro.Year == anioBusqueda && d.TipoIngreso == tipo
                               group new { d, e } by new { d.FechaRegistro.Month } into ut
@@ -1949,7 +1902,6 @@ namespace DacarProsoft.Datos
                                   contador = ut.Sum(val => val.e.CantidadTotal),
                                   MonthNumber = ut.Key.Month
                               };
-
                 foreach (var x in Listado)
                 {
                     Mes = BuscarNombreMes(x.MonthNumber);
@@ -1960,10 +1912,9 @@ namespace DacarProsoft.Datos
                     });
                 }
                 return lst;
-
             }
-
         }
+
         public List<GenericoParaGroupBy> ReporteGeneralChatarrasPorMesesPorTipoCliente(int anioBusqueda, int cardCode)
         {
             string Mes;
@@ -1972,7 +1923,6 @@ namespace DacarProsoft.Datos
             List<GenericoParaGroupBy> lst = new List<GenericoParaGroupBy>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
-
                 var Listado = from d in DB.Chatarra
                               join
                               e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
@@ -1998,13 +1948,11 @@ namespace DacarProsoft.Datos
                     });
                 }
                 return lst;
-
             }
-
         }
+
         public string BuscarNombreMes(int num)
         {
-
             string result;
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -2015,9 +1963,7 @@ namespace DacarProsoft.Datos
                                  d.Nombre
                              }).FirstOrDefault();
                 result = valor.Nombre;
-
                 return result;
-
             }
         }
 
@@ -2030,9 +1976,9 @@ namespace DacarProsoft.Datos
 
                 var Listado = from d in DB.ReporteIngresoChatarraConDesviacionRN
                               where d.Fecha.Value.Year== anioBusqueda
-                              orderby d.Fecha.Value.Month
+                              orderby d.Fecha.Value.Month ascending
                               select new
-                              {
+                              {                                
                                   d.N_Documento,
                                   d.Pedido,
                                   d.Identificador,
@@ -2048,7 +1994,8 @@ namespace DacarProsoft.Datos
                                   d.Bodega,
                                   d.Vendedor,
                                   d.Comentarios,
-                                  d.Fecha
+                                  d.Fecha,
+                                  d.DocEntry
                               };
  
                 foreach (var x in Listado)
@@ -2064,9 +2011,9 @@ namespace DacarProsoft.Datos
                             Pedido = x.Pedido,
                             Identificador = x.Identificador,
                             Cliente = x.Cliente,
-                            Tipo_Cliente = x.Tipo_Cliente,
-                            Cliente_Linea = x.Cliente_Linea,
-                            Cliente_Clase = x.Cliente_Clase,
+                            Tipo_Cliente = x.Tipo_Cliente.Trim(new Char[] { ' ', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' }),
+                            Cliente_Linea = x.Cliente_Linea.Trim(new Char[] { ' ', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' }),
+                            Cliente_Clase = x.Cliente_Clase.Trim(new Char[] { ' ', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' }),
                             Tipo_Ingreso = x.Tipo_Ingreso,
                             Cantidad = x.Cantidad,
                             Peso_Teorico = Decimal.Round(x.Peso_Teorico.Value, 2),
@@ -2075,20 +2022,24 @@ namespace DacarProsoft.Datos
                             Bodega = x.Bodega,
                             Vendedor = x.Vendedor,
                             Comentarios = x.Comentarios,
-                            FechaRegistro = fechaRegistro
+                            FechaRegistro = fechaRegistro,
+                            DocEntry=x.DocEntry,
+                            //FechaRegistro2=CultureInfo.InvariantCulture.TextInfo.ToTitleCase((x.Fecha.Value).ToString("MMMM"))
+                            FechaRegistro2 = x.Fecha.Value.Month
                         });
                         contador++;
-                    }
-                   
+                    }                  
                 }
                 return lst;
-
             }
-
         }
+
         public List<Mign1> ListadoNotasCreditoDetalleChatarraSap(int DocEntry)
         {
             decimal pesoChatarra = 0;
+            decimal pesoReal = 0;
+            decimal desviacion= 0;
+            decimal tempDesviacion = 0;
             List<Mign1> lst = new List<Mign1>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
@@ -2102,14 +2053,26 @@ namespace DacarProsoft.Datos
                                                  d.U_DC_PESOBRUTO,
                                                  d.U_DC_PESOREAL,                                     
                                              };
-
                 foreach (var x in ListadoDetalleChatarra)
                 {
-
                     var modeloChatarra = ConsultarModelosPorCodigoItemSap(x.ItemCode);
                     foreach (var y in modeloChatarra)
                     {
                         pesoChatarra = y.PesoArticulo;
+                    }
+                    if (x.U_DC_PESOREAL == null)
+                    {
+                        pesoReal = (x.Quantity.Value * pesoChatarra);
+                    }
+                    else {
+                        pesoReal = x.U_DC_PESOREAL.Value;
+                    }
+                    tempDesviacion = (pesoReal / (x.Quantity.Value * pesoChatarra))*100;
+                    if (tempDesviacion > 100) {
+                        desviacion = 100 - tempDesviacion;
+                    }
+                    else {
+                        desviacion = tempDesviacion - 100;
                     }
                     lst.Add(new Mign1
                     {
@@ -2118,21 +2081,22 @@ namespace DacarProsoft.Datos
                         Description = x.Dscription,
                         Cantidad = Convert.ToInt32(x.Quantity),
                         PesoTeoricoUnitario = pesoChatarra,
-                        //PesoTeoricoSubtotal = (x.Quantity.Value * pesoChatarra),
-                        PesoTeoricoSubtotal = x.U_DC_PESOBRUTO.Value,
-                        PesoIngresado=x.U_DC_PESOREAL.Value
-
-
+                        PesoTeoricoSubtotal = (x.Quantity.Value * pesoChatarra),
+                        PesoIngresado = decimal.Round(pesoReal, 2),
+                        Desviacion = decimal.Round(desviacion, 2),
                     });
                 }
                 return lst;
             }
-
         }
-        public List<MdlPdn1> ListadoCompraDetalleChatarraSap(int DocEntry)
+
+        public List<MdlPdn1> ListadoIngresoCompraDetalleChatarraSap(int DocEntry)
         {
             decimal pesoChatarra = 0;
-            decimal precioChatarra = 0;
+            decimal pesoReal = 0;
+            decimal desviacion = 0;
+            decimal tempDesviacion = 0;
+
             List<MdlPdn1> lst = new List<MdlPdn1>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
@@ -2143,16 +2107,34 @@ namespace DacarProsoft.Datos
                                                  d.ItemCode,
                                                  d.Dscription,
                                                  d.Quantity,
+                                                 d.U_DC_PESOBRUTO,
+                                                 d.U_DC_PESOREAL,
                                              };
 
                 foreach (var x in ListadoDetalleChatarra)
                 {
-                    //var modeloDetalleChatarra=  ConsultarModelosPorDescripcion(x.Dscription);
                     var modeloChatarra = ConsultarModelosPorCodigoItemSap(x.ItemCode);
                     foreach (var y in modeloChatarra)
                     {
                         pesoChatarra = y.PesoArticulo;
-                        precioChatarra = y.UltimoPrecioCompra;
+                    }
+                    if (x.U_DC_PESOREAL == null)
+                    {
+                        pesoReal = (x.Quantity.Value * pesoChatarra);
+                    }
+                    else
+                    {
+                        pesoReal = x.U_DC_PESOREAL.Value;
+                    }
+                    tempDesviacion = (pesoReal / (x.Quantity.Value * pesoChatarra)) * 100;
+
+                    if (tempDesviacion > 100)
+                    {
+                        desviacion = 100 - tempDesviacion;
+                    }
+                    else
+                    {
+                        desviacion = tempDesviacion - 100;
                     }
                     lst.Add(new MdlPdn1
                     {
@@ -2160,17 +2142,14 @@ namespace DacarProsoft.Datos
                         ItemCode = x.ItemCode,
                         Description = x.Dscription,
                         Cantidad = Convert.ToInt32(x.Quantity),
-                        //PesoTeoricoUnitario = decimal.Round(pesoChatarra, 2),
-                        //PesoTeoricoSubtotal = decimal.Round((x.Quantity.Value * pesoChatarra), 2),
-                        PesoTeoricoUnitario = pesoChatarra,
-                        PesoTeoricoSubtotal = (x.Quantity.Value * pesoChatarra),
-                        //PesoTeoricoAjustado = 0,
-                        //PesoTeoricoAjustadoTotal = 0
+                        PesoTeoricoUnitario = decimal.Round(pesoChatarra, 2),
+                        PesoTeoricoSubtotal = decimal.Round((x.Quantity.Value * pesoChatarra), 2),
+                        PesoIngresado = decimal.Round(pesoReal, 2),
+                        Desviacion = decimal.Round(desviacion, 2),
                     });
                 }
                 return lst;
             }
-
         }
     }
 }

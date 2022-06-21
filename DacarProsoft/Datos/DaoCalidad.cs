@@ -257,7 +257,7 @@ namespace DacarProsoft.Datos
         }
         public int IngresarPruebaLaboratorio(DateTime FechaIngreso, int CodigoIngreso, string Marca, string TipoNorma, string Normativa, string PreAcondicionamiento, string TipoBateria, string Modelo, string Separador, string TipoEnsayo, string LoteEnsamble,
             string LoteCarga, int CCA, decimal Peso, decimal Voltaje, decimal DensidadIngreso, decimal DensidadPreAcondicionamiento, decimal TemperaturaIngreso, decimal TemperaturaPrueba, string DatoTeoricoPrueba, decimal ValorObjetivo, decimal ResultadoFinal,
-            string Observaciones, decimal Calificacion)
+            string Observaciones, decimal Calificacion, int CodigoBateria)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -289,6 +289,7 @@ namespace DacarProsoft.Datos
                     result.Observaciones = Observaciones;
                     result.ResultadoFinal = ResultadoFinal;
                     result.Calificacion = Calificacion;
+                    result.CodigoBateria = CodigoBateria;
                     result.FechaRegistro = DateTime.Now;
 
                     DB.PruebaLaboratorioCalidad.Add(result);
@@ -312,7 +313,7 @@ namespace DacarProsoft.Datos
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
                 var Listado = (from d in DB.PruebaLaboratorioCalidad
-                               orderby d.PruebaLaboratorioCalidadId descending
+                               orderby d.PruebaLaboratorioCalidadId ascending
                                select new
                                {
                                    d.PruebaLaboratorioCalidadId,
@@ -340,7 +341,8 @@ namespace DacarProsoft.Datos
                                    d.ResultadoFinal,
                                    d.Observaciones,
                                    d.Calificacion,
-                                   d.FechaRegistro
+                                   d.FechaRegistro,
+                                   d.CodigoBateria
                                }).ToList();
 
                 foreach (var x in Listado.Distinct())
@@ -376,7 +378,8 @@ namespace DacarProsoft.Datos
                         ResultadoFinal=x.ResultadoFinal,
                         Observaciones=x.Observaciones,
                         Calificacion=x.Calificacion,
-                        FechaRegistro= fechaRegistro
+                        FechaRegistro= fechaRegistro,
+                        CodigoBateria=x.CodigoBateria.ToString()
                     });
                 }
                 return lst;

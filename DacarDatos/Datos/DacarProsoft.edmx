@@ -269,6 +269,23 @@
           <Property Name="Valor" Type="int" />
           <Property Name="Estado" Type="bit" />
         </EntityType>
+        <EntityType Name="GenericosItem">
+          <Key>
+            <PropertyRef Name="GenericoItemId" />
+          </Key>
+          <Property Name="GenericoItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GrupoGenericoItem" Type="varchar" MaxLength="255" />
+          <Property Name="ModeloDacar" Type="varchar" MaxLength="255" />
+          <Property Name="NumeroParteCliente" Type="varchar" MaxLength="255" />
+          <Property Name="EtiquetaDatosTecnicos" Type="varchar" MaxLength="255" />
+          <Property Name="Polaridad" Type="varchar" MaxLength="255" />
+          <Property Name="TipoTerminal" Type="varchar" MaxLength="255" />
+          <Property Name="CantidadPiso" Type="int" />
+          <Property Name="PisoMaximo" Type="int" />
+          <Property Name="BateriasPallet" Type="int" />
+          <Property Name="PesoTara" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="FechaRegistro" Type="datetime" />
+        </EntityType>
         <EntityType Name="GrupoClientes">
           <Key>
             <PropertyRef Name="GrupoClienteId" />
@@ -712,6 +729,7 @@
           <Property Name="Observaciones" Type="varchar" MaxLength="255" />
           <Property Name="Calificacion" Type="decimal" Precision="18" Scale="2" />
           <Property Name="FechaRegistro" Type="datetime" />
+          <Property Name="CodigoBateria" Type="int" />
         </EntityType>
         <EntityType Name="PruebasLaboratorioCCA">
           <Key>
@@ -1153,6 +1171,7 @@
           <EntitySet Name="EstadosPedidosSelect" EntityType="Self.EstadosPedidosSelect" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FechasPedidos" EntityType="Self.FechasPedidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="Self.FiltrosCategoriaReporteGarantias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GenericosItem" EntityType="Self.GenericosItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GuiaPackingList" EntityType="Self.GuiaPackingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />
@@ -1471,6 +1490,7 @@
           </AssociationSet>
           <EntitySet Name="GuiaPackingList" EntityType="DacarProsoftModel.GuiaPackingList" />
           <EntitySet Name="PruebasLaboratorioCCA" EntityType="DacarProsoftModel.PruebasLaboratorioCCA" />
+          <EntitySet Name="GenericosItem" EntityType="DacarProsoftModel.GenericosItem" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -2399,6 +2419,7 @@
           <Property Name="Observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Calificacion" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <Property Name="CodigoBateria" Type="Int32" />
         </EntityType>
         <EntityType Name="AutorizacionPackingList">
           <Key>
@@ -2613,6 +2634,23 @@
           <Property Name="Observaciones" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="TipoPruebaCCA" Type="Int32" />
           <Property Name="NumeroOrden" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GenericosItem">
+          <Key>
+            <PropertyRef Name="GenericoItemId" />
+          </Key>
+          <Property Name="GenericoItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GrupoGenericoItem" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ModeloDacar" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroParteCliente" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EtiquetaDatosTecnicos" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Polaridad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TipoTerminal" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CantidadPiso" Type="Int32" />
+          <Property Name="PisoMaximo" Type="Int32" />
+          <Property Name="BateriasPallet" Type="Int32" />
+          <Property Name="PesoTara" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3399,6 +3437,7 @@
           <EntitySetMapping Name="PruebaLaboratorioCalidad">
             <EntityTypeMapping TypeName="DacarProsoftModel.PruebaLaboratorioCalidad">
               <MappingFragment StoreEntitySet="PruebaLaboratorioCalidad">
+                <ScalarProperty Name="CodigoBateria" ColumnName="CodigoBateria" />
                 <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
                 <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
                 <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
@@ -3582,6 +3621,24 @@
                 <ScalarProperty Name="CodigoIngreso" ColumnName="CodigoIngreso" />
                 <ScalarProperty Name="FechaPrueba" ColumnName="FechaPrueba" />
                 <ScalarProperty Name="PruebasLaboratorioCCAId" ColumnName="PruebasLaboratorioCCAId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GenericosItem">
+            <EntityTypeMapping TypeName="DacarProsoftModel.GenericosItem">
+              <MappingFragment StoreEntitySet="GenericosItem">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="PesoTara" ColumnName="PesoTara" />
+                <ScalarProperty Name="BateriasPallet" ColumnName="BateriasPallet" />
+                <ScalarProperty Name="PisoMaximo" ColumnName="PisoMaximo" />
+                <ScalarProperty Name="CantidadPiso" ColumnName="CantidadPiso" />
+                <ScalarProperty Name="TipoTerminal" ColumnName="TipoTerminal" />
+                <ScalarProperty Name="Polaridad" ColumnName="Polaridad" />
+                <ScalarProperty Name="EtiquetaDatosTecnicos" ColumnName="EtiquetaDatosTecnicos" />
+                <ScalarProperty Name="NumeroParteCliente" ColumnName="NumeroParteCliente" />
+                <ScalarProperty Name="ModeloDacar" ColumnName="ModeloDacar" />
+                <ScalarProperty Name="GrupoGenericoItem" ColumnName="GrupoGenericoItem" />
+                <ScalarProperty Name="GenericoItemId" ColumnName="GenericoItemId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

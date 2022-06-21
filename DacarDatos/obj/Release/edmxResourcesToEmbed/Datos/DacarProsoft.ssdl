@@ -264,6 +264,23 @@
     <Property Name="Valor" Type="int" />
     <Property Name="Estado" Type="bit" />
   </EntityType>
+  <EntityType Name="GenericosItem">
+    <Key>
+      <PropertyRef Name="GenericoItemId" />
+    </Key>
+    <Property Name="GenericoItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GrupoGenericoItem" Type="varchar" MaxLength="255" />
+    <Property Name="ModeloDacar" Type="varchar" MaxLength="255" />
+    <Property Name="NumeroParteCliente" Type="varchar" MaxLength="255" />
+    <Property Name="EtiquetaDatosTecnicos" Type="varchar" MaxLength="255" />
+    <Property Name="Polaridad" Type="varchar" MaxLength="255" />
+    <Property Name="TipoTerminal" Type="varchar" MaxLength="255" />
+    <Property Name="CantidadPiso" Type="int" />
+    <Property Name="PisoMaximo" Type="int" />
+    <Property Name="BateriasPallet" Type="int" />
+    <Property Name="PesoTara" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="FechaRegistro" Type="datetime" />
+  </EntityType>
   <EntityType Name="GrupoClientes">
     <Key>
       <PropertyRef Name="GrupoClienteId" />
@@ -707,6 +724,7 @@
     <Property Name="Observaciones" Type="varchar" MaxLength="255" />
     <Property Name="Calificacion" Type="decimal" Precision="18" Scale="2" />
     <Property Name="FechaRegistro" Type="datetime" />
+    <Property Name="CodigoBateria" Type="int" />
   </EntityType>
   <EntityType Name="PruebasLaboratorioCCA">
     <Key>
@@ -1148,6 +1166,7 @@
     <EntitySet Name="EstadosPedidosSelect" EntityType="Self.EstadosPedidosSelect" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FechasPedidos" EntityType="Self.FechasPedidos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="Self.FiltrosCategoriaReporteGarantias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GenericosItem" EntityType="Self.GenericosItem" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GuiaPackingList" EntityType="Self.GuiaPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />

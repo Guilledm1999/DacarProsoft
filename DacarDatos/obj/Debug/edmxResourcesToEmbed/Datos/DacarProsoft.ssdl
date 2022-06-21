@@ -707,6 +707,7 @@
     <Property Name="Observaciones" Type="varchar" MaxLength="255" />
     <Property Name="Calificacion" Type="decimal" Precision="18" Scale="2" />
     <Property Name="FechaRegistro" Type="datetime" />
+    <Property Name="CodigoBateria" Type="int" />
   </EntityType>
   <EntityType Name="PruebasLaboratorioCCA">
     <Key>

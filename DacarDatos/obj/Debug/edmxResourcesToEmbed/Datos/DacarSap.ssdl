@@ -4538,9 +4538,11 @@
 advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.ReporteIngresoChatarraConDesviacionRN' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="ReporteIngresoChatarraConDesviacionRN">
     <Key>
+      <PropertyRef Name="DocEntry" />
       <PropertyRef Name="Tipo_Cliente" />
       <PropertyRef Name="Tipo_Ingreso" />
     </Key>
+    <Property Name="DocEntry" Type="int" Nullable="false" />
     <Property Name="N_Documento" Type="int" />
     <Property Name="Pedido" Type="nvarchar" MaxLength="20" />
     <Property Name="Identificador" Type="nvarchar" MaxLength="15" />
@@ -4666,6 +4668,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
     <EntitySet Name="RDR1" EntityType="Self.RDR1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ReporteIngresoChatarraConDesviacionRN" EntityType="Self.ReporteIngresoChatarraConDesviacionRN" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
+    [ReporteIngresoChatarraConDesviacionRN].[DocEntry] AS [DocEntry], 
     [ReporteIngresoChatarraConDesviacionRN].[N_Documento] AS [N_Documento], 
     [ReporteIngresoChatarraConDesviacionRN].[Pedido] AS [Pedido], 
     [ReporteIngresoChatarraConDesviacionRN].[Identificador] AS [Identificador], 

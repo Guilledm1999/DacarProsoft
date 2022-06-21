@@ -8,7 +8,6 @@
     var ani = ViewBag.anos;
 }
 <br />
-
 <style>
     #IngresosdeChatarras {
         margin-top: 20px;
@@ -35,7 +34,6 @@
     #IngresosdeChatarras .dec {
         color: #f00;
     }
-
         #IngresosdeChatarras .inc .arrow,
         #IngresosdeChatarras .dec .arrow {
             display: inline-block;
@@ -146,9 +144,269 @@
             <div class="modal-body">
                 <div id="ChatarraDetalle"></div>
             </div>
-            <div class="modal-footer">               
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<div id="ModalReporteChatarra" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form>
+                    <div class="form-row">
+                        <h4 class="modal-title" id="lblDetallePackingList">Reporte de Ingresos de Chatarra</h4>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="vendedor-tab" data-toggle="tab" href="#vendedor" role="tab" aria-controls="home" aria-selected="true">Vendedor</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="tipCliente-tab" data-toggle="tab" href="#tipCliente" role="tab" aria-controls="profile" aria-selected="false">Tipo Cliente</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="clienteLinea-tab" data-toggle="tab" href="#clienteLinea" role="tab" aria-controls="contact" aria-selected="false">Cliente Linea</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="clienteClase-tab" data-toggle="tab" href="#clienteClase" role="tab" aria-controls="home" aria-selected="true">Cliente Clase</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="tipoIngreso-tab" data-toggle="tab" href="#tipoIngreso" role="tab" aria-controls="profile" aria-selected="false">Tipo Ingreso</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="meses-tab" data-toggle="tab" href="#meses" role="tab" aria-controls="contact" aria-selected="false">Meses</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>              
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">      
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="vendedor" role="tabpanel" aria-labelledby="home-tab">
+                        <form>
+                            <div class="form-row">
+                                @*<div class="form-group col-md-12">
+                                    <div align="center">
+                                        <h5 for="formGroupExampleInput">Vendedores</h5>
+                                    </div>
+                                </div>*@
+                                <div class="form-group col-md-3">
+                                    <div class="form-group col-md-12">
+                                        <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputPassword4">Cantidad Total</label>
+                                        <input type="text" class="form-control" id="txtCantidadTotalVen" readonly>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Peso Total(Kg)</label>
+                                        <input type="text" class="form-control" id="txtPesoTotalVen" readonly>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Desviacion Total%</label>
+                                        <input type="text" class="form-control" id="txtDesviacionVen" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <div id="DetalleFinalChatarrasVendedor"></div>                                   
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12">
+                                        <canvas id="myChart1" style="width:450%;max-width:1100px"></canvas>
+                                    </div>
+                                    @*<div class="form-group col-md-12">
+                                        <canvas id="myChart2" style="width:200%;max-width:800px"></canvas>
+                                    </div>*@
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="tipCliente" role="tabpanel" aria-labelledby="profile-tab">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <div class="form-group col-md-12">
+                                        <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputPassword4">Cantidad Total</label>
+                                        <input type="text" class="form-control" id="txtCantidadTotalTipCien" readonly>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Peso Total(Kg)</label>
+                                        <input type="text" class="form-control" id="txtPesoTotalTipCien" readonly>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Desviacion Total%</label>
+                                        <input type="text" class="form-control" id="txtDesviacionTipCien" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <div id="DetalleFinalChatarrasTipoCliente"></div>
+                                    @*<div class="form-group col-md-12">
+                                        <canvas id="myChart4" style="width:200%;max-width:800px"></canvas>
+                                    </div>*@
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart3" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="clienteLinea" role="tabpanel" aria-labelledby="contact-tab">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <div class="form-group col-md-12">
+                                        <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputPassword4">Cantidad Total</label>
+                                        <input type="text" class="form-control" id="txtCantidadTotalClientLin" readonly>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Peso Total(Kg)</label>
+                                        <input type="text" class="form-control" id="txtPesoTotalClientLin" readonly>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Desviacion Total%</label>
+                                        <input type="text" class="form-control" id="txtDesviacionClientLin" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <div id="DetalleFinalChatarrasClienteLinea"></div>
+                                    @*<div class="form-group col-md-12">
+                                        <canvas id="myChart6" style="width:200%;max-width:800px"></canvas>
+                                    </div>*@
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart5" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="clienteClase" role="tabpanel" aria-labelledby="contact-tab">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <div class="form-group col-md-12">
+                                        <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputPassword4">Cantidad Total</label>
+                                        <input type="text" class="form-control" id="txtCantidadTotalClientClas">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Peso Total(Kg)</label>
+                                        <input type="text" class="form-control" id="txtPesoTotalClientClas" readonly>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Desviacion Total%</label>
+                                        <input type="text" class="form-control" id="txtDesviacionClientClas" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <div id="DetalleFinalChatarrasClienteClase"></div>
+                                    @*<div class="form-group col-md-12">
+                                        <canvas id="myChart8" style="width:200%;max-width:800px"></canvas>
+                                    </div>*@
+
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart7" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="tipoIngreso" role="tabpanel" aria-labelledby="contact-tab">
+                        <form>
+                            <div class="form-row">          
+                                <div class="form-group col-md-3">
+                                    <div class="form-group col-md-12">
+                                        <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputPassword4">Cantidad Total</label>
+                                        <input type="text" class="form-control" id="txtCantidadTotalTipoIng">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Peso Total(Kg)</label>
+                                        <input type="text" class="form-control" id="txtPesoTotalTipoIng" readonly>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Desviacion Total%</label>
+                                        <input type="text" class="form-control" id="txtDesviacionTipoIng" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <div id="DetalleFinalChatarrasTipoIngreso"></div>
+                                    @*<div class="form-group col-md-12">
+                                        <canvas id="myChart10" style="width:200%;max-width:800px"></canvas>
+                                    </div>*@
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart9" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="meses" role="tabpanel" aria-labelledby="contact-tab">
+                        <form>
+                            <div class="form-row">
+                           
+                                <div class="form-group col-md-3">
+                                    <div class="form-group col-md-12">
+                                        <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputPassword4">Cantidad Total</label>
+                                        <input type="text" class="form-control" id="txtCantidadTotalMes">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Peso Total(Kg)</label>
+                                        <input type="text" class="form-control" id="txtPesoTotalMes" readonly>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="inputEmail4">Desviacion Total%</label>
+                                        <input type="text" class="form-control" id="txtDesviacionMes" placeholder="Voltaje" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <div id="DetalleFinalChatarrasMeses"></div>
+                                    @*<div class="form-group col-md-12">
+                                        <canvas id="myChart12" style="width:200%;max-width:800px"></canvas>
+                                    </div>*@
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart11" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>  
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-primary" onclick="GenerarPdf();">Imprimir</button>
+                    <button type="button" class="btn btn-success" onclick="AbrirModalEnvio();">Enviar por correo</button>*@
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="txtPesoIngresado" />
+<input type="hidden" id="txtPesoTeorico" />
+<input type="hidden" id="txtCantidadTotal" />
+<input type="hidden" id="txtDesviacionTotal" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>

@@ -780,6 +780,7 @@
     <EntitySetMapping Name="PruebaLaboratorioCalidad">
       <EntityTypeMapping TypeName="DacarProsoftModel.PruebaLaboratorioCalidad">
         <MappingFragment StoreEntitySet="PruebaLaboratorioCalidad">
+          <ScalarProperty Name="CodigoBateria" ColumnName="CodigoBateria" />
           <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
           <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
           <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />

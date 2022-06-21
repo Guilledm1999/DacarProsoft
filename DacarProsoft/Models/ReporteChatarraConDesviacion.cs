@@ -26,6 +26,9 @@ namespace DacarProsoft.Models
         public string Comentarios { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
         public string FechaRegistro { get; set; }
+        public int DocEntry { get; set; }
+        public int FechaRegistro2 { get; set; }
+
 
     }
 }

@@ -3,6 +3,9 @@ var temp = null;
 var char;
 var nominal = null;
 var nominalReal = null;
+var valorteoricoPr = null;
+var resultadofinalPr = null;
+var calificacionPr = null;
 
 $(document).ready(function () {
     ConsultaRegistrosPruebasLaboratorio();
@@ -114,7 +117,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 .appendTo(container);
                         }
                     },
-                    { dataField: "PruebaLaboratorioCalidadId", visible: false },
+                    { dataField: "PruebaLaboratorioCalidadId", visible: false, sortOrder: "desc" },
                     {
                         dataField: "FechaIngreso", caption: "Fecha Ingreso", alignment: "left", dataType: "date", allowHeaderFiltering: true, allowSearch: false, width: 100,
                         headerCellTemplate: function (header, info) {
@@ -135,6 +138,17 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 .appendTo(header);
                         }
                     },
+                    {
+                        dataField: "CodigoBateria", caption: "Codigo Bateria", alignment: "left", allowHeaderFiltering: true, allowSearch: true, width: 100,
+                        headerCellTemplate: function (header, info) {
+                            $('<div>')
+                                .html(info.column.caption)
+                                .css('white-space', 'normal')
+                                .css('text-align', 'center')
+                                .appendTo(header);
+                        }
+                    },
+                    
                     {
                         dataField: "Marca", caption: "Marca", alignment: "left", allowHeaderFiltering: true, allowSearch: true,
                         headerCellTemplate: function (header, info) {
@@ -562,6 +576,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 0 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
+                                    valorteoricoPr = ValTotal;
                                     return ValTotal;
                                 }
                             }
@@ -603,6 +618,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     $("#txtPromedioResultadoFinal").val(ValTotal);
 
+                                    resultadofinalPr = ValTotal;
                                     return ValTotal;
                                 }
                             }
@@ -713,7 +729,6 @@ function ModalObtenerRutaAnexos(valor) {
     $("#ModalAnexos").modal("show");
 }
 
-
 function DescargarAnexo() {
     $("#ModalAnexos").modal("hide");
     var valor = $("#txtAnexoDesc option:selected").val();
@@ -733,6 +748,7 @@ function DatosFiltradosTabla() {
 function ChartResumenesGarantias() {
     const valorModel = valor.find(element => element.Modelo != valor[0].Modelo);
     const valorEnsayo = valor.find(element => element.TipoEnsayo != valor[0].TipoEnsayo);
+    var valorTemp = null;
 
     if (valorModel != null) {
         $("#MensajeDobleModelo").show('fade');
@@ -750,7 +766,23 @@ function ChartResumenesGarantias() {
 
             $("#lblDetallePackingList").text("Analisis Pruebas Laboratorio - Modelo " + valor[0].Modelo);
 
-        $("#ModalInformeGrafica").modal("show");
+
+
+          
+
+            calificacionPr = (resultadofinalPr / valorteoricoPr) * 100;
+
+            console.log("val 1: " + resultadofinalPr);
+            console.log("val 2: " + valorteoricoPr);
+
+            console.log("valor: " + calificacionPr);
+
+            $("#txtPromedioCalificacion").val(calificacionPr.toFixed());
+
+
+            $("#ModalInformeGrafica").modal("show");
+
+
 
         if (char != null) {
             char.destroy();
@@ -761,24 +793,25 @@ function ChartResumenesGarantias() {
         var stock = [];
         var stock2 = [];
         var minimo = [];
+        let pruebaValores=[];
 
+        valorTemp = valor;
+            //valorTemp.reverse();
         var color = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(224, 18, 248, 0.2)', 'rgba(248, 237, 18, 0.2)', 'rgba(18, 248, 237, 0.2)', 'rgba(179, 6, 22, 0.2)', 'rgba(0, 61, 252, 0.2) '];
         var bordercolor = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
 
-
-            if (valor[0].TipoEnsayo == "C20") {
-                valor.reverse();
-
+        if (valor[0].TipoEnsayo == "C20") {
             $.ajax({
                 type: 'POST',
                 url: "../Calidad/ConsultarValorTipoDePrueba",
                 dataType: 'json',
-                data: { modelo: valor[0].Modelo, valor: 1 },
+                data: { modelo: valorTemp[0].Modelo, valor: 1 },
                 success: function (result) {
-                    for (var i in valor) {
-                        
-                        nombre.push(valor[i].CodigoIngreso);
-                        stock.push(valor[i].ResultadoFinal);
+                    for (var i in valorTemp) {
+                        //stock.push({ Resultado: valorTemp[i].ResultadoFinal, Fecha: valorTemp[i].FechaRegistro});
+                        pruebaValores.push({ Resultado: valorTemp[i].ResultadoFinal, Fecha: valorTemp[i].FechaRegistro });
+                        nombre.push(valorTemp[i].CodigoIngreso);
+                        stock.push(valorTemp[i].ResultadoFinal);
                         minimo.push((parseInt(result) * 0.9).toFixed(0));
                         //stock2.push(valor[i].DatoTeoricoPrueba);
                         stock2.push(result);
@@ -789,18 +822,40 @@ function ChartResumenesGarantias() {
                     }
                 },
             })
-        }
-        if (valor[0].TipoEnsayo == "RC") {
-            valor.reverse();
+            }
+            if (valor[0].TipoEnsayo == "C10") {
+                $.ajax({
+                    type: 'POST',
+                    url: "../Calidad/ConsultarValorTipoDePrueba",
+                    dataType: 'json',
+                    data: { modelo: valorTemp[0].Modelo, valor: 1 },
+                    success: function (result) {
+                        for (var i in valorTemp) {
+                            //stock.push({ Resultado: valorTemp[i].ResultadoFinal, Fecha: valorTemp[i].FechaRegistro});
+                            pruebaValores.push({ Resultado: valorTemp[i].ResultadoFinal, Fecha: valorTemp[i].FechaRegistro });
+                            nombre.push(valorTemp[i].CodigoIngreso);
+                            stock.push(valorTemp[i].ResultadoFinal);
+                            minimo.push((parseInt(result) * 0.9).toFixed(0));
+                            //stock2.push(valor[i].DatoTeoricoPrueba);
+                            stock2.push(result);
+                            $("#txtValorNominal").val(parseInt(result));
+                            $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
+                            nominal = (parseInt(result) * 0.9).toFixed(0);
+                            nominalReal = (parseInt(result)).toFixed(0);
+                        }
+                    },
+                })
+            }
+            if (valorTemp[0].TipoEnsayo == "RC") {
             $.ajax({
                 type: 'POST',
                 url: "../Calidad/ConsultarValorTipoDePrueba",
                 dataType: 'json',
-                data: { modelo: valor[0].Modelo, valor: 3 },
+                data: { modelo: valorTemp[0].Modelo, valor: 3 },
                 success: function (result) {
-                    for (var i in valor) {
-                        nombre.push(valor[i].CodigoIngreso);
-                        stock.push(valor[i].ResultadoFinal);
+                    for (var i in valorTemp) {
+                        nombre.push(valorTemp[i].CodigoIngreso);
+                        stock.push(valorTemp[i].ResultadoFinal);
                         minimo.push((parseInt(result) * 0.9).toFixed(0));
                         stock2.push(result);
                         $("#txtValorNominal").val(parseInt(result));
@@ -811,58 +866,49 @@ function ChartResumenesGarantias() {
                     }
                 },
             })
-
         }
-            if (valor[0].TipoEnsayo == "CCA") {
-                valor.reverse();
-
+            if (valorTemp[0].TipoEnsayo == "CCA") {
             $.ajax({
                 type: 'POST',
                 url: "../Calidad/ConsultarValorTipoDePrueba",
                 dataType: 'json',
-                data: { modelo: valor[0].Modelo, valor: 2 },
+                data: { modelo: valorTemp[0].Modelo, valor: 2 },
                 success: function (result) {
-                    for (var i in valor) {
-                        nombre.push(valor[i].CodigoIngreso);
+                    for (var i in valorTemp) {
+                        nombre.push(valorTemp[i].CodigoIngreso);
                         //stock.push(valor[i].CCA);
-                        stock.push(valor[i].ResultadoFinal);
+                        stock.push(valorTemp[i].ResultadoFinal);
                         stock2.push(result);
                         minimo.push((parseInt(result) * 0.9).toFixed(0));
                         $("#txtValorNominal").val(parseInt(result));
                         $("#txtValorObjetivo").val((parseInt(result)).toFixed(0));
                         nominal = (parseInt(result)).toFixed(0);
                         nominalReal = (parseInt(result)).toFixed(0);
-
-
                     }
                 },
             })
-
         }
             if (valor[0].TipoEnsayo == "CICLOS") {
-                valor.reverse();
-
             console.log("CICLOS");
-            for (var i in valor) {
-                nombre.push(valor[i].CodigoIngreso);
-                stock.push(valor[i].ResultadoFinal);
-                stock2.push(valor[i].DatoTeoricoPrueba);
+                for (var i in valorTemp) {
+                    nombre.push(valorTemp[i].CodigoIngreso);
+                    stock.push(valorTemp[i].ResultadoFinal);
+                    stock2.push(valorTemp[i].DatoTeoricoPrueba);
 
-                $("#txtValorNominal").val(parseInt(valor[i].DatoTeoricoPrueba));
+                    $("#txtValorNominal").val(parseInt(valorTemp[i].DatoTeoricoPrueba));
                 minimo.push((parseInt(result) * 0.9).toFixed(0));
-                $("#txtValorObjetivo").val((parseInt(valor[i].DatoTeoricoPrueba * 0.9)));
-                nominal = (valor[i].DatoTeoricoPrueba * 0.9);
-                nominalReal = (valor[i].DatoTeoricoPrueba);          
+                    $("#txtValorObjetivo").val((parseInt(valorTemp[i].DatoTeoricoPrueba * 0.9)));
+                    nominal = (valorTemp[i].DatoTeoricoPrueba * 0.9);
+                    nominalReal = (valorTemp[i].DatoTeoricoPrueba);
                 //DatoTeoricoPrueba
             }
-
-        }
-
+            }
+            console.log("prueba result:" + JSON.stringify(pruebaValores));
             //FechaIngreso
         var chartdata = {
             labels: nombre,
             datasets: [{
-                label: 'Resultado',
+                label: "Resultado:",
                 backgroundColor: color,
                 borderColor: color,
                 borderWidth: 2,
@@ -870,9 +916,9 @@ function ChartResumenesGarantias() {
                 backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
                 borderColor: 'rgba(7,59,251,0.5)',// Color del borde
                 data: stock,
-                pointRadius: 5,
-                pointHoverRadius: 10,
-                pointHitRadius: 30,
+                pointRadius: 3,
+                pointHoverRadius: 4,
+                pointHitRadius: 10,
                 fill: false
             },
             {
@@ -884,9 +930,9 @@ function ChartResumenesGarantias() {
                 backgroundColor: 'rgba(251, 7, 7, 0.5)',// Color de fondo
                 borderColor: 'rgba(251, 7, 7, 0.5)',// Color del borde
                 data: stock2,
-                pointRadius: 5,
-                pointHoverRadius: 10,
-                pointHitRadius: 30,
+                pointRadius: 0,
+                pointHoverRadius: 1,
+                pointHitRadius: 1,
                 fill: false
                 }
                 ,
@@ -899,9 +945,9 @@ function ChartResumenesGarantias() {
                     backgroundColor: 'rgba(255, 236, 0, 0.5)',// Color de fondo
                     borderColor: 'rgba(255, 236, 0, 0.5)',// Color del borde
                     data: minimo,
-                    pointRadius: 5,
-                    pointHoverRadius: 10,
-                    pointHitRadius: 30,
+                    pointRadius: 0,
+                    pointHoverRadius: 1,
+                    pointHitRadius: 1,
                     //pointBorderWidth: 2,
                     lineTension: 0,
                     //backgroundColor: 'transparent',
@@ -957,7 +1003,7 @@ function ChartResumenesGarantias() {
                 //},
                 title: {
                     display: true,
-                    text: 'Tipo de ensayo ' + valor[0].TipoEnsayo,
+                    text: 'Tipo de ensayo ' + valorTemp[0].TipoEnsayo,
                     fontSize: 18,
                 },
 

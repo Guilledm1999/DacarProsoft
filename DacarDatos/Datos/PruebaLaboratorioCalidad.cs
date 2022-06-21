@@ -40,5 +40,6 @@ namespace DacarDatos.Datos
         public string Observaciones { get; set; }
         public Nullable<decimal> Calificacion { get; set; }
         public Nullable<System.DateTime> FechaRegistro { get; set; }
+        public Nullable<int> CodigoBateria { get; set; }
     }
 }

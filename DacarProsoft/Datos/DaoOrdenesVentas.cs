@@ -70,7 +70,7 @@ namespace DacarProsoft.Datos
                                                    d.U_SYP_NUMOCCL == "8266" || d.U_SYP_NUMOCCL == "ARPO0046750" || d.U_SYP_NUMOCCL == "M61521-1" ||
                                                    d.U_SYP_NUMOCCL == "40104" || d.U_SYP_NUMOCCL == "40105" || d.U_SYP_NUMOCCL == "DAC03-22" || d.U_SYP_NUMOCCL == "36680"
                                                    || d.U_SYP_NUMOCCL == "KENDCR9921" || d.U_SYP_NUMOCCL == "9152021PAM1"
-                                                   || d.U_SYP_NUMOCCL == "DAC03-22" || d.U_SYP_NUMOCCL == "26757" || d.U_SYP_NUMOCCL == "MONICA821F"
+                                                   || d.U_SYP_NUMOCCL == "DAC03-22" || d.U_SYP_NUMOCCL == "26752" || d.U_SYP_NUMOCCL == "MONICA821F"
                                                    || d.U_SYP_NUMOCCL == "M70721-1" || d.U_SYP_NUMOCCL == "I80321-5" || d.U_SYP_NUMOCCL == "N82321-2"
                                                        orderby d.DocDate descending
                                                    //d.U_SYP_EXPORTACION == Exportacion &&

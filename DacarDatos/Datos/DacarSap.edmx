@@ -4543,9 +4543,11 @@
 advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.ReporteIngresoChatarraConDesviacionRN' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ReporteIngresoChatarraConDesviacionRN">
           <Key>
+            <PropertyRef Name="DocEntry" />
             <PropertyRef Name="Tipo_Cliente" />
             <PropertyRef Name="Tipo_Ingreso" />
           </Key>
+          <Property Name="DocEntry" Type="int" Nullable="false" />
           <Property Name="N_Documento" Type="int" />
           <Property Name="Pedido" Type="nvarchar" MaxLength="20" />
           <Property Name="Identificador" Type="nvarchar" MaxLength="15" />
@@ -4671,6 +4673,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySet Name="RDR1" EntityType="Self.RDR1" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReporteIngresoChatarraConDesviacionRN" EntityType="Self.ReporteIngresoChatarraConDesviacionRN" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [ReporteIngresoChatarraConDesviacionRN].[DocEntry] AS [DocEntry], 
     [ReporteIngresoChatarraConDesviacionRN].[N_Documento] AS [N_Documento], 
     [ReporteIngresoChatarraConDesviacionRN].[Pedido] AS [Pedido], 
     [ReporteIngresoChatarraConDesviacionRN].[Identificador] AS [Identificador], 
@@ -9411,6 +9414,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <Key>
             <PropertyRef Name="Tipo_Cliente" />
             <PropertyRef Name="Tipo_Ingreso" />
+            <PropertyRef Name="DocEntry" />
           </Key>
           <Property Name="N_Documento" Type="Int32" />
           <Property Name="Pedido" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -9428,6 +9432,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <Property Name="Vendedor" Type="String" MaxLength="155" FixedLength="false" Unicode="true" />
           <Property Name="Comentarios" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
           <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="DocEntry" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -14064,6 +14069,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySetMapping Name="ReporteIngresoChatarraConDesviacionRN">
             <EntityTypeMapping TypeName="SBODACARPRODModel.ReporteIngresoChatarraConDesviacionRN">
               <MappingFragment StoreEntitySet="ReporteIngresoChatarraConDesviacionRN">
+                <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Comentarios" ColumnName="Comentarios" />
                 <ScalarProperty Name="Vendedor" ColumnName="Vendedor" />

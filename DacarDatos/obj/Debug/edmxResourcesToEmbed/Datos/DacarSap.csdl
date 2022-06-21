@@ -4643,6 +4643,7 @@
     <Key>
       <PropertyRef Name="Tipo_Cliente" />
       <PropertyRef Name="Tipo_Ingreso" />
+      <PropertyRef Name="DocEntry" />
     </Key>
     <Property Name="N_Documento" Type="Int32" />
     <Property Name="Pedido" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
@@ -4660,5 +4661,6 @@
     <Property Name="Vendedor" Type="String" MaxLength="155" FixedLength="false" Unicode="true" />
     <Property Name="Comentarios" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
     <Property Name="Fecha" Type="DateTime" Precision="3" />
+    <Property Name="DocEntry" Type="Int32" Nullable="false" />
   </EntityType>
 </Schema>

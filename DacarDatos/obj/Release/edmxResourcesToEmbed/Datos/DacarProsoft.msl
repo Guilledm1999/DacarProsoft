@@ -780,6 +780,7 @@
     <EntitySetMapping Name="PruebaLaboratorioCalidad">
       <EntityTypeMapping TypeName="DacarProsoftModel.PruebaLaboratorioCalidad">
         <MappingFragment StoreEntitySet="PruebaLaboratorioCalidad">
+          <ScalarProperty Name="CodigoBateria" ColumnName="CodigoBateria" />
           <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
           <ScalarProperty Name="Calificacion" ColumnName="Calificacion" />
           <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
@@ -963,6 +964,24 @@
           <ScalarProperty Name="CodigoIngreso" ColumnName="CodigoIngreso" />
           <ScalarProperty Name="FechaPrueba" ColumnName="FechaPrueba" />
           <ScalarProperty Name="PruebasLaboratorioCCAId" ColumnName="PruebasLaboratorioCCAId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GenericosItem">
+      <EntityTypeMapping TypeName="DacarProsoftModel.GenericosItem">
+        <MappingFragment StoreEntitySet="GenericosItem">
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="PesoTara" ColumnName="PesoTara" />
+          <ScalarProperty Name="BateriasPallet" ColumnName="BateriasPallet" />
+          <ScalarProperty Name="PisoMaximo" ColumnName="PisoMaximo" />
+          <ScalarProperty Name="CantidadPiso" ColumnName="CantidadPiso" />
+          <ScalarProperty Name="TipoTerminal" ColumnName="TipoTerminal" />
+          <ScalarProperty Name="Polaridad" ColumnName="Polaridad" />
+          <ScalarProperty Name="EtiquetaDatosTecnicos" ColumnName="EtiquetaDatosTecnicos" />
+          <ScalarProperty Name="NumeroParteCliente" ColumnName="NumeroParteCliente" />
+          <ScalarProperty Name="ModeloDacar" ColumnName="ModeloDacar" />
+          <ScalarProperty Name="GrupoGenericoItem" ColumnName="GrupoGenericoItem" />
+          <ScalarProperty Name="GenericoItemId" ColumnName="GenericoItemId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

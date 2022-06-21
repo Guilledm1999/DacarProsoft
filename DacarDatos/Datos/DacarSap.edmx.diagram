@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f8e82c6b3396462ea4acac122b5e85d1" Name="Diagram1" ZoomLevel="72">
+      <Diagram DiagramId="f8e82c6b3396462ea4acac122b5e85d1" Name="Diagram1" ZoomLevel="10">
         <EntityTypeShape EntityType="SBODACARPRODModel.OCRD" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SBODACARPRODModel.vConsultaArticulos" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SBODACARPRODModel.VU_REPORTEPRODUCCION" Width="1.5" PointX="6.375" PointY="0.75" />

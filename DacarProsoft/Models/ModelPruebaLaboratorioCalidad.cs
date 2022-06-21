@@ -34,6 +34,8 @@ namespace DacarProsoft.Models
         public Nullable<decimal> Calificacion { get; set; }
         public string FechaRegistro { get; set; }
         public int ContadorRegistros { get; set; }
+        public string CodigoBateria { get; set; }
+
 
     }
 }

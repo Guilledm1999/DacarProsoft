@@ -10,7 +10,6 @@ using System.Web.Mvc;
 
 namespace DacarProsoft.Datos
 {
-
     public class DaoArticulos
     {
         public Conexion conexion = new Conexion();

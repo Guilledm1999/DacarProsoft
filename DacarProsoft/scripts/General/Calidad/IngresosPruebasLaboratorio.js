@@ -40,6 +40,7 @@ function RegistrarPrueba() {
     formdata.append("ResultadoFinal", $("#txtResultadoFinal").val());
     formdata.append("Observaciones", $("#txtObservaciones").val());
     formdata.append("Calificacion", $("#txtCalificacion").val());
+    formdata.append("CodigoBateria", $("#txtCodigoBateria").val());
 
     var files = $("#txtAnexos").get(0).files;
 
@@ -106,6 +107,8 @@ function LimpiarResultados() {
     $("#txtResultadoFinal").val("");
     $("#txtObservaciones").val("");
     $("#txtCalificacion").val("");
+    $("#txtCodigoBateria").val("");
+
     $("#txtAnexos").val("");
 }
 
@@ -136,9 +139,18 @@ $('#btnRegistrarPrueba').on("click", function (e) {
     var val22 = $("#txtResultadoFinal").val();
     var val23 = $("#txtObservaciones").val();
     var val24 = $("#txtCalificacion").val();
+    var val25 = $("#txtCodigoBateria").val();
+
     //var Image = $("#txtAnexos").files;
 
     if (val1.length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (val25.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);

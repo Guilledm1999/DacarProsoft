@@ -189,7 +189,7 @@ namespace DacarProsoft.Controllers
                     identificador1 = result;
 
                     if (NumeroOrden == "239"|| NumeroOrden == "04-DACAR2021" || NumeroOrden == "NJ52021-10" || NumeroOrden == "8266" || NumeroOrden == "ARPO0046750" || NumeroOrden == "40104" || NumeroOrden == "40105" || NumeroOrden == "DAC03-22" || NumeroOrden == "04-DACAR2021-B"
-                        || NumeroOrden == "36680" || NumeroOrden == "KENDCR9921" || NumeroOrden == "9152021PAM1" || NumeroOrden == "DAC03-22" || NumeroOrden == "26757" || NumeroOrden == "MONICA821F"
+                        || NumeroOrden == "36680" || NumeroOrden == "KENDCR9921" || NumeroOrden == "9152021PAM1" || NumeroOrden == "DAC03-22" || NumeroOrden == "26752" || NumeroOrden == "MONICA821F"
                                                    || NumeroOrden == "M70721-1" || NumeroOrden == "I80321-5" || NumeroOrden == "N82321-2") {
                         var PackingDetalle = daoOrdenesVentas.ListadoDetalleFacturasReservaSap(IdentificadorDetalle);
                         foreach (var x in PackingDetalle)

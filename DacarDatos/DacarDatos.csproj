@@ -220,6 +220,9 @@
     <Compile Include="Datos\FiltrosCategoriaReporteGarantias.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\GenericosItem.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\GrupoClientes.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>

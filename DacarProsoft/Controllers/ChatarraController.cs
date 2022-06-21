@@ -1394,6 +1394,31 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-        
+        public JsonResult ConsultaDetalleIngresoChatarraSap(int docEntry, string tipo)
+        {
+
+            try
+            {
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+                if (tipo == "Compras")
+                {
+                    var Result = daoIngresoMercanciasSap.ListadoIngresoCompraDetalleChatarraSap(docEntry);
+
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var Result = daoIngresoMercanciasSap.ListadoNotasCreditoDetalleChatarraSap(docEntry);
+
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
     }
 }
