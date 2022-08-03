@@ -12,6 +12,8 @@ namespace DacarProsoft.Models
         public int Cantidad { get; set; }
         public string ItemCode { get; set; }
         public string Descripcion { get; set; }
+        public string NombreForaneo { get; set; }
+        public string NombreGenerico { get; set; }
         public string Text { get; set; }
         public decimal Precio { get; set; }
         public decimal PrecioTotal { get; set; }

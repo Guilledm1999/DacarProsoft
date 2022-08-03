@@ -175,6 +175,22 @@
           <Property Name="DireccionCorreo" Type="varchar" MaxLength="100" />
           <Property Name="ClaveCorreo" Type="varchar" MaxLength="50" />
           <Property Name="Estado" Type="bit" />
+          <Property Name="ClaveLoginCorreo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CronogramaExportacion">
+          <Key>
+            <PropertyRef Name="CronogramaExportacionId" />
+          </Key>
+          <Property Name="CronogramaExportacionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Orden" Type="varchar" MaxLength="255" />
+          <Property Name="Cliente" Type="varchar" MaxLength="255" />
+          <Property Name="FechaPedido" Type="datetime" />
+          <Property Name="FechaDespacho" Type="datetime" />
+          <Property Name="Booking" Type="int" />
+          <Property Name="TotalContenedores" Type="int" />
+          <Property Name="CardCode" Type="varchar" MaxLength="50" />
+          <Property Name="Destino" Type="varchar" MaxLength="150" />
+          <Property Name="FechaZarpe" Type="datetime" />
         </EntityType>
         <EntityType Name="DatosTecnicosCalidadBaterias">
           <Key>
@@ -224,6 +240,21 @@
           </Key>
           <Property Name="DiasBusquedaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NumeroDias" Type="int" />
+        </EntityType>
+        <EntityType Name="DireccionesClientes">
+          <Key>
+            <PropertyRef Name="DireccionesClientesId" />
+          </Key>
+          <Property Name="DireccionesClientesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuarioId" Type="int" />
+          <Property Name="NombreSucursal" Type="varchar" MaxLength="100" />
+          <Property Name="Pais" Type="varchar" MaxLength="100" />
+          <Property Name="Ciudad" Type="varchar" MaxLength="100" />
+          <Property Name="Direccion" Type="varchar" MaxLength="100" />
+          <Property Name="CodigoPostal" Type="varchar" MaxLength="20" />
+          <Property Name="MaximumWeight" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Correo" Type="varchar" MaxLength="100" />
+          <Property Name="Estado" Type="bit" />
         </EntityType>
         <EntityType Name="EstadosOrdenProduccion">
           <Key>
@@ -465,6 +496,17 @@
           <Property Name="Identificador" Type="int" />
           <Property Name="Estado" Type="bit" />
         </EntityType>
+        <EntityType Name="MaestrosUtilitarios">
+          <Key>
+            <PropertyRef Name="MaestrosUtilitariosId" />
+          </Key>
+          <Property Name="MaestrosUtilitariosId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+          <Property Name="Valor" Type="varchar" MaxLength="255" />
+          <Property Name="fechaCreacion" Type="datetime" />
+          <Property Name="fechaActualizacion" Type="datetime" />
+          <Property Name="estado" Type="bit" />
+        </EntityType>
         <EntityType Name="MarcaBateriaPruebaLaboratorio">
           <Key>
             <PropertyRef Name="MarcaBateriaPruebaLaboratorioId" />
@@ -691,6 +733,7 @@
           <Property Name="FechaIngresadaSap" Type="datetime" />
           <Property Name="FechaNuevaDespacho" Type="datetime" />
           <Property Name="NumeroContenedores" Type="int" />
+          <Property Name="FechaActualizacionItems" Type="datetime" />
         </EntityType>
         <EntityType Name="ProvinciasEcuador">
           <Key>
@@ -1163,9 +1206,11 @@
           <EntitySet Name="ClienteLinea" EntityType="Self.ClienteLinea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ControlCambios" EntityType="Self.ControlCambios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CorreoElectronicoEnviosReportes" EntityType="Self.CorreoElectronicoEnviosReportes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CronogramaExportacion" EntityType="Self.CronogramaExportacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DatosTecnicosCalidadBaterias" EntityType="Self.DatosTecnicosCalidadBaterias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleGeneralPackingList" EntityType="Self.DetalleGeneralPackingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiasBusqueda" EntityType="Self.DiasBusqueda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DireccionesClientes" EntityType="Self.DireccionesClientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadosOrdenProduccion" EntityType="Self.EstadosOrdenProduccion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadosPedidos" EntityType="Self.EstadosPedidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadosPedidosSelect" EntityType="Self.EstadosPedidosSelect" Schema="dbo" store:Type="Tables" />
@@ -1184,6 +1229,7 @@
           <EntitySet Name="IngresosDetallesMedicionCarga" EntityType="Self.IngresosDetallesMedicionCarga" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IngresosMedicionCarga" EntityType="Self.IngresosMedicionCarga" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LineasMarcasPropias" EntityType="Self.LineasMarcasPropias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaestrosUtilitarios" EntityType="Self.MaestrosUtilitarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarcaBateriaPruebaLaboratorio" EntityType="Self.MarcaBateriaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />
@@ -1491,6 +1537,9 @@
           <EntitySet Name="GuiaPackingList" EntityType="DacarProsoftModel.GuiaPackingList" />
           <EntitySet Name="PruebasLaboratorioCCA" EntityType="DacarProsoftModel.PruebasLaboratorioCCA" />
           <EntitySet Name="GenericosItem" EntityType="DacarProsoftModel.GenericosItem" />
+          <EntitySet Name="DireccionesClientes" EntityType="DacarProsoftModel.DireccionesClientes" />
+          <EntitySet Name="MaestrosUtilitarios" EntityType="DacarProsoftModel.MaestrosUtilitarios" />
+          <EntitySet Name="CronogramaExportacion" EntityType="DacarProsoftModel.CronogramaExportacion" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -2102,6 +2151,7 @@
           <Property Name="FechaIngresadaSap" Type="DateTime" Precision="3" />
           <Property Name="FechaNuevaDespacho" Type="DateTime" Precision="3" />
           <Property Name="NumeroContenedores" Type="Int32" />
+          <Property Name="FechaActualizacionItems" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="fk_detallePedido">
           <End Type="DacarProsoftModel.PedidoClienteCabecera" Role="PedidoClienteCabecera" Multiplicity="0..1" />
@@ -2461,6 +2511,7 @@
           <Property Name="DireccionCorreo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ClaveCorreo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Estado" Type="Boolean" />
+          <Property Name="ClaveLoginCorreo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="IngresosDetallesMedicionCarga">
           <Key>
@@ -2651,6 +2702,47 @@
           <Property Name="BateriasPallet" Type="Int32" />
           <Property Name="PesoTara" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="DireccionesClientes">
+          <Key>
+            <PropertyRef Name="DireccionesClientesId" />
+          </Key>
+          <Property Name="DireccionesClientesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuarioId" Type="Int32" />
+          <Property Name="NombreSucursal" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pais" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Ciudad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoPostal" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="MaximumWeight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MaestrosUtilitarios">
+          <Key>
+            <PropertyRef Name="MaestrosUtilitariosId" />
+          </Key>
+          <Property Name="MaestrosUtilitariosId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="fechaCreacion" Type="DateTime" Precision="3" />
+          <Property Name="fechaActualizacion" Type="DateTime" Precision="3" />
+          <Property Name="estado" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="CronogramaExportacion">
+          <Key>
+            <PropertyRef Name="CronogramaExportacionId" />
+          </Key>
+          <Property Name="CronogramaExportacionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Orden" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Cliente" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FechaPedido" Type="DateTime" Precision="3" />
+          <Property Name="FechaDespacho" Type="DateTime" Precision="3" />
+          <Property Name="Booking" Type="Int32" />
+          <Property Name="TotalContenedores" Type="Int32" />
+          <Property Name="CardCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Destino" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="FechaZarpe" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3191,6 +3283,7 @@
           <EntitySetMapping Name="PedidoClienteDetalleFinal">
             <EntityTypeMapping TypeName="DacarProsoftModel.PedidoClienteDetalleFinal">
               <MappingFragment StoreEntitySet="PedidoClienteDetalleFinal">
+                <ScalarProperty Name="FechaActualizacionItems" ColumnName="FechaActualizacionItems" />
                 <ScalarProperty Name="NumeroContenedores" ColumnName="NumeroContenedores" />
                 <ScalarProperty Name="FechaNuevaDespacho" ColumnName="FechaNuevaDespacho" />
                 <ScalarProperty Name="FechaIngresadaSap" ColumnName="FechaIngresadaSap" />
@@ -3504,6 +3597,7 @@
           <EntitySetMapping Name="CorreoElectronicoEnviosReportes">
             <EntityTypeMapping TypeName="DacarProsoftModel.CorreoElectronicoEnviosReportes">
               <MappingFragment StoreEntitySet="CorreoElectronicoEnviosReportes">
+                <ScalarProperty Name="ClaveLoginCorreo" ColumnName="ClaveLoginCorreo" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="ClaveCorreo" ColumnName="ClaveCorreo" />
                 <ScalarProperty Name="DireccionCorreo" ColumnName="DireccionCorreo" />
@@ -3639,6 +3733,50 @@
                 <ScalarProperty Name="ModeloDacar" ColumnName="ModeloDacar" />
                 <ScalarProperty Name="GrupoGenericoItem" ColumnName="GrupoGenericoItem" />
                 <ScalarProperty Name="GenericoItemId" ColumnName="GenericoItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DireccionesClientes">
+            <EntityTypeMapping TypeName="DacarProsoftModel.DireccionesClientes">
+              <MappingFragment StoreEntitySet="DireccionesClientes">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="MaximumWeight" ColumnName="MaximumWeight" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="NombreSucursal" ColumnName="NombreSucursal" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="DireccionesClientesId" ColumnName="DireccionesClientesId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaestrosUtilitarios">
+            <EntityTypeMapping TypeName="DacarProsoftModel.MaestrosUtilitarios">
+              <MappingFragment StoreEntitySet="MaestrosUtilitarios">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fechaActualizacion" ColumnName="fechaActualizacion" />
+                <ScalarProperty Name="fechaCreacion" ColumnName="fechaCreacion" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="MaestrosUtilitariosId" ColumnName="MaestrosUtilitariosId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CronogramaExportacion">
+            <EntityTypeMapping TypeName="DacarProsoftModel.CronogramaExportacion">
+              <MappingFragment StoreEntitySet="CronogramaExportacion">
+                <ScalarProperty Name="FechaZarpe" ColumnName="FechaZarpe" />
+                <ScalarProperty Name="Destino" ColumnName="Destino" />
+                <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+                <ScalarProperty Name="TotalContenedores" ColumnName="TotalContenedores" />
+                <ScalarProperty Name="Booking" ColumnName="Booking" />
+                <ScalarProperty Name="FechaDespacho" ColumnName="FechaDespacho" />
+                <ScalarProperty Name="FechaPedido" ColumnName="FechaPedido" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+                <ScalarProperty Name="CronogramaExportacionId" ColumnName="CronogramaExportacionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

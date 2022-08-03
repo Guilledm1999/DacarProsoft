@@ -1,0 +1,267 @@
+﻿
+@{
+    ViewBag.Title = "PedidosConfirmados";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+@{
+    var SelectFechaPedido = ViewBag.FechasPedido;
+    var SelectStatus = ViewBag.EstadosPedido;
+    
+}
+<style>
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        color: black;
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        background-color: #D7F1FF;
+        /*background-color: #3355FF;*/
+        color: black;
+        font-weight: bold;
+    }
+
+    .dx-data-row {
+        font-size: 10pt;
+        padding: 2pt;
+    }
+
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
+        vertical-align: top;
+    }
+</style>
+<br />
+
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Pedidos Confirmados</h2>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <h6>Busqueda:</h6>
+                    @Html.DropDownList("TipoDeIngreso", new SelectList(SelectStatus, "Codigo", "Descripcion"), new { @class = "form-control", id = "SelectTipoEstado" })
+
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary" onclick="ConsultarIngresosPedidosConfirmados()">
+                        <i class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <span class="btn-txt">Consultar</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="MensajeActualizacionExitosaEstado" class="alert alert-primary collapse">
+            <button id="LinkClose6" type="button" class="close">&times;</button>
+            <strong>El estado del pedido se actualizo correctamente!</strong>
+        </div>
+
+        <div id="tblPedidosConfirmados"></div>
+    </div>
+</div>
+
+
+
+<div id="ModalDetallePedidoAprobada" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b class="modal-title" id="lblNumberPalletNuevo"><h3>Detalle Pedido Cliente</h3></b>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Carga Lista:</b></label>
+                        <div class="col-sm-2">
+                            <input type="text" name="CargaLista" id="txtCargaLista" autocomplete="off" class="form-control" readonly>
+
+                            @*<input id="txtCargaLista" class="date-picker form-control" placeholder="dd-mm-yyyy" type="date" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                <script>
+                    function timeFunctionLong(input) {
+                        setTimeout(function () {
+                            input.type = 'text';
+                        }, 60000);
+                    }
+                </script>*@
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Despacho a Puerto:</b></label>
+                        <div class="col-sm-2">
+                            <input type="text" name="FechaDespachoPuerto" id="txtFechaDespachoPuerto" autocomplete="off" class="form-control" readonly>
+
+                            @*<input id="txtFechaDespachoPuerto" class="date-picker form-control" placeholder="dd-mm-yyyy" type="date" required="required"  onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                <script>
+                    function timeFunctionLong(input) {
+                        setTimeout(function () {
+                            input.type = 'text';
+                        }, 60000);
+                    }
+                </script>*@
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Fecha Zarpe:</b></label>
+                        <div class="col-sm-2">
+                            <input type="text" name="FechaZarpe" id="txtFechaZarpe" autocomplete="off" class="form-control" readonly>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Fecha Arribo:</b></label>
+
+                        <div class="col-sm-2">
+                            <input type="text" name="FechaArribo" id="txtFechaArribo" autocomplete="off" class="form-control" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Fecha Entrega:</b></label>
+                        <div class="col-sm-2">
+                            <input type="text" name="FechaEntrega" id="txtFechaEntrega" autocomplete="off" class="form-control" readonly>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Cantidad Total:</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="CantidadTotal" id="txtCantidadPedidoAprobada" autocomplete="off" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>Precio Final:</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PrecioFinal" id="txtPrecioFinalAprobada" autocomplete="off" class="form-control" readonly>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <label for="email" class="col-sm-2 col-form-label"><b>Peso Neto(kg):</b></label>
+                        <div class="col-sm-2">
+                            <input type="number" name="PesoNeto" id="txtPesoNetoAprobada" autocomplete="off" class="form-control" readonly>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        @*<label for="email" class="col-sm-2 col-form-label"><b>Peso Bruto(kg):</b></label>
+            <div class="col-sm-2">
+                <input type="number" name="PesoBruto" id="txtPesoBrutoAprobada" autocomplete="off" class="form-control" readonly>
+            </div>*@
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label"><b>EstadoPedido:</b></label>
+                        <div class="col-sm-2">
+                            <select class="form-control" id="EstadoPedido"></select>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary" id="ActuaizarEstadoPedido">Actualizar Estado</button>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2 col-sm-3 label-align" for="email">
+                            <b>  Observaciones:</b>
+                        </label>
+                        <div class="col-md-8 col-sm-2 ">
+                            <textarea id="txtObservacionesAprobada" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div id="MensajeErrorActualizacionEstado" class="alert alert-danger collapse">
+                        <button id="LinkClose5" type="button" class="close">&times;</button>
+                        <strong>No se puede actualizar al mismo estado!</strong>
+                    </div>
+                    <div id="tblDetallePedidoConfirmado"> </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @*<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Registrar</a>*@
+                <!--<button type="button" class="btn btn-primary" id="RegistrarPedidoEnSap">Registrar en Sap</button>-->
+                <button type="button" class="btn btn-primary" id="ActuaizarEstado">Actualizar Estado</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <div id="ModalActualizarFechas" class="modal fade" role="dialog" style="overflow-y: scroll;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <b class="modal-title" id="lblNumberPalletNuevo">Actualizacion Fechas</b>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="MensajeErrorFechaAct" class="alert alert-danger collapse">
+                        <button id="LinkClose2" type="button" class="close">&times;</button>
+                        <strong>No se realizo la actualizacion!</strong>
+                    </div>
+                    <div id="MensajeActualizacionExitosa" class="alert alert-primary collapse">
+                        <button id="LinkClose3" type="button" class="close">&times;</button>
+                        <strong>Fecha actualizada correctamente!</strong>
+                    </div>
+                    <div id="MensajeCompleteFecha" class="alert alert-danger collapse">
+                        <button id="LinkClose4" type="button" class="close">&times;</button>
+                        <strong>Ingrese una Fecha!</strong>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-sm-6">
+                            @*<label for="email" class="col-sm-2 col-form-label"><b>Carga Lista:</b></label>*@
+                            @Html.DropDownList("TipoDeIngreso", new SelectList(SelectFechaPedido, "FechasPedidosId", "DescripcionFecha"), new { @class = "form-control", id = "SelectTiposFecha", onchange = "VerificarFecha();" })
+                        </div>
+
+                        <div class="col-sm-6">
+                            <input id="txtFechaRegistrada" class="date-picker form-control" placeholder="dd-mm-yyyy" type="date" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                            <script>
+                                function timeFunctionLong(input) {
+                                    setTimeout(function () {
+                                        input.type = 'text';
+                                    }, 60000);
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="ActualizarFechasPedido">Actualizar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="ModalCambioEstado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Esta seguro de cambiar el estado del pedido</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+             
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="AfirmacionCambioEstado">Si</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,6 +1,8 @@
 ﻿using DacarDatos.Datos;
+using DacarProsoft.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -160,6 +162,127 @@ namespace DacarProsoft.Datos
                     DB.GenericosItem.RemoveRange(DB.GenericosItem.Where(x => x.GenericoItemId == GenericoItemId));
                     DB.SaveChanges();
                   
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+
+                }
+            }
+
+        }
+        public List<MaestrosGenerales> ConsultarMaestrosGenerales()
+        {
+            string fechaCreacion;
+            string fechaActuaizacion;
+            List<MaestrosGenerales> lst = new List<MaestrosGenerales>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.MaestrosUtilitarios
+                               orderby d.MaestrosUtilitariosId descending
+                               select new
+                               {
+                                 d.MaestrosUtilitariosId,
+                                 d.Descripcion,
+                                 d.Valor,
+                                 d.fechaCreacion,
+                                 d.fechaActualizacion,
+                                 d.estado
+
+                               }).ToList();
+
+                foreach (var x in Listado.Distinct())
+                {
+                    DateTime creacion = Convert.ToDateTime(x.fechaCreacion, CultureInfo.InvariantCulture);
+                    DateTime actualizacion = Convert.ToDateTime(x.fechaActualizacion, CultureInfo.InvariantCulture);
+
+                    fechaCreacion = creacion.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    fechaActuaizacion = actualizacion.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                    lst.Add(new MaestrosGenerales
+                    {
+                        MaestrosUtilitariosId=x.MaestrosUtilitariosId,
+                        Descripcion=x.Descripcion,
+                        Valor=x.Valor,
+                        fechaCreacion=fechaCreacion,
+                        fechaActualizacion=fechaActuaizacion,
+                        estado=x.estado.Value
+                    });
+                }
+                return lst;
+            }
+        }
+        public bool IngresarMaestroGeneral(string descripcion,string valor, bool estado)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new MaestrosUtilitarios();
+                    result.Descripcion = descripcion;
+                    result.Valor = valor;
+                    result.estado = estado;
+                    result.fechaCreacion = DateTime.Now;
+                    result.fechaActualizacion = DateTime.Now;
+
+                    DB.MaestrosUtilitarios.Add(result);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public bool ActualizarMaestroGeneral(MaestrosGenerales generico, int Key)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = (from a in DB.MaestrosUtilitarios
+                                  where a.MaestrosUtilitariosId == Key
+                                  select a).FirstOrDefault();
+
+                   
+                    if (generico.Descripcion != null)
+                    {
+                        result.Descripcion = generico.Descripcion;
+                    }
+                    if (generico.Valor != null)
+                    {
+                        result.Valor = generico.Valor;
+                    }
+
+                    result.estado = generico.estado;
+
+                    result.fechaActualizacion = DateTime.Now;
+
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public bool EliminarMaestroGeneral(int MaestroGeneralId)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    DB.MaestrosUtilitarios.RemoveRange(DB.MaestrosUtilitarios.Where(x => x.MaestrosUtilitariosId == MaestroGeneralId));
+                    DB.SaveChanges();
+
                     return true;
                 }
                 catch (Exception ex)

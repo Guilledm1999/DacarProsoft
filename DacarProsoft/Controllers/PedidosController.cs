@@ -7,6 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using SAPbobsCOM;
 using DacarDatos.Datos;
+using System.Net.Mail;
+using System.Net;
+using System.Globalization;
 
 namespace DacarProsoft.Controllers
 {
@@ -14,6 +17,7 @@ namespace DacarProsoft.Controllers
     {
         private DaoUtilitarios daoUtilitarios { get; set; } = null;
         private DaoPedidos daoPedidos { get; set; } = null;
+        private DaoPackingList daoPackingList { get; set; } = null;
 
         // GET: Pedidos
         public ActionResult PedidosExterior()
@@ -42,12 +46,27 @@ namespace DacarProsoft.Controllers
             }
         }
 
-        public JsonResult ObtenerPalletIngresados()
+        public JsonResult ObtenerPedidosIngresados()
         {
             try
             {
                 daoPedidos = new DaoPedidos();
                 var Result = daoPedidos.ConsultarPackingIngreseados();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public JsonResult ObtenerPedidosModificados()
+        {
+            try
+            {
+                daoPedidos = new DaoPedidos();
+                var Result = daoPedidos.ConsultarPackingIngreseadosModificados(7);
                 return Json(Result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -101,6 +120,21 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public JsonResult ObtenerDetalleActualizadoPedido(int PedidoId)
+        {
+            try
+            {
+
+                daoPedidos = new DaoPedidos();
+                var Result = daoPedidos.ConsultarPedidoActualizadoDetalle(PedidoId);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
         public JsonResult ObtenerDetallePedidoConfirmado(int PedidoId)
         {
             try
@@ -133,13 +167,100 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        [HttpPost]
+        public bool AprobacionCliente(int PedidoId)
+        {
+            try
+            {
+
+                daoPedidos = new DaoPedidos();
+                var Result = daoPedidos.ConsultarAprobacionClienteExt(PedidoId);
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public bool ModificarPedidoCliente(int pedidoId, List<PedidoClienteDetalle> array, int CantidadNueva, Decimal PrecioNuevo, Decimal PesoNuevo, string Observacion, string Orden) {
+            string DirCorreo = "";
+            string ClavCorreo = "";
+            daoPedidos = new DaoPedidos();
+            daoUtilitarios = new DaoUtilitarios();
+            daoPedidos.GuardarModificacionPedidoCliente(pedidoId, Observacion, CantidadNueva, PrecioNuevo, PesoNuevo);
+            
+            foreach (var z in array)
+            {
+                daoPedidos.GuardarActualizacionDetallePedido(pedidoId, z.ItemCode, z.CantidadConfirmada.Value);
+            }
+
+            var result= daoPedidos.GuardarActualizacionEstado(pedidoId, 7);
+
+            var cabeceraPedido = daoPedidos.InformacionCabeceraPedido(pedidoId);
+
+            string ordenCompra = "";
+            string carCode = "";
+            string sucursal = "";
+            string fechaEmision="";
+            foreach (var y in cabeceraPedido)
+            {
+                ordenCompra = y.OrdenCompra;
+                carCode = y.CardCode;
+                sucursal = y.Sucursal;
+                DateTime fechaDoc = Convert.ToDateTime(y.FechaEmision, CultureInfo.InvariantCulture);
+                fechaEmision = fechaDoc.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+            }
+
+            var CorreoBase = daoUtilitarios.ConsultarCorreoElectronico();
+            var CorreoCliente = daoPedidos.ConsultarCorreoCliente(carCode, sucursal);
+
+            foreach (var x in CorreoBase)
+            {
+                DirCorreo = x.DireccionCorreo;
+                ClavCorreo = x.ClaveCorreo;
+            }
+            try
+            {
+                MailMessage mm = new MailMessage("bateriasdacar1975@gmail.com", CorreoCliente);
+                mm.Subject = "Order Update";
+                //MailAddress copy = new MailAddress("Notification_List@contoso.com");
+                //mm.CC.Add(CorreoCopia);
+                mm.Body = "An adjustment has been made in order "+Orden+" that was registered on "+fechaEmision+", for approval enter the platform: http://app2.bateriasdacar.com:8033/Pedidos/ConsultarPedidos .";
+                //mm.Attachments.Add(new Attachment(new MemoryStream(bytesStreams), NombreCliente + "-" + Order + ".pdf"));
+                    mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 25;
+                smtp.EnableSsl = true;
+                NetworkCredential NetworkCred = new NetworkCredential();
+                NetworkCred.UserName = DirCorreo;
+                NetworkCred.Password = ClavCorreo;
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+
+                smtp.Send(mm);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("El error:" + ex);
+            }
+
+            return result;
+        }
 
         [HttpPost]
         public string RegistrarPedidoEnSap(int PedidoId, string Orden, DateTime FechaDocumento, DateTime FechaDespacho,string TipoVenta, string Vendedor, 
             string Observaciones, List<PedidoClienteDetalle> array,int CantidadNueva, Decimal PrecioNuevo, Decimal PesoNuevo) {
 
             daoPedidos = new DaoPedidos();
+            daoUtilitarios = new DaoUtilitarios();
 
+            string DirCorreo="";
+            string ClavCorreo = "";
             string cardCode = null;
             string cardname = null;
             DateTime fechaEmisionCliente = DateTime.Now;
@@ -182,7 +303,6 @@ namespace DacarProsoft.Controllers
                         MyDoc.UserFields.Fields.Item("U_SYP_INCOTERM").Value = incoterm;
                         MyDoc.UserFields.Fields.Item("U_U_SYS_FECHADESPACHO").Value = FechaDespacho;
                         
-
                         MyDoc.Comments = Observaciones;
                         MyDoc.DocType = BoDocumentTypes.dDocument_Items;
                         foreach (var y in array)
@@ -206,7 +326,6 @@ namespace DacarProsoft.Controllers
                             Console.WriteLine(ConexionApiSap.myCompany.GetLastErrorDescription());
                             //ConexionApiSap.myCompany.EndTransaction(BoWfTransOpt.wf_RollBack);
                             //ConexionApiSap.myCompany.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_Commit);
-
                             return pr;
                         }
                         else
@@ -219,6 +338,56 @@ namespace DacarProsoft.Controllers
                                 daoPedidos.GuardarActualizacionDetallePedido(PedidoId, z.ItemCode, z.CantidadConfirmada.Value);
                             }
                             Console.WriteLine("Se agrego correctamente el pedido con folio: " + ConexionApiSap.myCompany.GetNewObjectKey());
+
+                            var cabeceraPedido = daoPedidos.InformacionCabeceraPedido(PedidoId);
+
+                            string nombreCliente = "";
+                            string ordenCompra = "";
+                            string carCode = "";
+                            int estadoPedido = 0;
+                            string sucursal = "";
+                            foreach (var y in cabeceraPedido) {
+                                nombreCliente = y.NombreCliente;
+                                ordenCompra = y.OrdenCompra;
+                                carCode = y.CardCode;
+                                estadoPedido = y.EstadoPedido.Value;
+                                sucursal = y.Sucursal;
+                            }
+                            var CorreoBase = daoUtilitarios.ConsultarCorreoElectronico();
+                            var CorreoCliente = daoPedidos.ConsultarCorreoCliente(carCode,sucursal);
+
+                            foreach (var x in CorreoBase)
+                            {
+                                DirCorreo = x.DireccionCorreo;
+                                ClavCorreo = x.ClaveCorreo;
+                            }
+                            try
+                            {
+                                MailMessage mm = new MailMessage("bateriasdacar1975@gmail.com", CorreoCliente);
+                                mm.Subject = "Order confirmation";
+                                //MailAddress copy = new MailAddress("Notification_List@contoso.com");
+                                //mm.CC.Add(CorreoCopia);
+                   
+
+                                mm.Body = "Dear customer, your order "+ ordenCompra + "was confirmed and will be shipped on "+fechaDespachoCliente+", you can check the status through the platform "+ "http://app2.bateriasdacar.com:8033/Pedidos/ConsultarPedidos";
+                                //mm.Attachments.Add(new Attachment(new MemoryStream(bytesStreams), NombreCliente + "-" + Order + ".pdf"));
+                                mm.IsBodyHtml = true;
+                                SmtpClient smtp = new SmtpClient();
+                                smtp.Host = "smtp.gmail.com";
+                                smtp.Port = 25;
+                                smtp.EnableSsl = true;
+                                NetworkCredential NetworkCred = new NetworkCredential();
+                                NetworkCred.UserName = DirCorreo;
+                                NetworkCred.Password = ClavCorreo;
+                                smtp.UseDefaultCredentials = true;
+                                smtp.Credentials = NetworkCred;
+
+                                smtp.Send(mm);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("El error:" + ex);
+                            }
                             return "True";
                         }
                     }
@@ -447,6 +616,148 @@ namespace DacarProsoft.Controllers
                 Console.WriteLine(ex);
                 return false;
             }
+        }
+        public ActionResult PedidosModificados()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public ActionResult CronogramaExportacion()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public JsonResult EventosCalendarioPedidos() {
+
+            daoPedidos = new DaoPedidos();
+            var result = daoPedidos.InformacionEventosMes();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+        public ActionResult IngresoCronogramaExportacion()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ConsultarEventosMes()
+        {
+            daoPedidos = new DaoPedidos();
+            var result = daoPedidos.ConsultarEventosMes();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public bool InsertarEventoMes(CronogramaExportacion crono)
+        {
+
+            daoPedidos = new DaoPedidos();
+
+            var result = daoPedidos.IngresarEventosMes(crono.Orden, crono.Cliente, crono.FechaPedido.Value, crono.FechaDespacho.Value, Convert.ToString(crono.FechaZarpe), crono.Booking.Value, crono.TotalContenedores.Value, crono.CardCode, crono.Destino);
+
+            return result;
+        }
+        public bool ActualizarEventoMes(CronogramaExportacion crono, int Key)
+        {
+
+            daoPedidos = new DaoPedidos();
+
+            var result = daoPedidos.ActualizarEventosMes(crono, Key);
+
+            return result;
+        }
+        public bool EliminarEventoMes(CronogramaExportacion crono)
+        {
+
+            daoPedidos = new DaoPedidos();
+            var result = daoPedidos.EliminarEventosMes(crono.CronogramaExportacionId);
+            return result;
+        }
+        public string ConvertirPdf(string cardCode, string numeroOrden) {
+
+            daoPedidos = new DaoPedidos();
+
+            int atcEntry = daoPedidos.BusquedaAtcEntry(cardCode, numeroOrden);
+            if (atcEntry != 0)
+            {
+                string ruta = daoPedidos.ConsultarRutaAnexo(atcEntry);
+                Byte[] bytes = System.IO.File.ReadAllBytes(@ruta);
+                String file = Convert.ToBase64String(bytes);
+                return file;
+            }
+            else {
+                return "";
+            }
+        }
+
+        public JsonResult ConsultarDsecripFact(string cardCode, string numeroOrden)
+        {
+            daoPackingList = new DaoPackingList();
+            daoPedidos = new DaoPedidos();
+
+            int docEntry = daoPedidos.BusquedaFactura(cardCode, numeroOrden);
+            var result = daoPackingList.BusquedaFacturaDetalleReserva(docEntry);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

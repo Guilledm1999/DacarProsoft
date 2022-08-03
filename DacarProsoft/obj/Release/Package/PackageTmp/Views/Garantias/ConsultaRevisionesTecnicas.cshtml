@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = "ConsultaRevisionesTecnicas";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+<style>
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        color: black;
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        background-color: #D7F1FF;
+        /*background-color: #3355FF;*/
+        color: black;
+        font-weight: bold;
+    }
+
+    .dx-data-row {
+        font-size: 10pt;
+        padding: 2pt;
+    }
+
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
+        vertical-align: top;
+    }
+</style>
+<br />
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Consulta  de Ingresos por Garantia</h2>
+        <!--<div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <h6>Fecha Inicio</h6>
+                    <input id="txtFechaInicio" class="date-picker form-control" placeholder="dd-mm-yyyy" type="date" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                    <script>
+                        function timeFunctionLong(input) {
+                            setTimeout(function () {
+                                input.type = 'text';
+                            }, 60000);
+                        }
+                    </script>
+                </div>
+                <div class="col-md-2">
+                    <h6>Fecha Fin</h6>
+                    <input id="txtFechaFin" class="date-picker form-control" placeholder="dd-mm-yyyy" type="date" required="required" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                    <script>
+                        function timeFunctionLong(input) {
+                            setTimeout(function () {
+                                input.type = 'text';
+                            }, 60000);
+                        }
+                    </script>
+                </div>
+
+                <div class="col-md-2">
+                    <h6>  </h6>
+                    <button class="btn btn-primary" onclick="ConsultarReporte()">
+                        <i class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <span class="btn-txt">Consultar</span>
+                    </button>
+                </div>-->
+        @*<div id="gridClearSelection"></div>*@
+        <!--</div>
+        </div>-->
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="MensajeIngreseTodosLosCampos" class="alert alert-danger collapse">
+            <button id="LinkClose2" type="button" class="close">&times;</button>
+            <strong>Ingrese todas las fechas!</strong>
+        </div>
+        <div class="loader">
+            <div id="tblReporteRevisionesTecnicas"> </div>
+        </div>
+    </div>
+</div>
+
+<div id="ModalFactura" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblPalletsIngresados">Factura</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                   
+                    <div class="col-sm-8">
+                        <div align='center'>
+                            <img style="max-width:100%;width:auto;height:auto" id="ImagenFactura">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ModalTest" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblPalletsIngresados">Test Bateria</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-8">
+                        <div align='center'>
+                            <img style="max-width:100%;width:auto;height:auto" id="ImagenTest">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ModalDetalleRevision" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblPalletsIngresados">Detalle Revision</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">      
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <div id="tblInspeccionInicial"> </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <div id="tblDiagnostico"> </div>
+                    </div>
+                </div>  <div class="form-group row">
+                    <div class="col-sm-12">
+                        <div id="tblTrabajoRealizado"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

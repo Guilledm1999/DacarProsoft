@@ -221,7 +221,6 @@ namespace DacarProsoft.Datos
                         ItemCode=x.ItemCode,
                         DescriptionCode= nombreForaneo,
                         CantidadItem=x.CantidadItem
-
                     });
                 }
                 return lst;
@@ -1181,9 +1180,9 @@ namespace DacarProsoft.Datos
                     {
                         PalletPacking1 = x.PalletPacking1,
                         PalletNumber = x.PalletNumber,
-                        LargoPallet = x.LargoPallet,
-                        AltoPallet = x.AltoPallet,
-                        AnchoPallet = x.AnchoPallet,
+                        LargoPallet = (x.LargoPallet)/100,
+                        AltoPallet = (x.AltoPallet) / 100,
+                        AnchoPallet = (x.AnchoPallet) / 100,
                         VolumenPallet = x.VolumenPallet,
                         PesoNeto = x.PesoNeto,
                         PesoBruto = x.PesoBruto
@@ -1538,8 +1537,6 @@ namespace DacarProsoft.Datos
         //agregar la tabla al detalle de la factura
         public List<DetFactPackingList> BusquedaFacturaDetalleReserva(int docEntry)
         {
-           
-
             List<DetFactPackingList> lst = new List<DetFactPackingList>();
             int i = 1;
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())

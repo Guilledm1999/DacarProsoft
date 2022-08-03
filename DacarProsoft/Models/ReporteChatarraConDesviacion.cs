@@ -20,6 +20,8 @@ namespace DacarProsoft.Models
         public Nullable<decimal> Cantidad { get; set; }
         public Nullable<decimal> Peso_Teorico { get; set; }
         public Nullable<decimal> Peso_Real { get; set; }
+        public Nullable<decimal> Precio { get; set; }
+
         public Nullable<decimal> Desviacion { get; set; }
         public string Bodega { get; set; }
         public string Vendedor { get; set; }

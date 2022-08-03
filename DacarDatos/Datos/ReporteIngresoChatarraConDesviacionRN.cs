@@ -31,5 +31,6 @@ namespace DacarDatos.Datos
         public string Comentarios { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
         public int DocEntry { get; set; }
+        public Nullable<decimal> Precio { get; set; }
     }
 }

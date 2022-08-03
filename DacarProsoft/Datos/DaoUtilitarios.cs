@@ -258,7 +258,6 @@ namespace DacarProsoft.Datos
                 return lst2;
             }
         }
-
         public string ControlCambios()
         {
             string contrasena="";
@@ -273,7 +272,6 @@ namespace DacarProsoft.Datos
                     return contrasena;
             }
         }
-
         public bool IngresarModelos(string Nombre, decimal Peso)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -296,7 +294,6 @@ namespace DacarProsoft.Datos
             }
             return true;
         }
-
         public List<CorreoElectronicoEnviosReportes> ConsultarCorreoElectronico()
         {
                 List<CorreoElectronicoEnviosReportes> lst2 = new List<CorreoElectronicoEnviosReportes>();
@@ -329,6 +326,36 @@ namespace DacarProsoft.Datos
                     return lst2;
                 }                  
         }
+        public decimal ObtenerValorDesviacion()
+        {
+            decimal Variacion = 0;
+            try
+            {
+                using (DacarProsoftEntities DB = new DacarProsoftEntities())
+                {
+                    var result = (from d in DB.MaestrosUtilitarios 
+                                  where d.Descripcion=="Desviacion Chatarra"
+                                  select new
+                                  {
+                                      d.MaestrosUtilitariosId,
+                                      d.Descripcion,
+                                      d.Valor,
+                                      d.fechaCreacion,
+                                      d.fechaActualizacion,
+                                      d.estado
+                                  }).FirstOrDefault();
+                    if (result != null) {
+                        Variacion = Convert.ToDecimal(result.Valor);
 
+                    }
+                    return Variacion;
+                }
+            }
+            catch(Exception ex) {
+                Console.WriteLine(ex);
+                return 0;
+            }
+
+            }      
     }
 }

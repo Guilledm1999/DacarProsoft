@@ -25,5 +25,6 @@ namespace DacarDatos.Datos
         public Nullable<System.DateTime> FechaIngresadaSap { get; set; }
         public Nullable<System.DateTime> FechaNuevaDespacho { get; set; }
         public Nullable<int> NumeroContenedores { get; set; }
+        public Nullable<System.DateTime> FechaActualizacionItems { get; set; }
     }
 }

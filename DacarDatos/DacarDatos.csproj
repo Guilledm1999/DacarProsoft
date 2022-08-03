@@ -124,6 +124,9 @@
     <Compile Include="Datos\AreaResponsableGarantias.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\ATC1.cs">
+      <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\AutorizacionPackingList.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
@@ -158,6 +161,9 @@
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\CorreoElectronicoEnviosReportes.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\CronogramaExportacion.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\C_SYP_CLASESN.cs">
@@ -203,6 +209,9 @@
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\DiasBusqueda.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\DireccionesClientes.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\EstadosOrdenProduccion.cs">
@@ -269,6 +278,9 @@
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\LoginUsuario_Result.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\MaestrosUtilitarios.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\MarcaBateriaPruebaLaboratorio.cs">

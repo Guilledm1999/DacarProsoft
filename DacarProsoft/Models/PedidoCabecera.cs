@@ -19,6 +19,9 @@ namespace DacarProsoft.Models
         public string Direccion { get; set; }
         public string TerminoImportacion { get; set; }
         public int Estado { get; set; }
+        public string Sucursal { get; set; }
+        public string EstadoPed { get; set; }
+
 
     }
 }

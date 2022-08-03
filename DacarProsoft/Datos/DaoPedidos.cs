@@ -16,9 +16,10 @@ namespace DacarProsoft.Datos
             List<PedidoCabecera> lst = new List<PedidoCabecera>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
-                var ListadoPedidos = from d in DB.PedidoClienteCabecera
+                var ListadoPedidos = from d in DB.PedidoClienteCabecera join
+                                     e in DB.EstadosPedidos on d.EstadoPedido equals e.Codigo
                                      orderby d.NumeroPedidoId descending
-                                     where d.EstadoPedido==1
+                                     where d.EstadoPedido== 1 || d.EstadoPedido==8
                                      select new
                                      {
                                          d.NumeroPedidoId,
@@ -28,10 +29,13 @@ namespace DacarProsoft.Datos
                                          d.OrdenCompra,
                                          d.FechaRequerida,
                                          d.PaisCiudad,
+                                         d.Sucursal,
                                          //d.Pais,
                                          //d.Ciudad,
+                                         d.EstadoPedido,
                                          d.Direccion,
                                          d.TerminoImportacion,
+                                         e.Descripcion
                                      };
 
                 foreach (var x in ListadoPedidos)
@@ -56,7 +60,66 @@ namespace DacarProsoft.Datos
                         //Pais = x.Pais,
                         //Ciudad = x.Ciudad,
                         Direccion = x.Direccion,
-                        TerminoImportacion = x.TerminoImportacion
+                        TerminoImportacion = x.TerminoImportacion,
+                        Sucursal=x.Sucursal,
+                        EstadoPed=x.Descripcion
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<PedidoCabecera> ConsultarPackingIngreseadosModificados(int estado)
+        {
+            List<PedidoCabecera> lst = new List<PedidoCabecera>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoPedidos = from d in DB.PedidoClienteCabecera join
+                                     e in DB.EstadosPedidos on d.EstadoPedido equals e.Codigo
+
+                                     orderby d.NumeroPedidoId descending
+                                     where d.EstadoPedido == estado
+                                     select new
+                                     {
+                                         d.NumeroPedidoId,
+                                         d.CardCode,
+                                         d.NombreCliente,
+                                         d.FechaEmision,
+                                         d.OrdenCompra,
+                                         d.FechaRequerida,
+                                         d.PaisCiudad,
+                                         d.Sucursal,
+                                         //d.Pais,
+                                         //d.Ciudad,
+                                         d.Direccion,
+                                         d.TerminoImportacion,
+                                         e.Descripcion
+                                     };
+
+                foreach (var x in ListadoPedidos)
+                {
+
+                    DateTime fechaemi = Convert.ToDateTime(x.FechaEmision, CultureInfo.InvariantCulture);
+                    string fechaEmision = fechaemi.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                    DateTime fechareq = Convert.ToDateTime(x.FechaRequerida, CultureInfo.InvariantCulture);
+                    string fechaRequerida = fechareq.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+
+                    lst.Add(new PedidoCabecera
+                    {
+                        NumeroPedidoId = x.NumeroPedidoId,
+                        CardCode = x.CardCode,
+                        NombreCliente = x.NombreCliente,
+                        FechaEmision = fechaEmision,
+                        FechaRequerida = fechaRequerida,
+                        OrdenCompra = x.OrdenCompra,
+                        Pais = x.PaisCiudad,
+                        //Pais = x.Pais,
+                        //Ciudad = x.Ciudad,
+                        Direccion = x.Direccion,
+                        TerminoImportacion = x.TerminoImportacion,
+                        Sucursal = x.Sucursal,
+                        EstadoPed=x.Descripcion
                     });
                 }
                 return lst;
@@ -385,11 +448,59 @@ namespace DacarProsoft.Datos
                        Polaridad=x.Polaridad,
                        TipoTerminal=x.TipoTerminal,
                        Cantidad=x.Cantidad,
-                       CantidadConfirmada= x.Cantidad,
+                       CantidadConfirmada= x.CantidadConfirmada,
                        PrecioUnitario=x.PrecioUnitario,
                        PrecioTotal=x.PrecioTotal,
                        PesoBateria=x.PesoBateria,
                        PesoNeto=x.PesoNeto
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<PedidoClienteDetalle> ConsultarPedidoActualizadoDetalle(int idPedido)
+        {
+            List<PedidoClienteDetalle> lst = new List<PedidoClienteDetalle>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var DetallePedido = from d in DB.PedidoClienteDetalle
+                                    where d.NumeroPedidoId == idPedido
+                                    select new
+                                    {
+                                        d.PedidoClienteDetalleId,
+                                        d.ItemCode,
+                                        d.ModeloBateria,
+                                        d.Marca,
+                                        d.NumeroParteCliente,
+                                        d.EtiquetaDatosTecnicos,
+                                        d.Polaridad,
+                                        d.TipoTerminal,
+                                        d.Cantidad,
+                                        d.CantidadConfirmada,
+                                        d.PrecioUnitario,
+                                        d.PrecioTotal,
+                                        d.PesoBateria,
+                                        d.PesoNeto
+                                    };
+
+                foreach (var x in DetallePedido)
+                {
+                    lst.Add(new PedidoClienteDetalle
+                    {
+                        ItemCode = x.ItemCode,
+                        PedidoClienteDetalleId = x.PedidoClienteDetalleId,
+                        ModeloBateria = x.ModeloBateria,
+                        Marca = x.Marca,
+                        NumeroParteCliente = x.NumeroParteCliente,
+                        EtiquetaDatosTecnicos = x.EtiquetaDatosTecnicos,
+                        Polaridad = x.Polaridad,
+                        TipoTerminal = x.TipoTerminal,
+                        Cantidad = x.Cantidad,
+                        CantidadConfirmada = x.CantidadConfirmada,
+                        PrecioUnitario = x.PrecioUnitario,
+                        PrecioTotal = (x.CantidadConfirmada*x.PrecioUnitario),
+                        PesoBateria = x.PesoBateria,
+                        PesoNeto = (x.CantidadConfirmada*x.PesoBateria)
                     });
                 }
                 return lst;
@@ -505,6 +616,35 @@ namespace DacarProsoft.Datos
             }
 
         }
+        public bool GuardarModificacionPedidoCliente(int PedidoId, string observaciones, int CantidadTotal, decimal PrecioTotal, decimal PesoTotal)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var regi = (from d in DB.PedidoClienteDetalleFinal
+                            where d.PedidoClienteCabecera == PedidoId
+                            select d).FirstOrDefault();
+                try
+                {
+                    regi.Observaciones = observaciones;
+                    regi.CantidadTotalNueva = CantidadTotal;
+                    regi.PrecioFinalPedido = PrecioTotal;
+                    regi.PesoNetoFinalPedido = PesoTotal;
+                    regi.FechaActualizacionItems = DateTime.Now;
+
+                    DB.SaveChanges();
+                    return true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+
+                }
+
+            }
+
+        }
         public bool GuardarActualizacionDetalleFinales(int PedidoId,int CantidadTotal ,decimal PrecioTotal, decimal PesoTotal)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -537,13 +677,17 @@ namespace DacarProsoft.Datos
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
-                var regi = (from d in DB.PedidoClienteCabecera
+                var regi = (from d in DB.PedidoClienteCabecera join 
+                            e in DB.PedidoClienteDetalleFinal on d.NumeroPedidoId equals e.PedidoClienteCabecera
                             where d.NumeroPedidoId == PedidoId
-                            select d).FirstOrDefault();
+                            select new { 
+                            d,e
+                            }
+                            ).FirstOrDefault();
                 try
                 {
-                    regi.EstadoPedido = Estado;
-                  
+                    regi.d.EstadoPedido = Estado;
+                    regi.e.FechaActualizacionItems = DateTime.Now;
 
                     DB.SaveChanges();
                     return true;
@@ -558,6 +702,35 @@ namespace DacarProsoft.Datos
 
             }
 
+        }
+        public bool ConsultarAprobacionClienteExt(int PedidoId)
+        {
+            bool comprobar = false;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var res = (from d in DB.PedidoClienteCabecera
+                                   where d.NumeroPedidoId == PedidoId && d.EstadoPedido==8
+                                   select new
+                                   {
+                                       d,
+                                   }).FirstOrDefault();
+
+                    if (res != null)
+                    {
+                        comprobar = true;
+                    }
+                    else {
+                        comprobar = false;
+                    }
+                    return comprobar;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
         }
 
         public bool GuardarActualizacionDetallePedido(int PedidoId, string ItemCode, int CantidadNueva)
@@ -622,7 +795,7 @@ namespace DacarProsoft.Datos
             {
 
                 var Listado = (from d in DB.EstadosPedidos
-                               where d.Codigo!=1 && d.Codigo!=6
+                               where d.Codigo!=1 && d.Codigo!=6 && d.Codigo != 7
                                select new
                                {
                                    d.Descripcion,
@@ -640,6 +813,58 @@ namespace DacarProsoft.Datos
 
             }
 
+        }
+        public List<PedidoClienteCabecera> InformacionCabeceraPedido(int pedidoId)
+        {
+            List<PedidoClienteCabecera> lst = new List<PedidoClienteCabecera>();
+
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = (from d in DB.PedidoClienteCabecera
+                               where d.NumeroPedidoId== pedidoId
+                               select new
+                               {
+                                   d.CardCode,
+                                   d.NombreCliente,
+                                   d.OrdenCompra,
+                                   d.EstadoPedido,
+                                   d.Sucursal,
+                                   d.FechaEmision
+                               });
+                foreach (var x in Listado)
+                {
+                    lst.Add(new PedidoClienteCabecera
+                    {
+                        CardCode = x.CardCode,
+                        NombreCliente = x.NombreCliente,
+                        OrdenCompra= x.OrdenCompra,
+                        EstadoPedido=x.EstadoPedido,
+                        Sucursal=x.Sucursal,
+                        FechaEmision=x.FechaEmision
+                    });
+                }
+                return lst;
+            }
+
+        }
+        public string ConsultarCorreoCliente(string CardCode, string Sucursal)
+        {
+            string result = "";
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var FechaPedido = (from d in DB.DireccionesClientes join
+                                    e in DB.UsuariosPortal on d.UsuarioId equals e.UsuarioPortalId
+                                   where e.ReferenciaUsuario==CardCode && d.NombreSucursal==Sucursal
+                                 
+                                   select new
+                                   {
+                                       d.Correo,
+                                   }).FirstOrDefault(); ;
+
+                result = FechaPedido.Correo;
+                return result;
+            }
         }
 
         public string  ConsultaFechaCargaLista(int  PedidoId)
@@ -936,6 +1161,346 @@ namespace DacarProsoft.Datos
 
             }
 
+        }
+        public List<EventoMesCalendario> InformacionEventosMes()
+        {
+            List<EventoMesCalendario> lst = new List<EventoMesCalendario>();
+            DateTime fecha1;
+            DateTime fecha2;
+            DateTime fecha3;
+            string fec1 ="";
+            string fec2="";
+            string fec3 = "";
+            string color = "";
+            string textColor = "";
+            string booki = "";
+
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = (from d in DB.CronogramaExportacion
+                               select new
+                               {
+                                  d.CronogramaExportacionId,
+                                  d.Orden,
+                                  d.FechaDespacho,
+                                  d.FechaPedido,
+                                  d.Booking,
+                                  d.TotalContenedores,
+                                  d.Cliente,
+                                  d.FechaZarpe,
+                                  d.Destino,
+                                  d.CardCode
+                               });
+                foreach (var x in Listado)
+                {
+                    fecha1 = Convert.ToDateTime(x.FechaPedido, CultureInfo.InvariantCulture);
+                    fecha2 = Convert.ToDateTime(x.FechaDespacho, CultureInfo.InvariantCulture);
+                    if (x.FechaZarpe.Value.Year < 2010)
+                    {
+                        fec3 = "No registrada";
+                    }
+                    else {
+                        fecha3 = Convert.ToDateTime(x.FechaDespacho, CultureInfo.InvariantCulture);
+                        fec3 = fecha3.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    }
+
+                    fec1 = fecha1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    fec2 = fecha2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    
+                    if (x.Booking==0) {
+                        color = "#748194";
+                        textColor = "#151515";
+                        booki = "Sin Booking";
+                    }
+                    if (x.Booking == 1)
+                    {
+                        color = "#F3FF00";
+                        textColor = "#151515";
+                        booki = "Con Booking";
+                    }
+                    if (x.Booking == 2)
+                    {
+                        color = "#00d27a";
+                        textColor = "#151515";
+                        booki = "Despachado";
+                    }
+                    lst.Add(new EventoMesCalendario
+                    {
+                        idEvento = x.CronogramaExportacionId,
+                        start = fec2,
+                        end = fec2,
+                        title = x.Cliente + " (" + x.Orden + ")",
+                        descripcion = x.Orden,
+                        color = color,
+                        textColor = textColor,
+                        Booking = x.TotalContenedores.Value,
+                        fechaPedido = fec1,
+                        fechaDespacho = fec2,
+                        destino = x.Destino,
+                        fechaZarpe = fec3,
+                        BookinText = booki,
+                        cardCode=x.CardCode
+                    }); 
+                }
+                return lst;
+            }
+        }
+        public List<CronogramaExp> ConsultarEventosMes()
+        {
+            List<CronogramaExp> lst = new List<CronogramaExp>();
+            DateTime fecha1;
+            string fec1 = "";
+            DateTime fecha2;
+            string fec2 = "";
+            DateTime fecha3;
+            string fec3 = "";
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.CronogramaExportacion
+                               orderby d.CronogramaExportacionId descending
+                               select new
+                               {
+                                 d.CronogramaExportacionId,
+                                 d.Orden,
+                                 d.Cliente,
+                                 d.FechaDespacho,
+                                 d.FechaPedido,
+                                 d.FechaZarpe,
+                                 d.Booking,
+                                 d.TotalContenedores,
+                                 d.CardCode,
+                                 d.Destino
+
+                               }).ToList();
+
+                foreach (var x in Listado.Distinct())
+                {
+                    fecha1 = Convert.ToDateTime(x.FechaDespacho, CultureInfo.InvariantCulture);
+                    fec1 = fecha1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    fecha2 = Convert.ToDateTime(x.FechaPedido, CultureInfo.InvariantCulture);
+                    fec2 = fecha2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    if (x.FechaZarpe.Value.Year < 2010)
+                    {
+                        fec3 = "";
+                    }
+                    else {
+                        fecha3 = Convert.ToDateTime(x.FechaZarpe, CultureInfo.InvariantCulture);
+                        fec3 = fecha3.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    }
+                    lst.Add(new CronogramaExp
+                    {
+                        CronogramaExportacionId = x.CronogramaExportacionId,
+                        Orden = x.Orden,
+                        Cliente = x.Cliente,
+                        FechaDespacho = fec1,
+                        FechaPedido=fec2,
+                        FechaZarpe=fec3,
+                        Booking=x.Booking,
+                        CardCode=x.CardCode,
+                        Destino=x.Destino,
+                        TotalContenedores=x.TotalContenedores
+                    }) ;
+                }
+                return lst;
+            }
+        }
+        public bool IngresarEventosMes(string Orden, string Cliente, DateTime FechaPedido, DateTime FechaDespacho, string FechaZarpe, int Booking, int TotalContenedores,
+       string cardCode, string Destino)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    DateTime fechaZar=(DateTime.Now).AddYears(-100);
+                    if (FechaZarpe != "") {
+                        fechaZar = Convert.ToDateTime(FechaZarpe);
+                    }
+
+                    var result = new CronogramaExportacion();
+                    result.Orden = Orden;
+                    result.Cliente = Cliente;
+                    result.FechaPedido = FechaPedido;
+                    result.FechaDespacho = FechaDespacho;
+                    result.FechaZarpe = fechaZar;
+                    result.Booking = Booking;
+                    result.TotalContenedores = TotalContenedores;
+                    result.CardCode = cardCode;
+                    result.Destino = Destino;
+
+                    DB.CronogramaExportacion.Add(result);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public bool ActualizarEventosMes(CronogramaExportacion crono, int Key)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = (from a in DB.CronogramaExportacion
+                                  where a.CronogramaExportacionId == Key
+                                  select a).FirstOrDefault();
+
+                   
+                    if (crono.Orden != null)
+                    {
+                        result.Orden = crono.Orden;
+                    }
+                    if (crono.Cliente != null)
+                    {
+                        result.Cliente = crono.Cliente;
+                    }
+                    if (crono.FechaPedido != null)
+                    {
+                        result.FechaPedido = crono.FechaPedido;
+                    }
+                    if (crono.FechaDespacho != null)
+                    {
+                        result.FechaDespacho = crono.FechaDespacho;
+                    }
+                    if (crono.FechaZarpe != null)
+                    {
+                        result.FechaZarpe = crono.FechaZarpe;
+                    }
+                    if (crono.Booking != null)
+                    {
+                        result.Booking = crono.Booking;
+                    }
+                    if (crono.TotalContenedores != null)
+                    {
+                        result.TotalContenedores = crono.TotalContenedores;
+                    }
+                    if (crono.CardCode != null)
+                    {
+                        result.CardCode = crono.CardCode;
+                    }
+                    if (crono.Destino != null)
+                    {
+                        result.Destino = crono.Destino;
+                    }
+
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public bool EliminarEventosMes(int CronogramaExportacionId)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    DB.CronogramaExportacion.RemoveRange(DB.CronogramaExportacion.Where(x => x.CronogramaExportacionId == CronogramaExportacionId));
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+
+                }
+            }
+
+        }
+        public int BusquedaFactura(string cardCode, string numeroOrden)
+        {
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                try
+                {
+                    int docEntry = 0;
+                    var resul = (from d in DB.OINV
+                                 where d.U_SYP_NUMOCCL == numeroOrden && d.CardCode == cardCode
+                                 select new
+                                 {
+                                     d.DocEntry,
+                                 }).FirstOrDefault();
+                    if (resul != null)
+                    {
+                        docEntry = resul.DocEntry;
+
+                        return docEntry;
+                    }
+                    else {
+                        return 0;
+                    }
+                  
+                }
+                catch (Exception ex){
+                    Console.WriteLine(ex);
+                    return 0;
+                }
+               
+            }
+        }
+        public int BusquedaAtcEntry(string cardCode, string numeroOrden)
+        {
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                try
+                {
+                    int docEntry = 0;
+                    var resul = (from d in DB.OINV
+                                 where d.U_SYP_NUMOCCL == numeroOrden && d.CardCode == cardCode
+                                 select new
+                                 {
+                                     d.AtcEntry,
+                                 }).FirstOrDefault();
+                    if (resul != null)
+                    {
+                        docEntry = resul.AtcEntry.Value;
+                    }
+                    else {
+                        docEntry = 0;
+                    }
+
+                    return docEntry;
+                }
+                catch(Exception ex) {
+                    Console.WriteLine(ex);
+                    return 0;
+                }
+            
+            }
+        }
+        public string ConsultarRutaAnexo(int abcEntry)
+        {
+            string result = "";
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                var res = (from d in DB.ATC1
+                               orderby d.AbsEntry descending
+                           where d.FileExt== "pdf"
+                           select new
+                               {
+                                  d.trgtPath,
+                                  d.FileName,
+                                  d.FileExt
+
+                               }).FirstOrDefault();
+                result = res.trgtPath + "\\" + res.FileName + "." + res.FileExt;
+
+               
+
+                return result;
+            }
         }
     }
 }

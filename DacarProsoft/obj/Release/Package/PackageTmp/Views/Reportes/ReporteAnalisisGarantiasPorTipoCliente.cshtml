@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewBag.Title = "ReporteAnalisisGarantiasPorTipoCliente";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+
+@{
+    var GrupoCliente = ViewBag.GrupoCliente;
+    var ClienteClase = ViewBag.ClienteClase;
+    var ClienteLinea = ViewBag.ClienteLinea;
+
+}
+<br />
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Reporte Analisis Garantia Por Tipo De Cliente</h2>
+        <br />
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <h6>TipoCliente</h6>
+                    @Html.DropDownList("Pais", new SelectList(GrupoCliente, "GroupCode", "GroupName"), "--Seleccione tipo de cliente--", new
+                    {
+                        @class = "js-example-basic-single",
+                        id = "txtTipoCliente",@*onchange = "cargarClientes();",*@style = "width:100%"
+})
+                </div>
+                <div class="col-md-2">
+                    <h6>Cliente Clase</h6>
+                    @Html.DropDownList("Pais", new SelectList(ClienteClase, "Codigo", "Nombre"), "--Seleccione cliente clase--", new
+                    {
+                        @class = "js-example-basic-single",
+                        id = "txtClienteClase",@*onchange = "cargarClientes();",*@style = "width:100%"
+})
+                </div>
+                <div class="col-md-2">
+                    <h6>TipoCliente</h6>
+                    @Html.DropDownList("Pais", new SelectList(ClienteLinea, "Codigo", "Nombre"), "--Seleccione cliente linea--", new
+                    {
+                        @class = "js-example-basic-single",
+                        id = "txtClienteLinea",@*onchange = "cargarClientes();",*@style = "width:100%"
+})
+                </div>
+                <div class="col-md-2">
+                    <h6>Año a Consultar</h6>
+                    <select class="js-example-basic-single" aria-label="Default select example" id="txtFecha" style="width:100%">
+                        <option value="" selected="selected">--Selecione el año--</option>
+                        @{
+                            var y = DateTime.Now.Year;
+                            while (y >= 2019)
+                            {
+                                <option value="">@y</option>
+                                y = y - 1;
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <h6>  </h6>
+                    <button class="btn btn-primary" onclick="ConsultarReporte()">
+                        <i class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <span class="btn-txt">Consultar</span>
+                    </button>
+                </div>
+                <div id="gridClearSelection"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="MensajeIngreseTodosLosCampos" class="alert alert-danger collapse">
+            <button id="LinkClose2" type="button" class="close">&times;</button>
+            <strong>Ingrese todos los campos!</strong>
+        </div>
+        <div id="MensajeSinInformacion" class="alert alert-danger collapse">
+            <button id="LinkClose3" type="button" class="close">&times;</button>
+            <strong>No existe información en las fechas solicitadas!</strong>
+        </div>
+        <div class="loader">
+            <div class="form">
+                <div class="form-row">
+                    @*<div align="center">
+                            <label id="lbltabladescriptiva">Tabla Descriptiva</label>
+                        </div>*@
+                    <div class="col">
+                    </div>
+                    @*<div class="col">
+                            <div id="tblGridResumenAnio1"> </div>
+                        </div>*@
+                    <div class="col">
+                        <div id="tblGridResumenTipoCliente"> </div>
+                    </div>
+                    <div class="col">
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-1">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <canvas id="myChart2" style="width:100%;max-width:700px"></canvas>
+                    </div>
+                    <div class="form-group col-md-1">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div id="ModalDetalleGarantiaMes" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblDetallePackingList">REPORTE POR MES DE CAUSALES DE GARANTIA</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div id="tblDetalleReporteGarantia"> </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="myChart3" style="width:100%;max-width:800px"></canvas>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div id="tblDetalleReporteGarantiaPorModelo"> </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="myChart4" style="width:100%;max-width:800px"></canvas>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>

@@ -1,0 +1,727 @@
+﻿@{
+    ViewBag.Title = "ReporteDashboardIngresosChatarraSap";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+
+@{
+    var ani = ViewBag.anos;
+}
+
+<br />
+<style>
+    .card-deck .card {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 0 0%;
+        flex: 1 0 0%;
+        margin-right: 0.5rem;
+        margin-bottom: 0;
+        margin-left: 0.5rem;
+    }
+
+    .card-deck .bg-holder .bg-card {
+        background-image: url("../Content/TemplateFalcon/assets/img/illustrations/corner-2.png");
+        background-color: aqua;
+    }
+
+    .card {
+        -webkit-box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+        box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+    }
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid #edf2f9;
+        border-radius: 0.375rem;
+    }
+
+    .mb-3, .my-3 {
+        margin-bottom: 1rem !important;
+    }
+
+    .overflow-hidden {
+        overflow: hidden !important;
+    }
+
+    element.style {
+        min-width: 12rem;
+    }
+</style>
+<style>
+    #IngresosdeChatarras {
+        margin-top: 20px;
+    }
+
+    .currency {
+        text-align: center;
+    }
+
+    #IngresosdeChatarras span.current-value {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    #IngresosdeChatarras span.diff {
+        width: 50px;
+        display: inline-block;
+    }
+
+    #IngresosdeChatarras .inc {
+        color: #2ab71b;
+    }
+
+    #IngresosdeChatarras .dec {
+        color: #f00;
+    }
+
+        #IngresosdeChatarras .inc .arrow,
+        #IngresosdeChatarras .dec .arrow {
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            background-repeat: no-repeat;
+            background-size: 10px 10px;
+        }
+
+    #IngresosdeChatarras .inc .arrow {
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADKSURBVHjaYtTaLs1ABEiG0nPRJa56PEHhsxBhmCUQT4OyrwHxcXyKmQgYJgHE64CYDYrXQcXIMhCbAcgWkGzgNKh38QUB0QamIUUErkhKI9ZAGyCeTERkTYaqxWsgKA2txhdG6GGsvUNGGpeBRMUiGhCFGsqGzUBQQJsxkA5AemaiG5hDIBIIgQSgK0FmMDACs549kN5FZLjhA7+A2A2U9YSAOBeLAk4gnoBDczoOcSFGPIUDPxB/wCHHiKtwYGKgMhg1cBAaCBBgAJTUIL3ToPZfAAAAAElFTkSuQmCC');
+    }
+
+    #IngresosdeChatarras .dec .arrow {
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAADJSURBVHjaYvzPgBfgkhYA4o8QFahKmBioDEYNHIQGsgBxIBCLkqgvAYi/g1mMjMjir0EJzR6If/6HpChKMMgMe3DKBeIcKhiY8x/MYoDj+RQYNgdkGLqBbEB8kgzDToL1YjEQhKWB+BUJhj0H64Eahs1AELYhMpJ+gtUiGYbLQBBOI8LANLBaIg1kAAc0vkiAqSPBQFAkHcNi2DGoHMkGgrAENOCRI0ECRQ2JBoKwJTQCfkLZDPgMZPxPXN5NhtJzMSsJVBMAAgwAyWSY2svfmrwAAAAASUVORK5CYII=');
+    }
+
+    #ChatarraDetalleGeneral .inc {
+        color: #2ab71b;
+    }
+
+    #ChatarraDetalleGeneral .dec {
+        color: #f00;
+    }
+
+    #ChatarraDetalleGeneral .inc .arrow,
+    #ChatarraDetalleGeneral .dec .arrow {
+        display: inline-block;
+        height: 10px;
+        width: 10px;
+        background-repeat: no-repeat;
+        background-size: 10px 10px;
+    }
+</style>
+<style>
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        color: black;
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        background-color: #D7F1FF;
+        /*background-color: #3355FF;*/
+        color: black;
+        font-weight: bold;
+    }
+
+    .dx-data-row {
+        font-size: 10pt;
+        padding: 2pt;
+    }
+
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
+        vertical-align: top;
+    }
+</style>
+
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Ingresos Chatarra</h2>
+
+        <br />
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <h5>Año de busqueda</h5>
+                    @Html.DropDownList("Anio", new SelectList(ani, "Value", "Text"), new { @class = "form-control", id = "anioClass" })
+                </div>
+                @*<div class="col-md-2">
+            <h6>Tipo Cliente</h6>
+            @Html.DropDownList("Grupo", new SelectList(grupo, "Value", "Text"), "--Todos--", new { @class = "form-control", id = "grupoCliente" })
+        </div>*@
+                <div class="col-md-2">
+                    <h6>  </h6>
+                    <button class="btn btn-primary" onclick="ConsultaDeIngresos()">
+                        <i class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <span class="btn-txt">Consultar</span>
+                    </button>
+                </div>           
+                <div class="col-md-7">
+              
+                    @*<div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Enero</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Febrero</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Marzo</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Abril</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Mayo</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Junio</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Julio</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Agosto</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Septiembre</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Octubre</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Noviembre</button>
+            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Diciembre</button>
+        </div>*@
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose2" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="MensajeActulalizacionCorrecta" class="alert alert-primary collapse">
+            <button id="LinkClose9" type="button" class="close">&times;</button>
+            <strong>Actualizacion exitosa</strong>
+        </div>
+        <div id="MensajeUnicoCliente" class="alert alert-danger collapse">
+            <button id="LinkClose15" type="button" class="close">&times;</button>
+            <strong>Solo se puede escoger un cliente para el reporte!</strong>
+        </div>
+        <div id="MensajeRespuestaEnvio" class="alert alert-danger collapse">
+            <button id="LinkClose8" type="button" class="close">&times;</button>
+            <strong></strong>
+        </div>
+        <div class="card-deck" style="display: none" id="MostrarCardsInf">
+            <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+                <div class="bg-holder bg-card" style="background-image: url(/Content/TemplateFalcon/assets/img/illustrations/corner-2.png);">
+                </div>
+                <!--/.bg-holder-->
+                <div class="card-body position-relative">
+                    <h5>Cantidad Baterias@*<span class="badge badge-soft-info rounded-capsule ml-2">0%</span>*@</h5>
+                    <br />
+                    <div id="cardTextCanNc" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info"></div><a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(1)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                    <div id="cardTextCanNc2" class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-nowrap"></div>
+
+                </div>
+            </div>
+            <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+                <div class="bg-holder bg-card" style="background-image: url(/Content/TemplateFalcon/assets/img/illustrations/corner-2.png); ">
+                </div>
+                <!--/.bg-holder-->
+
+                <div class="card-body position-relative">
+                    <h5>Peso Total(t)</h5>
+                    <br />
+                    <div id="cardTextCanComp" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info">0</div><a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(2)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                </div>
+            </div>
+            <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+                <div class="bg-holder bg-card" style="background-image: url(/Content/TemplateFalcon/assets/img/illustrations/corner-2.png);">
+                </div>
+                <!--/.bg-holder-->
+                <div class="card-body position-relative">
+                    <h5>USD Total($)</h5>
+                    <br />
+                    <div id="cardTextCanCompKg" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info">0</div>@*<a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(3)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>*@
+                </div>
+            </div>
+            <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+                <div class="bg-holder bg-card" style="background-image: url(/Content/TemplateFalcon/assets/img/illustrations/corner-2.png);">
+                </div>
+                <!--/.bg-holder-->
+                <div class="card-body position-relative">
+                    <h5>Peso Promedio(kg)</h5>
+                    <br />
+                    <div id="cardTextCanPesProm" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-success">0</div>
+                    @*<div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Statistics<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>*@
+                </div>
+            </div>
+
+            <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+                <div class="bg-holder bg-card">
+                </div>
+                <!--/.bg-holder-->
+                <div class="card-body position-relative">
+                    <h5>Total (YTD)</h5>
+                    <canvas id="myChartGeneralPesos" style="width: 40%; max-width: 300px"></canvas>
+                    @*<div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Statistics<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>*@
+                </div>
+            </div>
+            @*<div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+            <div class="bg-holder bg-card" style="background-image: url(/Content/TemplateFalcon/assets/img/illustrations/corner-2.png);">
+            </div>
+            <div class="card-body position-relative">
+                <h6>Desviacion Promedio(%)</h6>
+                <div id="cardTextDesvProm" class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-success">0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+            </div>
+        </div>*@
+        </div>
+        <div style="display: none" id="MostrarTblDetalles">
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="col-md-12">
+                                <h5>Ingresos por Baterias</h5>
+                                <h6>Por NC</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="tblChaNc">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">USD</th>
+                                                <th scope="col">Peso (kg)</th>
+                                                <th scope="col">Peso Promedio(kg)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DescTblChaNc">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h6>Por Garantias</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="tblChaGta">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">USD</th>
+                                                <th scope="col">Peso (kg)</th>
+                                                <th scope="col">Peso Promedio(kg)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DescTblChaGta" width="50" height="50">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h6>Por Compras</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="tblChaCom">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">USD</th>
+                                                <th scope="col">Peso (kg)</th>
+                                                <th scope="col">Peso Promedio(kg)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DescTblChaCom" width="50" height="50">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h5>Ingresos por Kg</h5>
+                                <h6>Por Compras</h6>
+                                <div class="table-responsive">
+
+                                    <table class="table table-striped" id="tblChaComKg">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">USD</th>
+                                                <th scope="col">Peso (kg)</th>
+                                                <th scope="col">Peso Promedio(kg)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DescTblChaComKg" width="50" height="50">
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            </div>
+                        <div class="col-md-8">
+                            <div class="row">                             
+                                <div class="col-md-12">
+                                        <canvas id="myChartGeneralMeses" style="width: 100%; max-width: 1150px"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="IngresosdeChatarras" @*style="display: none"*@></div>
+
+        @*<div id="IngresosdeChatarras"></div>*@
+        <div class="auto" id="OcultarTablaGeneral" style="display: none">
+            <button type="button" class="btn btn-primary" onclick="ChartResumenesChatarras();" style="display: none">Resultados</button>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalDetalleChatarra">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="TituloIngreso">Detalle de Ingreso Chatarra</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="ChatarraDetalle"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalDetalleGeneralCha">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="TituloIngreso">Detalle de Ingreso Chatarra</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="ChatarraDetalleGeneral"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ModalReporteChatarra" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form>
+                    <div class="form-row">
+                        <h4 class="modal-title" id="lblDetallePackingList">Reporte de Ingresos de Chatarra</h4>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="vendedor-tab" data-toggle="tab" href="#vendedor" role="tab" aria-controls="home" aria-selected="true">Vendedor</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="tipCliente-tab" data-toggle="tab" href="#tipCliente" role="tab" aria-controls="profile" aria-selected="false">Tipo Cliente</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="clienteLinea-tab" data-toggle="tab" href="#clienteLinea" role="tab" aria-controls="contact" aria-selected="false">Cliente Linea</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="clienteClase-tab" data-toggle="tab" href="#clienteClase" role="tab" aria-controls="home" aria-selected="true">Cliente Clase</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="tipoIngreso-tab" data-toggle="tab" href="#tipoIngreso" role="tab" aria-controls="profile" aria-selected="false">Tipo Ingreso</a>
+                            </li>
+                            @*<li class="nav-item" role="presentation">
+                                <a class="nav-link" id="meses-tab" data-toggle="tab" href="#meses" role="tab" aria-controls="contact" aria-selected="false">Meses</a>
+                            </li>*@
+                        </ul>
+                    </div>
+                </form>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="vendedor" role="tabpanel" aria-labelledby="home-tab">
+                        <form>
+                            <div class="form-row">
+                                @*<div class="form-group col-md-12">
+                                        <div align="center">
+                                            <h5 for="formGroupExampleInput">Vendedores</h5>
+                                        </div>
+                                    </div>*@
+                                <div class="form-group col-md-4">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputPassword4">Cantidad Total</label>
+                                            <input type="text" class="form-control" id="txtCantidadTotalVen" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoTotalVen" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Desviacion Total%</label>
+                                            <input type="text" class="form-control" id="txtDesviacionVen" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Promedio Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoPromVen" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <div id="DetalleFinalChatarrasVendedor"></div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12">
+                                        <canvas id="myChart1" style="width:450%;max-width:1100px"></canvas>
+                                    </div>
+                                    @*<div class="form-group col-md-12">
+                                            <canvas id="myChart2" style="width:200%;max-width:800px"></canvas>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="tipCliente" role="tabpanel" aria-labelledby="profile-tab">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputPassword4">Cantidad Total</label>
+                                            <input type="text" class="form-control" id="txtCantidadTotalTipCien" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoTotalTipCien" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Desviacion Total%</label>
+                                            <input type="text" class="form-control" id="txtDesviacionTipCien" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Promedio Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoPromTipCien" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <div id="DetalleFinalChatarrasTipoCliente"></div>
+                                    @*<div class="form-group col-md-12">
+                                            <canvas id="myChart4" style="width:200%;max-width:800px"></canvas>
+                                        </div>*@
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart3" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="clienteLinea" role="tabpanel" aria-labelledby="contact-tab">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputPassword4">Cantidad Total</label>
+                                            <input type="text" class="form-control" id="txtCantidadTotalClientLin" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoTotalClientLin" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Desviacion Total%</label>
+                                            <input type="text" class="form-control" id="txtDesviacionClientLin" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Promedio Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoPromClientLin" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <div id="DetalleFinalChatarrasClienteLinea"></div>
+                                    @*<div class="form-group col-md-12">
+                                            <canvas id="myChart6" style="width:200%;max-width:800px"></canvas>
+                                        </div>*@
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart5" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="clienteClase" role="tabpanel" aria-labelledby="contact-tab">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputPassword4">Cantidad Total</label>
+                                            <input type="text" class="form-control" id="txtCantidadTotalClientClas">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoTotalClientClas" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Desviacion Total%</label>
+                                            <input type="text" class="form-control" id="txtDesviacionClientClas" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Promedio Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoPromClientClas" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <div id="DetalleFinalChatarrasClienteClase"></div>
+                                    @*<div class="form-group col-md-12">
+                                            <canvas id="myChart8" style="width:200%;max-width:800px"></canvas>
+                                        </div>*@
+
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart7" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="tipoIngreso" role="tabpanel" aria-labelledby="contact-tab">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputPassword4">Cantidad Total</label>
+                                            <input type="text" class="form-control" id="txtCantidadTotalTipoIng">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoTotalTipoIng" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Desviacion Total%</label>
+                                            <input type="text" class="form-control" id="txtDesviacionTipoIng" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Promedio Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoPromTipIng" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <div id="DetalleFinalChatarrasTipoIngreso"></div>
+                                    @*<div class="form-group col-md-12">
+                                            <canvas id="myChart10" style="width:200%;max-width:800px"></canvas>
+                                        </div>*@
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart9" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!--<div class="tab-pane fade" id="meses" role="tabpanel" aria-labelledby="contact-tab">
+                        <form>
+                            <div class="form-row">
+
+                                <div class="form-group col-md-4">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <h5 for="formGroupExampleInput">Datos Generales:</h5>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputPassword4">Cantidad Total</label>
+                                            <input type="text" class="form-control" id="txtCantidadTotalMes">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoTotalMes" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Desviacion Total%</label>
+                                            <input type="text" class="form-control" id="txtDesviacionMes" placeholder="Voltaje" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Peso Promedio Total(Kg)</label>
+                                            <input type="text" class="form-control" id="txtPesoPromMes" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <div id="DetalleFinalChatarrasMeses"></div>-->
+                                    @*<div class="form-group col-md-12">
+                                            <canvas id="myChart12" style="width:200%;max-width:800px"></canvas>
+                                        </div>*@
+                                <!--</div>
+                                <div class="form-group col-md-12">
+                                    <canvas id="myChart11" style="width:450%;max-width:1100px"></canvas>
+                                </div>
+                            </div>
+                        </form>
+                    </div>-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-primary" onclick="GenerarPdf();">Imprimir</button>
+                    <button type="button" class="btn btn-success" onclick="AbrirModalEnvio();">Enviar por correo</button>*@
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="txtPesoIngresado" />
+<input type="hidden" id="txtPesoTeorico" />
+<input type="hidden" id="txtCantidadTotal" />
+<input type="hidden" id="txtDesviacionTotal" />

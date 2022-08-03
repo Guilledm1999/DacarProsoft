@@ -14,6 +14,24 @@
     <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
+  <EntityType Name="ATC1">
+    <Key>
+      <PropertyRef Name="AbsEntry" />
+      <PropertyRef Name="Line" />
+    </Key>
+    <Property Name="AbsEntry" Type="int" Nullable="false" />
+    <Property Name="Line" Type="int" Nullable="false" />
+    <Property Name="srcPath" Type="ntext" />
+    <Property Name="trgtPath" Type="ntext" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="254" />
+    <Property Name="FileExt" Type="nvarchar" MaxLength="8" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="UsrID" Type="int" />
+    <Property Name="Copied" Type="char" MaxLength="1" />
+    <Property Name="Override" Type="char" MaxLength="1" />
+    <Property Name="subPath" Type="nvarchar" MaxLength="254" />
+    <Property Name="FreeText" Type="nvarchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="IGN1">
     <Key>
       <PropertyRef Name="DocEntry" />
@@ -4555,6 +4573,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.ReporteIngresoChatarraConDe
     <Property Name="Peso_Teorico" Type="numeric" Precision="38" Scale="11" />
     <Property Name="Peso_Real" Type="numeric" Precision="38" Scale="11" />
     <Property Name="Desviacion" Type="numeric" Precision="38" Scale="6" />
+    <Property Name="Precio" Type="numeric" Precision="20" Scale="6" />
     <Property Name="Bodega" Type="nvarchar" MaxLength="8" />
     <Property Name="Vendedor" Type="nvarchar" MaxLength="155" />
     <Property Name="Comentarios" Type="nvarchar" MaxLength="254" />
@@ -4651,6 +4670,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
   <EntityContainer Name="SBODACARPRODModelStoreContainer">
     <EntitySet Name="@SYP_CLASESN" EntityType="Self.@SYP_CLASESN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="@SYP_LINEASN" EntityType="Self.@SYP_LINEASN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ATC1" EntityType="Self.ATC1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IGN1" EntityType="Self.IGN1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="INV1" EntityType="Self.INV1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ITM1" EntityType="Self.ITM1" Schema="dbo" store:Type="Tables" />
@@ -4681,6 +4701,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
     [ReporteIngresoChatarraConDesviacionRN].[Peso_Teorico] AS [Peso_Teorico], 
     [ReporteIngresoChatarraConDesviacionRN].[Peso_Real] AS [Peso_Real], 
     [ReporteIngresoChatarraConDesviacionRN].[Desviacion] AS [Desviacion], 
+    [ReporteIngresoChatarraConDesviacionRN].[Precio] AS [Precio], 
     [ReporteIngresoChatarraConDesviacionRN].[Bodega] AS [Bodega], 
     [ReporteIngresoChatarraConDesviacionRN].[Vendedor] AS [Vendedor], 
     [ReporteIngresoChatarraConDesviacionRN].[Comentarios] AS [Comentarios], 

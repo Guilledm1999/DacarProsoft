@@ -4630,6 +4630,7 @@
     <EntitySetMapping Name="ReporteIngresoChatarraConDesviacionRN">
       <EntityTypeMapping TypeName="SBODACARPRODModel.ReporteIngresoChatarraConDesviacionRN">
         <MappingFragment StoreEntitySet="ReporteIngresoChatarraConDesviacionRN">
+          <ScalarProperty Name="Precio" ColumnName="Precio" />
           <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
           <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="Comentarios" ColumnName="Comentarios" />

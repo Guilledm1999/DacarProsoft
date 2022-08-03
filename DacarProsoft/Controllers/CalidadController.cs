@@ -1463,5 +1463,32 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public ActionResult LiberacionProductoExportacion()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                //ConexionAccess conexion = new ConexionAccess();
+
+                daoUtilitarios = new DaoUtilitarios();
+               
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
     }
 }

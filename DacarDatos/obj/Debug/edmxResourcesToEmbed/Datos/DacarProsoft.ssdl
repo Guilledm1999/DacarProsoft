@@ -170,6 +170,22 @@
     <Property Name="DireccionCorreo" Type="varchar" MaxLength="100" />
     <Property Name="ClaveCorreo" Type="varchar" MaxLength="50" />
     <Property Name="Estado" Type="bit" />
+    <Property Name="ClaveLoginCorreo" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CronogramaExportacion">
+    <Key>
+      <PropertyRef Name="CronogramaExportacionId" />
+    </Key>
+    <Property Name="CronogramaExportacionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Orden" Type="varchar" MaxLength="255" />
+    <Property Name="Cliente" Type="varchar" MaxLength="255" />
+    <Property Name="FechaPedido" Type="datetime" />
+    <Property Name="FechaDespacho" Type="datetime" />
+    <Property Name="Booking" Type="int" />
+    <Property Name="TotalContenedores" Type="int" />
+    <Property Name="CardCode" Type="varchar" MaxLength="50" />
+    <Property Name="Destino" Type="varchar" MaxLength="150" />
+    <Property Name="FechaZarpe" Type="datetime" />
   </EntityType>
   <EntityType Name="DatosTecnicosCalidadBaterias">
     <Key>
@@ -220,6 +236,21 @@
     <Property Name="DiasBusquedaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NumeroDias" Type="int" />
   </EntityType>
+  <EntityType Name="DireccionesClientes">
+    <Key>
+      <PropertyRef Name="DireccionesClientesId" />
+    </Key>
+    <Property Name="DireccionesClientesId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UsuarioId" Type="int" />
+    <Property Name="NombreSucursal" Type="varchar" MaxLength="100" />
+    <Property Name="Pais" Type="varchar" MaxLength="100" />
+    <Property Name="Ciudad" Type="varchar" MaxLength="100" />
+    <Property Name="Direccion" Type="varchar" MaxLength="100" />
+    <Property Name="CodigoPostal" Type="varchar" MaxLength="20" />
+    <Property Name="MaximumWeight" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Correo" Type="varchar" MaxLength="100" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="EstadosOrdenProduccion">
     <Key>
       <PropertyRef Name="OrdenId" />
@@ -263,6 +294,23 @@
     <Property Name="Descripcion" Type="varchar" MaxLength="50" />
     <Property Name="Valor" Type="int" />
     <Property Name="Estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="GenericosItem">
+    <Key>
+      <PropertyRef Name="GenericoItemId" />
+    </Key>
+    <Property Name="GenericoItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GrupoGenericoItem" Type="varchar" MaxLength="255" />
+    <Property Name="ModeloDacar" Type="varchar" MaxLength="255" />
+    <Property Name="NumeroParteCliente" Type="varchar" MaxLength="255" />
+    <Property Name="EtiquetaDatosTecnicos" Type="varchar" MaxLength="255" />
+    <Property Name="Polaridad" Type="varchar" MaxLength="255" />
+    <Property Name="TipoTerminal" Type="varchar" MaxLength="255" />
+    <Property Name="CantidadPiso" Type="int" />
+    <Property Name="PisoMaximo" Type="int" />
+    <Property Name="BateriasPallet" Type="int" />
+    <Property Name="PesoTara" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="FechaRegistro" Type="datetime" />
   </EntityType>
   <EntityType Name="GrupoClientes">
     <Key>
@@ -442,6 +490,17 @@
     <Property Name="Referencia" Type="varchar" MaxLength="255" />
     <Property Name="Identificador" Type="int" />
     <Property Name="Estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="MaestrosUtilitarios">
+    <Key>
+      <PropertyRef Name="MaestrosUtilitariosId" />
+    </Key>
+    <Property Name="MaestrosUtilitariosId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+    <Property Name="Valor" Type="varchar" MaxLength="255" />
+    <Property Name="fechaCreacion" Type="datetime" />
+    <Property Name="fechaActualizacion" Type="datetime" />
+    <Property Name="estado" Type="bit" />
   </EntityType>
   <EntityType Name="MarcaBateriaPruebaLaboratorio">
     <Key>
@@ -669,6 +728,7 @@
     <Property Name="FechaIngresadaSap" Type="datetime" />
     <Property Name="FechaNuevaDespacho" Type="datetime" />
     <Property Name="NumeroContenedores" Type="int" />
+    <Property Name="FechaActualizacionItems" Type="datetime" />
   </EntityType>
   <EntityType Name="ProvinciasEcuador">
     <Key>
@@ -1141,14 +1201,17 @@
     <EntitySet Name="ClienteLinea" EntityType="Self.ClienteLinea" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ControlCambios" EntityType="Self.ControlCambios" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CorreoElectronicoEnviosReportes" EntityType="Self.CorreoElectronicoEnviosReportes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CronogramaExportacion" EntityType="Self.CronogramaExportacion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DatosTecnicosCalidadBaterias" EntityType="Self.DatosTecnicosCalidadBaterias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DetalleGeneralPackingList" EntityType="Self.DetalleGeneralPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DiasBusqueda" EntityType="Self.DiasBusqueda" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DireccionesClientes" EntityType="Self.DireccionesClientes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EstadosOrdenProduccion" EntityType="Self.EstadosOrdenProduccion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EstadosPedidos" EntityType="Self.EstadosPedidos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EstadosPedidosSelect" EntityType="Self.EstadosPedidosSelect" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FechasPedidos" EntityType="Self.FechasPedidos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FiltrosCategoriaReporteGarantias" EntityType="Self.FiltrosCategoriaReporteGarantias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GenericosItem" EntityType="Self.GenericosItem" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GuiaPackingList" EntityType="Self.GuiaPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />
@@ -1161,6 +1224,7 @@
     <EntitySet Name="IngresosDetallesMedicionCarga" EntityType="Self.IngresosDetallesMedicionCarga" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresosMedicionCarga" EntityType="Self.IngresosMedicionCarga" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LineasMarcasPropias" EntityType="Self.LineasMarcasPropias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MaestrosUtilitarios" EntityType="Self.MaestrosUtilitarios" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarcaBateriaPruebaLaboratorio" EntityType="Self.MarcaBateriaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />

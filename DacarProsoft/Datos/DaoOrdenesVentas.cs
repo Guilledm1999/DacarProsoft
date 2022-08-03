@@ -66,12 +66,12 @@ namespace DacarProsoft.Datos
                     }
                 }
                 var ListadoCabeceraFactOrdenesVentas = from d in DB.OINV
-                                                   where d.U_SYP_NUMOCCL == "04-DACAR2021-B" || d.U_SYP_NUMOCCL == "239" || d.U_SYP_NUMOCCL == "NJ52021-10" ||
-                                                   d.U_SYP_NUMOCCL == "8266" || d.U_SYP_NUMOCCL == "ARPO0046750" || d.U_SYP_NUMOCCL == "M61521-1" ||
-                                                   d.U_SYP_NUMOCCL == "40104" || d.U_SYP_NUMOCCL == "40105" || d.U_SYP_NUMOCCL == "DAC03-22" || d.U_SYP_NUMOCCL == "36680"
-                                                   || d.U_SYP_NUMOCCL == "KENDCR9921" || d.U_SYP_NUMOCCL == "9152021PAM1"
-                                                   || d.U_SYP_NUMOCCL == "DAC03-22" || d.U_SYP_NUMOCCL == "26752" || d.U_SYP_NUMOCCL == "MONICA821F"
-                                                   || d.U_SYP_NUMOCCL == "M70721-1" || d.U_SYP_NUMOCCL == "I80321-5" || d.U_SYP_NUMOCCL == "N82321-2"
+                                                   where d.U_SYP_NUMOCCL == "M81721-1" || d.U_SYP_NUMOCCL == "CB42061" || d.U_SYP_NUMOCCL == "45100" ||
+                                                   d.U_SYP_NUMOCCL == "45101" || d.U_SYP_NUMOCCL == "45102" || d.U_SYP_NUMOCCL == "8362" ||
+                                                   d.U_SYP_NUMOCCL == "PHE/6534" || d.U_SYP_NUMOCCL == "PHE/4535" || d.U_SYP_NUMOCCL == "PHE/6607" || d.U_SYP_NUMOCCL == "276"
+                                                   || d.U_SYP_NUMOCCL == "TRO-006-2022" || d.U_SYP_NUMOCCL == "DAC04-22" || d.U_SYP_NUMOCCL == "DAC05-22" || d.U_SYP_NUMOCCL == "I80321-6"
+                                                   || d.U_SYP_NUMOCCL == "DACAR-011-22"
+
                                                        orderby d.DocDate descending
                                                    //d.U_SYP_EXPORTACION == Exportacion &&
                                                    //d.U_SYP_EXPORTACION == Exportacion &&
@@ -309,7 +309,8 @@ namespace DacarProsoft.Datos
             List<DetalleOrdenVenta> lst = new List<DetalleOrdenVenta>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
-                var ListadoDetalleOrdenesVentas = from d in DB.INV1
+                var ListadoDetalleOrdenesVentas = from d in DB.INV1 join
+                                                  e in DB.OITM on d.ItemCode equals e.ItemCode
                                                   where d.DocEntry == DocEntry
                                                   select new
                                                   {
@@ -321,6 +322,8 @@ namespace DacarProsoft.Datos
                                                       d.Text,
                                                       d.Price,
                                                       d.LineTotal,
+                                                      e.FrgnName,
+                                                      e.U_DAC_MARCA
                                                   };
 
                 foreach (var x in ListadoDetalleOrdenesVentas)
@@ -335,7 +338,9 @@ namespace DacarProsoft.Datos
                         Descripcion = x.Dscription,
                         Text = x.Text,
                         Precio = x.Price.Value,
-                        PrecioTotal = x.LineTotal.Value
+                        PrecioTotal = x.LineTotal.Value,
+                        NombreForaneo=x.FrgnName,
+                        NombreGenerico=x.U_DAC_MARCA
                     });
                 }
                 return lst;
@@ -413,6 +418,100 @@ namespace DacarProsoft.Datos
                 }
             }
         }
+        public string ConsultarGenerico(string ItemCode)
+        {
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                try
+                {
+                    var Generico = (from d in DB.OITM
+                                         where d.ItemCode == ItemCode
+                                         select new
+                                         {
+                                             d.U_DAC_MARCA
+                                         }).FirstOrDefault();
+                    if (Generico.U_DAC_MARCA != "" && Generico.U_DAC_MARCA != null)
+                    {
+                        return Generico.U_DAC_MARCA;
+
+                    }
+                    else
+                    {
+                        return "SIN ESPECIFICAR";
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return "Sin Especificar";
+                }
+            }
+        }
+        public string ConsultarDatosTecnicos(string ItemCode)
+        {
+            string generico = ConsultarGenerico(ItemCode);
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Generico = (from d in DB.GenericosItem
+                                    where d.ModeloDacar == generico
+                                    select new
+                                    {
+                                        d.EtiquetaDatosTecnicos
+                                    }).FirstOrDefault();
+                    if (Generico.EtiquetaDatosTecnicos != "" && Generico.EtiquetaDatosTecnicos != null)
+                    {
+                        return Generico.EtiquetaDatosTecnicos;
+
+                    }
+                    else
+                    {
+                        return "SIN ESPECIFICAR";
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return "Sin Especificar";
+                }
+            }
+        }
+        public string ConsultarPolaridad(string ItemCode)
+        {
+
+            string generico = ConsultarGenerico(ItemCode);
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Generico = (from d in DB.GenericosItem
+                                    where d.ModeloDacar == generico
+                                    select new
+                                    {
+                                        d.Polaridad
+                                    }).FirstOrDefault();
+                    if (Generico.Polaridad != "" && Generico.Polaridad != null)
+                    {
+                        return Generico.Polaridad;
+
+                    }
+                    else
+                    {
+                        return "SIN ESPECIFICAR";
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return "Sin Especificar";
+                }
+            }
+        }
+
         public List<ItemsPackingList> ListadoItemsPackingList(int PackingId)
         {
             string nombreForaneo = null;

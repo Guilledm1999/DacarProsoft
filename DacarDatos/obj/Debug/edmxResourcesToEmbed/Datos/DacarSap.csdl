@@ -447,6 +447,7 @@
     <EntitySet Name="IGN1" EntityType="SBODACARPRODModel.IGN1" />
     <EntitySet Name="PDN1" EntityType="SBODACARPRODModel.PDN1" />
     <EntitySet Name="ReporteIngresoChatarraConDesviacionRN" EntityType="SBODACARPRODModel.ReporteIngresoChatarraConDesviacionRN" />
+    <EntitySet Name="ATC1" EntityType="SBODACARPRODModel.ATC1" />
   </EntityContainer>
   <EntityType Name="VU_REPORTEPRODUCCION">
     <Key>
@@ -4662,5 +4663,24 @@
     <Property Name="Comentarios" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
     <Property Name="Fecha" Type="DateTime" Precision="3" />
     <Property Name="DocEntry" Type="Int32" Nullable="false" />
+    <Property Name="Precio" Type="Decimal" Precision="20" Scale="6" />
+  </EntityType>
+  <EntityType Name="ATC1">
+    <Key>
+      <PropertyRef Name="AbsEntry" />
+      <PropertyRef Name="Line" />
+    </Key>
+    <Property Name="AbsEntry" Type="Int32" Nullable="false" />
+    <Property Name="Line" Type="Int32" Nullable="false" />
+    <Property Name="srcPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="trgtPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FileName" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+    <Property Name="FileExt" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <Property Name="UsrID" Type="Int32" />
+    <Property Name="Copied" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Override" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="subPath" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+    <Property Name="FreeText" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

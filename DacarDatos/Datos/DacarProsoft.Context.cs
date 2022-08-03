@@ -101,6 +101,9 @@ namespace DacarDatos.Datos
         public virtual DbSet<GuiaPackingList> GuiaPackingList { get; set; }
         public virtual DbSet<PruebasLaboratorioCCA> PruebasLaboratorioCCA { get; set; }
         public virtual DbSet<GenericosItem> GenericosItem { get; set; }
+        public virtual DbSet<DireccionesClientes> DireccionesClientes { get; set; }
+        public virtual DbSet<MaestrosUtilitarios> MaestrosUtilitarios { get; set; }
+        public virtual DbSet<CronogramaExportacion> CronogramaExportacion { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {

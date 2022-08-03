@@ -4550,11 +4550,12 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.ReporteIngresoChatarraConDe
     <Property Name="Tipo_Cliente" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="Cliente_Linea" Type="nvarchar" MaxLength="100" />
     <Property Name="Cliente_Clase" Type="nvarchar" MaxLength="100" />
-    <Property Name="Tipo_Ingreso" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="Tipo_Ingreso" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="Cantidad" Type="numeric" Precision="38" Scale="6" />
     <Property Name="Peso_Teorico" Type="numeric" Precision="38" Scale="11" />
     <Property Name="Peso_Real" Type="numeric" Precision="38" Scale="11" />
     <Property Name="Desviacion" Type="numeric" Precision="38" Scale="6" />
+    <Property Name="Precio" Type="numeric" Precision="20" Scale="6" />
     <Property Name="Bodega" Type="nvarchar" MaxLength="8" />
     <Property Name="Vendedor" Type="nvarchar" MaxLength="155" />
     <Property Name="Comentarios" Type="nvarchar" MaxLength="254" />
@@ -4681,6 +4682,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
     [ReporteIngresoChatarraConDesviacionRN].[Peso_Teorico] AS [Peso_Teorico], 
     [ReporteIngresoChatarraConDesviacionRN].[Peso_Real] AS [Peso_Real], 
     [ReporteIngresoChatarraConDesviacionRN].[Desviacion] AS [Desviacion], 
+    [ReporteIngresoChatarraConDesviacionRN].[Precio] AS [Precio], 
     [ReporteIngresoChatarraConDesviacionRN].[Bodega] AS [Bodega], 
     [ReporteIngresoChatarraConDesviacionRN].[Vendedor] AS [Vendedor], 
     [ReporteIngresoChatarraConDesviacionRN].[Comentarios] AS [Comentarios], 

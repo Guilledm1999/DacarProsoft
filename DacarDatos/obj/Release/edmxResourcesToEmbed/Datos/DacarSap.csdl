@@ -4652,7 +4652,7 @@
     <Property Name="Tipo_Cliente" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="Cliente_Linea" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="Cliente_Clase" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="Tipo_Ingreso" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="Tipo_Ingreso" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="Cantidad" Type="Decimal" Precision="38" Scale="6" />
     <Property Name="Peso_Teorico" Type="Decimal" Precision="38" Scale="11" />
     <Property Name="Peso_Real" Type="Decimal" Precision="38" Scale="11" />
@@ -4662,5 +4662,6 @@
     <Property Name="Comentarios" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
     <Property Name="Fecha" Type="DateTime" Precision="3" />
     <Property Name="DocEntry" Type="Int32" Nullable="false" />
+    <Property Name="Precio" Type="Decimal" Precision="20" Scale="6" />
   </EntityType>
 </Schema>

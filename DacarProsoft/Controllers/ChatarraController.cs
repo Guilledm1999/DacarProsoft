@@ -1372,9 +1372,15 @@ namespace DacarProsoft.Controllers
             }
         }
 
+        public decimal ConsultarDesviacionChatarra()
+        { 
+                daoUtilitarios = new DaoUtilitarios();
+                var Result = daoUtilitarios.ObtenerValorDesviacion();              
+                return Result;
+        }
+
         public JsonResult ConsultaIngresosChatarraConDesviacionSap(int anio)
         {
-
             try
             {
                 daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
@@ -1418,6 +1424,35 @@ namespace DacarProsoft.Controllers
             {
                 Console.WriteLine(ex);
                 throw;
+            }
+        }
+        public ActionResult ReporteDashboardIngresosChatarraSap()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                daoUtilitarios = new DaoUtilitarios();
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+
+                var dat = daoIngresoMercanciasSap.ConsultarAniosVentas();
+                ViewBag.anos = dat;
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                //return View("GenericRedirect", (object)"ViewBag.anosAccount");
+                return RedirectToAction("Login", "Account");
             }
         }
     }

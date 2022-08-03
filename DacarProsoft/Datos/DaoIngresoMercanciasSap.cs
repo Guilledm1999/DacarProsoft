@@ -1967,9 +1967,51 @@ namespace DacarProsoft.Datos
             }
         }
 
+        public decimal PesoPromedioChatarra(int anio) {
+            decimal pesoPromNc = 0;
+            decimal pesoPromCom = 0;
+            decimal PromTotNc = 0;
+
+            decimal canPromNc = 0;
+            decimal canPromCom = 0;
+            decimal PromTotCo = 0;
+
+            decimal total = 0;
+
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                var Listado = from d in DB.ReporteIngresoChatarraConDesviacionRN
+                              where d.Fecha.Value.Year == anio
+                              orderby d.Fecha.Value.Month ascending
+                              select new
+                              {                                
+                                  d.Tipo_Ingreso,
+                                  d.Cantidad,
+                                  d.Peso_Real,                                
+                              };
+                foreach (var x in Listado) {
+
+                    if (x.Tipo_Ingreso== "Compras (Ud)") {
+                        pesoPromCom = pesoPromCom + x.Peso_Real.Value;
+                        canPromCom = canPromCom + x.Cantidad.Value;
+                    }
+                    if (x.Tipo_Ingreso == "Nota Credito")
+                    {
+                        pesoPromNc = pesoPromNc + x.Peso_Real.Value;
+                        canPromNc = canPromNc + x.Cantidad.Value;
+                    }
+                }
+                PromTotNc = pesoPromNc / canPromNc;
+                PromTotCo = pesoPromCom / canPromCom;
+
+                total = (PromTotNc + PromTotCo) / 2;
+                return Decimal.Round(total,2);
+            }
+        }
         public List<ReporteChatarraConDesviacion> ReporteGeneralChatarrasPorDesviacionesSap(int anioBusqueda)
         {
-            int contador = 1;          
+            int contador = 1;
+            decimal promCantComKg = 0;
             string fechaRegistro;
             List<ReporteChatarraConDesviacion> lst = new List<ReporteChatarraConDesviacion>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1()) { 
@@ -1995,14 +2037,23 @@ namespace DacarProsoft.Datos
                                   d.Vendedor,
                                   d.Comentarios,
                                   d.Fecha,
-                                  d.DocEntry
+                                  d.DocEntry,
+                                  d.Precio
                               };
- 
+                var valorProm = PesoPromedioChatarra(anioBusqueda);
+
                 foreach (var x in Listado)
                 {
                     if (x.Peso_Teorico!=null) {
                         DateTime FechaRegistro = Convert.ToDateTime(x.Fecha, CultureInfo.InvariantCulture);
                         fechaRegistro = FechaRegistro.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                        if (x.Tipo_Ingreso == "Compras (Kg)")
+                        {
+                            promCantComKg = Decimal.Round((x.Cantidad.Value / valorProm), 0);
+                        }
+                        else {
+                            promCantComKg= Decimal.Round(x.Cantidad.Value, 0);
+                        }
 
                         lst.Add(new ReporteChatarraConDesviacion
                         {
@@ -2015,10 +2066,11 @@ namespace DacarProsoft.Datos
                             Cliente_Linea = x.Cliente_Linea.Trim(new Char[] { ' ', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' }),
                             Cliente_Clase = x.Cliente_Clase.Trim(new Char[] { ' ', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' }),
                             Tipo_Ingreso = x.Tipo_Ingreso,
-                            Cantidad = x.Cantidad,
+                            Cantidad = promCantComKg,
                             Peso_Teorico = Decimal.Round(x.Peso_Teorico.Value, 2),
                             Peso_Real = Decimal.Round(x.Peso_Real.Value, 2),
                             Desviacion = Decimal.Round(x.Desviacion.Value, 2),
+                            Precio = Decimal.Round(x.Precio.Value, 2),
                             Bodega = x.Bodega,
                             Vendedor = x.Vendedor,
                             Comentarios = x.Comentarios,

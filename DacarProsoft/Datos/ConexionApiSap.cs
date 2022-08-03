@@ -22,7 +22,7 @@ namespace DacarProsoft.Datos
                 myCompany.DbServerType = BoDataServerTypes.dst_MSSQL2014;
                 myCompany.CompanyDB = "SBODACARPRUEBAS";
                 myCompany.UserName = "manager";
-                myCompany.Password = "Dcs@P15.*";
+                myCompany.Password = "dacarito**";
                 myCompany.language = BoSuppLangs.ln_Spanish_La;
 
                 int error = myCompany.Connect();

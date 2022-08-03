@@ -188,9 +188,8 @@ namespace DacarProsoft.Controllers
                     var result = daoPackilist.IngresarPacking(Convert.ToInt32(NumeroDocumento), NumeroOrden, NombreCliente, Origen, Destino, 20, tipo, Sucursal, i);
                     identificador1 = result;
 
-                    if (NumeroOrden == "239"|| NumeroOrden == "04-DACAR2021" || NumeroOrden == "NJ52021-10" || NumeroOrden == "8266" || NumeroOrden == "ARPO0046750" || NumeroOrden == "40104" || NumeroOrden == "40105" || NumeroOrden == "DAC03-22" || NumeroOrden == "04-DACAR2021-B"
-                        || NumeroOrden == "36680" || NumeroOrden == "KENDCR9921" || NumeroOrden == "9152021PAM1" || NumeroOrden == "DAC03-22" || NumeroOrden == "26752" || NumeroOrden == "MONICA821F"
-                                                   || NumeroOrden == "M70721-1" || NumeroOrden == "I80321-5" || NumeroOrden == "N82321-2") {
+                    if (NumeroOrden == "M81721-1" || NumeroOrden == "CB42061" || NumeroOrden == "45100" || NumeroOrden == "45101" || NumeroOrden == "45102" || NumeroOrden == "8362" || NumeroOrden == "PHE/6534" || NumeroOrden == "PHE/4535" || NumeroOrden == "PHE/6607"
+                        || NumeroOrden == "276" || NumeroOrden == "TRO-006-2022" || NumeroOrden == "DAC04-22" || NumeroOrden == "DAC05-22" || NumeroOrden == "I80321-6" || NumeroOrden == "DACAR-011-22") {
                         var PackingDetalle = daoOrdenesVentas.ListadoDetalleFacturasReservaSap(IdentificadorDetalle);
                         foreach (var x in PackingDetalle)
                         {
@@ -214,9 +213,7 @@ namespace DacarProsoft.Controllers
                                 var resultado = daoPackilist.IngresarPackingDtl(result, x.ItemCode, x.Descripcion, x.Cantidad);
                             }
                         }
-                    }
-
-                  
+                    }                  
                 }
 
                 return identificador1;
@@ -1123,12 +1120,13 @@ namespace DacarProsoft.Controllers
         [HttpGet]
         public ActionResult InformePackingList(int PackingId, string Fondo)
         {
+            daoOrdenesVentas = new DaoOrdenesVentas();
             int totalUnidades = 0;
             decimal totalVolumen = 0;
             decimal totalPBruto = 0;
             decimal totalPNeto = 0;
             daoPackilist = new DaoPackingList();
-
+            string nombreForaneo = null;
             string nombreCliente = null;
             string contenedor = null;
             string fecha = null;
@@ -1139,7 +1137,9 @@ namespace DacarProsoft.Controllers
             string intercambioEir = null;
             string referencia = null;
             string productos = null;
-
+            string datosTecnicos = null;
+            string polaridad = null;
+            string generico = null;
             var detalleGeneralPackingList = daoPackilist.ConsultarDetalleGeneralPackingList(PackingId);
             var pallet = daoPackilist.ConsultarPalletPackingCompleto(PackingId);
             var nombreAutorizado = daoPackilist.ConsultarNombreAutorizado();
@@ -1259,21 +1259,29 @@ namespace DacarProsoft.Controllers
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("PRODUCT:").SetFontSize(8)).SetBold().SetHeight(12f).SetBorder(Border.NO_BORDER));
             tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + productos).SetFontSize(8)).SetHeight(12f).SetBorder(Border.NO_BORDER));
 
-            float[] columnWidth2 = { 52f, 52f, 52f, 52f, 52f, 52f, 52f, 52f, 52f, 52f };
+            float[] columnWidth2 = { 10f, 75f, 60f, 60f, 60f, 7f, 10f, 10f, 10f, 40f, 40f, 40f };
 
             Table tabla2 = new Table(columnWidth2).UseAllAvailableWidth();
 
             Cell cell = new Cell(2, 1)
            .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
-           .Add(new Paragraph("Pallet #").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+           .Add(new Paragraph("Pallet").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell);
-            cell = new Cell(2, 2)
+            cell = new Cell(2, 1)
             .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
-           .Add(new Paragraph("Description").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+           .Add(new Paragraph("Customer Reference").SetFixedLeading(10).SetFontSize(8)).SetBold().SetHeight(20f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell);
             cell = new Cell(2, 1)
            .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
-          .Add(new Paragraph("Quantity").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+          .Add(new Paragraph("Dacar Part Number").SetFixedLeading(10).SetFontSize(8)).SetBold().SetHeight(20f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+            tabla2.AddCell(cell);
+            cell = new Cell(2, 2)
+           .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
+          .Add(new Paragraph("Description").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+            tabla2.AddCell(cell);
+            cell = new Cell(2, 1)
+           .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
+          .Add(new Paragraph("Qty").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell);
             cell = new Cell(1, 3)
            .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
@@ -1288,13 +1296,13 @@ namespace DacarProsoft.Controllers
           .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
          .Add(new Paragraph("Weight(kg)").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
             tabla2.AddCell(cell);
-            tabla2.AddCell(new Cell().Add(new Paragraph("Length").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().Add(new Paragraph("Width").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell().Add(new Paragraph("Height").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().Add(new Paragraph("L.").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().Add(new Paragraph("W.").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().Add(new Paragraph("H.").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().Add(new Paragraph("Gross").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell().Add(new Paragraph("Net").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
 
-            float[] columnWidth3 = { 52f, 52f, 52f, 52f, 52f, 52f, 52f, 52f, 52f, 52f };
+            float[] columnWidth3 = { 10f, 75f, 60f, 60f, 60f, 7f, 10f, 10f, 10f, 40f, 40f };
             Table tabla3 = new Table(columnWidth3);
 
             foreach (var x in pallet) {
@@ -1306,15 +1314,22 @@ namespace DacarProsoft.Controllers
                 if (palletDetalle.Count == 1)
                 {
                     foreach (var y in palletDetalle) {
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.PalletNumber).SetFontSize(8)).SetBold().SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + y.DescriptionCode).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.LargoPallet).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.AnchoPallet).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.AltoPallet).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.VolumenPallet).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + String.Format("{0:n}", x.PesoBruto)).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + String.Format("{0:n}", x.PesoNeto)).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        nombreForaneo = daoPackilist.ConsultarNombreForaneo(y.ItemCode);
+                        datosTecnicos= daoOrdenesVentas.ConsultarDatosTecnicos(y.ItemCode);
+                        polaridad = daoOrdenesVentas.ConsultarPolaridad(y.ItemCode);                    
+                        generico = daoOrdenesVentas.ConsultarGenerico(y.ItemCode);
+  
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.PalletNumber).SetFontSize(7)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph(""+ nombreForaneo).SetFixedLeading(8).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + generico).SetFixedLeading(8).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + datosTecnicos+" - "+polaridad).SetFixedLeading(10).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.LargoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.AnchoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.AltoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.VolumenPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + String.Format("{0:n}", x.PesoBruto)).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + String.Format("{0:n}", x.PesoNeto)).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         totalUnidades = totalUnidades + y.CantidadItem.Value;
                     }
                 }
@@ -1323,12 +1338,18 @@ namespace DacarProsoft.Controllers
                     int i = 1;
                     foreach (var y in palletDetalle)
                     {
+                        nombreForaneo = daoPackilist.ConsultarNombreForaneo(y.ItemCode);
+                        datosTecnicos = daoOrdenesVentas.ConsultarDatosTecnicos(y.ItemCode);
+                        polaridad = daoOrdenesVentas.ConsultarPolaridad(y.ItemCode);
+                        generico = daoOrdenesVentas.ConsultarGenerico(y.ItemCode);
                         int contador = palletDetalle.Count;
 
                         if (i == 1)
                         {
                             tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.PalletNumber).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
-                            tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + y.DescriptionCode).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + nombreForaneo).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + generico).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
                             tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
                             tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.LargoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
                             tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.AnchoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
@@ -1338,7 +1359,9 @@ namespace DacarProsoft.Controllers
                             tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + String.Format("{0:n}", x.PesoNeto)).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
                         }
                         if (i > 1) {
-                            tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + y.DescriptionCode).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + nombreForaneo).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + generico).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
                             tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
                         }
                         i = i + 1;
@@ -1346,12 +1369,12 @@ namespace DacarProsoft.Controllers
                     }
                 }
             }
-            tabla2.AddCell(new Cell(1, 3).Add(new Paragraph("Total").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell(1, 5).Add(new Paragraph("Total").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + String.Format("{0:n0}", totalUnidades)).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
             tabla2.AddCell(new Cell(1, 3).Add(new Paragraph("").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + totalVolumen + (" m³")).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + String.Format("{0:n}", totalPBruto) + (" kg")).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
-            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + String.Format("{0:n}", totalPNeto) + (" kg")).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + totalVolumen).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + String.Format("{0:n}", totalPBruto)).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + String.Format("{0:n}", totalPNeto)).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
             
             document.Add(Espacio);
             document.Add(tabla).SetBorder(Border.NO_BORDER);
@@ -1391,7 +1414,6 @@ namespace DacarProsoft.Controllers
 
                 pdfCanvas.RestoreState();
                 pdfCanvas.Release();
-
             }
         }
         private class TableFooterEventHandler : IEventHandler
@@ -1676,6 +1698,264 @@ namespace DacarProsoft.Controllers
             document.Add(Espacio);
             document.Add(Espacio);
             document.Add(tablaDetalleFact);
+
+            document.Close();
+
+            byte[] bytesStreams = stream.ToArray();
+            stream = new MemoryStream();
+            stream.Write(bytesStreams, 0, bytesStreams.Length);
+            stream.Position = 0;
+            return new FileStreamResult(stream, "application/pdf");
+        }
+        [HttpGet]
+        public ActionResult ImprimirGuia(string Cliente, int packingId, string reserva, string pedido, string contenedorDetalle)
+        {
+            daoPackilist = new DaoPackingList();
+            daoOrdenesVentas = new DaoOrdenesVentas();
+            var detGuia = daoPackilist.ConsultarGuiaPackingList(packingId);
+            //string contenedorDetalle = daoPackilist.ConsultarDetalleGeneralPackingListContenedor(packingId);
+            string nombreForaneo = "";
+            string datosTecnicos = "";
+            string polaridad = "";
+            string generico = "";
+            string fechaEmision="";
+            string puntoPartida="";
+            decimal pesoBruto= 0;
+            decimal pesotara = 0;
+            string razonSocial = "";
+            string ruc = "";
+            string direccion = "";
+            string placa = "";
+            string selloA = "";
+            string selloB = "";
+            string selloC = "";
+            string selloD = "";
+            string elaboradoPor = "";
+            string autorizadoPor = "";
+            int totalUnidades = 0;
+
+            foreach (var y in detGuia) {
+                DateTime fecAct = Convert.ToDateTime(y.FechaActualizacion, CultureInfo.InvariantCulture);
+                fechaEmision = fecAct.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
+                puntoPartida = y.PuntoPartida;
+                pesoBruto = y.PesoBruto.Value;
+                pesotara = y.PesoTara.Value;
+                razonSocial = y.RazonSocial;
+                ruc = y.Ruc;
+                direccion = y.Direccion;
+                placa = y.Placa;
+                selloA = y.SelloA;
+                selloB = y.SelloB;
+                selloC = y.SelloC;
+                selloD = y.SelloD;
+                elaboradoPor = y.ElaboradoPor;
+                autorizadoPor = y.AutorizadoPor;
+            }
+
+            PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+            PdfFont No_Bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);
+            iText.Kernel.Colors.Color fondoCelda = new DeviceRgb(199, 224, 255);
+            iText.Kernel.Colors.Color lineColor = new DeviceRgb(39, 110, 198);
+
+            MemoryStream stream = new MemoryStream();
+            PdfWriter writer = new PdfWriter(stream);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf, PageSize.A4, true);
+            LineSeparator ls = new LineSeparator(new SolidLine());
+
+            float[] cellWidth = { 20f, 20f  };
+            Table tablaEvent = new Table(UnitValue.CreatePercentArray(3)).UseAllAvailableWidth();
+
+            Cell cell5 = new Cell().Add(new Paragraph("_________________________"));
+            tablaEvent.AddCell(cell5.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell9 = new Cell().Add(new Paragraph("_________________________"));
+            tablaEvent.AddCell(cell9.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell6 = new Cell().Add(new Paragraph("_________________________"));
+            tablaEvent.AddCell(cell6.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell10 = new Cell().Add(new Paragraph("Autorizado por").SetFontSize(10));
+            tablaEvent.AddCell(cell10.SetTextAlignment(TextAlignment.CENTER).SetBorder(Border.NO_BORDER));
+            Cell cell7 = new Cell().Add(new Paragraph("Entregado por").SetFontSize(10));
+            tablaEvent.AddCell(cell7.SetTextAlignment(TextAlignment.CENTER).SetBorder(Border.NO_BORDER));
+            Cell cell2 = new Cell().Add(new Paragraph("Recibí conforme").SetFontSize(10));
+            tablaEvent.AddCell(cell2.SetTextAlignment(TextAlignment.CENTER).SetBorder(Border.NO_BORDER));
+            Cell cell3 = new Cell().Add(new Paragraph(" " /*+ referencia*/));
+            tablaEvent.AddCell(cell3.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell8 = new Cell().Add(new Paragraph(""));
+            tablaEvent.AddCell(cell8.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            Cell cell4 = new Cell().Add(new Paragraph(" " /*+ nombreAutorizado*/));
+            tablaEvent.AddCell(cell4.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaEvent));
+
+            document.SetMargins(80, 36, 130, 36);
+            var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
+            iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
+
+            Paragraph header = new Paragraph("GUIA DE REMISION")
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFontSize(16).SetBold();
+            PdfFont font = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);
+            List list = new List().SetSymbolIndent(12)
+            .SetFont(font);
+
+            Paragraph text1 = new Paragraph("Datos del transportista")
+              .SetTextAlignment(TextAlignment.LEFT)
+              .SetFontSize(12).SetBold();
+
+            Paragraph text2 = new Paragraph("Sellos")
+            .SetTextAlignment(TextAlignment.LEFT)
+            .SetFontSize(12).SetBold();
+
+            Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER)
+              .SetFontSize(12).SetFontColor(ColorConstants.BLACK);
+            float[] columnWidth = { 80f, 270f, 40f, 80f };
+
+            Table tablaEncabezado = new Table(columnWidth);
+
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Cliente:").SetFontSize(10)).SetBold().SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Cliente).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha Emision:").SetFontSize(10)).SetBold().SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + fechaEmision).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Punto Partida:").SetFontSize(10)).SetBold().SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + puntoPartida).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Reserva:").SetFontSize(10)).SetBold().SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + reserva).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Pedido").SetFontSize(10)).SetBold().SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + pedido).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Contenedor").SetFontSize(10)).SetBold().SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + contenedorDetalle).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso Bruto").SetFontSize(10)).SetBold().SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + pesoBruto).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso Tara").SetFontSize(10)).SetBold().SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + pesotara).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+
+            float[] columnWidth2 = { 80f, 270f, 40f, 80f };
+
+            Table tablaEncabezadoDetalle = new Table(columnWidth2);
+            tablaEncabezadoDetalle.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Razon Social").SetBold().SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalle.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + razonSocial).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalle.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Ruc").SetBold().SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalle.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + ruc).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalle.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Direccion").SetBold().SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalle.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + direccion).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalle.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Placa").SetBold().SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalle.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + placa).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+
+
+            float[] columnWidth4 = { 80f, 270f, 40f, 80f };
+
+            Table tablaEncabezadoDetalleSellos = new Table(columnWidth4);
+            tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Sello A").SetBold().SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + selloA).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Sello B").SetBold().SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + selloB).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Sello C").SetBold().SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + selloC).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Sello D").SetBold().SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+            tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + selloD).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
+
+
+            var pallet = daoPackilist.ConsultarPalletPackingCompleto(packingId);
+
+            float[] columnWidthItems = { 10f, 100f, 100f, 100f};
+
+            Table tablaDescripcionItems = new Table(columnWidthItems).SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            Cell cell = new Cell(1, 1)
+           .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
+           .Add(new Paragraph("Item").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+            tablaDescripcionItems.AddCell(cell);
+            cell = new Cell(1, 1)
+            .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
+           .Add(new Paragraph("Referencia del cliente").SetFontSize(8)).SetBold().SetHeight(20f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+            tablaDescripcionItems.AddCell(cell);
+            cell = new Cell(1, 1)
+           .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
+          .Add(new Paragraph("Dacar Part Number").SetFontSize(8)).SetBold().SetHeight(20f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+            tablaDescripcionItems.AddCell(cell);
+          //  cell = new Cell(1, 1)
+          // .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
+          //.Add(new Paragraph("Descripcion").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+          //  tablaDescripcionItems.AddCell(cell);
+            cell = new Cell(1, 1)
+           .SetVerticalAlignment(VerticalAlignment.MIDDLE).SetTextAlignment(TextAlignment.CENTER)
+          .Add(new Paragraph("Cantidad").SetFontSize(8)).SetBold().SetHeight(16f).SetBackgroundColor(ColorConstants.LIGHT_GRAY).SetBorder(new SolidBorder(lineColor, 1));
+            tablaDescripcionItems.AddCell(cell);
+
+            int j = 1;
+
+            foreach (var z in pallet) {
+                var palletDetalle = daoPackilist.ConsultarPalletPalletDetalleItemsCompleto(packingId, z.PalletPacking1);
+                
+                if (palletDetalle.Count == 1)
+                {
+                    foreach (var y in palletDetalle)
+                    {
+                        nombreForaneo = daoPackilist.ConsultarNombreForaneo(y.ItemCode);
+                        datosTecnicos = daoOrdenesVentas.ConsultarDatosTecnicos(y.ItemCode);
+                        polaridad = daoOrdenesVentas.ConsultarPolaridad(y.ItemCode);
+                        generico = daoOrdenesVentas.ConsultarGenerico(y.ItemCode);
+                        tablaDescripcionItems.AddCell(new Cell().Add(new Paragraph("" + j).SetFontSize(8)).SetBold().SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tablaDescripcionItems.AddCell(new Cell().Add(new Paragraph("" + nombreForaneo).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tablaDescripcionItems.AddCell(new Cell().Add(new Paragraph("" + generico).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        //tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tablaDescripcionItems.AddCell(new Cell().Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        totalUnidades = totalUnidades + y.CantidadItem.Value;
+                        j = j + 1;
+                    }
+                }
+                else {
+                    int i = 1;
+                    foreach (var y in palletDetalle)
+                    {
+                        nombreForaneo = daoPackilist.ConsultarNombreForaneo(y.ItemCode);
+                        datosTecnicos = daoOrdenesVentas.ConsultarDatosTecnicos(y.ItemCode);
+                        polaridad = daoOrdenesVentas.ConsultarPolaridad(y.ItemCode);
+                        generico = daoOrdenesVentas.ConsultarGenerico(y.ItemCode);
+                        int contador = palletDetalle.Count;
+                        if (i == 1)
+                        {
+                            tablaDescripcionItems.AddCell(new Cell().Add(new Paragraph("" + j).SetFontSize(8)).SetBold().SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                            //tablaDescripcionItems.AddCell(new Cell(contador, 1).Add(new Paragraph("" + z.PalletNumber).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph("" + nombreForaneo).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph("" + generico).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            //tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            j = j + 1;
+                        }
+                        if (i > 1)
+                        {
+                            tablaDescripcionItems.AddCell(new Cell().Add(new Paragraph("" + j).SetFontSize(8)).SetBold().SetHeight(13f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                            tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph("" + nombreForaneo).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph("" + generico).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            //tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            j = j + 1;
+                        }
+                        i = i + 1;
+                        totalUnidades = totalUnidades + y.CantidadItem.Value;
+                    }
+                }               
+            }
+            tablaDescripcionItems.AddCell(new Cell(1, 3).Add(new Paragraph("Total").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+            tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph(""+ totalUnidades).SetFontSize(8).SetBold()).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+            document.Add(header);
+            document.Add(Espacio);
+            document.Add(Espacio);
+            document.Add(Espacio);
+            document.Add(tablaEncabezado);
+            document.Add(Espacio);
+            document.Add(Espacio);
+            document.Add(text1);
+            document.Add(tablaEncabezadoDetalle);
+            //document.Add(text2);
+            //document.Add(tablaEncabezadoDetalleSellos);         
+            document.Add(Espacio);
+            document.Add(tablaDescripcionItems);
+            document.Add(Espacio);
+            //document.Add(tablaDetalleFact);
 
             document.Close();
 

@@ -46,5 +46,6 @@ namespace DacarDatos.Datos
         public virtual DbSet<IGN1> IGN1 { get; set; }
         public virtual DbSet<PDN1> PDN1 { get; set; }
         public virtual DbSet<ReporteIngresoChatarraConDesviacionRN> ReporteIngresoChatarraConDesviacionRN { get; set; }
+        public virtual DbSet<ATC1> ATC1 { get; set; }
     }
 }

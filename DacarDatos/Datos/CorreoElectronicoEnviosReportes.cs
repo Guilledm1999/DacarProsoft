@@ -18,5 +18,6 @@ namespace DacarDatos.Datos
         public string DireccionCorreo { get; set; }
         public string ClaveCorreo { get; set; }
         public Nullable<bool> Estado { get; set; }
+        public string ClaveLoginCorreo { get; set; }
     }
 }
