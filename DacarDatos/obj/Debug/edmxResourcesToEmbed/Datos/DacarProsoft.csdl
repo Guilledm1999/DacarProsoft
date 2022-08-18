@@ -191,6 +191,7 @@
     <EntitySet Name="DireccionesClientes" EntityType="DacarProsoftModel.DireccionesClientes" />
     <EntitySet Name="MaestrosUtilitarios" EntityType="DacarProsoftModel.MaestrosUtilitarios" />
     <EntitySet Name="CronogramaExportacion" EntityType="DacarProsoftModel.CronogramaExportacion" />
+    <EntitySet Name="HistoricoChatarra" EntityType="DacarProsoftModel.HistoricoChatarra" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1394,5 +1395,16 @@
     <Property Name="CardCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Destino" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
     <Property Name="FechaZarpe" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="HistoricoChatarra">
+    <Key>
+      <PropertyRef Name="HistoricoChatarraId" />
+    </Key>
+    <Property Name="HistoricoChatarraId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Anio" Type="Int32" />
+    <Property Name="Mes" Type="Int32" />
+    <Property Name="Cantidad" Type="Int32" />
+    <Property Name="Peso" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
   </EntityType>
 </Schema>

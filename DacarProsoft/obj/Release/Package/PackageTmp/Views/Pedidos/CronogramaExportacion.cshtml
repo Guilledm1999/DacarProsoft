@@ -12,6 +12,11 @@
     .portlet.calendar .fc-event .fc-title {
         color: white;
     }
+    .modal-xl {
+        max-width: 90% !important;
+        max-height: 90% !important;
+    }
+
 </style>
 <br />
 <div class="card mb-3">
@@ -86,36 +91,57 @@
 
 
 <div class="modal fade" id="modalDescripcionEvento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog  modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="tituloModal">Modal Title</h4>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span class="font-weight-light" aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <div class="form-row">
-                    <div class="col-sm-8">
-                        <h6><span><i class="fa fa-clipboard-check" title="Arbitration"></i></span><strong> Orden: </strong> <span id="txtDetalleEVento"></span> </h6>
-                        <h6><span><i class="fa fa-route" title="Arbitration"></i></span><strong> Destino: </strong> <span id="txtDetalleEVentoDestino"></span> </h6>
-                        <h6><span><i class="fa fa-calendar-plus" title="Arbitration"></i></span><strong> Fecha Pedido: </strong> <span id="txtDetalleEVentoFechaPedido"></span> </h6>
-                        <h6><span><i class="fa fa-calendar-check" title="Arbitration"></i></span><strong> Fecha Despacho: </strong> <span id="txtDetalleEVentoFechaDespacho"></span> </h6>
-                        <h6><span><i class="fa fa-ship" title="Arbitration"></i></span><strong> Fecha Zarpe: </strong> <span id="txtDetalleEVentoFechaZarpe"></span> </h6>
-                        <h6><span><i class="fa fa-truck-moving" title="Arbitration"></i></span><strong> Contenedores: </strong> <span id="txtDetalleEVentoContener"></span> </h6>
-                        <h6><span id="txtDetalleEVentoBooking"></span></h6>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <img src="~/Images/dacaritoo.png" style="max-width:100%;width:150px;height:auto;" />
-                    </div>
+                <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
+                    <button id="LinkClose3" type="button" class="close">&times;</button>
+                    <strong>Error General!!</strong>
                 </div>
-                <object class="PDFdoc" width="200" height="500" type="application/pdf" data="https://www.antennahouse.com/XSLsample/pdf/sample-link_1.pdf"></object>
-                <object class="PDFdoc" width="200" height="500" type="application/pdf" data="file://21.0.1.243/Adjuntos/001.pdf"></object>
+                <div id="MensajeSinFactura" class="alert alert-danger collapse">
+                    <button id="LinkClose2" type="button" class="close">&times;</button>
+                    <strong>No se encontraron anexos para esta orden!!</strong>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-6">
+                        <div class="form-row">
+                            <div class="col-sm-6">
+                                <h6><span><i class="fa fa-clipboard-check" title="Arbitration"></i></span><strong> Orden: </strong> <span id="txtDetalleEVento"></span> </h6>
+                                <h6><span><i class="fa fa-route" title="Arbitration"></i></span><strong> Destino: </strong> <span id="txtDetalleEVentoDestino"></span> </h6>
+                                <h6><span><i class="fa fa-truck-moving" title="Arbitration"></i></span><strong> Contenedores: </strong> <span id="txtDetalleEVentoContener"></span> </h6>
+                                <h6><span id="txtDetalleEVentoBooking"></span></h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6><span><i class="fa fa-calendar-plus" title="Arbitration"></i></span><strong> Fecha Pedido: </strong> <span id="txtDetalleEVentoFechaPedido"></span> </h6>
+                                <h6><span><i class="fa fa-calendar-check" title="Arbitration"></i></span><strong> Fecha Despacho: </strong> <span id="txtDetalleEVentoFechaDespacho"></span> </h6>
+                                <h6><span><i class="fa fa-ship" title="Arbitration"></i></span><strong> Fecha Zarpe: </strong> <span id="txtDetalleEVentoFechaZarpe"></span> </h6>
+                            </div>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
+                            <br />
 
-                @*<iframe src="file:///C:/Users/USUARIO/Desktop/Documentation/actividades.pdf"
-                        style="width:700px; height:700px;"
-                        frameborder="0">
-                </iframe>*@
+                            <div class="col-sm-12">
+                                <div id="tblDescripFact"></div>
+                            </div>
+                        </div>
+                    </div>
 
-            </div>
+                    <div class="col-sm-6">
+                        <object class="PDFdoc" width="700" height="700" type="application/pdf" id="pruebaPdf" data=""></object>
+                    </div>
+
+
+                    @*<div class="form-group col-md-3">
+                <img src="~/Images/dacaritoo.png" style="max-width:100%;width:100px;height:auto;" />
+            </div>*@
+
+                </div>
             </div>
     </div>
 </div>

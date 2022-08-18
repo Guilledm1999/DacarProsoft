@@ -33,19 +33,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/16/2017 06:51:42</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll">
-      <publishTime>01/08/2022 14:30:03</publishTime>
+      <publishTime>08/04/2022 11:14:04</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll.config">
-      <publishTime>07/08/2022 12:43:54</publishTime>
+      <publishTime>08/10/2022 12:38:21</publishTime>
     </File>
     <File Include="bin/DacarDatos.pdb">
-      <publishTime>01/08/2022 14:30:03</publishTime>
+      <publishTime>08/04/2022 11:14:04</publishTime>
     </File>
     <File Include="bin/DacarProsoft.dll">
-      <publishTime>08/03/2022 10:41:18</publishTime>
+      <publishTime>08/10/2022 13:38:28</publishTime>
     </File>
     <File Include="bin/DacarProsoft.pdb">
-      <publishTime>08/03/2022 10:41:18</publishTime>
+      <publishTime>08/10/2022 13:38:28</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>11/03/2015 18:43:42</publishTime>
@@ -249,10 +249,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/13/2022 09:37:05</publishTime>
     </File>
     <File Include="Content/countUp.js/dist/countUp.d.ts">
-      <publishTime>08/03/2022 10:41:15</publishTime>
+      <publishTime>08/10/2022 13:37:10</publishTime>
     </File>
     <File Include="Content/countUp.js/dist/countUp.js">
-      <publishTime>08/03/2022 10:41:15</publishTime>
+      <publishTime>08/10/2022 13:37:10</publishTime>
     </File>
     <File Include="Content/countUp.js/dist/countUp.min.js">
       <publishTime>07/13/2022 09:37:05</publishTime>
@@ -3705,7 +3705,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/20/2022 14:18:38</publishTime>
     </File>
     <File Include="scripts/General/Chatarra/ReporteDashboardIngresosChatarraSap.js">
-      <publishTime>07/27/2022 13:37:37</publishTime>
+      <publishTime>08/09/2022 12:09:20</publishTime>
     </File>
     <File Include="scripts/General/Chatarra/ReporteIngresosChatarra.js">
       <publishTime>05/13/2022 10:17:01</publishTime>
@@ -3750,10 +3750,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/21/2022 17:05:29</publishTime>
     </File>
     <File Include="scripts/General/Pedidos/CronogramaExportacion.js">
-      <publishTime>01/08/2022 15:05:46</publishTime>
+      <publishTime>08/10/2022 11:00:17</publishTime>
     </File>
     <File Include="scripts/General/Pedidos/IngresoCronogramaExportacion.js">
-      <publishTime>02/08/2022 12:46:48</publishTime>
+      <publishTime>08/02/2022 12:46:48</publishTime>
     </File>
     <File Include="scripts/General/Pedidos/PedidosCancelados.js">
       <publishTime>04/20/2022 16:19:09</publishTime>
@@ -3900,7 +3900,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/20/2022 14:17:30</publishTime>
     </File>
     <File Include="Views/Chatarra/ReporteDashboardIngresosChatarraSap.cshtml">
-      <publishTime>07/27/2022 15:11:12</publishTime>
+      <publishTime>08/09/2022 11:52:23</publishTime>
     </File>
     <File Include="Views/Chatarra/ReporteIngresosChatarra.cshtml">
       <publishTime>04/20/2022 14:16:34</publishTime>
@@ -3909,10 +3909,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/20/2022 14:19:20</publishTime>
     </File>
     <File Include="Views/Chatarra/ReporteIngresosChatarraSap.cshtml">
-      <publishTime>01/07/2022 16:02:21</publishTime>
+      <publishTime>07/01/2022 16:02:21</publishTime>
     </File>
     <File Include="Views/Compartida/_Layout.cshtml">
-      <publishTime>01/08/2022 09:51:14</publishTime>
+      <publishTime>08/01/2022 09:51:14</publishTime>
     </File>
     <File Include="Views/Compartida/_LayoutPage1.cshtml">
       <publishTime>02/11/2021 15:52:20</publishTime>
@@ -3954,10 +3954,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/04/2022 11:17:28</publishTime>
     </File>
     <File Include="Views/Pedidos/CronogramaExportacion.cshtml">
-      <publishTime>08/03/2022 10:41:01</publishTime>
+      <publishTime>08/10/2022 11:22:50</publishTime>
     </File>
     <File Include="Views/Pedidos/IngresoCronogramaExportacion.cshtml">
-      <publishTime>02/08/2022 10:54:43</publishTime>
+      <publishTime>08/03/2022 14:13:38</publishTime>
     </File>
     <File Include="Views/Pedidos/PedidosCancelados.cshtml">
       <publishTime>04/20/2022 16:17:27</publishTime>
@@ -4017,7 +4017,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/09/2020 13:04:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/08/2022 13:28:47</publishTime>
+      <publishTime>08/10/2022 12:38:33</publishTime>
     </File>
   </ItemGroup>
 </Project>

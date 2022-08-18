@@ -735,19 +735,19 @@ namespace DacarProsoft.Controllers
         }
         public string ConvertirPdf(string cardCode, string numeroOrden) {
 
-            daoPedidos = new DaoPedidos();
-
-            int atcEntry = daoPedidos.BusquedaAtcEntry(cardCode, numeroOrden);
-            if (atcEntry != 0)
-            {
-                string ruta = daoPedidos.ConsultarRutaAnexo(atcEntry);
-                Byte[] bytes = System.IO.File.ReadAllBytes(@ruta);
-                String file = Convert.ToBase64String(bytes);
-                return file;
-            }
-            else {
-                return "";
-            }
+            daoPedidos = new DaoPedidos();        
+                int atcEntry = daoPedidos.BusquedaAtcEntry(cardCode, numeroOrden);
+                if (atcEntry != 0)
+                {
+                    string ruta = daoPedidos.ConsultarRutaAnexo(atcEntry);
+                    Byte[] bytes = System.IO.File.ReadAllBytes(@ruta);
+                    String file = Convert.ToBase64String(bytes);
+                    return file;
+                }
+                else
+                {
+                    return "";
+                }
         }
 
         public JsonResult ConsultarDsecripFact(string cardCode, string numeroOrden)

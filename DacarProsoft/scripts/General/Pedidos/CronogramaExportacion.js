@@ -1,6 +1,7 @@
 ﻿
 $(document).ready(function () {
     InicializarCalendario();
+
 });
 
 $('#LinkClose3').on("click", function (e) {
@@ -14,7 +15,7 @@ $('#LinkClose2').on("click", function (e) {
 
 function InicializarCalendario() {
     var resConsulta = ConsultarEventos();
-    var initialLocaleCode = 'es';
+    var initialLocaleCode = 'es-us';
         var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
 
@@ -35,26 +36,40 @@ function InicializarCalendario() {
 
         eventClick: function (info) {
             var objTag = document.getElementById("pruebaPdf");
-
-            objTag.removeAttribute('data');
+            //objTag.removeAttribute('data');
 
             //console.log(objTag.getAttribute('data'));
             //objTag.removeAttribute('data');
 
+
+
+
+
             var valorConsul = ConsultarPdf(info.event.extendedProps.cardCode, info.event.extendedProps.descripcion);
 
+            console.log("val pdf:" + valorConsul);
             if (valorConsul != "") {
                 var objTag = document.getElementById("pruebaPdf");
 
                 objTag.setAttribute('data', "data:application/pdf;base64," + valorConsul);
-                console.log("true"+objTag.getAttribute('data'));
 
+                var clone = objTag.cloneNode(true);
+                var parent = objTag.parentNode;
+
+                parent.removeChild(objTag);
+                parent.appendChild(clone);
 
             } else {
                 var objTag = document.getElementById("pruebaPdf");
 
                 objTag.setAttribute('data', "data:application/pdf;base64,");
-                console.log("false: "+objTag.getAttribute('data'));
+
+                var clone = objTag.cloneNode(true);
+                var parent = objTag.parentNode;
+
+                parent.removeChild(objTag);
+                parent.appendChild(clone);
+              
 
                 $("#MensajeSinFactura").show('fade');
                 setTimeout(function () {
@@ -110,6 +125,7 @@ function ConsultarPdf(var1, var2) {
             res = msg;
         },
         error: function (msg) {
+            console.log("error consulta pdf:"+msg)
             $("#MensajeErrorGeneral").show('fade');
             setTimeout(function () {
                 $("#MensajeErrorGeneral").fadeOut(1500);
@@ -118,7 +134,6 @@ function ConsultarPdf(var1, var2) {
     })
     return res;
 }
-
 
 function mostrarDatosFactura(cardCode, orden) {
     $.ajax({
@@ -135,7 +150,7 @@ function mostrarDatosFactura(cardCode, orden) {
                 showColumnLines: true,
                 showRowLines: true,
                 rowAlternationEnabled: false,
-                allowColumnReordering: true,
+                allowColumnReordering: false,
                 allowColumnResizing: false,
                           
                 headerFilter: {
@@ -159,10 +174,26 @@ function mostrarDatosFactura(cardCode, orden) {
                         dataField: "Quantity", caption: "Cantidad", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
                     },
                     {
-                        dataField: "Price", caption: "Precio Unitario", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
+                        dataField: "Price", caption: "Precio Uni.", allowEditing: false, headerFilter: true, allowHeaderFiltering: true,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 2,
+                        },
+                        customizeText: function (cellInfo) {
+                            const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+                            return (cellInfo.value).toLocaleString('en-US', noTruncarDecimales);
+                        }
                     },
                     {
-                        dataField: "TotalPrice", caption: "Precio Total", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
+                        dataField: "TotalPrice", caption: "Precio Total", allowEditing: false, headerFilter: true, allowHeaderFiltering: true,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 2,
+                        },
+                        customizeText: function (cellInfo) {
+                            const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+                            return (cellInfo.value).toLocaleString('en-US', noTruncarDecimales);
+                        }
                     },
                 ],
                 summary: {
@@ -204,10 +235,9 @@ function mostrarDatosFactura(cardCode, orden) {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
-                                    return ValTotal;
+                                    return "$"+ValTotal;
                                 }
                             },
-
                         },
                     ],
                 },

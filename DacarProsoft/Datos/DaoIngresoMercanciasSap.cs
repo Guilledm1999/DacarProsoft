@@ -2047,6 +2047,10 @@ namespace DacarProsoft.Datos
                     if (x.Peso_Teorico!=null) {
                         DateTime FechaRegistro = Convert.ToDateTime(x.Fecha, CultureInfo.InvariantCulture);
                         fechaRegistro = FechaRegistro.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                        DateTimeFormatInfo formatoFecha = CultureInfo.CurrentCulture.DateTimeFormat;
+                        string nombreMes = formatoFecha.GetMonthName(x.Fecha.Value.Month);
+
                         if (x.Tipo_Ingreso == "Compras (Kg)")
                         {
                             promCantComKg = Decimal.Round((x.Cantidad.Value / valorProm), 0);
@@ -2075,7 +2079,8 @@ namespace DacarProsoft.Datos
                             Vendedor = x.Vendedor,
                             Comentarios = x.Comentarios,
                             FechaRegistro = fechaRegistro,
-                            DocEntry=x.DocEntry,
+                            DocEntry =x.DocEntry,
+                            NombreMes= nombreMes,
                             //FechaRegistro2=CultureInfo.InvariantCulture.TextInfo.ToTitleCase((x.Fecha.Value).ToString("MMMM"))
                             FechaRegistro2 = x.Fecha.Value.Month
                         });
@@ -2085,7 +2090,73 @@ namespace DacarProsoft.Datos
                 return lst;
             }
         }
+        public List<ResumenAnioPosteriorChatarra> ResumenAnioPosteriorIngresoChatarra(int anioBusqueda)
+        {     
+            List<ResumenAnioPosteriorChatarra> lst = new List<ResumenAnioPosteriorChatarra>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
 
+                var Listado = from d in DB.ReporteIngresoChatarraConDesviacionRN
+                              where d.Fecha.Value.Year == anioBusqueda && d.Tipo_Ingreso!= "Compras (Kg)"
+                              group d by  d.Fecha.Value.Month into newGroup
+                              select new {
+                                  mes= newGroup.Key,
+                                  cantidad=newGroup.Sum(t => t.Cantidad),
+                                  precio =newGroup.Sum(t => t.Precio),
+                                  peso =newGroup.Sum(t=>t.Peso_Real)
+                              };
+                var Listado2 = from d in DB.ReporteIngresoChatarraConDesviacionRN
+                              where d.Fecha.Value.Year == anioBusqueda && d.Tipo_Ingreso == "Compras (Kg)"
+                              group d by d.Fecha.Value.Month into newGroup
+                              select new
+                              {
+                                  mes = newGroup.Key,
+                                  cantidad = newGroup.Sum(t => t.Cantidad),
+                                  precio = newGroup.Sum(t => t.Precio),
+                                  peso = newGroup.Sum(t => t.Peso_Real)
+                              };
+                var UnionGeneral = Listado.Union(Listado2);
+                decimal pesTot = 0;
+                decimal canTot = 0;
+
+                decimal pesPro = 0;
+                foreach (var x in Listado)
+                {
+                    pesTot = pesTot + x.peso.Value;
+                    canTot = canTot + x.cantidad.Value;
+                }
+                pesPro = Decimal.Round((pesTot / canTot),2);
+
+                int compr = 0;
+                foreach (var j in Listado) {
+                    compr = 1;
+                    foreach (var k in Listado2) {
+                        if (j.mes == k.mes && compr==1)
+                        {
+                            lst.Add(new ResumenAnioPosteriorChatarra
+                            {
+                                mes = j.mes,
+                                cantidad = (Convert.ToInt32(j.cantidad.Value) + Convert.ToInt32(k.cantidad.Value / pesPro)),
+                                precio = j.precio.Value + k.precio.Value,
+                                peso = j.peso.Value + j.peso.Value
+                            });
+                            compr = 2;
+                        }                                
+                    }
+                    if (compr == 1)
+                    {
+                        lst.Add(new ResumenAnioPosteriorChatarra
+                        {
+                            mes = j.mes,
+                            cantidad = (Convert.ToInt32(j.cantidad.Value)),
+                            precio = j.precio.Value,
+                            peso = j.peso.Value
+                        });
+                    }
+                }
+                return lst;
+            }
+        }
         public List<Mign1> ListadoNotasCreditoDetalleChatarraSap(int DocEntry)
         {
             decimal pesoChatarra = 0;

@@ -258,30 +258,6 @@
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\background-events.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\daygrid-views.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\external-dragging-2cals.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\external-dragging-builtin.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\full-height.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\google-calendar.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\icalendar.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\json.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\js\theme-chooser.js" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\list-sticky-header.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\list-views.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\locales.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\month-view.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\natural-height.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\php\get-events.php" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\php\get-time-zones.php" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\php\utils.php" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\selectable.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\theming.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\time-zones.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\timegrid-sticky-header.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\timegrid-views-hscroll.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\timegrid-views.html" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\week-numbers.html" />
     <Content Include="Content\fullcalendar-5.11.2\lib\locales-all.js" />
     <Content Include="Content\fullcalendar-5.11.2\lib\locales-all.min.js" />
     <Content Include="Content\fullcalendar-5.11.2\lib\locales\af.js" />
@@ -1014,6 +990,7 @@
     <Content Include="scripts\General\Account\CambioContrasenia.js" />
     <Content Include="scripts\General\Account\Login.js" />
     <Content Include="scripts\General\Administrador\AdministrarGenericosItem.js" />
+    <Content Include="scripts\General\Administrador\AdministrarHistoricoChatarra.js" />
     <Content Include="scripts\General\Administrador\AdministrarMaestrosGenerales.js" />
     <Content Include="scripts\General\Articulos\ConsultarItemsChatarra.js" />
     <Content Include="scripts\General\Articulos\ConsultarArticulos.js" />
@@ -1173,6 +1150,7 @@
     <Compile Include="Models\ReporteGarandiasDetalleFinal.cs" />
     <Compile Include="Models\ReporteGeneralDeControl.cs" />
     <Compile Include="Models\ReporteGeneralPedidosExterior.cs" />
+    <Compile Include="Models\ResumenAnioPosteriorChatarra.cs" />
     <Compile Include="Models\RevisionesTecnicasGarantias.cs" />
     <Compile Include="Models\SubMenu.cs" />
     <Compile Include="Models\Ventas.cs" />
@@ -1536,7 +1514,6 @@
     <Content Include="Content\countUp.js\package.json" />
     <Content Include="Content\countUp.js\README.md" />
     <Content Include="Content\countUp.js\tsconfig.json" />
-    <Content Include="Content\fullcalendar-5.11.2\examples\json\events.json" />
     <Content Include="Content\fullcalendar-5.11.2\README.md" />
     <None Include="Properties\PublishProfiles\Prosoft.pubxml" />
     <Content Include="Views\Articulos\ConsultarItemsChatarra.cshtml" />
@@ -1576,6 +1553,7 @@
     <Content Include="Views\Calidad\LiberacionProductoExportacion.cshtml" />
     <Content Include="Views\Pedidos\CronogramaExportacion.cshtml" />
     <Content Include="Views\Pedidos\IngresoCronogramaExportacion.cshtml" />
+    <Content Include="Views\Administrador\AdministrarHistoricoChatarra.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

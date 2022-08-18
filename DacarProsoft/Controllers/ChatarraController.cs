@@ -32,7 +32,7 @@ namespace DacarProsoft.Controllers
         private DaoCliente daoCliente { get; set; } = null;
         private DaoIngresoMercanciasSap daoIngresoMercanciasSap { get; set; } = null;
         private DaoMenu daoMenu { get; set; } = null;
-
+        private DaoAdministrar daoAdministrar { get; set; } = null;
 
 
         // GET: Chatarra
@@ -1386,6 +1386,7 @@ namespace DacarProsoft.Controllers
                 daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
                 var Result = daoIngresoMercanciasSap.ReporteGeneralChatarrasPorDesviacionesSap(anio);
 
+
                 var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
                 serializer.MaxJsonLength = int.MaxValue;
 
@@ -1400,13 +1401,30 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public JsonResult ConsultaIngresosChatarraAnioAnterior(int anio)
+        {
+            try
+            {
+                daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
+                daoAdministrar = new DaoAdministrar();
+
+                //var Result = daoIngresoMercanciasSap.ResumenAnioPosteriorIngresoChatarra((anio - 1));
+                var Result2 = daoAdministrar.ConsultarHistoricoChatarra();
+                return Json(Result2, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
         public JsonResult ConsultaDetalleIngresoChatarraSap(int docEntry, string tipo)
         {
 
             try
             {
                 daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
-                if (tipo == "Compras")
+                if (tipo == "Compras (Kg)" || tipo == "Compras (Ud)")
                 {
                     var Result = daoIngresoMercanciasSap.ListadoIngresoCompraDetalleChatarraSap(docEntry);
 

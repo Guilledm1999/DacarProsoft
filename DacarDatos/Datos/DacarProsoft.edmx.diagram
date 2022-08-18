@@ -101,6 +101,7 @@
         <EntityTypeShape EntityType="DacarProsoftModel.DireccionesClientes" Width="1.5" PointX="16.375" PointY="25.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.MaestrosUtilitarios" Width="1.5" PointX="26.375" PointY="5.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.CronogramaExportacion" Width="1.5" PointX="26.375" PointY="8.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.HistoricoChatarra" Width="1.5" PointX="26.375" PointY="12.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

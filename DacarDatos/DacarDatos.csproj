@@ -238,6 +238,9 @@
     <Compile Include="Datos\GuiaPackingList.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\HistoricoChatarra.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\IGN1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>

@@ -4651,5 +4651,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ATC1">
+      <EntityTypeMapping TypeName="SBODACARPRODModel.ATC1">
+        <MappingFragment StoreEntitySet="ATC1">
+          <ScalarProperty Name="FreeText" ColumnName="FreeText" />
+          <ScalarProperty Name="subPath" ColumnName="subPath" />
+          <ScalarProperty Name="Override" ColumnName="Override" />
+          <ScalarProperty Name="Copied" ColumnName="Copied" />
+          <ScalarProperty Name="UsrID" ColumnName="UsrID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="FileExt" ColumnName="FileExt" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="trgtPath" ColumnName="trgtPath" />
+          <ScalarProperty Name="srcPath" ColumnName="srcPath" />
+          <ScalarProperty Name="Line" ColumnName="Line" />
+          <ScalarProperty Name="AbsEntry" ColumnName="AbsEntry" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -104,6 +104,7 @@ namespace DacarDatos.Datos
         public virtual DbSet<DireccionesClientes> DireccionesClientes { get; set; }
         public virtual DbSet<MaestrosUtilitarios> MaestrosUtilitarios { get; set; }
         public virtual DbSet<CronogramaExportacion> CronogramaExportacion { get; set; }
+        public virtual DbSet<HistoricoChatarra> HistoricoChatarra { get; set; }
     
         public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
         {

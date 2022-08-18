@@ -168,27 +168,55 @@
                         <i class="loading-icon fa fa-spinner fa-spin hide"></i>
                         <span class="btn-txt">Consultar</span>
                     </button>
-                </div>           
-                <div class="col-md-7">
-              
-                    @*<div class="btn-group" role="group" aria-label="Basic example">
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Enero</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Febrero</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Marzo</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Abril</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Mayo</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Junio</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Julio</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Agosto</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Septiembre</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Octubre</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Noviembre</button>
-            <button class="btn btn-outline-primary" data-toggle="button" aria-pressed="true">Diciembre</button>
-        </div>*@
-
                 </div>
-            </div>
-        </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div style="display: none" id="MostrarPrefiltros5">
+                                    <div class="right-side">
+                                        <h5>Tipo Ingreso</h5>
+                                        <div id="selecTipoIngreso"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div style="display: none" id="MostrarPrefiltros">
+                                    <div class="right-side">
+                                        <h5>Meses</h5>
+                                        <div id="selectMes"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div style="display: none" id="MostrarPrefiltros2">
+                                    <div class="right-side">
+                                        <h5>Tipo Cliente</h5>
+                                        <div id="selecTipoCliente"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div style="display: none" id="MostrarPrefiltros3">
+                                    <div class="right-side">
+                                        <h5>Cliente Linea</h5>
+                                        <div id="selecClienteLinea"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div style="display: none" id="MostrarPrefiltros4">
+                                    <div class="right-side">
+                                        <h5>Cliente Clase</h5>
+                                        <div id="selecClienteClase"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>              
+                    </div>
+                </div>
     </div>
     <div class="card-body">
         <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
@@ -213,11 +241,12 @@
                 </div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h5>Cantidad Baterias@*<span class="badge badge-soft-info rounded-capsule ml-2">0%</span>*@</h5>
-                    <br />
-                    <div id="cardTextCanNc" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info"></div><a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(1)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
-                    <div id="cardTextCanNc2" class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-nowrap"></div>
-
+                    <h5>Cantidad Baterias<br/><span id="cantAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
+                    <div id="cardTextCanNc" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info"></div>
+                    @*<div id="cardTextCanNc2" class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-nowrap"></div>*@
+                    <div class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-info">YTD <span id="cantAnioAnteriorChaPor" class="badge badge-soft-success rounded-capsule ml-2"></span></div>
+                    <div><a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(1)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a></div>
+                    
                 </div>
             </div>
             <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
@@ -226,9 +255,10 @@
                 <!--/.bg-holder-->
 
                 <div class="card-body position-relative">
-                    <h5>Peso Total(t)</h5>
-                    <br />
-                    <div id="cardTextCanComp" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info">0</div><a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(2)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
+                    <h5>Peso Total(t)<br/><span id="pesAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
+                    <div id="cardTextCanComp" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info">0</div>
+                    <div class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-info">YTD <span id="pesAnioAnteriorChaPor" class="badge badge-soft-success rounded-capsule ml-2"></span></div>
+                    <div><a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(2)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a></div>
                 </div>
             </div>
             <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
@@ -236,9 +266,9 @@
                 </div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h5>USD Total($)</h5>
-                    <br />
+                    <h5>USD Total($)<br/><span id="precAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
                     <div id="cardTextCanCompKg" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info">0</div>@*<a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(3)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>*@
+                    <div class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-info">YTD <span id="precAnioAnteriorChaPor" class="badge badge-soft-success rounded-capsule ml-2"></span></div>
                 </div>
             </div>
             <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
@@ -246,9 +276,9 @@
                 </div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h5>Peso Promedio(kg)</h5>
-                    <br />
-                    <div id="cardTextCanPesProm" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-success">0</div>
+                    <h5>Peso Promedio(kg)<br/><span id="pesoAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
+                    <div id="cardTextCanPesProm" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-success"></div>
+                    <div class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-success">YTD <span id="pesoAnioAnteriorChaPor" class="badge badge-soft-success rounded-capsule ml-2"></span></div>
                     @*<div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Statistics<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>*@
                 </div>
             </div>
@@ -288,7 +318,8 @@
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">USD</th>
                                                 <th scope="col">Peso (kg)</th>
-                                                <th scope="col">Peso Promedio(kg)</th>
+                                                <th scope="col">Prom(kg)</th>
+                                                <th scope="col">Prom($)</th>
                                             </tr>
                                         </thead>
                                         <tbody id="DescTblChaNc">
@@ -305,7 +336,8 @@
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">USD</th>
                                                 <th scope="col">Peso (kg)</th>
-                                                <th scope="col">Peso Promedio(kg)</th>
+                                                <th scope="col">Prom(kg)</th>
+                                                <th scope="col">Prom($)</th>
                                             </tr>
                                         </thead>
                                         <tbody id="DescTblChaGta" width="50" height="50">
@@ -322,7 +354,8 @@
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">USD</th>
                                                 <th scope="col">Peso (kg)</th>
-                                                <th scope="col">Peso Promedio(kg)</th>
+                                                <th scope="col">Prom(kg)</th>
+                                                <th scope="col">Prom($)</th>
                                             </tr>
                                         </thead>
                                         <tbody id="DescTblChaCom" width="50" height="50">
@@ -341,7 +374,8 @@
                                                 <th scope="col">Cantidad</th>
                                                 <th scope="col">USD</th>
                                                 <th scope="col">Peso (kg)</th>
-                                                <th scope="col">Peso Promedio(kg)</th>
+                                                <th scope="col">Prom(kg)</th>
+                                                <th scope="col">Prom($)</th>
                                             </tr>
                                         </thead>
                                         <tbody id="DescTblChaComKg" width="50" height="50">

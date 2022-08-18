@@ -342,6 +342,17 @@
     <Property Name="FechaActualizacion" Type="datetime" />
     <Property Name="PuntoPartida" Type="varchar" MaxLength="100" />
   </EntityType>
+  <EntityType Name="HistoricoChatarra">
+    <Key>
+      <PropertyRef Name="HistoricoChatarraId" />
+    </Key>
+    <Property Name="HistoricoChatarraId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Anio" Type="int" />
+    <Property Name="Mes" Type="int" />
+    <Property Name="Cantidad" Type="int" />
+    <Property Name="Peso" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
   <EntityType Name="IngresoGarantias">
     <Key>
       <PropertyRef Name="IngresoGarantiaId" />
@@ -1214,6 +1225,7 @@
     <EntitySet Name="GenericosItem" EntityType="Self.GenericosItem" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GrupoClientes" EntityType="Self.GrupoClientes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GuiaPackingList" EntityType="Self.GuiaPackingList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HistoricoChatarra" EntityType="Self.HistoricoChatarra" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoGarantias" EntityType="Self.IngresoGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoInspeccionInicialDensidadCelda" EntityType="Self.IngresoInspeccionInicialDensidadCelda" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresoMercanciasTipoDescripcion" EntityType="Self.IngresoMercanciasTipoDescripcion" Schema="dbo" store:Type="Tables" />

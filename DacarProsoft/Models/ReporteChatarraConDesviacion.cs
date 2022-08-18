@@ -30,6 +30,8 @@ namespace DacarProsoft.Models
         public string FechaRegistro { get; set; }
         public int DocEntry { get; set; }
         public int FechaRegistro2 { get; set; }
+        public string NombreMes { get; set; }
+
 
 
     }

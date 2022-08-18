@@ -294,5 +294,111 @@ namespace DacarProsoft.Datos
             }
 
         }
+
+        public List<HistoricoChatarra> ConsultarHistoricoChatarra()
+        {         
+            List<HistoricoChatarra> lst = new List<HistoricoChatarra>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.HistoricoChatarra
+                               orderby d.Mes ascending
+                               select new
+                               {
+                                   d.HistoricoChatarraId,
+                                   d.Anio,
+                                   d.Mes,
+                                   d.Cantidad,
+                                   d.Peso,
+                                   d.Precio
+                               }).ToList();
+
+                foreach (var x in Listado)
+                {              
+                    lst.Add(new HistoricoChatarra
+                    {
+                      HistoricoChatarraId=x.HistoricoChatarraId,
+                      Anio=x.Anio,
+                      Mes=x.Mes,
+                      Cantidad=x.Cantidad,
+                      Precio=x.Precio,
+                      Peso=x.Peso,
+                    });
+                }
+                return lst;
+            }
+        }
+        public bool IngresarHistoricoChatarra(int mes, int cantidad, decimal peso, decimal precio)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new HistoricoChatarra();
+
+                    result.Anio = (DateTime.Now.Year - 1);
+                    result.Mes = mes;
+                    result.Cantidad = cantidad;
+                    result.Peso = peso;
+                    result.Precio = precio;
+
+                    DB.HistoricoChatarra.Add(result);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public bool ActualizarHistoricoChatarra(int identificador, int anio, int mes, int cantidad, decimal peso, decimal precio)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = (from a in DB.HistoricoChatarra
+                                  where a.HistoricoChatarraId == identificador && a.Mes==mes
+                                  select a).FirstOrDefault();
+
+                    result.Anio = anio;
+                    result.Mes = mes;
+                    result.Cantidad = cantidad;
+                    result.Peso = peso;
+                    result.Precio = precio;
+
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public bool EliminarHistoricoChatarra()
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    DB.HistoricoChatarra.RemoveRange(DB.HistoricoChatarra);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+
+                }
+            }
+
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace DacarProsoft.Controllers
     {
         private DaoUtilitarios daoUtilitarios { get; set; } = null;
         private DaoAdministrar daoAdministrar { get; set; } = null;
-
+        private DaoIngresoMercanciasSap daoIngreso { get; set; } = null;
         // GET: Administrador
         public ActionResult AdministrarGenericosItem()
         {
@@ -138,6 +138,73 @@ namespace DacarProsoft.Controllers
             var result = daoAdministrar.EliminarMaestroGeneral(generico.MaestrosUtilitariosId);
             var r = true;
             return r;
+        }
+        public ActionResult AdministrarHistoricoChatarra()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+                var dat = daoUtilitarios.ConsultarEstadosDeOrdenesProduccion();
+                ViewBag.EstadoOrden = dat;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ConsultarHistoricoChatarra()
+        {
+            daoAdministrar = new DaoAdministrar();
+            var result = daoAdministrar.ConsultarHistoricoChatarra();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public bool ActualizarHistoricoChatarra()
+        {
+            try
+            {
+                daoAdministrar = new DaoAdministrar();
+                daoIngreso = new DaoIngresoMercanciasSap();
+                var result = daoAdministrar.ConsultarHistoricoChatarra();
+
+                if (result.Count == 0)
+                {
+                    var result1 = daoIngreso.ResumenAnioPosteriorIngresoChatarra((DateTime.Now.Year - 1));
+                    foreach (var x in result1)
+                    {
+                        var result2 = daoAdministrar.IngresarHistoricoChatarra(x.mes, x.cantidad, x.peso, x.precio);
+                    }
+                }
+                else
+                {
+                    var result3 = daoAdministrar.EliminarHistoricoChatarra();
+                    var result1 = daoIngreso.ResumenAnioPosteriorIngresoChatarra((DateTime.Now.Year - 1));
+
+                    foreach (var x in result1)
+                    {
+                        var result2 = daoAdministrar.IngresarHistoricoChatarra(x.mes, x.cantidad, x.peso, x.precio);
+                    }
+
+                }
+                return true;
+            }
+            catch {
+                return false;
+            }      
+
         }
     }
 }

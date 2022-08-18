@@ -1457,7 +1457,7 @@ namespace DacarProsoft.Datos
                 try
                 {
                     int docEntry = 0;
-                    var resul = (from d in DB.OINV
+                    var resul = (from d in DB.ORDR
                                  where d.U_SYP_NUMOCCL == numeroOrden && d.CardCode == cardCode
                                  select new
                                  {
@@ -1485,21 +1485,26 @@ namespace DacarProsoft.Datos
             string result = "";
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
-                var res = (from d in DB.ATC1
+                try {
+                    var res = (from d in DB.ATC1
                                orderby d.AbsEntry descending
-                           where d.FileExt== "pdf"
-                           select new
+                               where d.AbsEntry == abcEntry
+                               select new
                                {
-                                  d.trgtPath,
-                                  d.FileName,
-                                  d.FileExt
+                                   d.trgtPath,
+                                   d.FileName,
+                                   d.FileExt
 
                                }).FirstOrDefault();
-                result = res.trgtPath + "\\" + res.FileName + "." + res.FileExt;
+                    result = res.trgtPath + "\\" + res.FileName + "." + res.FileExt;
 
+                    return result;
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex);
+                    return "";
+                }
                
-
-                return result;
             }
         }
     }
