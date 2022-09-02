@@ -292,6 +292,9 @@
     <Compile Include="Datos\Marcas.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\MedicionPalletPacking.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\MenuOpciones.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
@@ -308,6 +311,9 @@
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\NormativaPruebaLaboratorio.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\NumeroMedicionesPackingList.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\OCRD.cs">

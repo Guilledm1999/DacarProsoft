@@ -1,12 +1,13 @@
 ﻿
 @{
-    ViewBag.Title = "LiberacionProductoExportacion";
+    ViewBag.Title = "PackingListLiberados";
     Layout = "~/Views/Compartida/_Layout.cshtml";
 }
+
 <br />
 <div class="card shadow align-top">
     <div class="card-header">
-        <h2>Packing List Registrados</h2>
+        <h2>Packing List Liberados</h2>
         <br />
     </div>
     <div class="card-body">
@@ -45,25 +46,8 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-12">
-                    <div id="tblIngresosdePacking"></div>
-                </div>               
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="ModalAfirmacionLiberacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header modal-header alert-primary">
-                <h5 class="modal-title" id="exampleModalLongTitle">Esta seguro de realizar la liberacion del pedido?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="ConfirmarLiberacion()">Si</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <div id="tblLiberadosPacking"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -99,12 +83,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                    <div id="tblListadoMedicionesPallets"> </div>
+                <div id="tblListadoMedicionesPallets"> </div>
 
             </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
+        </div>
     </div>
 </div>

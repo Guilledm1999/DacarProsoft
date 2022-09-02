@@ -109,14 +109,14 @@
         color: #f00;
     }
 
-    #ChatarraDetalleGeneral .inc .arrow,
-    #ChatarraDetalleGeneral .dec .arrow {
-        display: inline-block;
-        height: 10px;
-        width: 10px;
-        background-repeat: no-repeat;
-        background-size: 10px 10px;
-    }
+        #ChatarraDetalleGeneral .inc .arrow,
+        #ChatarraDetalleGeneral .dec .arrow {
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            background-repeat: no-repeat;
+            background-size: 10px 10px;
+        }
 </style>
 <style>
     .dx-datagrid {
@@ -150,18 +150,13 @@
 <div class="card shadow align-top">
     <div class="card-header">
         <h2>Ingresos Chatarra</h2>
-
         <br />
         <div class="form-group">
             <div class="row">
-                <div class="col-md-2">
-                    <h5>Año de busqueda</h5>
+                <div class="col-md-1">
+                    <h5>Año</h5>
                     @Html.DropDownList("Anio", new SelectList(ani, "Value", "Text"), new { @class = "form-control", id = "anioClass" })
                 </div>
-                @*<div class="col-md-2">
-            <h6>Tipo Cliente</h6>
-            @Html.DropDownList("Grupo", new SelectList(grupo, "Value", "Text"), "--Todos--", new { @class = "form-control", id = "grupoCliente" })
-        </div>*@
                 <div class="col-md-2">
                     <h6>  </h6>
                     <button class="btn btn-primary" onclick="ConsultaDeIngresos()">
@@ -214,9 +209,14 @@
                             </div>
                         </div>
                     </div>
-                </div>              
+                </div>
+                <div class="col-md-1">
+                    <div style="display: none" id="MostrarPrefiltros6">
+                        <button class="btn btn-primary" onclick="ResetOpciones();"><span class='fas fa-history'></span></button>
                     </div>
                 </div>
+            </div>
+        </div>
     </div>
     <div class="card-body">
         <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
@@ -241,21 +241,20 @@
                 </div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h5>Cantidad Baterias<br/><span id="cantAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
+                    <h5>Cantidad Baterias<br /><span id="cantAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
                     <div id="cardTextCanNc" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info"></div>
                     @*<div id="cardTextCanNc2" class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-nowrap"></div>*@
                     <div class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-info">YTD <span id="cantAnioAnteriorChaPor" class="badge badge-soft-success rounded-capsule ml-2"></span></div>
                     <div><a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(1)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a></div>
-                    
+
                 </div>
             </div>
             <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
                 <div class="bg-holder bg-card" style="background-image: url(/Content/TemplateFalcon/assets/img/illustrations/corner-2.png); ">
                 </div>
                 <!--/.bg-holder-->
-
                 <div class="card-body position-relative">
-                    <h5>Peso Total(t)<br/><span id="pesAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
+                    <h5>Peso Total(t)<br /><span id="pesAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
                     <div id="cardTextCanComp" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info">0</div>
                     <div class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-info">YTD <span id="pesAnioAnteriorChaPor" class="badge badge-soft-success rounded-capsule ml-2"></span></div>
                     <div><a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(2)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a></div>
@@ -266,7 +265,7 @@
                 </div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h5>USD Total($)<br/><span id="precAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
+                    <h5>USD Total($)<br /><span id="precAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
                     <div id="cardTextCanCompKg" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-info">0</div>@*<a class="font-weight-semi-bold fs--1 text-nowrap" onclick="opDetalleGeneral(3)">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>*@
                     <div class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-info">YTD <span id="precAnioAnteriorChaPor" class="badge badge-soft-success rounded-capsule ml-2"></span></div>
                 </div>
@@ -276,31 +275,32 @@
                 </div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h5>Peso Promedio(kg)<br/><span id="pesoAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
+                    <h5>Peso Promedio(kg)<br /><span id="pesoAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
                     <div id="cardTextCanPesProm" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-success"></div>
                     <div class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-success">YTD <span id="pesoAnioAnteriorChaPor" class="badge badge-soft-success rounded-capsule ml-2"></span></div>
                     @*<div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Statistics<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>*@
                 </div>
             </div>
-
             <div class="card mb-3 overflow-hidden" style="min-width: 12rem">
-                <div class="bg-holder bg-card">
+                <div class="bg-holder bg-card" style="background-image: url(/Content/TemplateFalcon/assets/img/illustrations/corner-2.png);">
                 </div>
                 <!--/.bg-holder-->
                 <div class="card-body position-relative">
-                    <h5>Total (YTD)</h5>
-                    <canvas id="myChartGeneralPesos" style="width: 40%; max-width: 300px"></canvas>
+                    <h5>Precio Promedio($)<br /><span id="precioPromAnioAnteriorCha" class="badge badge-soft-info rounded-capsule ml-2"></span></h5>
+                    <div id="cardTextCanPrecProm" class="display-5 fs-5 mb-2 font-weight-normal text-sans-serif text-success"></div>
+                    <div class="display-1 fs-1 mb-2 font-weight-normal text-sans-serif text-success">YTD <span id="PrecioAnioAnteriorChaPor" class="badge badge-soft-success rounded-capsule ml-2"></span></div>
                     @*<div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Statistics<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>*@
                 </div>
             </div>
-            @*<div class="card mb-3 overflow-hidden" style="min-width: 12rem">
-            <div class="bg-holder bg-card" style="background-image: url(/Content/TemplateFalcon/assets/img/illustrations/corner-2.png);">
+            <!--<div class="card mb-3 overflow-hidden" style="min-width: 12rem">
+            <div class="bg-holder bg-card">
             </div>
             <div class="card-body position-relative">
-                <h6>Desviacion Promedio(%)</h6>
-                <div id="cardTextDesvProm" class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-success">0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#">Revisar<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>
-            </div>
-        </div>*@
+                <h5>Total (YTD)</h5>
+                <canvas id="myChartGeneralPesos" style="width: 40%; max-width: 300px"></canvas>-->
+            @*<div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif" data-countup='{"count":43594,"format":"comma","prefix":"$"}'>0</div><a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">Statistics<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span></a>*@
+            <!--</div>
+            </div>-->
         </div>
         <div style="display: none" id="MostrarTblDetalles">
             <br />
@@ -384,11 +384,42 @@
                                 </div>
 
                             </div>
-                            </div>
+                        </div>
                         <div class="col-md-8">
-                            <div class="row">                             
+                            <div class="row">
                                 <div class="col-md-12">
-                                        <canvas id="myChartGeneralMeses" style="width: 100%; max-width: 1150px"></canvas>
+                                    <div class="fancy-tab">
+                                        <div class="nav-bar nav-bar-center">
+                                            <div class="nav-bar-item px-3 px-sm-4 active">
+                                                <span class="fas fa-balance-scale-left fs-2"></span>
+                                                <div class="mt-1">Cantidades&Pesos</div>
+                                            </div>
+                                            <div class="nav-bar-item px-3 px-sm-4">
+                                                <span class="fas fa-user-circle fs-2"></span>
+                                                <div class="mt-1">Proveedores</div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-contents">
+                                            <div class="tab-content active">
+                                                <canvas id="myChartGeneralMeses" style="width: 100%; max-width: 1150px"></canvas>
+                                            </div>
+                                            <div class="tab-content">
+                                                @*<p class="lead">En desarrollo..</p>*@
+                                                <div id="MostrarChartProvee" style="display: none">
+                                                    <canvas id="myChartProveedores" style="width: 100%; max-width: 1150px"></canvas>
+                                                </div>
+                                                <div id="OcultarChartProvee" style="display: none">
+                                                    <div id="MensajeErrorDobleConsulta" class="alert alert-danger collapse">
+                                                        <button id="LinkClose25" type="button" class="close">&times;</button>
+                                                        <strong>Solo se puede seleccionar por compras baterias y compras kg!</strong>
+                                                    </div>
+                                                    <p>Solo se puede vizualizar el grafico con el tipo de ingreso por compras</p>
+                                                </div>
+                                        
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -397,15 +428,11 @@
             </div>
         </div>
         <div id="IngresosdeChatarras" @*style="display: none"*@></div>
-
-        @*<div id="IngresosdeChatarras"></div>*@
         <div class="auto" id="OcultarTablaGeneral" style="display: none">
             <button type="button" class="btn btn-primary" onclick="ChartResumenesChatarras();" style="display: none">Resultados</button>
         </div>
-
     </div>
 </div>
-
 
 <div class="modal" tabindex="-1" role="dialog" id="ModalDetalleChatarra">
     <div class="modal-dialog modal-xl" role="document">
@@ -471,9 +498,6 @@
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="tipoIngreso-tab" data-toggle="tab" href="#tipoIngreso" role="tab" aria-controls="profile" aria-selected="false">Tipo Ingreso</a>
                             </li>
-                            @*<li class="nav-item" role="presentation">
-                                <a class="nav-link" id="meses-tab" data-toggle="tab" href="#meses" role="tab" aria-controls="contact" aria-selected="false">Meses</a>
-                            </li>*@
                         </ul>
                     </div>
                 </form>
@@ -734,10 +758,10 @@
                                 </div>
                                 <div class="form-group col-md-8">
                                     <div id="DetalleFinalChatarrasMeses"></div>-->
-                                    @*<div class="form-group col-md-12">
-                                            <canvas id="myChart12" style="width:200%;max-width:800px"></canvas>
-                                        </div>*@
-                                <!--</div>
+                    @*<div class="form-group col-md-12">
+                            <canvas id="myChart12" style="width:200%;max-width:800px"></canvas>
+                        </div>*@
+                    <!--</div>
                                 <div class="form-group col-md-12">
                                     <canvas id="myChart11" style="width:450%;max-width:1100px"></canvas>
                                 </div>

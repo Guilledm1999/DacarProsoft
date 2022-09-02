@@ -1409,7 +1409,7 @@ namespace DacarProsoft.Controllers
                 daoAdministrar = new DaoAdministrar();
 
                 //var Result = daoIngresoMercanciasSap.ResumenAnioPosteriorIngresoChatarra((anio - 1));
-                var Result2 = daoAdministrar.ConsultarHistoricoChatarra();
+                var Result2 = daoAdministrar.ConsultarHistoricoChatarraAnioAnterior(anio-1);
                 return Json(Result2, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -1420,23 +1420,19 @@ namespace DacarProsoft.Controllers
         }
         public JsonResult ConsultaDetalleIngresoChatarraSap(int docEntry, string tipo)
         {
-
             try
             {
                 daoIngresoMercanciasSap = new DaoIngresoMercanciasSap();
                 if (tipo == "Compras (Kg)" || tipo == "Compras (Ud)")
                 {
                     var Result = daoIngresoMercanciasSap.ListadoIngresoCompraDetalleChatarraSap(docEntry);
-
                     return Json(Result, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     var Result = daoIngresoMercanciasSap.ListadoNotasCreditoDetalleChatarraSap(docEntry);
-
                     return Json(Result, JsonRequestBehavior.AllowGet);
-                }
-                
+                }   
             }
             catch (Exception ex)
             {

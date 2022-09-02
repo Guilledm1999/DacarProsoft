@@ -12,14 +12,9 @@ namespace DacarDatos.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class HistoricoChatarra
+    public partial class NumeroMedicionesPackingList
     {
-        public int HistoricoChatarraId { get; set; }
-        public Nullable<int> Anio { get; set; }
-        public Nullable<int> Mes { get; set; }
-        public Nullable<int> Cantidad { get; set; }
-        public Nullable<decimal> Peso { get; set; }
-        public Nullable<decimal> Precio { get; set; }
-        public string TipoIngreso { get; set; }
+        public int NumeroMedicionesId { get; set; }
+        public Nullable<int> NumeroMediciones { get; set; }
     }
 }

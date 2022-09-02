@@ -1034,6 +1034,7 @@
     <EntitySetMapping Name="HistoricoChatarra">
       <EntityTypeMapping TypeName="DacarProsoftModel.HistoricoChatarra">
         <MappingFragment StoreEntitySet="HistoricoChatarra">
+          <ScalarProperty Name="TipoIngreso" ColumnName="TipoIngreso" />
           <ScalarProperty Name="Precio" ColumnName="Precio" />
           <ScalarProperty Name="Peso" ColumnName="Peso" />
           <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />

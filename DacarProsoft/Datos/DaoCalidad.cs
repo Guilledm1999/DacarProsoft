@@ -856,5 +856,472 @@ namespace DacarProsoft.Datos
                 return lst;
             }
         }
+        public List<PackingIngresados> ConsultarPackingIngreseadosLiberacionProducto()
+        {
+            string estado;
+            int cantMediciones;
+            CultureInfo ci = new CultureInfo("es-MX");
+            ci = new CultureInfo("es-MX");
+            TextInfo textInfo = ci.TextInfo;
+            List<PackingIngresados> lst = new List<PackingIngresados>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoCabecera = from d in DB.Packing
+                                      orderby d.FechaRegistro descending
+                                      where d.LiberacionPacking==false
+                                      select new
+                                      {
+                                          d.PackingId,
+                                          d.NumeroDocumento,
+                                          d.NumeroOrden,
+                                          d.NombreCliente,
+                                          d.Destino,
+                                          d.CantidadPallet,
+                                          d.FechaRegistro
+                                      };
+
+                foreach (var x in ListadoCabecera)
+                {
+                    cantMediciones = CantidadMedicionesPackingList(x.PackingId);
+                    DateTime fechaDoc = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
+                    string fechaDocumento = fechaDoc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    var PalletFaltante = PalletFantantes(x.PackingId, x.CantidadPallet.Value);
+                    if (PalletFaltante == 0)
+                    {
+                        estado = "Completo";
+                    }
+                    else
+                    {
+                        estado = "Incompleto";
+                    }
+                   
+                    lst.Add(new PackingIngresados
+                    {
+                        PackingId = x.PackingId,
+                        NumeroDocumento = x.NumeroDocumento.Value,
+                        NumeroOrden = x.NumeroOrden,
+                        NombreCliente = x.NombreCliente,
+                        Destino = x.Destino,
+                        CantidadPallet = x.CantidadPallet.Value,
+                        PalletFaltantes = PalletFaltante,
+                        Estado = estado,
+                        FechaRegistro = fechaDocumento,
+                        cantidadMediciones=cantMediciones
+                    });
+                }
+                return lst;
+            }
+        }
+        public int PalletFantantes(int PackingId, int TotalPallet)
+        {
+            int Contador = 0;
+            int Total = 0;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoCabecera = from d in DB.PalletPacking
+                                      where d.PackingId == PackingId
+                                      select new
+                                      {
+                                          d.PalletNumber
+                                      };
+                foreach (var x in ListadoCabecera)
+                {
+                    Contador = Contador + 1;
+                }
+
+                Total = TotalPallet - Contador;
+
+                return Total;
+            }
+        }
+        public int CantidadMedicionesPackingList(int PackingId)
+        {
+            int Total = 0;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try {
+                    var ListadoCabecera = (from d in DB.MedicionPalletPacking
+                                           where d.PackingId == PackingId
+                                           orderby d.MedicionPalletPackingId descending
+                                           select new
+                                           {
+                                               d.NumeroMedicion
+                                           }).Count();
+                    if (ListadoCabecera != 0)
+                    {
+                        Total = ListadoCabecera;
+
+                    }
+                    return Total;
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex);
+                    return Total;
+                }
+               
+            }
+        }
+        public List<PalletPackingCant> ConsultarPalletCant(int PackingId)
+        {
+            List<PalletPackingCant> lst = new List<PalletPackingCant>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                int cantMediciones;
+                var ListadoPallet = from d in DB.PalletPacking
+                                    where d.PackingId == PackingId
+                                    select new
+                                    {
+                                        d.PalletPacking1,
+                                        d.PackingId,
+                                        d.PalletNumber,
+                                        d.AnchoPallet,
+                                        d.LargoPallet,
+                                        d.AltoPallet,
+                                        d.VolumenPallet,
+                                        d.PesoNeto,
+                                        d.PesoBruto
+                                    };
+                foreach (var x in ListadoPallet)
+                {
+                    cantMediciones = CantidadMedicionesPackingListPallet(PackingId, x.PalletPacking1);
+                    var cant = obtenerCantidadItemPallet(x.PalletPacking1);
+                    lst.Add(new PalletPackingCant
+                    {
+                        PalletPacking1 = x.PalletPacking1,
+                        PackingId = x.PackingId.Value,
+                        PalletNumber = x.PalletNumber.Value,
+                        AnchoPallet = x.AnchoPallet.Value,
+                        LargoPallet = x.LargoPallet.Value,
+                        AltoPallet = x.AltoPallet.Value,
+                        VolumenPallet = Decimal.Round(x.VolumenPallet.Value, 2),
+                        PesoNeto = Decimal.Round(x.PesoNeto.Value, 2),
+                        PesoBruto = Decimal.Round(x.PesoBruto.Value, 2),
+                        Cantidad = cant,
+                        CantidadMediciones=cantMediciones
+                    });
+                }
+
+                return lst;
+            }
+        }
+        public int CantidadMedicionesPackingListPallet(int PackingId, int PalletId)
+        {
+            int Total = 0;
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var ListadoCabecera = (from d in DB.MedicionPalletPacking
+                                           where d.PackingId == PackingId && d.PalletId==PalletId
+                                           orderby d.MedicionPalletPackingId descending
+                                           select new
+                                           {
+                                               d.NumeroMedicion
+                                           }).Count();
+                    if (ListadoCabecera != 0)
+                    {
+                        Total = ListadoCabecera;
+
+                    }
+                    return Total;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return Total;
+                }
+
+            }
+        }
+        public int obtenerCantidadItemPallet(int PalletPackingId)
+        {
+            int acum = 0;
+            List<PalletPacking> lst = new List<PalletPacking>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoPallet = from d in DB.PalletPackingDetalle
+                                    where d.PalletPacking == PalletPackingId
+                                    select new
+                                    {
+                                        d.CantidadItem
+                                    };
+                foreach (var x in ListadoPallet)
+                {
+                    acum = acum + x.CantidadItem.Value;
+                }
+
+            }
+            return acum;
+        }
+        public int NumeroMedicionesPackingList()
+        {
+            using (DacarProsoftEntities DB= new DacarProsoftEntities()) {
+                try
+                {
+                    int valor = 0;
+                    var res = (from d in DB.NumeroMedicionesPackingList
+                              select new
+                              {
+                                  d.NumeroMediciones
+                              }).FirstOrDefault();
+                    valor = res.NumeroMediciones.Value;
+
+                    return valor;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return 0;
+                }
+            }
+              
+        }
+        public List<MedicionPalletPacking> ConsultarMedicionPallet(int PackinkId, int PalletId) {
+
+            List<MedicionPalletPacking> lst = new List<MedicionPalletPacking>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities()) {
+                try
+                {
+                    var res = from d in DB.MedicionPalletPacking
+                              where d.PackingId == PackinkId && d.PalletId==PalletId
+                              select new
+                              {        
+                                  d.MedicionPalletPackingId,
+                                  d.PackingId,
+                                  d.PalletId,
+                                  d.NumeroMedicion,
+                                  d.NumeroLote,
+                                  d.Modelo,
+                                  d.Voltaje,
+                                  d.nivel,
+                                  d.Acabado,
+                                  d.Limpieza,
+                                  d.CCA,
+                                  d.FechaRegistro
+                              };
+                    foreach (var x in res) {
+
+                        lst.Add(new MedicionPalletPacking
+                        {
+                            MedicionPalletPackingId=x.MedicionPalletPackingId,
+                            PackingId=x.PackingId,
+                            PalletId=x.PalletId,
+                            NumeroMedicion=x.NumeroMedicion,
+                            NumeroLote=x.NumeroLote,
+                            Modelo=x.Modelo,
+                            Voltaje=x.Voltaje,
+                            nivel=x.nivel.Value,
+                            Acabado=x.Acabado.Value,
+                            Limpieza=x.Limpieza.Value,
+                            CCA=x.CCA,
+                            FechaRegistro=x.FechaRegistro
+                        });
+                    }
+                    return lst;
+                }
+                catch {
+                    return null;
+                }
+            }
+        }
+        public bool InsertarMedicionPalletPaking(int packingId, int palletId, string numeroLote, string modelo, decimal voltaje, bool nivel, bool acabado, bool limpieza, decimal CCA)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var valorMedi = CantidadMedicionesPackingListPallet(packingId, palletId);
+                    var result = new MedicionPalletPacking();
+                    result.PackingId = packingId;
+                    result.PalletId=palletId;
+                    result.NumeroMedicion= valorMedi+1;
+                    result.NumeroLote = numeroLote;
+                    result.Modelo = modelo;
+                    result.Voltaje = voltaje;
+                    result.nivel = nivel;
+                    result.Acabado = acabado;
+                    result.Limpieza = limpieza;
+                    result.CCA = CCA;
+                    result.FechaRegistro = DateTime.Now;
+               
+                    DB.MedicionPalletPacking.Add(result);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public List<PalletPackingDetalle> ConsultarModelosProPallet(int PackinkId, int PalletId)
+        {
+
+            List<PalletPackingDetalle> lst = new List<PalletPackingDetalle>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var res = from d in DB.PalletPackingDetalle
+                              where d.PackingId == PackinkId && d.PalletPacking == PalletId
+                              select new
+                              {
+                                  d.PalletPackingDetalleId,
+                                  d.ItemCode,
+                                  d.DescriptionCode,
+                              };
+                    foreach (var x in res)
+                    {
+
+                        lst.Add(new PalletPackingDetalle
+                        {
+                            PalletPackingDetalleId=x.PalletPackingDetalleId,
+                            ItemCode=x.ItemCode,
+                            DescriptionCode=x.DescriptionCode     
+                        });
+                    }
+                    return lst;
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return lst;
+                }
+            }
+        }
+        public bool EliminarMedicionPallet(int MedicionId)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    DB.MedicionPalletPacking.RemoveRange(DB.MedicionPalletPacking.Where(x => x.MedicionPalletPackingId == MedicionId));
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+
+                }
+            }
+
+        }
+        public bool ActualizarMedicionPallet(MedicionPalletPacking medicion, int Key)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = (from a in DB.MedicionPalletPacking
+                                  where a.MedicionPalletPackingId == Key
+                                  select a).FirstOrDefault();
+
+
+                    
+
+                    result.NumeroLote = medicion.NumeroLote;
+                    result.Modelo = medicion.Modelo;
+                    result.Voltaje = medicion.Voltaje;
+                    result.nivel = medicion.nivel;
+                    result.Acabado = medicion.Acabado;
+                    result.Limpieza = medicion.Limpieza;
+
+                    result.FechaActualizacion = DateTime.Now;
+
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public bool ActualizarEstadoPackingList(int packingId)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = (from a in DB.Packing
+                                  where a.PackingId==packingId
+                                  select a).FirstOrDefault();
+
+                    result.LiberacionPacking = true;
+                    result.FechaLiberacion = DateTime.Now;
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public List<PackingIngresados> ConsultarPackingLiberados()
+        {
+            string estado;
+            int cantMediciones;
+            CultureInfo ci = new CultureInfo("es-MX");
+            ci = new CultureInfo("es-MX");
+            TextInfo textInfo = ci.TextInfo;
+            List<PackingIngresados> lst = new List<PackingIngresados>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoCabecera = from d in DB.Packing
+                                      orderby d.FechaRegistro descending
+                                      where d.LiberacionPacking == true
+                                      select new
+                                      {
+                                          d.PackingId,
+                                          d.NumeroDocumento,
+                                          d.NumeroOrden,
+                                          d.NombreCliente,
+                                          d.Destino,
+                                          d.CantidadPallet,
+                                          d.FechaLiberacion
+                                      };
+
+                foreach (var x in ListadoCabecera)
+                {
+                    cantMediciones = CantidadMedicionesPackingList(x.PackingId);
+                    DateTime fechaDoc = Convert.ToDateTime(x.FechaLiberacion, CultureInfo.InvariantCulture);
+                    string fechaDocumento = fechaDoc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    var PalletFaltante = PalletFantantes(x.PackingId, x.CantidadPallet.Value);
+                    if (PalletFaltante == 0)
+                    {
+                        estado = "Completo";
+                    }
+                    else
+                    {
+                        estado = "Incompleto";
+                    }
+
+                    lst.Add(new PackingIngresados
+                    {
+                        PackingId = x.PackingId,
+                        NumeroDocumento = x.NumeroDocumento.Value,
+                        NumeroOrden = x.NumeroOrden,
+                        NombreCliente = x.NombreCliente,
+                        Destino = x.Destino,
+                        CantidadPallet = x.CantidadPallet.Value,
+                        PalletFaltantes = PalletFaltante,
+                        Estado = estado,
+                        FechaRegistro = fechaDocumento,
+                        cantidadMediciones = cantMediciones
+                    });
+                }
+                return lst;
+            }
+        }
     }
 }

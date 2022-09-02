@@ -1000,6 +1000,7 @@
     <Content Include="scripts\General\Calidad\IngresosPruebasCCALocal.js" />
     <Content Include="scripts\General\Calidad\IngresosPruebasLaboratorio.js" />
     <Content Include="scripts\General\Calidad\LiberacionProductoExportacion.js" />
+    <Content Include="scripts\General\Calidad\PackingListLiberados.js" />
     <Content Include="scripts\General\Calidad\RegistrosVisuaLCN.js" />
     <Content Include="scripts\General\Chatarra\ReporteDashboardIngresosChatarraSap.js" />
     <Content Include="scripts\General\Chatarra\ReporteIngresosChatarraPorFechas.js" />
@@ -1128,6 +1129,7 @@
     <Compile Include="Models\MaestrosGenerales.cs" />
     <Compile Include="Models\MdlPdn1.cs" />
     <Compile Include="Models\MdlPdn1Individual.cs" />
+    <Compile Include="Models\MedicionPallet.cs" />
     <Compile Include="Models\MenuAcceso.cs" />
     <Compile Include="Models\Mign1.cs" />
     <Compile Include="Models\Mign1Individual.cs" />
@@ -1554,6 +1556,7 @@
     <Content Include="Views\Pedidos\CronogramaExportacion.cshtml" />
     <Content Include="Views\Pedidos\IngresoCronogramaExportacion.cshtml" />
     <Content Include="Views\Administrador\AdministrarHistoricoChatarra.cshtml" />
+    <Content Include="Views\Calidad\PackingListLiberados.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

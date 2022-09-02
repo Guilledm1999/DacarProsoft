@@ -11,6 +11,7 @@ namespace DacarProsoft.Models
         public int cantidad { get; set; }
         public decimal precio { get; set; }
         public decimal peso { get; set; }
+        public string tipoIngreso { get; set; }
 
     }
 }

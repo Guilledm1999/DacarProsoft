@@ -17,6 +17,8 @@ namespace DacarProsoft.Models
         public decimal PesoNeto { get; set; }
         public decimal PesoBruto { get; set; }
         public int Cantidad { get; set; }
+        public int CantidadMediciones { get; set; }
+
 
 
     }

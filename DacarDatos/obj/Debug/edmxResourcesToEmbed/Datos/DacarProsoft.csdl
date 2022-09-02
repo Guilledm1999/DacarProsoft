@@ -1406,5 +1406,6 @@
     <Property Name="Cantidad" Type="Int32" />
     <Property Name="Peso" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TipoIngreso" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>

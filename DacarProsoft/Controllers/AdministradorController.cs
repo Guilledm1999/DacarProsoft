@@ -182,20 +182,20 @@ namespace DacarProsoft.Controllers
 
                 if (result.Count == 0)
                 {
-                    var result1 = daoIngreso.ResumenAnioPosteriorIngresoChatarra((DateTime.Now.Year - 1));
+                    var result1 = daoIngreso.ResumenAnioPosteriorCategoriaChatarra((DateTime.Now.Year - 1));
                     foreach (var x in result1)
                     {
-                        var result2 = daoAdministrar.IngresarHistoricoChatarra(x.mes, x.cantidad, x.peso, x.precio);
+                        var result2 = daoAdministrar.IngresarHistoricoChatarra(x.mes, x.cantidad, x.peso, x.precio,x.tipoIngreso);
                     }
                 }
                 else
                 {
                     var result3 = daoAdministrar.EliminarHistoricoChatarra();
-                    var result1 = daoIngreso.ResumenAnioPosteriorIngresoChatarra((DateTime.Now.Year - 1));
+                    var result1 = daoIngreso.ResumenAnioPosteriorCategoriaChatarra((DateTime.Now.Year - 1));
 
                     foreach (var x in result1)
                     {
-                        var result2 = daoAdministrar.IngresarHistoricoChatarra(x.mes, x.cantidad, x.peso, x.precio);
+                        var result2 = daoAdministrar.IngresarHistoricoChatarra(x.mes, x.cantidad, x.peso, x.precio, x.tipoIngreso);
                     }
 
                 }

@@ -21,6 +21,7 @@ namespace DacarProsoft.Models
         public string FechaRegistro { set; get; }
         public string Mes { set; get; }
         public int NumeroContenedor { set; get; }
+        public int cantidadMediciones { set; get; }
 
     }
 }

@@ -1569,5 +1569,75 @@ namespace DacarProsoft.Datos
                 return lst;
             }
         }
+        public List<PackingIngresados> ConsultarPackingIngreseadosLiberacionProducto()
+        {
+            string estado;
+            string estadoPl;
+            CultureInfo ci = new CultureInfo("es-MX");
+            ci = new CultureInfo("es-MX");
+            TextInfo textInfo = ci.TextInfo;
+            List<PackingIngresados> lst = new List<PackingIngresados>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoCabecera = from d in DB.Packing
+                                      orderby d.FechaRegistro descending
+                                      select new
+                                      {
+                                          d.PackingId,
+                                          d.NumeroDocumento,
+                                          d.NumeroOrden,
+                                          d.NombreCliente,
+                                          d.Origen,
+                                          d.Destino,
+                                          d.CantidadPallet,
+                                          d.DetalleIngresado,
+                                          d.FechaRegistro
+                                      };
+
+                foreach (var x in ListadoCabecera)
+                {
+
+
+                    DateTime fechaDoc = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
+                    string fechaDocumento = fechaDoc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    String mesIngreso = MonthName(fechaDoc.Month);
+
+                    var PalletFaltante = PalletFantantes(x.PackingId, x.CantidadPallet.Value);
+                    if (PalletFaltante == 0)
+                    {
+                        estado = "Completo";
+                    }
+                    else
+                    {
+                        estado = "Incompleto";
+                    }
+                    if (x.DetalleIngresado == "NO")
+                    {
+                        estadoPl = "Incompleto";
+                    }
+                    else
+                    {
+                        estadoPl = "Completo";
+
+                    }
+                    lst.Add(new PackingIngresados
+                    {
+                        PackingId = x.PackingId,
+                        NumeroDocumento = x.NumeroDocumento.Value,
+                        NumeroOrden = x.NumeroOrden,
+                        NombreCliente = x.NombreCliente,
+                        Origen = x.Origen,
+                        Destino = x.Destino,
+                        CantidadPallet = x.CantidadPallet.Value,
+                        PalletFaltantes = PalletFaltante,
+                        DetalleIngresado = estadoPl,
+                        Estado = estado,
+                        FechaRegistro = fechaDocumento,
+                        Mes = textInfo.ToTitleCase(mesIngreso)
+                    });
+                }
+                return lst;
+            }
+        }
     }
 }

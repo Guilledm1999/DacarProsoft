@@ -309,7 +309,8 @@ namespace DacarProsoft.Datos
                                    d.Mes,
                                    d.Cantidad,
                                    d.Peso,
-                                   d.Precio
+                                   d.Precio,
+                                   d.TipoIngreso
                                }).ToList();
 
                 foreach (var x in Listado)
@@ -322,12 +323,48 @@ namespace DacarProsoft.Datos
                       Cantidad=x.Cantidad,
                       Precio=x.Precio,
                       Peso=x.Peso,
+                      TipoIngreso=x.TipoIngreso
                     });
                 }
                 return lst;
             }
         }
-        public bool IngresarHistoricoChatarra(int mes, int cantidad, decimal peso, decimal precio)
+        public List<HistoricoChatarra> ConsultarHistoricoChatarraAnioAnterior(int anio)
+        {
+            List<HistoricoChatarra> lst = new List<HistoricoChatarra>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.HistoricoChatarra
+                               where d.Anio==anio && d.Mes <= DateTime.Now.Month
+                               orderby d.Mes ascending
+                               select new
+                               {
+                                   d.HistoricoChatarraId,
+                                   d.Anio,
+                                   d.Mes,
+                                   d.Cantidad,
+                                   d.Peso,
+                                   d.Precio,
+                                   d.TipoIngreso
+                               }).ToList();
+
+                foreach (var x in Listado)
+                {
+                    lst.Add(new HistoricoChatarra
+                    {
+                        HistoricoChatarraId = x.HistoricoChatarraId,
+                        Anio = x.Anio,
+                        Mes = x.Mes,
+                        Cantidad = x.Cantidad,
+                        Precio = x.Precio,
+                        Peso = x.Peso,
+                        TipoIngreso = x.TipoIngreso
+                    });
+                }
+                return lst;
+            }
+        }
+        public bool IngresarHistoricoChatarra(int mes, int cantidad, decimal peso, decimal precio, string tipoIngreso)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -340,6 +377,7 @@ namespace DacarProsoft.Datos
                     result.Cantidad = cantidad;
                     result.Peso = peso;
                     result.Precio = precio;
+                    result.TipoIngreso = tipoIngreso;
 
                     DB.HistoricoChatarra.Add(result);
                     DB.SaveChanges();

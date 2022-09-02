@@ -122,11 +122,11 @@ function mostrarIngresosPallet() {
                         dataField: "PalletFaltantes", visible: false
                     },
                     {
-                        dataField: "Estado", caption: "Estado Orden",  allowEditing: false
+                        dataField: "Estado", caption: "Estado Packing List",  allowEditing: false
                     },
                    
                     {
-                        dataField: "DetalleIngresado", caption: "Estado Packing List",  allowEditing: false
+                        dataField: "DetalleIngresado", caption: "Estado Orden",  allowEditing: false
                     },
                     {
                         dataField: "FechaRegistro", caption: "Fecha Registro", allowEditing: false, allowHeaderFiltering: true ,dataType: 'date',

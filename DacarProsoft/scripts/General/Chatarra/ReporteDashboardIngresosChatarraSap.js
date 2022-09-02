@@ -3,6 +3,8 @@ var char;
 var chartGen;
 var chartGenPes;
 var chartGenMes;
+var chartGenProveedores;
+
 var char2;
 var char3;
 var char4;
@@ -51,7 +53,8 @@ var precHisAnt = 0;
 var pesoHisAnt = 0;
 var cantHisAnt = 0;
 var pesoPromHistAnt = 0;
-
+var precioPromHistAnt = 0;
+var tempValoresHist = null;
 $(document).ready(function () {
     $(".loading-icon").css("display", "none");
     consultarResAnterior();
@@ -62,6 +65,23 @@ function opDetalleGeneral(op) {
     ChartResumenesChatarras();
 }
 
+$('#LinkClose25').on("click", function (e) {
+    $("#MensajeErrorDobleConsulta").hide('fade');
+});
+//datGridInstance
+
+function ResetOpciones() {
+    $("#selecTipoIngreso").data('dxTagBox').reset();
+    $("#selectMes").data('dxTagBox').reset();
+    var selectBox = $("#selecTipoCliente").dxSelectBox("instance");
+    selectBox.option('value', 'Todos');
+    var selectBox2 = $("#selecClienteLinea").dxSelectBox("instance");
+    selectBox2.option('value', 'Todos');
+    var selectBox3 = $("#selecClienteClase").dxSelectBox("instance");
+    selectBox3.option('value', 'Todos');
+    //$("#selecTipoCliente").data('dxselectbox').value === 'Todos';
+    //.value === 'Todos'
+}
 function ConsultarIngresoAnterior() {
     var select = $("#anioClass option:selected").text();
     var res;
@@ -195,6 +215,7 @@ function consultarResAnterior() {
     var contAnioAnte = ConsultarIngresoAnterior();
 
     resBusAnioAnt = contAnioAnte;
+    tempValoresHist = contAnioAnte;
     var cantidad = 0;
     var peso = 0;
     var precio = 0;
@@ -212,23 +233,26 @@ function consultarResAnterior() {
     var pes = (peso / 1000).toLocaleString('en-US', noTruncarDecimales2);
     var prec = precio.toLocaleString('en-US', noTruncarDecimales);
     var pesoPro = (peso / cantidad).toFixed(2);
+    var precPro = (precio / peso).toFixed(2);
 
      precHisAnt = precio;
      pesoHisAnt = peso;
     cantHisAnt = cantidad;
     pesoPromHistAnt = pesoPro;
+    precioPromHistAnt = precPro;
 
     $("#cantAnioAnteriorCha").text((parseInt(select) - 1) + ": " + can);
     $("#pesAnioAnteriorCha").text((parseInt(select) - 1) + ": " + pes);
     $("#precAnioAnteriorCha").text((parseInt(select) - 1) + ": " + prec);
     $("#pesoAnioAnteriorCha").text((parseInt(select) - 1) + ": " + pesoPro);
-
+    $("#precioPromAnioAnteriorCha").text((parseInt(select) - 1) + ": " + precPro);
 }
 
 function crearTablaDescriptivaAndChart(val) {
     if (contadorEven == 1) {       
         va1 = 0;
         pesoComprasUd = 0;
+        pesoComprasKg = 0;
         pesoNc = 0;
         pesoGta = 0;
         va2 = 0;
@@ -260,7 +284,8 @@ function crearTablaDescriptivaAndChart(val) {
         const noTruncarDecimales2 = { maximumFractionDigits: 0, minimumFractionDigits: 0 };
         for (var x of val) {
             if (x.Tipo_Ingreso == "Compras (Kg)") {
-                va1 = x.Peso_Real + va1;
+                va1 = x.Cantidad + va1;
+                pesoComprasKg = x.Peso_Real + pesoComprasKg;
                 desvComKgGen = desvComKgGen + x.Peso_Teorico;
                 precioIngresoCoKg = precioIngresoCoKg + x.Precio
 
@@ -288,13 +313,13 @@ function crearTablaDescriptivaAndChart(val) {
         }
         pesProNc = pesoNc / va3;
         pesProCom = pesoComprasUd / va2;
-        pesProComKg = (pesProNc + pesProCom) / 2;
+        pesProComKg = pesoComprasKg  / va1;
         pesProComGta = (pesoGta / va4);
-        cantidadAproxCompKg = va1 / pesProComKg;
+        //cantidadAproxCompKg = va1 / pesProComKg;
 
         kgproNcCo = (pesProNc + pesProCom + pesProComKg) / 3;
 
-        sumTotal = va1 + pesoComprasUd + pesoNc + pesoGta;
+        sumTotal = pesoComprasKg + pesoComprasUd + pesoNc + pesoGta;
         var cantTotalGene = va3 + va2 + cantidadAproxCompKg + va4;
         var pesoTotalGene = (pesoNc + pesoComprasUd + va1 + pesoGta) / 1000;
         var precioTotalGene = precioIngresoNc + precioIngresoCo + precioIngresoCoKg + precioIngresoGta;
@@ -302,7 +327,7 @@ function crearTablaDescriptivaAndChart(val) {
         precioProIngresoNc = precioIngresoNc / va3;
         precioProIngresoGta = precioIngresoGta / va4;
         precioProIngresoCo = precioIngresoCo / va2;
-        precioProIngresoCoKg = precioIngresoCoKg / cantidadAproxCompKg;
+        precioProIngresoCoKg = precioIngresoCoKg / va1;
 
 
         let chaNC = {
@@ -319,8 +344,8 @@ function crearTablaDescriptivaAndChart(val) {
         }
         let chaCoKg = {
             "descripcion": "Compras (Kg)",
-            "cantidad": cantidadAproxCompKg.toFixed(),
-            "peso": va1.toFixed(2),
+            "cantidad": va1,
+            "peso": pesoComprasKg.toFixed(2),
             "precio": precioIngresoCoKg.toFixed(2),
         }
         let chaGtaKg = {
@@ -335,8 +360,10 @@ function crearTablaDescriptivaAndChart(val) {
         valoresParaChart.push(chaGtaKg);
 
         //chartGeneral(valoresParaChart);
-        chartGeneralPesos(valoresParaChart, sumTotal);
+        //chartGeneralPesos(valoresParaChart, sumTotal);
         graficoMesesGeneral(val);
+        graficoProveedoresGeneral(val);
+
 
         if ($("#tblChaNc tr").length > 1) {
             document.getElementById("filaTemp").remove();
@@ -375,9 +402,9 @@ function crearTablaDescriptivaAndChart(val) {
             '</tr>';
         $('#tblChaCom').prepend(fila2);
         var fila3 = '<tr id="filaTemp">\n\
-                 <td width="22%">'+ cantidadAproxCompKg.toLocaleString('en-US', noTruncarDecimales2) + '</td>' +
+                 <td width="22%">'+ va1.toLocaleString('en-US', noTruncarDecimales2) + '</td>' +
             '<td width="22%">' + precioIngresoCoKg.toLocaleString('en-US', noTruncarDecimales) + '</td>' +
-            '<td width="22%">' + va1.toLocaleString('en-US', noTruncarDecimales) + '</td>' +
+            '<td width="22%">' + pesoComprasKg.toLocaleString('en-US', noTruncarDecimales) + '</td>' +
             '<td width="20%">' + pesProComKg.toLocaleString('en-US', noTruncarDecimales) + '</td>' +
             '<td width="20%">' + precioProIngresoCoKg.toLocaleString('en-US', noTruncarDecimales) + '</td>' +
             '</tr>';
@@ -415,6 +442,7 @@ function calcularPorcentaje() {
     var precioT = $("#cardTextCanCompKg").text();
     var pesoT = $("#cardTextCanComp").text();
     var pesoPromT = $("#cardTextCanPesProm").text();
+    var precioPromT = $("#cardTextCanPrecProm").text();
 
     cantT = cantT.replace(/,/g, "");
     precioT = precioT.replace(/,/g, "");
@@ -425,20 +453,23 @@ function calcularPorcentaje() {
     var precioHis = precHisAnt.toFixed(2);
     var pesoHis = pesoHisAnt/1000;
     var pesoProHis = pesoPromHistAnt;
+    var precioProHis = precioPromHistAnt;
 
     cantT = cantT * 100;
     pesoT = pesoT * 100;
     precioT = precioT * 100;
     pesoPromT = pesoPromT * 100;
+    precioPromT = precioPromT * 100;
 
     var porcCan = cantT/cantHis;
     var porcKg = pesoT/pesoHis;
     var porcPrec = precioT/precioHis;
     var porcKgPro = pesoPromT / pesoProHis;
+    var porcPreciPro = precioPromT / precioProHis;
 
 
 
-    if (porcCan > 100) {
+    if (porcCan >= 100) {
         porcCan = porcCan - 100;
         $('#cantAnioAnteriorChaPor')
             .removeClass('badge badge-soft-danger rounded-capsule ml-2')
@@ -449,7 +480,7 @@ function calcularPorcentaje() {
             .removeClass('badge badge-soft-success rounded-capsule ml-2')
             .addClass('badge badge-soft-danger rounded-capsule ml-2');
     }
-    if (porcKg > 100) {
+    if (porcKg >= 100) {
         porcKg = porcKg - 100;
         $('#pesAnioAnteriorChaPor')
             .removeClass('badge badge-soft-danger rounded-capsule ml-2')
@@ -460,7 +491,7 @@ function calcularPorcentaje() {
             .removeClass('badge badge-soft-success rounded-capsule ml-2')
             .addClass('badge badge-soft-danger rounded-capsule ml-2');
     }
-    if (porcPrec > 100) {
+    if (porcPrec >= 100) {
         porcPrec = porcPrec - 100;
         $('#precAnioAnteriorChaPor')
             .removeClass('badge badge-soft-danger rounded-capsule ml-2')
@@ -472,7 +503,7 @@ function calcularPorcentaje() {
             .addClass('badge badge-soft-danger rounded-capsule ml-2');
     }
 
-    if (porcKgPro > 100) {
+    if (porcKgPro >= 100) {
         porcKgPro = porcKgPro - 100;
         $('#pesoAnioAnteriorChaPor')
             .removeClass('badge badge-soft-danger rounded-capsule ml-2')
@@ -483,58 +514,144 @@ function calcularPorcentaje() {
             .removeClass('badge badge-soft-success rounded-capsule ml-2')
             .addClass('badge badge-soft-danger rounded-capsule ml-2');
     }
+    if (porcPreciPro >= 100) {
+        porcPreciPro = porcPreciPro - 100;
+        $('#PrecioAnioAnteriorChaPor')
+            .removeClass('badge badge-soft-success rounded-capsule ml-2')
+            .addClass('badge badge-soft-danger rounded-capsule ml-2');
+    } else {
+        porcPreciPro = (100 - porcPreciPro) * -1;
+        $('#PrecioAnioAnteriorChaPor')
+            .removeClass('badge badge-soft-danger rounded-capsule ml-2')
+            .addClass('badge badge-soft-success rounded-capsule ml-2');
+      
+    }
    
     $("#cantAnioAnteriorChaPor").text(porcCan.toFixed(2) + "%");
     $("#pesAnioAnteriorChaPor").text(porcKg.toFixed(2) + "%");
     $("#precAnioAnteriorChaPor").text(porcPrec.toFixed(2) + "%");
     $("#pesoAnioAnteriorChaPor").text(porcKgPro.toFixed(2) + "%");
+    $("#PrecioAnioAnteriorChaPor").text(porcPreciPro.toFixed(2) + "%");
 
 }
 
-function consultaInfoAnterior(val) {
-    const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
-    const noTruncarDecimales2 = { maximumFractionDigits: 0, minimumFractionDigits: 0 };
-    var select = $("#anioClass option:selected").text();
+function consultaInfoAnterior(val, tipo) {
+    //tempValoresHist
+    //const filteredLibraries = jsLibraries.filter((item) => item !== 'react')
+    if (tipo == 1) {
+        //resBusAnioAnt
+        //console.log("el val de la func es:" + JSON.stringify(val))
+        //console.log("el valor historico es:" + JSON.stringify(resBusAnioAnt))
+        var comprSelect = $("#selecTipoIngreso").dxTagBox('instance').option('value');
 
-    var cantidad = 0;
-    var peso = 0;
-    var precio = 0;
-    var valMes = 0;
+        const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+        const noTruncarDecimales2 = { maximumFractionDigits: 0, minimumFractionDigits: 0 };
+        var select = $("#anioClass option:selected").text();
 
-    if (val.length == 0) {
-        for (var y of resBusAnioAnt) {
-            cantidad = cantidad + y.Cantidad;
-            peso = peso + y.Peso;
-            precio = precio + y.Precio;
-        }
-    } else {
-        for (var z of val) {
-            valMes = getNumericMonth(z);
-            for (var y of resBusAnioAnt) {
-                if (y.Mes == valMes) {
-                    cantidad = cantidad + y.Cantidad;
-                    peso = peso + y.Peso;
-                    precio = precio + y.Precio;
+        var cantidad = 0;
+        var peso = 0;
+        var precio = 0;
+        var valMes = 0;
+
+        let arrayFilter = [];
+
+
+        if (val.length == 0) {
+            if (comprSelect.length == 0) {
+                //tempValoresHist = resBusAnioAnt;
+            }
+            for (var y of tempValoresHist) {
+                arrayFilter.push(y);
+                cantidad = cantidad + y.Cantidad;
+                peso = peso + y.Peso;
+                precio = precio + y.Precio;
+            }
+            //tempValoresHist = arrayFilter;
+        } else {
+            for (var z of val) {
+                valMes = getNumericMonth(z);
+                for (var y of tempValoresHist) {
+                    if (y.Mes == valMes) {
+                        arrayFilter.push(y);
+                        cantidad = cantidad + y.Cantidad;
+                        peso = peso + y.Peso;
+                        precio = precio + y.Precio;
+                    }
                 }
             }
+            //tempValoresHist = arrayFilter;
         }
-    }
+
         var can = cantidad.toLocaleString('en-US', noTruncarDecimales2);
         var pes = (peso / 1000).toLocaleString('en-US', noTruncarDecimales2);
-    var prec = precio.toLocaleString('en-US', noTruncarDecimales);
-    var pesoPro = (peso / cantidad).toFixed(2);
-
-    precHisAnt = precio;
-    pesoHisAnt = peso;
-    cantHisAnt = cantidad;
-    pesoPromHistAnt = pesoPro;
-
-
+        var prec = precio.toLocaleString('en-US', noTruncarDecimales);
+        var pesoPro = (peso / cantidad).toFixed(2);
+        var precPro = (precio / peso).toFixed(2);
+        precHisAnt = precio;
+        pesoHisAnt = peso;
+        cantHisAnt = cantidad;
+        pesoPromHistAnt = pesoPro;
+        precioPromHistAnt = precPro;
         $("#cantAnioAnteriorCha").text((parseInt(select) - 1) + ": " + can);
         $("#pesAnioAnteriorCha").text((parseInt(select) - 1) + ": " + pes);
-    $("#precAnioAnteriorCha").text((parseInt(select) - 1) + ": " + prec);
-    $("#pesoAnioAnteriorCha").text((parseInt(select) - 1) + ": " + pesoPro);
+        $("#precAnioAnteriorCha").text((parseInt(select) - 1) + ": " + prec);
+        $("#pesoAnioAnteriorCha").text((parseInt(select) - 1) + ": " + pesoPro);
+        $("#precioPromAnioAnteriorCha").text((parseInt(select) - 1) + ": " + precPro);
+    }
+    if (tipo == 2) {
+        const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+        const noTruncarDecimales2 = { maximumFractionDigits: 0, minimumFractionDigits: 0 };
+        var select = $("#anioClass option:selected").text();
+        var comprSelect = $("#selectMes").dxTagBox('instance').option('value');
 
+        var cantidad = 0;
+        var peso = 0;
+        var precio = 0;
+        var valMes = 0;
+        let arrayFilter = [];
+
+        if (val.length == 0) {
+            if (comprSelect.length == 0) {
+                //tempValoresHist = resBusAnioAnt;
+            }
+            for (var y of tempValoresHist) {
+                arrayFilter.push(y);
+                cantidad = cantidad + y.Cantidad;
+                peso = peso + y.Peso;
+                precio = precio + y.Precio;
+            }
+            //tempValoresHist = arrayFilter;
+        }
+      
+        else {
+            for (var z of val) {
+                for (var y of tempValoresHist) {
+                    if (y.TipoIngreso == z) {
+                        arrayFilter.push(y);
+                        cantidad = cantidad + y.Cantidad;
+                        peso = peso + y.Peso;
+                        precio = precio + y.Precio;
+                    }
+                }
+            }
+            //tempValoresHist = arrayFilter;
+        }
+        var can = cantidad.toLocaleString('en-US', noTruncarDecimales2);
+        var pes = (peso / 1000).toLocaleString('en-US', noTruncarDecimales2);
+        var prec = precio.toLocaleString('en-US', noTruncarDecimales);
+        var pesoPro = (peso / cantidad).toFixed(2);
+        var precPro = (precio / peso).toFixed(2);
+        precHisAnt = precio;
+        pesoHisAnt = peso;
+        cantHisAnt = cantidad;
+        pesoPromHistAnt = pesoPro;
+        precioPromHistAnt = precPro;
+        $("#cantAnioAnteriorCha").text((parseInt(select) - 1) + ": " + can);
+        $("#pesAnioAnteriorCha").text((parseInt(select) - 1) + ": " + pes);
+        $("#precAnioAnteriorCha").text((parseInt(select) - 1) + ": " + prec);
+        $("#pesoAnioAnteriorCha").text((parseInt(select) - 1) + ": " + pesoPro);
+        $("#precioPromAnioAnteriorCha").text((parseInt(select) - 1) + ": " + precPro);
+    }
 }
 
 function InformeIngresosDeChatarra() {
@@ -544,7 +661,7 @@ function InformeIngresosDeChatarra() {
     const tipoCliente = ['Todos','MARCAS PRIVADAS', 'MARCAS PROPIAS', 'Prov. Locales'];
     const tipoClienteLinea = ['Todos', 'COBERTURA', 'INSTITUCIONES', 'MARCAS PRIVADAS', 'RECICLAJE'];
     const tipoClienteClase = ['Todos', 'AUTOSERVICIO', 'COORPORATIVO', 'DETALLISTA', 'DISTRIBUIDOR ZONAL', 'MARCAS PRIVADAS', 'PUNTO DE FABRICA','RECICLAJE'];
-    const tipoIngreso = ['Todos', 'Compras (Kg)', 'Compras (Ud)', 'Garantia', 'Nota Credito'];
+    const tipoIngreso = ['Compras (Kg)', 'Compras (Ud)', 'Garantia', 'Nota Credito'];
 
     $("tbody").children().remove()
     var valorDesv = obtenerDesv();
@@ -563,6 +680,7 @@ function InformeIngresosDeChatarra() {
             document.getElementById("MostrarPrefiltros3").style.display = "";
             document.getElementById("MostrarPrefiltros4").style.display = "";
             document.getElementById("MostrarPrefiltros5").style.display = "";
+            document.getElementById("MostrarPrefiltros6").style.display = "";
 
             crearTablaDescriptivaAndChart(resultJax);       
             const locale = getLocale();
@@ -580,15 +698,56 @@ function InformeIngresosDeChatarra() {
                         }
                         filter.pop();
                         dataGrid.filter(filter);
-                        consultaInfoAnterior(e.value);
+                        consultaInfoAnterior(e.value,1);
                     }
                     else {
-                        consultaInfoAnterior(e.value);
+                        consultaInfoAnterior(e.value,1);
                         dataGrid.clearFilter();
                     }             
                 },
               
             });
+
+            $('#selecTipoIngreso').dxTagBox({
+                dataSource: tipoIngreso,
+                searchEnabled: true,
+                onValueChanged:function(e) {
+                    if (e.value.length != 0) {
+                        valorTempCantProm = 1;
+                        var filter = [];
+                        for (var i = 0; i < e.value.length; i++) {
+                            filter.push(["Tipo_Ingreso", "=", e.value[i]]);
+                            filter.push("or");
+                        }
+                        filter.pop();
+                        dataGrid.filter(filter);
+                        consultaInfoAnterior(e.value,2);
+                    }
+                    else {
+                        valorTempCantProm = 0;
+                        consultaInfoAnterior(e.value,2);
+                        dataGrid.clearFilter();
+                    }
+                },
+
+            });
+
+            //$('#selecTipoIngreso').dxSelectBox({
+            //    dataSource: tipoIngreso,
+            //    value: tipoIngreso[0],
+            //    onValueChanged(data) {
+            //        if (data.value === 'Todos') {
+            //            dataGrid.clearFilter();
+            //            valorTempCantProm = 0;
+
+            //        } else {
+            //            dataGrid.filter(['Tipo_Ingreso', '=', data.value]);
+            //            valorTempCantProm = 1;
+            //        }
+            //    },
+
+            //});
+            //consultaInfoAnteriorTipoIngreso()
 
             $('#selecTipoCliente').dxSelectBox({
                 dataSource: tipoCliente,
@@ -611,21 +770,7 @@ function InformeIngresosDeChatarra() {
                     if (data.value === 'Todos') { dataGrid.clearFilter(); } else { dataGrid.filter(['Cliente_Clase', '=', data.value]); }
                 },
             });
-            $('#selecTipoIngreso').dxSelectBox({
-                dataSource: tipoIngreso,
-                value: tipoIngreso[0],
-                onValueChanged(data) {
-                    if (data.value === 'Todos') {
-                        dataGrid.clearFilter();
-                        valorTempCantProm = 0;
-
-                    } else {
-                        dataGrid.filter(['Tipo_Ingreso', '=', data.value]);
-                        valorTempCantProm =1;
-                    }
-                },
-
-            });
+         
             const dataGrid =$("#IngresosdeChatarras").dxDataGrid({
                 dataSource: resultJax,
                 columnAutoWidth: true,
@@ -881,12 +1026,18 @@ function InformeIngresosDeChatarra() {
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
                                     const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     desviacionTotalCal = ValTotal;
 
-                                    var tot =pesTotalDataGrid/cantTotalDataGrid;
+                                    var tot = pesTotalDataGrid / cantTotalDataGrid;
+                                    var temPesTot = pesTotalDataGrid / 1000;
+                                    var temPesTot2 = (temPesTot.toFixed(0)) * 1000;
+                                    var totPrec = preTotalDataGrid / temPesTot2;
 
                                     $("#cardTextCanPesProm").text(tot.toLocaleString('en-US', noTruncarDecimales));
+                                    $("#cardTextCanPrecProm").text(totPrec.toLocaleString('en-US', noTruncarDecimales));
+
 
                                     return ValTotal + "%";
                                 }
@@ -926,8 +1077,8 @@ function InformeIngresosDeChatarra() {
 //    consultarResAnterior();
 }
 
-
 function graficoMesesGeneral(valgeneral) {
+    //console.log("valor:" + JSON.stringify(valgeneral));
     const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
     var groupByVendedor = function (miarray, prop) {
         return miarray.reduce(function (groups, item) {
@@ -965,6 +1116,8 @@ function graficoMesesGeneral(valgeneral) {
         }, {});
     }
     var resultMes = groupByVendedor(valgeneral, 'FechaRegistro2');
+    //console.log("resultMes:" + JSON.stringify(resultMes));
+
     var kilosNc = 0;
     var cantidadNc = 0;
     var kilosCo = 0;
@@ -991,8 +1144,8 @@ function graficoMesesGeneral(valgeneral) {
         kilosCo = 0;
         cantidadCo = 0;
         cantidadGta = 0;
-        kilosCoKg = 0;
         cantidadCoKg = 0;
+        kilosCoKg = 0;
         pesPromNc = 0;
         pesPromCo = 0;
         pesoPromCoNc = 0;
@@ -1006,21 +1159,21 @@ function graficoMesesGeneral(valgeneral) {
                 cantidadCo = cantidadCo + resultMes[i][j].Cantidad;
             }
             if (resultMes[i][j].Tipo_Ingreso == "Compras (Kg)") {
-                kilosCoKg = kilosCoKg + resultMes[i][j].Peso_Real;
-                //    cantidadCoKg = cantidadCoKg + resultMes[i][j].Peso_Real;
+                //kilosCoKg = kilosCoKg + resultMes[i][j].Peso_Real;
+
+                cantidadCoKg = cantidadCoKg + resultMes[i][j].Cantidad;
             }
             if (resultMes[i][j].Tipo_Ingreso == "Garantia") {
                 cantidadGta = cantidadGta + resultMes[i][j].Cantidad;
                 //    cantidadCoKg = cantidadCoKg + resultMes[i][j].Peso_Real;
             }
             kilosNc = (kilosNc + resultMes[i][j].Peso_Real);
-
         }
         pesPromNc = (kilosNc / cantidadNc);
         pesPromCo = (kilosCo / cantidadCo);
 
         pesoPromCoNc = (pesPromNc + pesPromCo) / 2;
-        cantidadCoKg = (kilosCoKg / pesoPromCoNc);
+        //cantidadCoKg = (kilosCoKg / pesoPromCoNc);
 
         cantNc.push(cantidadNc.toFixed(0));
         cantCo.push(cantidadCo.toFixed(0));
@@ -1028,8 +1181,8 @@ function graficoMesesGeneral(valgeneral) {
         cantGta.push(cantidadGta.toFixed(0));
 
         pesNc.push(kilosNc.toFixed(2));
-        pesCo.push(kilosCo.toFixed(2));
-        pesCoKg.push(kilosCoKg.toFixed(2));
+        //pesCo.push(kilosCo.toFixed(2));
+        //pesCoKg.push(kilosCoKg.toFixed(2));
 
         mes.push(Object.keys(resultMes)[contador]);
         contador = contador + 1;
@@ -1180,6 +1333,588 @@ function graficoMesesGeneral(valgeneral) {
     });
 }
 
+function graficoProveedoresGeneral(valgeneral) {
+    //dxTagBox
+    //var compr = $("#selecTipoIngreso").dxSelectBox('instance').option('value');
+    var compr = $("#selecTipoIngreso").dxTagBox('instance').option('value');
+    //console.log("el valor q me trae el obj:" + JSON.stringify(compr));
+    if (compr == "Compras (Ud)") {
+        document.getElementById("MostrarChartProvee").style.display = "";
+        document.getElementById("OcultarChartProvee").style.display = "none";
+
+        const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+        var pesoPromGeneral = $("#cardTextCanPesProm").text();
+        var mes = [];
+        var helper = {};
+        var result = valgeneral.reduce(function (r, o) {
+            var key = o.FechaRegistro2 + '-' + o.Cliente;
+            if (!helper[key]) {
+                helper[key] = Object.assign({}, o); // create a copy of o
+                r.push(helper[key]);
+            } else {
+                if (helper[key].Tipo_Ingreso == "Compras (Kg)") {
+                    helper[key].Cantidad += (o.Cantidad / pesoPromGeneral);
+                    helper[key].Peso_Real += o.Peso_Real;
+                } else {
+                    helper[key].Cantidad += o.Cantidad;
+                    helper[key].Peso_Real += o.Peso_Real;
+                }
+            }
+            return r;
+        }, []);
+
+        var groupByAcum = function (miarray, prop) {
+            return miarray.reduce(function (groups, item) {
+                var val = item[prop];
+                groups[val] = groups[val] || [];
+                groups[val].push(item);
+                return groups;
+            }, {});
+        }
+        var resultMes = groupByAcum(result, 'NombreMes');
+        var cantidadFreno = 0;
+        var cantidadImpAn = 0;
+        var kilogramosGene = 0;
+
+        var cantFreno = [];
+        var cantImpAn = [];
+
+        var kgGene = [];
+        var mes = [];
+
+        for (var i in resultMes) {
+            cantidadFreno = 0;
+            kilogramosGene = 0;
+            cantidadImpAn=0;
+            kilosCo = 0;
+            cantidadCo = 0;
+            cantidadGta = 0;
+            kilosCoKg = 0;
+            cantidadCoKg = 0;
+            pesPromNc = 0;
+            pesPromCo = 0;
+            pesoPromCoNc = 0;
+            nuevoObjeto = {};
+            for (var j in resultMes[i]) {
+                if (resultMes[i][j].Cliente == "S.A. IMPORTADORA ANDINA S.A.I.A.") {
+                    cantidadImpAn = cantidadImpAn + resultMes[i][j].Cantidad;
+                    kilogramosGene = kilogramosGene + resultMes[i][j].Peso_Real;
+                }
+                if (resultMes[i][j].Cliente == "FRENOSEGURO CIA. LTDA.") {
+                    cantidadFreno = cantidadFreno + resultMes[i][j].Cantidad;
+                    kilogramosGene = kilogramosGene + resultMes[i][j].Peso_Real;
+                }
+            }
+            cantFreno.push(cantidadFreno.toFixed(0));
+            cantImpAn.push(cantidadImpAn.toFixed(0));
+            kgGene.push(kilogramosGene.toFixed(0));
+
+            mes.push(i);
+        }
+
+        if (chartGenProveedores != null) {
+            chartGenProveedores.destroy();
+        }
+        var ctx = $("#myChartProveedores");
+        var datasetImpAnd = {
+            label: "IMPORTADORA ANDINA",
+            borderWidth: 2,
+            cubicInterpolationMode: 'monotone',
+            backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
+            borderColor: 'rgba(7,59,251,0.5)',// Color del borde
+            data: cantImpAn,
+            pointRadius: 3,
+            pointHoverRadius: 4,
+            pointHitRadius: 10,
+            fill: false,
+            yAxisID: 'A',
+        };
+        var datasetFreno = {
+            label: "FRENOSEGURO",
+            borderWidth: 2,
+            cubicInterpolationMode: 'monotone',
+            backgroundColor: 'rgba(225, 17, 17,0.5)',// Color de fondo
+            borderColor: 'rgba(225, 17, 17,0.5)',// Color del borde
+            data: cantFreno,
+            pointRadius: 3,
+            pointHoverRadius: 4,
+            pointHitRadius: 10,
+            fill: false,
+            yAxisID: 'A',
+        };
+        var datasetKgGene = {
+            label: "Kilogramos:",
+            borderWidth: 2,
+            cubicInterpolationMode: 'monotone',
+            backgroundColor: 'rgba(36, 200, 0,0.5)',// Color de fondo
+            borderColor: 'rgba(36, 200, 0,0.5)',// Color del borde
+            data: kgGene,
+            pointRadius: 3,
+            pointHoverRadius: 4,
+            pointHitRadius: 10,
+            fill: false,
+            yAxisID: 'B',
+            type: 'line',
+            lineTension: 0,
+        };
+      
+        var chartdata = {
+            labels: mes,
+            datasets: [datasetImpAnd, datasetFreno, datasetKgGene
+            ]
+        };
+
+        chartGenProveedores = new Chart(ctx, {
+            type: "bar",
+            data: chartdata,
+            options: {
+
+                responsive: true,
+                scales: {
+                    yAxes: [
+                        {
+                            id: 'A',
+                            type: 'linear',
+                            position: 'left',
+
+                            ticks: {
+                                callback: function (valor, index, valores) {
+                                    return Number(valor).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                }
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Baterias Chatarra",
+                                fontColor: "black"
+                            }
+                        },
+                        {
+                            id: 'B',
+                            type: 'linear',
+                            position: 'right',
+                            ticks: {
+                                callback: function (valor, index, valores) {
+                                    return Number(valor).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                }
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Kilogramos",
+                                fontColor: "black"
+                            }
+
+                        },
+
+                    ],
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, chart) {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + " " + (tooltipItem.yLabel).toLocaleString('en-US', noTruncarDecimales);
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                },
+                title: {
+                    display: true,
+                    text: 'Cantidades y Pesos chatarra',
+                    fontSize: 18,
+                },
+            }
+
+        });
+    }
+    if (compr == "Compras (Kg)") {
+        document.getElementById("MostrarChartProvee").style.display = "";
+        document.getElementById("OcultarChartProvee").style.display = "none";
+
+        const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+        var pesoPromGeneral = $("#cardTextCanPesProm").text();
+        var mes = [];
+        var helper = {};
+        var result = valgeneral.reduce(function (r, o) {
+            var key = o.FechaRegistro2 + '-' + o.Cliente;
+
+            if (!helper[key]) {
+                helper[key] = Object.assign({}, o); // create a copy of o
+                r.push(helper[key]);
+            } else {
+                if (helper[key].Tipo_Ingreso == "Compras (Kg)") {
+                    helper[key].Cantidad += (o.Cantidad / pesoPromGeneral);
+                    helper[key].Peso_Real += o.Peso_Real;
+                } else {
+                    helper[key].Cantidad += o.Cantidad;
+                    helper[key].Peso_Real += o.Peso_Real;
+                }
+            }
+            return r;
+        }, []);
+
+        var groupByAcum = function (miarray, prop) {
+            return miarray.reduce(function (groups, item) {
+                var val = item[prop];
+                groups[val] = groups[val] || [];
+                groups[val].push(item);
+                return groups;
+            }, {});
+        }
+        var resultMes = groupByAcum(result, 'NombreMes');
+        var cantidadPrac = 0;
+        var cantidadEcor = 0;
+        var cantidadRecPac = 0;
+
+        var kilogramosGene = 0;
+
+        var cantPrac = [];
+        var cantEcor = [];
+        var cantRecPac = [];
+        var kgGene = [];
+       
+        var mes = [];
+
+        for (var i in resultMes) {
+            cantidadEcor = 0;
+            kilogramosGene = 0;
+            cantidadRecPac = 0;
+            cantidadPrac = 0;
+            kilosCo = 0;
+            cantidadCo = 0;
+            cantidadGta = 0;
+            kilosCoKg = 0;
+            cantidadCoKg = 0;
+            pesPromNc = 0;
+            pesPromCo = 0;
+            pesoPromCoNc = 0;
+            nuevoObjeto = {};
+            for (var j in resultMes[i]) {
+                if (resultMes[i][j].Cliente == "ECORESA ECOLOGIA & RECICLAJE S.A.") {
+                    cantidadEcor = cantidadEcor + resultMes[i][j].Cantidad;
+                    kilogramosGene = kilogramosGene + resultMes[i][j].Peso_Real;
+                }
+                if (resultMes[i][j].Cliente == "PRACTIPOWER S.A.") {
+                    cantidadPrac = cantidadPrac + resultMes[i][j].Cantidad;
+                    kilogramosGene = kilogramosGene + resultMes[i][j].Peso_Real;
+                }
+                if (resultMes[i][j].Cliente == "RECICLAJES DEL PACIFICO RECYCLINGPACIFIC S.A.") {
+                    cantidadRecPac = cantidadRecPac + resultMes[i][j].Cantidad;
+                    kilogramosGene = kilogramosGene + resultMes[i][j].Peso_Real;
+                }
+            }
+            cantPrac.push(cantidadPrac.toFixed(0));
+            cantEcor.push(cantidadEcor.toFixed(0));
+            cantRecPac.push(cantidadRecPac.toFixed(0));
+
+            kgGene.push(kilogramosGene.toFixed(0));
+          
+            mes.push(i);
+        }
+
+        if (chartGenProveedores != null) {
+            chartGenProveedores.destroy();
+        }
+        var ctx = $("#myChartProveedores");
+        var datasetEco = {
+            label: "Ecoresa",
+            borderWidth: 2,
+            cubicInterpolationMode: 'monotone',
+            backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
+            borderColor: 'rgba(7,59,251,0.5)',// Color del borde
+            data: cantEcor,
+            pointRadius: 3,
+            pointHoverRadius: 4,
+            pointHitRadius: 10,
+            fill: false,
+            yAxisID: 'A',
+        };
+        var datasetPra = {
+            label: "Practipower",
+            borderWidth: 2,
+            cubicInterpolationMode: 'monotone',
+            backgroundColor: 'rgba(225, 17, 17,0.5)',// Color de fondo
+            borderColor: 'rgba(225, 17, 17,0.5)',// Color del borde
+            data: cantPrac,
+            pointRadius: 3,
+            pointHoverRadius: 4,
+            pointHitRadius: 10,
+            fill: false,
+            yAxisID: 'A',
+        };
+        var datasetRec = {
+            label: "Reciclajes del Pacifico",
+            borderWidth: 2,
+            cubicInterpolationMode: 'monotone',
+            backgroundColor: 'rgba(255, 206, 86, 0.5)',// Color de fondo
+            borderColor: 'rgba(255, 206, 86, 0.5)',// Color del borde
+            data: cantRecPac,
+            pointRadius: 3,
+            pointHoverRadius: 4,
+            pointHitRadius: 10,
+            fill: false,
+            yAxisID: 'A',
+        };
+        var datasetKgGene = {
+            label: "Kilogramos:",
+            borderWidth: 2,
+            cubicInterpolationMode: 'monotone',
+            backgroundColor: 'rgba(36, 200, 0,0.5)',// Color de fondo
+            borderColor: 'rgba(36, 200, 0,0.5)',// Color del borde
+            data: kgGene,
+            pointRadius: 3,
+            pointHoverRadius: 4,
+            pointHitRadius: 10,
+            fill: false,
+            yAxisID: 'B',
+            type: 'line',
+            lineTension: 0,
+        };
+       
+        var chartdata = {
+            labels: mes,
+            datasets: [datasetEco, datasetPra, datasetRec, datasetKgGene
+            ]
+        };
+
+        chartGenProveedores = new Chart(ctx, {
+            type: "bar",
+            data: chartdata,
+            options: {
+
+                responsive: true,
+                scales: {
+                    yAxes: [
+                        {
+                            id: 'A',
+                            type: 'linear',
+                            position: 'left',
+
+                            ticks: {
+                                callback: function (valor, index, valores) {
+                                    return Number(valor).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                }
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Baterias Chatarra",
+                                fontColor: "black"
+                            }
+                        },
+                        {
+                            id: 'B',
+                            type: 'linear',
+                            position: 'right',
+                            ticks: {
+                                callback: function (valor, index, valores) {
+                                    return Number(valor).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                }
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Kilogramos",
+                                fontColor: "black"
+                            }
+
+                        },
+
+                    ],
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, chart) {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + " " + (tooltipItem.yLabel).toLocaleString('en-US', noTruncarDecimales);
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                },
+                title: {
+                    display: true,
+                    text: 'Cantidades y Pesos chatarra',
+                    fontSize: 18,
+                },
+            }
+
+        });
+    } 
+    if (compr == "Todos" || compr == "Nota Credito" || compr == "Garantia" || compr == "") {
+        document.getElementById("OcultarChartProvee").style.display = "";
+        document.getElementById("MostrarChartProvee").style.display = "none";
+        $("#MensajeErrorDobleConsulta").show('fade');
+        setTimeout(function () {
+            $("#MensajeErrorDobleConsulta").fadeOut(1500);
+        }, 3000);
+    }
+}
+
+function graficoProveedoresGeneralback(valgeneral) {
+    const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+    var pesoPromGeneral = $("#cardTextCanPesProm").text();
+    var mes = [];
+    var helper = {};
+
+    var result = valgeneral.reduce(function (r, o) {
+        var key = o.FechaRegistro2 + '-' + o.Cliente;
+
+        if (!helper[key]) {
+            helper[key] = Object.assign({}, o); // create a copy of o
+            r.push(helper[key]);
+        } else {
+            if (helper[key].Tipo_Ingreso == "Compras (Kg)") {
+                helper[key].Cantidad += (o.Cantidad / pesoPromGeneral);
+                helper[key].Peso_Real += o.Peso_Real;
+            } else {
+                helper[key].Cantidad += o.Cantidad;
+                helper[key].Peso_Real += o.Peso_Real;
+            }   
+        }
+        return r;
+    }, []);
+
+    var groupByAcum = function (miarray, prop) {
+        return miarray.reduce(function (groups, item) {
+            var val = item[prop];
+            groups[val] = groups[val] || [];
+            groups[val].push(item);
+            return groups;
+        }, {});
+    }
+
+    var resultMes = groupByAcum(result, 'NombreMes');
+
+    if (chartGenProveedores != null) {
+        chartGenProveedores.destroy();
+    }
+    var ctx = $("#myChartProveedores");
+
+    chartGenProveedores = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: [],
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [
+                    {
+                        id: 'A',
+                        type: 'linear',
+                        position: 'left',
+
+                        ticks: {
+                            callback: function (valor, index, valores) {
+                                return Number(valor).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Baterias Chatarra",
+                            fontColor: "black"
+                        }
+                    },
+                    {
+                        id: 'B',
+                        type: 'linear',
+                        position: 'right',
+                        ticks: {
+                            callback: function (valor, index, valores) {
+                                return Number(valor).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Kilogramos",
+                            fontColor: "black"
+                        }
+                    },
+                ],
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, chart) {
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + " " + (tooltipItem.yLabel).toLocaleString('en-US', noTruncarDecimales);
+                    }
+                }
+            },
+            interaction: {
+                intersect: false,
+            },
+            title: {
+                display: true,
+                text: 'Cantidades y Pesos chatarra',
+                fontSize: 18,
+            },
+        }
+    });
+    var borderColors = [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+    ];
+    var backgroundColors = [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+    ];
+    var colorInt = 0; //Used to set a variable background and border color
+    //for (var i in resultMes) {
+    //    chartGenProveedores.data.labels.push(i);
+
+    //    var newDataset = {
+    //        label: [],
+    //        data: [],
+    //        backgroundColor: backgroundColors[colorInt],
+    //        borderColor: borderColors[colorInt]
+    //    };
+    //    colorInt += 1;
+
+    //    for (var j in resultMes[i]) {
+    //        console.log("resMes J:" + JSON.stringify(resultMes[i][j].Cantidad));
+    //        newDataset.label.push(resultMes[i][j].Cliente);
+    //        newDataset.data.push(resultMes[i][j].Cantidad);
+    //    }
+    //    console.log("new data:" + JSON.stringify(newDataset));
+    //    chartGenProveedores.config.data.datasets.push(newDataset);
+    //}
+    //chartGenProveedores.update();
+    //console.log("datos primeros:" + JSON.stringify(result));
+
+    //console.log("datos:" + JSON.stringify(resultMes));
+    for (var i in resultMes) {
+        var newDataset = {
+            label: [],
+            data: [],
+            backgroundColor: backgroundColors[colorInt],
+            borderColor: borderColors[colorInt]
+        };
+        colorInt += 1;
+        for (var j in resultMes[i]) {
+            newDataset.label.push(resultMes[i][j].Cliente);
+            newDataset.data.push(resultMes[i][j].Cantidad);
+        }
+        addData(chartGenProveedores, i, newDataset);
+    }
+}
+
+function addData(chart, label, data) {
+    //console.log("esto trae label:" + JSON.stringify(label));
+    //console.log("esto trae data:" + JSON.stringify(data));
+    chart.data.labels.push(label);
+    chart.data.datasets.push(data);
+    chart.update();
+}
+
 function DatosFiltradosTabla() {
     const filterExpr = $("#IngresosdeChatarras").dxDataGrid("instance").getCombinedFilter(true);
     $("#IngresosdeChatarras").dxDataGrid("instance").getDataSource()
@@ -1195,7 +1930,6 @@ function DatosFiltradosTabla() {
 function cambiaValorTabla(val) {
     crearTablaDescriptivaAndChart(val);
 }
-
 
 function DetalleChatarra(modelo) {
     $("#ModalDetalleGeneralCha").modal("hide");
@@ -1324,7 +2058,6 @@ function DetalleChatarra(modelo) {
                                     return ValTotal + "kg";
                                 }
                             },
-
                         }
                         , {
                             column: "PesoIngresado",
@@ -1340,7 +2073,6 @@ function DetalleChatarra(modelo) {
                                     return ValTotal + "kg";
                                 }
                             },
-
                         },
                         {
                             column: "Desviacion",
@@ -1365,7 +2097,6 @@ function DetalleChatarra(modelo) {
                                     return "Prom: " + desviacion.toFixed(2) + "%";
                                 }
                             }
-
                         },
                     ],
                 },
@@ -1395,7 +2126,6 @@ function DetalleChatarra(modelo) {
         return storageLocale != null ? storageLocale : 'es';
     }
     $("#ModalDetalleChatarra").modal("show");
-
 }
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -1423,17 +2153,13 @@ function ChartResumenesChatarras() {
     var tempPeso = pesoTotalIng.toFixed(2);
     var tempCant = cantidadTotalIng.toFixed(2);
 
-
     const decimalEc = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
     pesoTotValIng = (pesoTotalIng).toLocaleString('en-US', decimalEc);
     cantTotValIng = (cantidadTotalIng).toLocaleString('en-US', decimalEc);
 
-
     var valorRes = tempPeso / tempCant;
 
-
-
-    console.log("el valor valor res es: " + valorRes);
+    //console.log("el valor valor res es: " + valorRes);
     $("#txtCantidadTotalVen").val(cantTotValIng);
     $("#txtPesoTotalVen").val(pesoTotValIng);
     $("#txtDesviacionVen").val(desviacionTotalCal);
@@ -1504,7 +2230,6 @@ function tablaResumenVendedor(valor) {
                 format: {
                     type: "fixedPoint",
                     precision: 2,
-
                 },
                 customizeText: function (cellInfo) {
                     const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
@@ -1516,7 +2241,6 @@ function tablaResumenVendedor(valor) {
                 format: {
                     type: "fixedPoint",
                     precision: 2,
-
                 },
                 customizeText: function (cellInfo) {
                     const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
@@ -1528,7 +2252,6 @@ function tablaResumenVendedor(valor) {
                 format: {
                     type: "fixedPoint",
                     precision: 2,
-
                 },
                 customizeText: function (cellInfo) {
                     const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
@@ -1829,7 +2552,6 @@ function tablaResumenMeses(valor) {
         columnFixing: {
             enabled: true
         },
-
         columns: [
             {
                 dataField: "Vendedor", caption: "Mes", allowEditing: false, fixed: false, allowFiltering: false
@@ -1926,10 +2648,7 @@ function graficoVendedores() {
             pointHitRadius: 10,
             fill: false,
             yAxisID: 'A',
-
-
             //yAxisID: "left"
-
         },
         {
             label: "Peso:",
@@ -1947,9 +2666,7 @@ function graficoVendedores() {
             yAxisID: 'B',
             type: 'line',
             lineTension: 0,
-
             // yAxisID: "right",
-
         }
         ]
     };
@@ -2033,7 +2750,6 @@ function graficoVendedores() {
                 fontSize: 18,
             },
         }
-
     });
     //char2 = new Chart(ctx2, {
     //    type: "bar",

@@ -192,6 +192,8 @@
     <EntitySet Name="MaestrosUtilitarios" EntityType="DacarProsoftModel.MaestrosUtilitarios" />
     <EntitySet Name="CronogramaExportacion" EntityType="DacarProsoftModel.CronogramaExportacion" />
     <EntitySet Name="HistoricoChatarra" EntityType="DacarProsoftModel.HistoricoChatarra" />
+    <EntitySet Name="MedicionPalletPacking" EntityType="DacarProsoftModel.MedicionPalletPacking" />
+    <EntitySet Name="NumeroMedicionesPackingList" EntityType="DacarProsoftModel.NumeroMedicionesPackingList" />
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1269,6 +1271,8 @@
     <NavigationProperty Name="PackingDtl" Relationship="DacarProsoftModel.fk_Packing" FromRole="Packing" ToRole="PackingDtl" />
     <NavigationProperty Name="PalletPacking" Relationship="DacarProsoftModel.fk_PackingPallet" FromRole="Packing" ToRole="PalletPacking" />
     <Property Name="NumeroContenedor" Type="Int32" />
+    <Property Name="LiberacionPacking" Type="Boolean" />
+    <Property Name="FechaLiberacion" Type="DateTime" Precision="3" />
   </EntityType>
   <Association Name="fk_Packing">
     <End Type="DacarProsoftModel.Packing" Role="Packing" Multiplicity="0..1" />
@@ -1406,5 +1410,31 @@
     <Property Name="Cantidad" Type="Int32" />
     <Property Name="Peso" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TipoIngreso" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="MedicionPalletPacking">
+    <Key>
+      <PropertyRef Name="MedicionPalletPackingId" />
+    </Key>
+    <Property Name="MedicionPalletPackingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PackingId" Type="Int32" />
+    <Property Name="PalletId" Type="Int32" />
+    <Property Name="NumeroMedicion" Type="Int32" />
+    <Property Name="NumeroLote" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Voltaje" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="nivel" Type="Boolean" />
+    <Property Name="Acabado" Type="Boolean" />
+    <Property Name="Limpieza" Type="Boolean" />
+    <Property Name="CCA" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+    <Property Name="FechaActualizacion" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="NumeroMedicionesPackingList">
+    <Key>
+      <PropertyRef Name="NumeroMedicionesId" />
+    </Key>
+    <Property Name="NumeroMedicionesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NumeroMediciones" Type="Int32" />
   </EntityType>
 </Schema>

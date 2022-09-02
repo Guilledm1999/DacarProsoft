@@ -2115,7 +2115,7 @@ namespace DacarProsoft.Datos
                                   precio = newGroup.Sum(t => t.Precio),
                                   peso = newGroup.Sum(t => t.Peso_Real)
                               };
-                var UnionGeneral = Listado.Union(Listado2);
+                //var UnionGeneral = Listado.Union(Listado2);
                 decimal pesTot = 0;
                 decimal canTot = 0;
 
@@ -2153,6 +2153,68 @@ namespace DacarProsoft.Datos
                             peso = j.peso.Value
                         });
                     }
+                }
+                return lst;
+            }
+        }
+        public List<ResumenAnioPosteriorChatarra> ResumenAnioPosteriorCategoriaChatarra(int anioBusqueda)
+        {
+            List<ResumenAnioPosteriorChatarra> lst = new List<ResumenAnioPosteriorChatarra>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+
+                var Listado = from d in DB.ReporteIngresoChatarraConDesviacionRN
+                              where d.Fecha.Value.Year == anioBusqueda && d.Tipo_Ingreso != "Compras (Kg)"
+                              group d by new { d.Fecha.Value.Month , d.Tipo_Ingreso} into newGroup
+                              select new
+                              {
+                                  tipoIngreso=newGroup.Key.Tipo_Ingreso,
+                                  mes = newGroup.Key.Month,
+                                  cantidad = newGroup.Sum(t => t.Cantidad),
+                                  precio = newGroup.Sum(t => t.Precio),
+                                  peso = newGroup.Sum(t => t.Peso_Real)
+                              };
+                var Listado2 = from d in DB.ReporteIngresoChatarraConDesviacionRN
+                               where d.Fecha.Value.Year == anioBusqueda && d.Tipo_Ingreso == "Compras (Kg)"
+                               group d by new { d.Fecha.Value.Month, d.Tipo_Ingreso } into newGroup
+                               select new
+                               {
+                                   tipoIngreso = newGroup.Key.Tipo_Ingreso,
+                                   mes = newGroup.Key.Month,
+                                   cantidad = newGroup.Sum(t => t.Cantidad),
+                                   precio = newGroup.Sum(t => t.Precio),
+                                   peso = newGroup.Sum(t => t.Peso_Real)
+                               };
+                var UnionGeneral = Listado.Union(Listado2).OrderBy(x=> x.mes);
+
+                decimal pesTot = 0;
+                decimal canTot = 0;
+                int cantidad = 0;
+                decimal pesPro = 0;
+                foreach (var x in Listado)
+                {
+                    pesTot = pesTot + x.peso.Value;
+                    canTot = canTot + x.cantidad.Value;
+                }
+                pesPro = Decimal.Round((pesTot / canTot), 2);
+
+                foreach (var j in UnionGeneral)
+                {
+                    if (j.tipoIngreso == "Compras (Kg)")
+                    {
+                        cantidad = Convert.ToInt32(j.cantidad.Value / pesPro);
+                    }
+                    else {
+                        cantidad = Convert.ToInt32(j.cantidad.Value);
+                    }
+                    lst.Add(new ResumenAnioPosteriorChatarra
+                    {
+                        mes = j.mes,
+                        cantidad = cantidad,
+                        precio = j.precio.Value,
+                        peso = j.peso.Value,
+                        tipoIngreso=j.tipoIngreso
+                    });                     
                 }
                 return lst;
             }

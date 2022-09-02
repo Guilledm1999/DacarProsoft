@@ -171,7 +171,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                         }
                     },
                     {
-                        dataField: "Normativa", caption: "Normativa", alignment: "left", allowHeaderFiltering: true, allowSearch: true, width: 100,
+                        dataField: "Normativa", caption: "Version", alignment: "left", allowHeaderFiltering: true, allowSearch: true, width: 100,
                         headerCellTemplate: function (header, info) {
                             $('<div>')
                                 .html(info.column.caption)
@@ -874,7 +874,7 @@ function ChartResumenesGarantias() {
                         stock2.push(result);
                         minimo.push((parseInt(result) * 0.9).toFixed(0));
                         $("#txtValorNominal").val(parseInt(result));
-                        $("#txtValorObjetivo").val((parseInt(result)).toFixed(0));
+                        $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
                         nominal = (parseInt(result)).toFixed(0);
                         nominalReal = (parseInt(result)).toFixed(0);
                     }
@@ -896,7 +896,11 @@ function ChartResumenesGarantias() {
                 //DatoTeoricoPrueba
             }
             }
-            console.log("prueba result:" + JSON.stringify(pruebaValores));
+            console.log("stock  " + JSON.stringify(stock));
+
+            console.log("stock 2 " + JSON.stringify(stock2));
+            console.log("minimo " + JSON.stringify(minimo));
+
             //FechaIngreso
         var chartdata = {
             labels: nombre,

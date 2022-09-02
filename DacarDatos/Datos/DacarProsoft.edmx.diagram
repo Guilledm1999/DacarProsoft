@@ -102,6 +102,8 @@
         <EntityTypeShape EntityType="DacarProsoftModel.MaestrosUtilitarios" Width="1.5" PointX="26.375" PointY="5.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.CronogramaExportacion" Width="1.5" PointX="26.375" PointY="8.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.HistoricoChatarra" Width="1.5" PointX="26.375" PointY="12.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.MedicionPalletPacking" Width="1.5" PointX="26.375" PointY="16.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.NumeroMedicionesPackingList" Width="1.5" PointX="18.375" PointY="26.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

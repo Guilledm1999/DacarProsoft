@@ -26,11 +26,9 @@ namespace DacarProsoft.Controllers
             {
                 ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
                 ViewBag.dxdevweb = "1";
-
                 daoUtilitarios = new DaoUtilitarios();
 
                 ViewBag.MenuAcceso = Session["Menu"];
-               
                 var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
                 ViewBag.MenuPrincipal = datMenu;
                 var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
@@ -89,7 +87,6 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-
         public JsonResult ObtenerDetallaFinalPedidoGenerak(int PedidoId)
         {
             try
@@ -109,7 +106,6 @@ namespace DacarProsoft.Controllers
         {
             try
             {
-
                 daoPedidos = new DaoPedidos();
                 var Result = daoPedidos.ConsultarPedidoDetalle(PedidoId);
                 return Json(Result, JsonRequestBehavior.AllowGet);
@@ -139,7 +135,6 @@ namespace DacarProsoft.Controllers
         {
             try
             {
-
                 daoPedidos = new DaoPedidos();
                 var Result = daoPedidos.ConsultarPedidoDetalleConfirmado(PedidoId);
                 return Json(Result, JsonRequestBehavior.AllowGet);
@@ -150,13 +145,11 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-
         [HttpPost]
         public bool CancelarPedido(int PedidoId)
         {
             try
             {
-
                 daoPedidos = new DaoPedidos();
                 var Result = daoPedidos.GuardarActualizacionEstado(PedidoId,3);
                 return Result;
@@ -172,7 +165,6 @@ namespace DacarProsoft.Controllers
         {
             try
             {
-
                 daoPedidos = new DaoPedidos();
                 var Result = daoPedidos.ConsultarAprobacionClienteExt(PedidoId);
                 return Result;
@@ -198,7 +190,6 @@ namespace DacarProsoft.Controllers
             }
 
             var result= daoPedidos.GuardarActualizacionEstado(pedidoId, 7);
-
             var cabeceraPedido = daoPedidos.InformacionCabeceraPedido(pedidoId);
 
             string ordenCompra = "";
@@ -212,7 +203,6 @@ namespace DacarProsoft.Controllers
                 sucursal = y.Sucursal;
                 DateTime fechaDoc = Convert.ToDateTime(y.FechaEmision, CultureInfo.InvariantCulture);
                 fechaEmision = fechaDoc.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
-
             }
 
             var CorreoBase = daoUtilitarios.ConsultarCorreoElectronico();
@@ -278,9 +268,7 @@ namespace DacarProsoft.Controllers
                     fechaDespachoCliente = x.FechaRequerida.Value;
                     incoterm = x.TerminoImportacion;
                 }
-
                 //var PedidoDetalle = daoPedidos.ConsultarPedidoDetalle(PedidoId);
-
                 var ComprobarOrden = daoPedidos.ComprobarExistenciaOrdenEnSap(Orden);
 
                 if (ComprobarOrden == false)
@@ -367,8 +355,6 @@ namespace DacarProsoft.Controllers
                                 mm.Subject = "Order confirmation";
                                 //MailAddress copy = new MailAddress("Notification_List@contoso.com");
                                 //mm.CC.Add(CorreoCopia);
-                   
-
                                 mm.Body = "Dear customer, your order "+ ordenCompra + "was confirmed and will be shipped on "+fechaDespachoCliente+", you can check the status through the platform "+ "http://app2.bateriasdacar.com:8033/Pedidos/ConsultarPedidos";
                                 //mm.Attachments.Add(new Attachment(new MemoryStream(bytesStreams), NombreCliente + "-" + Order + ".pdf"));
                                 mm.IsBodyHtml = true;
@@ -395,22 +381,16 @@ namespace DacarProsoft.Controllers
                     {
                         return "Error";
                     }
-
                 }
                 else
                 {
-
                     return "Registrada";
                 }
-
             }
             catch(Exception ex) {
                 return ex.ToString();
-            }
-           
+            } 
         }
-
-
         public ActionResult PedidosConfirmados()
         {
             if (Session["usuario"] != null)
@@ -420,7 +400,6 @@ namespace DacarProsoft.Controllers
 
                 daoUtilitarios = new DaoUtilitarios();
                 daoPedidos = new DaoPedidos();
-
 
                 ViewBag.MenuAcceso = Session["Menu"];
 
@@ -435,8 +414,7 @@ namespace DacarProsoft.Controllers
 
                 var SestadoPedidos = daoPedidos.StatusPedidos();
                 ViewBag.EstadosPedido = SestadoPedidos;
-                
-
+               
                 return View();
             }
             else
@@ -449,7 +427,6 @@ namespace DacarProsoft.Controllers
         {
             try
             {
-
                 daoPedidos = new DaoPedidos();
                 var Result = daoPedidos.ConsultarPedidosGeneral(estado);
                 return Json(Result, JsonRequestBehavior.AllowGet);
@@ -460,8 +437,6 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-
-
 
         public ActionResult PedidosCancelados()
         {
@@ -492,7 +467,6 @@ namespace DacarProsoft.Controllers
         {
             try
             {
-
                 daoPedidos = new DaoPedidos();
                 var Result = daoPedidos.ConsultarPedidosCanceladosGeneral(estado);
                 return Json(Result, JsonRequestBehavior.AllowGet);
@@ -518,7 +492,6 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-
         public JsonResult SelectFechasPedido()
         {
             try
@@ -651,7 +624,6 @@ namespace DacarProsoft.Controllers
                 ViewBag.dxdevweb = "1";
 
                 daoUtilitarios = new DaoUtilitarios();
-
                 ViewBag.MenuAcceso = Session["Menu"];
 
                 var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
@@ -733,8 +705,8 @@ namespace DacarProsoft.Controllers
             var result = daoPedidos.EliminarEventosMes(crono.CronogramaExportacionId);
             return result;
         }
-        public string ConvertirPdf(string cardCode, string numeroOrden) {
 
+        public string ConvertirPdf(string cardCode, string numeroOrden) {
             daoPedidos = new DaoPedidos();        
                 int atcEntry = daoPedidos.BusquedaAtcEntry(cardCode, numeroOrden);
                 if (atcEntry != 0)

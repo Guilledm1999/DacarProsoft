@@ -1,4 +1,5 @@
-﻿using DacarProsoft.Datos;
+﻿using DacarDatos.Datos;
+using DacarProsoft.Datos;
 using DacarProsoft.Models;
 using iText.IO.Font.Constants;
 using iText.IO.Image;
@@ -1488,6 +1489,143 @@ namespace DacarProsoft.Controllers
             else
             {
                 return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ObtenerPalletIngresadosLiberacion()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+
+                var Result = daoCalidad.ConsultarPackingIngreseadosLiberacionProducto();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ObtenerPalletList(int PackingId)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+
+                var Result = daoCalidad.ConsultarPalletCant(PackingId);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ObtenerPalletListMediciones(int PackinkId, int PalletId)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+
+                var Result = daoCalidad.ConsultarMedicionPallet(PackinkId, PalletId);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public bool InsertarMedicionPallet(int packingId, int palletId, MedicionPallet medicionModal)
+        {
+            daoCalidad = new DaoCalidad();
+            var result = daoCalidad.InsertarMedicionPalletPaking(packingId, palletId, medicionModal.NumeroLote, medicionModal.Modelo, 
+                medicionModal.Voltaje, medicionModal.nivel, medicionModal.Acabado, medicionModal.Limpieza, medicionModal.CCA);
+
+            return result;
+        }
+        public JsonResult ObtenerModelosBatPallet(int PackinkId, int PalletId)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+
+                var Result = daoCalidad.ConsultarModelosProPallet(PackinkId, PalletId);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public bool EliminarMedicionPallet(MedicionPalletPacking medicionModal)
+        {
+            daoCalidad = new DaoCalidad();
+            var result = daoCalidad.EliminarMedicionPallet(medicionModal.MedicionPalletPackingId);
+            return result;
+        }
+        public bool ActualizarMedicionPallet(MedicionPalletPacking medicionModal, int Key)
+        {
+
+            daoCalidad = new DaoCalidad();
+            var result = daoCalidad.ActualizarMedicionPallet(medicionModal, Key);
+
+            return result;
+        }
+        public int NumeroMaximoMedicion()
+        {
+            daoCalidad = new DaoCalidad();
+            var result = daoCalidad.NumeroMedicionesPackingList();
+            return result;
+        }
+        public bool ActualizarEstadoPacking(int packingId)
+        {
+            daoCalidad = new DaoCalidad();
+            var result = daoCalidad.ActualizarEstadoPackingList(packingId);
+
+            return result;
+        }
+        public ActionResult PackingListLiberados()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                //ConexionAccess conexion = new ConexionAccess();
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ObtenerPackingLiberados()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+
+                var Result = daoCalidad.ConsultarPackingLiberados();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
             }
         }
     }

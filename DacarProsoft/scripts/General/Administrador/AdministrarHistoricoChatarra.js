@@ -45,6 +45,9 @@ function ConsultaConsultarHistorico() {
                         dataField: "Mes", caption: "Mes"
                     },
                     {
+                        dataField: "TipoIngreso", caption: "Tipo Ingreso"
+                    },
+                    {
                         dataField: "Cantidad", caption: "Cantidad"
                     },
                     {

@@ -352,6 +352,7 @@
     <Property Name="Cantidad" Type="int" />
     <Property Name="Peso" Type="decimal" Precision="18" Scale="2" />
     <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="TipoIngreso" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="IngresoGarantias">
     <Key>
