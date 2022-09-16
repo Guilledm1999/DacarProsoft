@@ -188,8 +188,7 @@ namespace DacarProsoft.Controllers
                     var result = daoPackilist.IngresarPacking(Convert.ToInt32(NumeroDocumento), NumeroOrden, NombreCliente, Origen, Destino, 20, tipo, Sucursal, i);
                     identificador1 = result;
 
-                    if (NumeroOrden == "M81721-1" || NumeroOrden == "CB42061" || NumeroOrden == "45100" || NumeroOrden == "45101" || NumeroOrden == "45102" || NumeroOrden == "8362" || NumeroOrden == "PHE/6534" || NumeroOrden == "PHE/4535" || NumeroOrden == "PHE/6607"
-                        || NumeroOrden == "276" || NumeroOrden == "TRO-006-2022" || NumeroOrden == "DAC04-22" || NumeroOrden == "DAC05-22" || NumeroOrden == "I80321-6" || NumeroOrden == "DACAR-011-22") {
+                    if (NumeroOrden == "PHE/6609" || NumeroOrden == "DAC-USA-01" || NumeroOrden == "45110" || NumeroOrden == "PHE/7062") {
                         var PackingDetalle = daoOrdenesVentas.ListadoDetalleFacturasReservaSap(IdentificadorDetalle);
                         foreach (var x in PackingDetalle)
                         {

@@ -214,6 +214,9 @@
     <Compile Include="Datos\DireccionesClientes.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\EncabezadoMedicionPalletLocal.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\EstadosOrdenProduccion.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
@@ -295,6 +298,9 @@
     <Compile Include="Datos\MedicionPalletPacking.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\MedicionPalletPackingLocal.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\MenuOpciones.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
@@ -350,6 +356,9 @@
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\PackingDtl.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\PackingDtlLocal.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\PackingListCabecera.cs">

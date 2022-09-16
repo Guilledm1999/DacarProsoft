@@ -47,7 +47,7 @@ function ConsultarIngresoMaximoMedicion() {
 
 function mostrarIngresosPallet() {
     $.ajax({
-        url: "../Calidad/ObtenerPalletIngresadosLiberacion",
+        url: "../Calidad/ObtenerPalletIngresadosLiberacionLocalRegistrados",
         type: "GET"
         , success: function (msg) {
             const locale = getLocale();
@@ -89,22 +89,10 @@ function mostrarIngresosPallet() {
                         dataField: "NombreCliente", caption: "Cliente", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
                     },
                     {
-                        dataField: "NumeroContenedor", caption: "Numero Contenedor", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
+                        dataField: "NumeroContenedor", caption: "Cantidad Pallets", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
                     },            
                     {
-                        dataField: "Destino", caption: "Destino", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
-                    },
-                    {
                         dataField: "cantidadMediciones", caption: "Cantidad Mediciones", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
-                    },
-                    {
-                        dataField: "CantidadPallet", caption: "Cantidad Pallet", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
-                    },  
-                    {
-                        dataField: "Estado", caption: "Estado Packing List", allowEditing: false
-                    },
-                    {
-                        dataField: "PalletFaltantes", caption: "Pallet Faltantes", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
                     },
                     {
                         dataField: "FechaRegistro", caption: "Fecha Registro", allowEditing: false, allowHeaderFiltering: true, dataType: 'date',

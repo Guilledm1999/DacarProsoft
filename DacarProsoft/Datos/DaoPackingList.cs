@@ -677,6 +677,7 @@ namespace DacarProsoft.Datos
                     packing.Sucursal = Sucursal;
                     packing.FechaRegistro = DateTime.Now;
                     packing.NumeroContenedor = numeroContenedor;
+                    packing.LiberacionPacking = false;
                     DB.Packing.Add(packing);
                     DB.SaveChanges();
                     int prodId = packing.PackingId;

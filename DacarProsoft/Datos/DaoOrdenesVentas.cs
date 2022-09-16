@@ -66,12 +66,7 @@ namespace DacarProsoft.Datos
                     }
                 }
                 var ListadoCabeceraFactOrdenesVentas = from d in DB.OINV
-                                                   where d.U_SYP_NUMOCCL == "M81721-1" || d.U_SYP_NUMOCCL == "CB42061" || d.U_SYP_NUMOCCL == "45100" ||
-                                                   d.U_SYP_NUMOCCL == "45101" || d.U_SYP_NUMOCCL == "45102" || d.U_SYP_NUMOCCL == "8362" ||
-                                                   d.U_SYP_NUMOCCL == "PHE/6534" || d.U_SYP_NUMOCCL == "PHE/4535" || d.U_SYP_NUMOCCL == "PHE/6607" || d.U_SYP_NUMOCCL == "276"
-                                                   || d.U_SYP_NUMOCCL == "TRO-006-2022" || d.U_SYP_NUMOCCL == "DAC04-22" || d.U_SYP_NUMOCCL == "DAC05-22" || d.U_SYP_NUMOCCL == "I80321-6"
-                                                   || d.U_SYP_NUMOCCL == "DACAR-011-22"
-
+                                                   where d.U_SYP_NUMOCCL == "PHE/6609" || d.U_SYP_NUMOCCL == "DAC-USA-01" || d.U_SYP_NUMOCCL == "45110" || d.U_SYP_NUMOCCL == "PHE/7062"
                                                        orderby d.DocDate descending
                                                    //d.U_SYP_EXPORTACION == Exportacion &&
                                                    //d.U_SYP_EXPORTACION == Exportacion &&
@@ -178,7 +173,6 @@ namespace DacarProsoft.Datos
                         });
                     }
                 }
-
                 return lst;
             }
         }

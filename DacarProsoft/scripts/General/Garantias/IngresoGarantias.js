@@ -1,10 +1,11 @@
 ﻿var progreso = 0;
 var idIterval;
 $(document).ready(function () {
-    //$("#cargaImg").hide();
+    $("#cargaImg").hide();
+    $(".loading-icon").css("display", "none");
+
     $("#txtMsjGarantia").hide();
     $('.js-example-basic-single').select2();
-
     ocultarDiv();
 });
 
@@ -396,14 +397,13 @@ function validarIngresos() {
         }, 3000);
         return;
     }
-    if (inputFileImage1.length == 0) {
-            $("#MensajeCompleteCampos").show('fade');
-            setTimeout(function () {
-                $("#MensajeCompleteCampos").fadeOut(1500);
-            }, 3000);
-            return;
-
-    }
+    //if (inputFileImage1.length == 0) {
+    //        $("#MensajeCompleteCampos").show('fade');
+    //        setTimeout(function () {
+    //            $("#MensajeCompleteCampos").fadeOut(1500);
+    //        }, 3000);
+    //        return;
+    //}
     if ($('input[name=inlineRadioOptions1]:checked').length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {

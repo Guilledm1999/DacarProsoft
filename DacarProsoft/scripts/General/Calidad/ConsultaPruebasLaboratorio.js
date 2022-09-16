@@ -569,7 +569,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "DatoTeoricoPrueba",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
-                                    const noTruncarDecimales = { maximumFractionDigits: 0 };
+                                    const noTruncarDecimales = { maximumFractionDigits: 1 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     valorteoricoPr = ValTotal;
                                     return ValTotal;
@@ -758,23 +758,10 @@ function ChartResumenesGarantias() {
 
             $("#lblDetallePackingList").text("Analisis Pruebas Laboratorio - Modelo " + valor[0].Modelo);
 
-
-
-          
-
             calificacionPr = (resultadofinalPr / valorteoricoPr) * 100;
 
-            console.log("val 1: " + resultadofinalPr);
-            console.log("val 2: " + valorteoricoPr);
-
-            console.log("valor: " + calificacionPr);
-
             $("#txtPromedioCalificacion").val(calificacionPr.toFixed());
-
-
             $("#ModalInformeGrafica").modal("show");
-
-
 
         if (char != null) {
             char.destroy();
@@ -830,7 +817,7 @@ function ChartResumenesGarantias() {
                             minimo.push((parseInt(result) * 0.9).toFixed(0));
                             //stock2.push(valor[i].DatoTeoricoPrueba);
                             stock2.push(result);
-                            $("#txtValorNominal").val(parseInt(result));
+                            $("#txtValorNominal").val(parseFloat(result));
                             $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
                             nominal = (parseInt(result) * 0.9).toFixed(0);
                             nominalReal = (parseInt(result)).toFixed(0);
@@ -896,11 +883,6 @@ function ChartResumenesGarantias() {
                 //DatoTeoricoPrueba
             }
             }
-            console.log("stock  " + JSON.stringify(stock));
-
-            console.log("stock 2 " + JSON.stringify(stock2));
-            console.log("minimo " + JSON.stringify(minimo));
-
             //FechaIngreso
         var chartdata = {
             labels: nombre,

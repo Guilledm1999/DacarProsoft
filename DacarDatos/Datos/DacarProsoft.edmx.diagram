@@ -104,6 +104,10 @@
         <EntityTypeShape EntityType="DacarProsoftModel.HistoricoChatarra" Width="1.5" PointX="26.375" PointY="12.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.MedicionPalletPacking" Width="1.5" PointX="26.375" PointY="16.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.NumeroMedicionesPackingList" Width="1.5" PointX="18.375" PointY="26.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.EncabezadoMedicionPalletLocal" Width="1.5" PointX="26.375" PointY="21.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.PackingDtlLocal" Width="1.5" PointX="28.625" PointY="22" />
+        <AssociationConnector Association="DacarProsoftModel.fk_DetalleDtl" />
+        <EntityTypeShape EntityType="DacarProsoftModel.MedicionPalletPackingLocal" Width="1.5" PointX="26.375" PointY="25.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

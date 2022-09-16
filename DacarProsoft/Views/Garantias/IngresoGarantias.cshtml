@@ -92,7 +92,7 @@
                 <div class="row" style="padding:0px 0px 10px 0px">
                     <label for="email" class="col-sm-1 col-form-label"><b>Cliente:</b></label>
                     <div class="col-md-2">
-                        @Html.DropDownList("Pais", new SelectList(clientes, "CardCode", "NombreCliente"), "--Seleccione el cliente--", new { @class = "js-example-basic-single", id = "txtCliente", onchange = "cargarClientes();", style = "width:100%" })
+                        @Html.DropDownList("Pais", new SelectList(clientes, "CardCode", "NombreCliente"), "--Seleccione el cliente--", new { @class = "form-control selectpicker", id = "txtCliente", onchange = "cargarClientes();", style = "width:100%" })
                     </div>
 
                     <label for="email" class="col-sm-1 col-form-label"><b>Identificacion:</b></label>

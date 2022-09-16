@@ -89,7 +89,7 @@ function mostrarIngresosPallet() {
                             icon: "print",
                             hint: "Imprimir",
                             onClick: function (e) {
-                                //ModalConfirmarLiberacion(e.row.data);
+                                generarPDFLiberacion(e.row.data);
                             }
                         },
                         {
@@ -118,6 +118,12 @@ function mostrarIngresosPallet() {
         const storageLocale = sessionStorage.getItem('locale');
         return storageLocale != null ? storageLocale : 'es';
     }
+}
+
+function generarPDFLiberacion(modelo) {
+    var url = "../Calidad/ImprimirLiberacionProducto?packingId=" + modelo.PackingId;
+    window.open(url);
+    //$("#ModalListadoDePallets").modal("hide");
 }
 
 function ModalConsultarPalletsIngresado(modelo) {
@@ -196,12 +202,13 @@ function ConsultarPalletsIngresado(modelo) {
 }
 function ModalConsultarMedicionesPallets(modelo) {
     ConsultarMedicionPallet(modelo);
+    console.log("Pallet # " + modelo.PalletNumber);
+    $("#lblPalletDetalle").text("Pallet # " + modelo.PalletNumber);
     //$("#ModalListadoDePallets").modal("hide");
     $("#ModalAgregarMedicionPallets").modal("show");
 }
 
 function ConsultarMedicionPallet(modelo) {
-    $("#lblPalletDetalle").text("Pallet #");
     packingId = modelo.PackingId;
     palletId = modelo.PalletPacking1;
     var lookupDataSource = {

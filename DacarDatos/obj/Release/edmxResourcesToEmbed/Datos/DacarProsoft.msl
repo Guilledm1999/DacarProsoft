@@ -1073,5 +1073,50 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="EncabezadoMedicionPalletLocal">
+      <EntityTypeMapping TypeName="DacarProsoftModel.EncabezadoMedicionPalletLocal">
+        <MappingFragment StoreEntitySet="EncabezadoMedicionPalletLocal">
+          <ScalarProperty Name="FechaLiberacion" ColumnName="FechaLiberacion" />
+          <ScalarProperty Name="Liberacion" ColumnName="Liberacion" />
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+          <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+          <ScalarProperty Name="NumeroOrden" ColumnName="NumeroOrden" />
+          <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+          <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+          <ScalarProperty Name="EncabezadoMedicionPalletLocalId" ColumnName="EncabezadoMedicionPalletLocalId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PackingDtlLocal">
+      <EntityTypeMapping TypeName="DacarProsoftModel.PackingDtlLocal">
+        <MappingFragment StoreEntitySet="PackingDtlLocal">
+          <ScalarProperty Name="CantidadItem" ColumnName="CantidadItem" />
+          <ScalarProperty Name="DescripcionItem" ColumnName="DescripcionItem" />
+          <ScalarProperty Name="CodigoItem" ColumnName="CodigoItem" />
+          <ScalarProperty Name="IdentificadorCabecera" ColumnName="IdentificadorCabecera" />
+          <ScalarProperty Name="PackingDtlLocalId" ColumnName="PackingDtlLocalId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MedicionPalletPackingLocal">
+      <EntityTypeMapping TypeName="DacarProsoftModel.MedicionPalletPackingLocal">
+        <MappingFragment StoreEntitySet="MedicionPalletPackingLocal">
+          <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+          <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+          <ScalarProperty Name="CCA" ColumnName="CCA" />
+          <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
+          <ScalarProperty Name="Acabado" ColumnName="Acabado" />
+          <ScalarProperty Name="nivel" ColumnName="nivel" />
+          <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
+          <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+          <ScalarProperty Name="NumeroLote" ColumnName="NumeroLote" />
+          <ScalarProperty Name="NumeroMedicion" ColumnName="NumeroMedicion" />
+          <ScalarProperty Name="Pallet" ColumnName="Pallet" />
+          <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+          <ScalarProperty Name="MedicionPalletPackingLocalId" ColumnName="MedicionPalletPackingLocalId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

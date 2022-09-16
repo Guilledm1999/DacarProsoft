@@ -256,6 +256,20 @@
           <Property Name="Correo" Type="varchar" MaxLength="100" />
           <Property Name="Estado" Type="bit" />
         </EntityType>
+        <EntityType Name="EncabezadoMedicionPalletLocal">
+          <Key>
+            <PropertyRef Name="EncabezadoMedicionPalletLocalId" />
+          </Key>
+          <Property Name="EncabezadoMedicionPalletLocalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocEntry" Type="int" />
+          <Property Name="NumeroDocumento" Type="int" />
+          <Property Name="NumeroOrden" Type="varchar" MaxLength="100" />
+          <Property Name="NombreCliente" Type="varchar" MaxLength="100" />
+          <Property Name="FechaDocumento" Type="datetime" />
+          <Property Name="FechaRegistro" Type="datetime" />
+          <Property Name="Liberacion" Type="bit" />
+          <Property Name="FechaLiberacion" Type="datetime" />
+        </EntityType>
         <EntityType Name="EstadosOrdenProduccion">
           <Key>
             <PropertyRef Name="OrdenId" />
@@ -553,6 +567,24 @@
           <Property Name="FechaRegistro" Type="datetime" />
           <Property Name="FechaActualizacion" Type="datetime" />
         </EntityType>
+        <EntityType Name="MedicionPalletPackingLocal">
+          <Key>
+            <PropertyRef Name="MedicionPalletPackingLocalId" />
+          </Key>
+          <Property Name="MedicionPalletPackingLocalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PackingId" Type="int" />
+          <Property Name="Pallet" Type="int" />
+          <Property Name="NumeroMedicion" Type="int" />
+          <Property Name="NumeroLote" Type="varchar" MaxLength="50" />
+          <Property Name="Modelo" Type="varchar" MaxLength="50" />
+          <Property Name="Voltaje" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="nivel" Type="bit" />
+          <Property Name="Acabado" Type="bit" />
+          <Property Name="Limpieza" Type="bit" />
+          <Property Name="CCA" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FechaRegistro" Type="datetime" />
+          <Property Name="FechaActualizacion" Type="datetime" />
+        </EntityType>
         <EntityType Name="MenuOpciones">
           <Key>
             <PropertyRef Name="MenuOpcionesId" />
@@ -641,6 +673,16 @@
           <Property Name="PackingId" Type="int" />
           <Property Name="CodigoItem" Type="varchar" MaxLength="255" />
           <Property Name="DescripcionItem" Type="varchar" MaxLength="255" />
+          <Property Name="CantidadItem" Type="int" />
+        </EntityType>
+        <EntityType Name="PackingDtlLocal">
+          <Key>
+            <PropertyRef Name="PackingDtlLocalId" />
+          </Key>
+          <Property Name="PackingDtlLocalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdentificadorCabecera" Type="int" />
+          <Property Name="CodigoItem" Type="varchar" MaxLength="100" />
+          <Property Name="DescripcionItem" Type="varchar" MaxLength="100" />
           <Property Name="CantidadItem" Type="int" />
         </EntityType>
         <EntityType Name="PackingListCabecera">
@@ -1096,6 +1138,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_DetalleDtl">
+          <End Role="EncabezadoMedicionPalletLocal" Type="Self.EncabezadoMedicionPalletLocal" Multiplicity="0..1" />
+          <End Role="PackingDtlLocal" Type="Self.PackingDtlLocal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EncabezadoMedicionPalletLocal">
+              <PropertyRef Name="EncabezadoMedicionPalletLocalId" />
+            </Principal>
+            <Dependent Role="PackingDtlLocal">
+              <PropertyRef Name="IdentificadorCabecera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_detallePedido">
           <End Role="PedidoClienteCabecera" Type="Self.PedidoClienteCabecera" Multiplicity="0..1" />
           <End Role="PedidoClienteDetalle" Type="Self.PedidoClienteDetalle" Multiplicity="*" />
@@ -1250,6 +1304,7 @@
           <EntitySet Name="DetalleGeneralPackingList" EntityType="Self.DetalleGeneralPackingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DiasBusqueda" EntityType="Self.DiasBusqueda" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DireccionesClientes" EntityType="Self.DireccionesClientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EncabezadoMedicionPalletLocal" EntityType="Self.EncabezadoMedicionPalletLocal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadosOrdenProduccion" EntityType="Self.EstadosOrdenProduccion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadosPedidos" EntityType="Self.EstadosPedidos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstadosPedidosSelect" EntityType="Self.EstadosPedidosSelect" Schema="dbo" store:Type="Tables" />
@@ -1273,6 +1328,7 @@
           <EntitySet Name="MarcaBateriaPruebaLaboratorio" EntityType="Self.MarcaBateriaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MedicionPalletPacking" EntityType="Self.MedicionPalletPacking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MedicionPalletPackingLocal" EntityType="Self.MedicionPalletPackingLocal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Meses" EntityType="Self.Meses" Schema="dbo" store:Type="Tables" />
@@ -1282,6 +1338,7 @@
           <EntitySet Name="NumeroMedicionesPackingList" EntityType="Self.NumeroMedicionesPackingList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Packing" EntityType="Self.Packing" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackingDtl" EntityType="Self.PackingDtl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PackingDtlLocal" EntityType="Self.PackingDtlLocal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackingListCabecera" EntityType="Self.PackingListCabecera" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PackingListDetalle" EntityType="Self.PackingListDetalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paises" EntityType="Self.Paises" Schema="dbo" store:Type="Tables" />
@@ -1353,6 +1410,10 @@
           <AssociationSet Name="fk_DensidadCeldas" Association="Self.fk_DensidadCeldas">
             <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
             <End Role="IngresoInspeccionInicialDensidadCelda" EntitySet="IngresoInspeccionInicialDensidadCelda" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DetalleDtl" Association="Self.fk_DetalleDtl">
+            <End Role="EncabezadoMedicionPalletLocal" EntitySet="EncabezadoMedicionPalletLocal" />
+            <End Role="PackingDtlLocal" EntitySet="PackingDtlLocal" />
           </AssociationSet>
           <AssociationSet Name="fk_detallePedido" Association="Self.fk_detallePedido">
             <End Role="PedidoClienteCabecera" EntitySet="PedidoClienteCabecera" />
@@ -1585,6 +1646,13 @@
           <EntitySet Name="HistoricoChatarra" EntityType="DacarProsoftModel.HistoricoChatarra" />
           <EntitySet Name="MedicionPalletPacking" EntityType="DacarProsoftModel.MedicionPalletPacking" />
           <EntitySet Name="NumeroMedicionesPackingList" EntityType="DacarProsoftModel.NumeroMedicionesPackingList" />
+          <EntitySet Name="EncabezadoMedicionPalletLocal" EntityType="DacarProsoftModel.EncabezadoMedicionPalletLocal" />
+          <EntitySet Name="PackingDtlLocal" EntityType="DacarProsoftModel.PackingDtlLocal" />
+          <AssociationSet Name="fk_DetalleDtl" Association="DacarProsoftModel.fk_DetalleDtl">
+            <End Role="EncabezadoMedicionPalletLocal" EntitySet="EncabezadoMedicionPalletLocal" />
+            <End Role="PackingDtlLocal" EntitySet="PackingDtlLocal" />
+          </AssociationSet>
+          <EntitySet Name="MedicionPalletPackingLocal" EntityType="DacarProsoftModel.MedicionPalletPackingLocal" />
           </EntityContainer>
         <ComplexType Name="spConsultaUsuarios">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -2828,6 +2896,62 @@
           <Property Name="NumeroMedicionesId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NumeroMediciones" Type="Int32" />
         </EntityType>
+        <EntityType Name="EncabezadoMedicionPalletLocal">
+          <Key>
+            <PropertyRef Name="EncabezadoMedicionPalletLocalId" />
+          </Key>
+          <Property Name="EncabezadoMedicionPalletLocalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocEntry" Type="Int32" />
+          <Property Name="NumeroDocumento" Type="Int32" />
+          <Property Name="NumeroOrden" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NombreCliente" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaDocumento" Type="DateTime" Precision="3" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PackingDtlLocal" Relationship="DacarProsoftModel.fk_DetalleDtl" FromRole="EncabezadoMedicionPalletLocal" ToRole="PackingDtlLocal" />
+          <Property Name="Liberacion" Type="Boolean" />
+          <Property Name="FechaLiberacion" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="PackingDtlLocal">
+          <Key>
+            <PropertyRef Name="PackingDtlLocalId" />
+          </Key>
+          <Property Name="PackingDtlLocalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdentificadorCabecera" Type="Int32" />
+          <Property Name="CodigoItem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionItem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CantidadItem" Type="Int32" />
+          <NavigationProperty Name="EncabezadoMedicionPalletLocal" Relationship="DacarProsoftModel.fk_DetalleDtl" FromRole="PackingDtlLocal" ToRole="EncabezadoMedicionPalletLocal" />
+        </EntityType>
+        <Association Name="fk_DetalleDtl">
+          <End Type="DacarProsoftModel.EncabezadoMedicionPalletLocal" Role="EncabezadoMedicionPalletLocal" Multiplicity="0..1" />
+          <End Type="DacarProsoftModel.PackingDtlLocal" Role="PackingDtlLocal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EncabezadoMedicionPalletLocal">
+              <PropertyRef Name="EncabezadoMedicionPalletLocalId" />
+            </Principal>
+            <Dependent Role="PackingDtlLocal">
+              <PropertyRef Name="IdentificadorCabecera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MedicionPalletPackingLocal">
+          <Key>
+            <PropertyRef Name="MedicionPalletPackingLocalId" />
+          </Key>
+          <Property Name="MedicionPalletPackingLocalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PackingId" Type="Int32" />
+          <Property Name="Pallet" Type="Int32" />
+          <Property Name="NumeroMedicion" Type="Int32" />
+          <Property Name="NumeroLote" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Voltaje" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="nivel" Type="Boolean" />
+          <Property Name="Acabado" Type="Boolean" />
+          <Property Name="Limpieza" Type="Boolean" />
+          <Property Name="CCA" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+          <Property Name="FechaActualizacion" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3903,6 +4027,51 @@
               <MappingFragment StoreEntitySet="NumeroMedicionesPackingList">
                 <ScalarProperty Name="NumeroMediciones" ColumnName="NumeroMediciones" />
                 <ScalarProperty Name="NumeroMedicionesId" ColumnName="NumeroMedicionesId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EncabezadoMedicionPalletLocal">
+            <EntityTypeMapping TypeName="DacarProsoftModel.EncabezadoMedicionPalletLocal">
+              <MappingFragment StoreEntitySet="EncabezadoMedicionPalletLocal">
+                <ScalarProperty Name="FechaLiberacion" ColumnName="FechaLiberacion" />
+                <ScalarProperty Name="Liberacion" ColumnName="Liberacion" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="FechaDocumento" ColumnName="FechaDocumento" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="NumeroOrden" ColumnName="NumeroOrden" />
+                <ScalarProperty Name="NumeroDocumento" ColumnName="NumeroDocumento" />
+                <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+                <ScalarProperty Name="EncabezadoMedicionPalletLocalId" ColumnName="EncabezadoMedicionPalletLocalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PackingDtlLocal">
+            <EntityTypeMapping TypeName="DacarProsoftModel.PackingDtlLocal">
+              <MappingFragment StoreEntitySet="PackingDtlLocal">
+                <ScalarProperty Name="CantidadItem" ColumnName="CantidadItem" />
+                <ScalarProperty Name="DescripcionItem" ColumnName="DescripcionItem" />
+                <ScalarProperty Name="CodigoItem" ColumnName="CodigoItem" />
+                <ScalarProperty Name="IdentificadorCabecera" ColumnName="IdentificadorCabecera" />
+                <ScalarProperty Name="PackingDtlLocalId" ColumnName="PackingDtlLocalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicionPalletPackingLocal">
+            <EntityTypeMapping TypeName="DacarProsoftModel.MedicionPalletPackingLocal">
+              <MappingFragment StoreEntitySet="MedicionPalletPackingLocal">
+                <ScalarProperty Name="FechaActualizacion" ColumnName="FechaActualizacion" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="CCA" ColumnName="CCA" />
+                <ScalarProperty Name="Limpieza" ColumnName="Limpieza" />
+                <ScalarProperty Name="Acabado" ColumnName="Acabado" />
+                <ScalarProperty Name="nivel" ColumnName="nivel" />
+                <ScalarProperty Name="Voltaje" ColumnName="Voltaje" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="NumeroLote" ColumnName="NumeroLote" />
+                <ScalarProperty Name="NumeroMedicion" ColumnName="NumeroMedicion" />
+                <ScalarProperty Name="Pallet" ColumnName="Pallet" />
+                <ScalarProperty Name="PackingId" ColumnName="PackingId" />
+                <ScalarProperty Name="MedicionPalletPackingLocalId" ColumnName="MedicionPalletPackingLocalId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

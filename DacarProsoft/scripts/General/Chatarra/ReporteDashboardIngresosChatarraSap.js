@@ -4,7 +4,6 @@ var chartGen;
 var chartGenPes;
 var chartGenMes;
 var chartGenProveedores;
-
 var char2;
 var char3;
 var char4;
@@ -55,6 +54,7 @@ var cantHisAnt = 0;
 var pesoPromHistAnt = 0;
 var precioPromHistAnt = 0;
 var tempValoresHist = null;
+
 $(document).ready(function () {
     $(".loading-icon").css("display", "none");
     consultarResAnterior();
@@ -320,6 +320,7 @@ function crearTablaDescriptivaAndChart(val) {
         kgproNcCo = (pesProNc + pesProCom + pesProComKg) / 3;
 
         sumTotal = pesoComprasKg + pesoComprasUd + pesoNc + pesoGta;
+
         var cantTotalGene = va3 + va2 + cantidadAproxCompKg + va4;
         var pesoTotalGene = (pesoNc + pesoComprasUd + va1 + pesoGta) / 1000;
         var precioTotalGene = precioIngresoNc + precioIngresoCo + precioIngresoCoKg + precioIngresoGta;
@@ -656,8 +657,7 @@ function consultaInfoAnterior(val, tipo) {
 
 function InformeIngresosDeChatarra() {
     var select = $("#anioClass option:selected").text();
-
-    const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const meses = ['enero','febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']; 
     const tipoCliente = ['Todos','MARCAS PRIVADAS', 'MARCAS PROPIAS', 'Prov. Locales'];
     const tipoClienteLinea = ['Todos', 'COBERTURA', 'INSTITUCIONES', 'MARCAS PRIVADAS', 'RECICLAJE'];
     const tipoClienteClase = ['Todos', 'AUTOSERVICIO', 'COORPORATIVO', 'DETALLISTA', 'DISTRIBUIDOR ZONAL', 'MARCAS PRIVADAS', 'PUNTO DE FABRICA','RECICLAJE'];
@@ -690,6 +690,8 @@ function InformeIngresosDeChatarra() {
                 dataSource: meses,
                 searchEnabled: true,
                 onValueChanged: function (e) {
+                    var tbl = $("#IngresosdeChatarras").dxDataGrid("instance");
+                    console.log(dataGrid);
                     if (e.value.length != 0) {
                         var filter = [];
                         for (var i = 0; i < e.value.length; i++) {
@@ -697,21 +699,26 @@ function InformeIngresosDeChatarra() {
                             filter.push("or");
                         }
                         filter.pop();
+                        //dataGrid.getCombinedFilter(true);
                         dataGrid.filter(filter);
+                        //dataGrid.filter(filter);
                         consultaInfoAnterior(e.value,1);
                     }
                     else {
                         consultaInfoAnterior(e.value,1);
                         dataGrid.clearFilter();
-                    }             
-                },
-              
+                    }
+                    //let filterValues = dataGrid.columnOption("Tipo_Cliente", "filterValues");
+
+                    //console.log("fil:" + filterValues);
+                },  
             });
 
             $('#selecTipoIngreso').dxTagBox({
                 dataSource: tipoIngreso,
                 searchEnabled: true,
-                onValueChanged:function(e) {
+                onValueChanged: function (e) {
+                    console.log(dataGrid);
                     if (e.value.length != 0) {
                         valorTempCantProm = 1;
                         var filter = [];
@@ -721,34 +728,17 @@ function InformeIngresosDeChatarra() {
                         }
                         filter.pop();
                         dataGrid.filter(filter);
-                        consultaInfoAnterior(e.value,2);
+                        consultaInfoAnterior(e.value, 2);
                     }
                     else {
                         valorTempCantProm = 0;
-                        consultaInfoAnterior(e.value,2);
+                        consultaInfoAnterior(e.value, 2);
                         dataGrid.clearFilter();
                     }
+                    //let filterValues = dataGrid.columnOption("Tipo_Cliente", "filterValues");
+                    //console.log("fil:" + filterValues);
                 },
-
             });
-
-            //$('#selecTipoIngreso').dxSelectBox({
-            //    dataSource: tipoIngreso,
-            //    value: tipoIngreso[0],
-            //    onValueChanged(data) {
-            //        if (data.value === 'Todos') {
-            //            dataGrid.clearFilter();
-            //            valorTempCantProm = 0;
-
-            //        } else {
-            //            dataGrid.filter(['Tipo_Ingreso', '=', data.value]);
-            //            valorTempCantProm = 1;
-            //        }
-            //    },
-
-            //});
-            //consultaInfoAnteriorTipoIngreso()
-
             $('#selecTipoCliente').dxSelectBox({
                 dataSource: tipoCliente,
                 value: tipoCliente[0],
@@ -770,7 +760,6 @@ function InformeIngresosDeChatarra() {
                     if (data.value === 'Todos') { dataGrid.clearFilter(); } else { dataGrid.filter(['Cliente_Clase', '=', data.value]); }
                 },
             });
-         
             const dataGrid =$("#IngresosdeChatarras").dxDataGrid({
                 dataSource: resultJax,
                 columnAutoWidth: true,
@@ -1334,10 +1323,7 @@ function graficoMesesGeneral(valgeneral) {
 }
 
 function graficoProveedoresGeneral(valgeneral) {
-    //dxTagBox
-    //var compr = $("#selecTipoIngreso").dxSelectBox('instance').option('value');
     var compr = $("#selecTipoIngreso").dxTagBox('instance').option('value');
-    //console.log("el valor q me trae el obj:" + JSON.stringify(compr));
     if (compr == "Compras (Ud)") {
         document.getElementById("MostrarChartProvee").style.display = "";
         document.getElementById("OcultarChartProvee").style.display = "none";
@@ -1541,14 +1527,9 @@ function graficoProveedoresGeneral(valgeneral) {
             if (!helper[key]) {
                 helper[key] = Object.assign({}, o); // create a copy of o
                 r.push(helper[key]);
-            } else {
-                if (helper[key].Tipo_Ingreso == "Compras (Kg)") {
-                    helper[key].Cantidad += (o.Cantidad / pesoPromGeneral);
-                    helper[key].Peso_Real += o.Peso_Real;
-                } else {
+            } else { 
                     helper[key].Cantidad += o.Cantidad;
-                    helper[key].Peso_Real += o.Peso_Real;
-                }
+                    helper[key].Peso_Real += o.Peso_Real;       
             }
             return r;
         }, []);
@@ -1591,16 +1572,16 @@ function graficoProveedoresGeneral(valgeneral) {
             nuevoObjeto = {};
             for (var j in resultMes[i]) {
                 if (resultMes[i][j].Cliente == "ECORESA ECOLOGIA & RECICLAJE S.A.") {
-                    cantidadEcor = cantidadEcor + resultMes[i][j].Cantidad;
-                    kilogramosGene = kilogramosGene + resultMes[i][j].Peso_Real;
+                    cantidadEcor = cantidadEcor + resultMes[i][j].Peso_Real;
+                    kilogramosGene = kilogramosGene + resultMes[i][j].Cantidad;
                 }
                 if (resultMes[i][j].Cliente == "PRACTIPOWER S.A.") {
-                    cantidadPrac = cantidadPrac + resultMes[i][j].Cantidad;
-                    kilogramosGene = kilogramosGene + resultMes[i][j].Peso_Real;
+                    cantidadPrac = cantidadPrac + resultMes[i][j].Peso_Real;
+                    kilogramosGene = kilogramosGene + resultMes[i][j].Cantidad;
                 }
                 if (resultMes[i][j].Cliente == "RECICLAJES DEL PACIFICO RECYCLINGPACIFIC S.A.") {
-                    cantidadRecPac = cantidadRecPac + resultMes[i][j].Cantidad;
-                    kilogramosGene = kilogramosGene + resultMes[i][j].Peso_Real;
+                    cantidadRecPac = cantidadRecPac + resultMes[i][j].Peso_Real;
+                    kilogramosGene = kilogramosGene + resultMes[i][j].Cantidad;
                 }
             }
             cantPrac.push(cantidadPrac.toFixed(0));
@@ -1617,7 +1598,7 @@ function graficoProveedoresGeneral(valgeneral) {
         }
         var ctx = $("#myChartProveedores");
         var datasetEco = {
-            label: "Ecoresa",
+            label: "Ecoresa (kg)",
             borderWidth: 2,
             cubicInterpolationMode: 'monotone',
             backgroundColor: 'rgba(7,59,251,0.5)',// Color de fondo
@@ -1630,7 +1611,7 @@ function graficoProveedoresGeneral(valgeneral) {
             yAxisID: 'A',
         };
         var datasetPra = {
-            label: "Practipower",
+            label: "Practipower (kg)",
             borderWidth: 2,
             cubicInterpolationMode: 'monotone',
             backgroundColor: 'rgba(225, 17, 17,0.5)',// Color de fondo
@@ -1643,7 +1624,7 @@ function graficoProveedoresGeneral(valgeneral) {
             yAxisID: 'A',
         };
         var datasetRec = {
-            label: "Reciclajes del Pacifico",
+            label: "Reciclajes del Pacifico (kg)",
             borderWidth: 2,
             cubicInterpolationMode: 'monotone',
             backgroundColor: 'rgba(255, 206, 86, 0.5)',// Color de fondo
@@ -1656,7 +1637,7 @@ function graficoProveedoresGeneral(valgeneral) {
             yAxisID: 'A',
         };
         var datasetKgGene = {
-            label: "Kilogramos:",
+            label: "Baterias Aproximadas:",
             borderWidth: 2,
             cubicInterpolationMode: 'monotone',
             backgroundColor: 'rgba(36, 200, 0,0.5)',// Color de fondo
@@ -1697,7 +1678,7 @@ function graficoProveedoresGeneral(valgeneral) {
                             },
                             scaleLabel: {
                                 display: true,
-                                labelString: "Baterias Chatarra",
+                                labelString: "Kilogramos",
                                 fontColor: "black"
                             }
                         },
@@ -1712,7 +1693,7 @@ function graficoProveedoresGeneral(valgeneral) {
                             },
                             scaleLabel: {
                                 display: true,
-                                labelString: "Kilogramos",
+                                labelString: "Baterias Chatarra",
                                 fontColor: "black"
                             }
 
@@ -1868,29 +1849,6 @@ function graficoProveedoresGeneralback(valgeneral) {
         'rgba(255, 159, 64, 0.2)'
     ];
     var colorInt = 0; //Used to set a variable background and border color
-    //for (var i in resultMes) {
-    //    chartGenProveedores.data.labels.push(i);
-
-    //    var newDataset = {
-    //        label: [],
-    //        data: [],
-    //        backgroundColor: backgroundColors[colorInt],
-    //        borderColor: borderColors[colorInt]
-    //    };
-    //    colorInt += 1;
-
-    //    for (var j in resultMes[i]) {
-    //        console.log("resMes J:" + JSON.stringify(resultMes[i][j].Cantidad));
-    //        newDataset.label.push(resultMes[i][j].Cliente);
-    //        newDataset.data.push(resultMes[i][j].Cantidad);
-    //    }
-    //    console.log("new data:" + JSON.stringify(newDataset));
-    //    chartGenProveedores.config.data.datasets.push(newDataset);
-    //}
-    //chartGenProveedores.update();
-    //console.log("datos primeros:" + JSON.stringify(result));
-
-    //console.log("datos:" + JSON.stringify(resultMes));
     for (var i in resultMes) {
         var newDataset = {
             label: [],

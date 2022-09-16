@@ -1,6 +1,7 @@
 ﻿using DacarDatos.Datos;
 using DacarProsoft.Datos;
 using DacarProsoft.Models;
+using iText.Forms.Fields;
 using iText.IO.Font.Constants;
 using iText.IO.Image;
 using iText.Kernel.Colors;
@@ -8,6 +9,7 @@ using iText.Kernel.Events;
 using iText.Kernel.Font;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
+using iText.Kernel.Pdf.Canvas.Draw;
 using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
@@ -21,6 +23,8 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using iText.IO.Font;
+using iText.Kernel.Pdf.Xobject;
 
 namespace DacarProsoft.Controllers
 {
@@ -28,6 +32,9 @@ namespace DacarProsoft.Controllers
     {
         private DaoUtilitarios daoUtilitarios { get; set; } = null;
         private DaoCalidad daoCalidad { get; set; } = null;
+        private DaoOrdenesVentas daoOrdenesVentas { get; set; } = null;
+        private DaoPackingList daoPackingList { get; set; } = null;
+
 
         // GET: Calidad
         public ActionResult RegistrosVisuaLCN()
@@ -1620,6 +1627,321 @@ namespace DacarProsoft.Controllers
                 daoCalidad = new DaoCalidad();
 
                 var Result = daoCalidad.ConsultarPackingLiberados();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        [HttpGet]
+        public ActionResult ImprimirLiberacionProducto(int packingId)
+        {
+            daoCalidad = new DaoCalidad();
+            var resultadoPacking = daoCalidad.ConsultarPackingLiberado(packingId);
+            var resultadoMedicionesPacking = daoCalidad.ConsultarMedicionPackingGeneral(packingId);
+
+            string fechaLiberacion="";
+            string nombreCliente="";
+            string orden="";
+            int pallet = 0;
+            string nivel = "";
+            string acabado = "";
+            string limpieza = "";
+
+            foreach (var x in resultadoPacking) {
+                fechaLiberacion = x.FechaRegistro;
+                nombreCliente = x.NombreCliente;
+                orden = x.NumeroOrden;
+            }
+
+            PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+            PdfFont No_Bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);
+            iText.Kernel.Colors.Color fondoCelda = new DeviceRgb(199, 224, 255);
+            iText.Kernel.Colors.Color lineColor = new DeviceRgb(39, 110, 198);
+
+            MemoryStream stream = new MemoryStream();
+            PdfWriter writer = new PdfWriter(stream);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4, true);
+            LineSeparator ls = new LineSeparator(new SolidLine());
+
+            float[] cellWidth = {20f};
+            Table tablaEvent = new Table(UnitValue.CreatePercentArray(1)).UseAllAvailableWidth();
+
+            Cell cell5 = new Cell().Add(new Paragraph("_________________________"));
+            tablaEvent.AddCell(cell5.SetTextAlignment(TextAlignment.CENTER).SetBorder(Border.NO_BORDER));                  
+            Cell cell10 = new Cell().Add(new Paragraph("Control de Calidad").SetFontSize(10).SetHeight(14f));
+            tablaEvent.AddCell(cell10.SetTextAlignment(TextAlignment.CENTER).SetBorder(Border.NO_BORDER));
+            //Cell cell11 = new Cell().Add(new Paragraph("Industria Dacar Cia. Ltda.").SetFontSize(10));
+            //tablaEvent.AddCell(cell11.SetTextAlignment(TextAlignment.CENTER).SetBorder(Border.NO_BORDER));
+
+          
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaEvent));
+
+            document.SetMargins(92, 36, 110, 36);
+            var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
+            iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
+
+
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
+
+            HeaderHandler headerHandler = new HeaderHandler();
+            pdf.AddEventHandler(PdfDocumentEvent.START_PAGE, headerHandler);
+
+            Paragraph header = new Paragraph("REPORTE DE LIBERACION DEL PRODUCTO")
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFontSize(14).SetBold();
+            PdfFont font = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);
+            List list = new List().SetSymbolIndent(12)
+            .SetFont(font);
+
+            Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER)
+              .SetFontSize(12).SetFontColor(ColorConstants.BLACK);
+            float[] columnWidth = {30f, 250f, 50f, 70f};
+
+            Table tablaEncabezado = new Table(columnWidth);
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("PEDIDO:").SetFontSize(10).SetFixedLeading(7)).SetBold().SetHeight(18f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + orden).SetFontSize(10).SetFixedLeading(7)).SetHeight(18f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CODIGO:").SetFontSize(10).SetFixedLeading(7)).SetBold().SetHeight(18f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + packingId).SetFontSize(10).SetFixedLeading(7)).SetHeight(18f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CLIENTE:").SetFontSize(10).SetFixedLeading(7)).SetBold().SetHeight(18f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + nombreCliente).SetFontSize(10).SetFixedLeading(7)).SetHeight(18f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("FECHA DESPACHO:").SetFontSize(10).SetFixedLeading(7)).SetBold().SetHeight(18f).SetBorder(Border.NO_BORDER));
+            tablaEncabezado.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + fechaLiberacion).SetFontSize(10).SetFixedLeading(7)).SetHeight(18f).SetBorder(Border.NO_BORDER));
+
+            float[] columnWidth3 = { 40f, 60f, 115f, 60f, 60f, 64f, 58f, 58f };
+            Table tablaDetalleFact = new Table(columnWidth3);
+
+            tablaDetalleFact.SetHorizontalAlignment(HorizontalAlignment.CENTER);
+            tablaDetalleFact.AddHeaderCell(new Cell(1, 8).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBold().SetHeight(20f).SetTextAlignment(TextAlignment.CENTER).SetBorder(Border.NO_BORDER));
+            tablaDetalleFact.AddHeaderCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("# Pallet").SetFontSize(8).SetFixedLeading(7)).SetBold().SetHeight(12f).SetTextAlignment(TextAlignment.CENTER).SetBackgroundColor(fondoCelda).SetBorder(new SolidBorder(lineColor, 1)));
+            tablaDetalleFact.AddHeaderCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Lote Carga").SetFontSize(8).SetFixedLeading(7)).SetBold().SetHeight(12f).SetTextAlignment(TextAlignment.CENTER).SetBackgroundColor(fondoCelda).SetBorder(new SolidBorder(lineColor, 1)));
+            tablaDetalleFact.AddHeaderCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Modelo").SetFontSize(8).SetFixedLeading(7)).SetBold().SetHeight(12f).SetTextAlignment(TextAlignment.CENTER).SetBackgroundColor(fondoCelda).SetBorder(new SolidBorder(lineColor, 1)));
+            tablaDetalleFact.AddHeaderCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(8).SetFixedLeading(7)).SetBold().SetHeight(12f).SetTextAlignment(TextAlignment.CENTER).SetBackgroundColor(fondoCelda).SetBorder(new SolidBorder(lineColor, 1)));
+            tablaDetalleFact.AddHeaderCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("CCA").SetFontSize(8).SetFixedLeading(7)).SetBold().SetHeight(12f).SetTextAlignment(TextAlignment.CENTER).SetBackgroundColor(fondoCelda).SetBorder(new SolidBorder(lineColor, 1)));
+            tablaDetalleFact.AddHeaderCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Nivel Electrolito").SetFontSize(8).SetFixedLeading(1)).SetBold().SetHeight(12f).SetTextAlignment(TextAlignment.CENTER).SetBackgroundColor(fondoCelda).SetBorder(new SolidBorder(lineColor, 1)));
+            tablaDetalleFact.AddHeaderCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Etiquetado").SetFontSize(8).SetFixedLeading(7)).SetBold().SetHeight(12f).SetTextAlignment(TextAlignment.CENTER).SetBackgroundColor(fondoCelda).SetBorder(new SolidBorder(lineColor, 1)));
+            tablaDetalleFact.AddHeaderCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Limpieza").SetFontSize(8).SetFixedLeading(7)).SetBold().SetHeight(12f).SetTextAlignment(TextAlignment.CENTER).SetBackgroundColor(fondoCelda).SetBorder(new SolidBorder(lineColor, 1)));
+
+            var FONT = System.IO.Path.Combine(Server.MapPath("~/Fuentes/FreeSans.ttf"));
+
+
+            PdfFont simbol = PdfFontFactory.CreateFont(FONT, PdfEncodings.IDENTITY_H);
+
+
+            foreach (var x in resultadoMedicionesPacking)
+            {
+                if (x.nivel==true) {
+                    nivel = "\u221A";
+                }
+                if (x.Acabado == true)
+                {
+                    acabado = "\u221A";
+                }
+                if (x.Limpieza == true)
+                {
+                    limpieza = "\u221A";
+                }
+
+                pallet = daoCalidad.ObtenerNumeroPallet(x.PalletId.Value);
+                tablaDetalleFact.AddCell(new Cell().Add(new Paragraph("" + pallet).SetFontSize(8).SetFixedLeading(8)).SetHeight(10f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                tablaDetalleFact.AddCell(new Cell().Add(new Paragraph("" + x.NumeroLote).SetFontSize(8).SetFixedLeading(8)).SetHeight(10f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                tablaDetalleFact.AddCell(new Cell().Add(new Paragraph("" + x.Modelo).SetFontSize(8).SetFixedLeading(8)).SetHeight(10f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                tablaDetalleFact.AddCell(new Cell().Add(new Paragraph("" + String.Format("{0:n}", x.Voltaje)).SetFontSize(8).SetFixedLeading(8)).SetHeight(10f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                tablaDetalleFact.AddCell(new Cell().Add(new Paragraph("" + x.CCA).SetFontSize(8).SetFixedLeading(8)).SetHeight(10f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                tablaDetalleFact.AddCell(new Cell().Add(new Paragraph("" + nivel).SetFont(simbol).SetFontSize(8).SetFixedLeading(8).SetBold()).SetHeight(10f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                tablaDetalleFact.AddCell(new Cell().Add(new Paragraph("" + acabado).SetFont(simbol).SetFontSize(8).SetFixedLeading(8).SetBold()).SetHeight(10f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                tablaDetalleFact.AddCell(new Cell().Add(new Paragraph(""+limpieza).SetFont(simbol).SetFontSize(8).SetFixedLeading(8).SetBold()).SetHeight(10f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+
+                nivel = "";
+                acabado = "";
+                limpieza = "";
+            }
+            document.Add(header);
+            document.Add(Espacio);
+            document.Add(tablaEncabezado);
+            document.Add(tablaDetalleFact);
+
+            document.Close();
+
+            byte[] bytesStreams = stream.ToArray();
+            stream = new MemoryStream();
+            stream.Write(bytesStreams, 0, bytesStreams.Length);
+            stream.Position = 0;
+            return new FileStreamResult(stream, "application/pdf");
+        }
+        private class TableFooterEventHandler : IEventHandler
+        {
+            private Table table;
+
+            public TableFooterEventHandler(Table table)
+            {
+                this.table = table;
+            }
+
+            public void HandleEvent(Event currentEvent)
+            {
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)currentEvent;
+                PdfDocument pdfDoc = docEvent.GetDocument();
+                PdfPage page = docEvent.GetPage();
+                PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
+
+                new Canvas(canvas, new iText.Kernel.Geom.Rectangle(35, 24, page.GetPageSize().GetRight() - 55, 81))
+                    .Add(table)
+                    .Close();
+            }
+        }
+        private class HeaderHandler : IEventHandler
+        {
+            public void HandleEvent(Event currentEvent)
+            {
+                PdfFormXObject template = new iText.Kernel.Pdf.Xobject.PdfFormXObject(new iText.Kernel.Geom.Rectangle(450, 780, 30, 30));
+
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)currentEvent;
+                PdfPage page = docEvent.GetPage();
+                int pageNum = docEvent.GetDocument().GetPageNumber(page);
+
+                PdfCanvas canvas = new PdfCanvas(page);
+                canvas.BeginText();
+                try
+                {
+                    canvas.SetFontAndSize(PdfFontFactory.CreateFont(StandardFonts.HELVETICA), 12);
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine(e);
+                }
+
+                canvas.MoveText(510, 20);
+                canvas.ShowText("Página "+ pageNum);
+                canvas.EndText();
+                canvas.Stroke();
+                canvas.AddXObject(template);
+                canvas.Release();
+            }
+        }
+        public ActionResult LiberacionProductoLocal()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                //ConexionAccess conexion = new ConexionAccess();
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ObtenerPalletIngresadosLiberacionLocal()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+
+                var Result = daoCalidad.ListadoCabeceraOrdenesVentasSap();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ConsultaOrdenVentaDetalle(int DocEntry)
+        {
+            try
+            {
+                daoOrdenesVentas = new DaoOrdenesVentas();
+
+                var Result = daoOrdenesVentas.ListadoDetalleOrdenesVentasSap(DocEntry);
+                if (Result.Count == 0)
+                {
+                    Result = daoOrdenesVentas.ListadoDetalleFacturasReservaSap(DocEntry);
+                }
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public bool RegistrarPedidoLocal(CabeceraOrdenVenta cabeceraOrdenVenta)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                daoPackingList = new DaoPackingList();
+                daoOrdenesVentas = new DaoOrdenesVentas();
+                var result = daoCalidad.IngresarEncabezadoMedicionPalletLocal(cabeceraOrdenVenta);
+                var detalleOrden = daoOrdenesVentas.ListadoDetalleOrdenesVentasSap(cabeceraOrdenVenta.DocEntry);
+                if (detalleOrden.Count == 0)
+                {
+                    detalleOrden = daoOrdenesVentas.ListadoDetalleFacturasReservaSap(cabeceraOrdenVenta.DocEntry);
+                }
+
+                foreach (var x in detalleOrden)
+                {
+                    daoCalidad.IngresarPackingDtlLocal(result, x.ItemCode, x.Descripcion, x.Cantidad);
+                }
+                return true;
+            }
+            catch {
+                return false;
+            }
+          
+        }
+        public ActionResult LiberacionProductoLocalRegistrados()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                //ConexionAccess conexion = new ConexionAccess();
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ObtenerPalletIngresadosLiberacionLocalRegistrados()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+
+                var Result = daoCalidad.ConsultarPackingIngreseadosLiberacionLocalRegistrado();
                 return Json(Result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
