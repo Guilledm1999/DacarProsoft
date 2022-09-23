@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "CrearUsuariosPortal";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+<br />
+<div class="card shadow">
+    <div class="card-header">
+        <h5>Crear Usuario Portal</h5>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="ActualizacionRealizada" class="alert alert-primary collapse">
+            <button id="LinkClose2" type="button" class="close">&times;</button>
+            <strong>Actualizacion correcta!</strong>
+        </div>
+        <div id="EliminacionCorrecta" class="alert alert-danger collapse">
+            <button id="LinkClose3" type="button" class="close">&times;</button>
+            <strong>Eliminacion Correcta!</strong>
+        </div>
+        <div id="IngresoCorrecto" class="alert alert-primary collapse">
+            <button id="LinkClose4" type="button" class="close">&times;</button>
+            <strong>Ingreso Correcto!</strong>
+        </div>
+        <div id="UsuarioYaRegistrado" class="alert alert-danger collapse">
+            <button id="LinkClose5" type="button" class="close">&times;</button>
+            <strong>El usuario ya se encuentra registrado!</strong>
+        </div>
+        <div id="tblClientesSap"> </div>
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalCrearUsuarioPortal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Usuario Portal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6 col-md-12">
+                        <label for="email"><b>Nombre Cliente</b></label>
+                        <input type="text" placeholder="Ingresar Nombres" name="NombreCompleto" id="txtNombreUsuario" autocomplete="off" class="form-control" readonly>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 col-md-6">
+                        <label for="email"><b>Usuario</b></label>
+                        <input type="text" placeholder="Ingresar Usuario" name="NombreUsuario" id="txtUsuarioPortal" autocomplete="off" class="form-control" required>
+
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <label for="psw"><b>Contraseña</b></label>
+                        <input type="password" placeholder="Ingresar Contraseña" name="contrasena" id="txtContrasenaPortal" autocomplete="off" class="form-control" required>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+                        <div align='center'>
+                            <label for="psw"><b>Validaciones</b></label>
+                            <select class="form-control" aria-label="Default select example" id="SelectValidaciones">
+                                <option value="0">No</option>
+                                <option value="1">Si</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+
+                </div>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="RegistrarUsuarioPortal">Registrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+    </div>
+</div>
+

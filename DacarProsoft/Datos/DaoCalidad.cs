@@ -313,7 +313,8 @@ namespace DacarProsoft.Datos
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
                 var Listado = (from d in DB.PruebaLaboratorioCalidad
-                               orderby d.PruebaLaboratorioCalidadId ascending
+                               orderby d.FechaRegistro ascending
+                               orderby d.CodigoIngreso descending
                                select new
                                {
                                    d.PruebaLaboratorioCalidadId,
@@ -419,7 +420,7 @@ namespace DacarProsoft.Datos
                 try
                 {
                     var Listado = (from d in DB.PruebaLaboratorioCalidad
-                                   orderby d.PruebaLaboratorioCalidadId descending
+                                   orderby d.FechaRegistro descending
                                    select new 
                                    {
                                        d.CodigoIngreso
@@ -1670,6 +1671,41 @@ namespace DacarProsoft.Datos
                     return Total;
                 }
 
+            }
+        }
+        //modificar para obtener el detalle del pedido local
+        public List<PalletPackingDetalle> ConsultarModelosProPalletLocal(int PackinkId, int PalletId)
+        {
+            List<PalletPackingDetalle> lst = new List<PalletPackingDetalle>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var res = from d in DB.PalletPackingDetalle
+                              where d.PackingId == PackinkId && d.PalletPacking == PalletId
+                              select new
+                              {
+                                  d.PalletPackingDetalleId,
+                                  d.ItemCode,
+                                  d.DescriptionCode,
+                              };
+                    foreach (var x in res)
+                    {
+
+                        lst.Add(new PalletPackingDetalle
+                        {
+                            PalletPackingDetalleId = x.PalletPackingDetalleId,
+                            ItemCode = x.ItemCode,
+                            DescriptionCode = x.DescriptionCode
+                        });
+                    }
+                    return lst;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return lst;
+                }
             }
         }
     }

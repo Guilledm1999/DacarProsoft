@@ -4669,5 +4669,84 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="INV3">
+      <EntityTypeMapping TypeName="SBODACARPRODModel.INV3">
+        <MappingFragment StoreEntitySet="INV3">
+          <ScalarProperty Name="RRVatSC" ColumnName="RRVatSC" />
+          <ScalarProperty Name="RRVatFC" ColumnName="RRVatFC" />
+          <ScalarProperty Name="RRVatLC" ColumnName="RRVatLC" />
+          <ScalarProperty Name="RetReqSC" ColumnName="RetReqSC" />
+          <ScalarProperty Name="RetReqFC" ColumnName="RetReqFC" />
+          <ScalarProperty Name="RetReqLC" ColumnName="RetReqLC" />
+          <ScalarProperty Name="BaseTotal" ColumnName="BaseTotal" />
+          <ScalarProperty Name="GrsSC" ColumnName="GrsSC" />
+          <ScalarProperty Name="GrsFC" ColumnName="GrsFC" />
+          <ScalarProperty Name="GrsAmount" ColumnName="GrsAmount" />
+          <ScalarProperty Name="DrawnSC" ColumnName="DrawnSC" />
+          <ScalarProperty Name="DrawnFC" ColumnName="DrawnFC" />
+          <ScalarProperty Name="DrawnTotal" ColumnName="DrawnTotal" />
+          <ScalarProperty Name="VatGrpSrc" ColumnName="VatGrpSrc" />
+          <ScalarProperty Name="Project" ColumnName="Project" />
+          <ScalarProperty Name="OcrCode5" ColumnName="OcrCode5" />
+          <ScalarProperty Name="OcrCode4" ColumnName="OcrCode4" />
+          <ScalarProperty Name="OcrCode3" ColumnName="OcrCode3" />
+          <ScalarProperty Name="OcrCode2" ColumnName="OcrCode2" />
+          <ScalarProperty Name="TaxDistMtd" ColumnName="TaxDistMtd" />
+          <ScalarProperty Name="OcrCode" ColumnName="OcrCode" />
+          <ScalarProperty Name="VatDscntPr" ColumnName="VatDscntPr" />
+          <ScalarProperty Name="FixCurr" ColumnName="FixCurr" />
+          <ScalarProperty Name="StDstrFC" ColumnName="StDstrFC" />
+          <ScalarProperty Name="StDstrSC" ColumnName="StDstrSC" />
+          <ScalarProperty Name="StDstr" ColumnName="StDstr" />
+          <ScalarProperty Name="TrgAbsEnt" ColumnName="TrgAbsEnt" />
+          <ScalarProperty Name="TrgType" ColumnName="TrgType" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="LineNum" ColumnName="LineNum" />
+          <ScalarProperty Name="BaseLnNum" ColumnName="BaseLnNum" />
+          <ScalarProperty Name="BaseRef" ColumnName="BaseRef" />
+          <ScalarProperty Name="BaseType" ColumnName="BaseType" />
+          <ScalarProperty Name="BaseAbsEnt" ColumnName="BaseAbsEnt" />
+          <ScalarProperty Name="AnalysRpt" ColumnName="AnalysRpt" />
+          <ScalarProperty Name="LstPchPrce" ColumnName="LstPchPrce" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="BaseMethod" ColumnName="BaseMethod" />
+          <ScalarProperty Name="LineVatS" ColumnName="LineVatS" />
+          <ScalarProperty Name="LineVatF" ColumnName="LineVatF" />
+          <ScalarProperty Name="LineVat" ColumnName="LineVat" />
+          <ScalarProperty Name="EquVatSumS" ColumnName="EquVatSumS" />
+          <ScalarProperty Name="EquVatSumF" ColumnName="EquVatSumF" />
+          <ScalarProperty Name="EquVatSum" ColumnName="EquVatSum" />
+          <ScalarProperty Name="EquVatPer" ColumnName="EquVatPer" />
+          <ScalarProperty Name="VatAppldSC" ColumnName="VatAppldSC" />
+          <ScalarProperty Name="VatAppldFC" ColumnName="VatAppldFC" />
+          <ScalarProperty Name="VatApplied" ColumnName="VatApplied" />
+          <ScalarProperty Name="WTLiable" ColumnName="WTLiable" />
+          <ScalarProperty Name="TaxType" ColumnName="TaxType" />
+          <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+          <ScalarProperty Name="IsAcquistn" ColumnName="IsAcquistn" />
+          <ScalarProperty Name="DedVatSumS" ColumnName="DedVatSumS" />
+          <ScalarProperty Name="DedVatSumF" ColumnName="DedVatSumF" />
+          <ScalarProperty Name="DedVatSum" ColumnName="DedVatSum" />
+          <ScalarProperty Name="VatSumSy" ColumnName="VatSumSy" />
+          <ScalarProperty Name="VatSumFrgn" ColumnName="VatSumFrgn" />
+          <ScalarProperty Name="VatSum" ColumnName="VatSum" />
+          <ScalarProperty Name="VatPrcnt" ColumnName="VatPrcnt" />
+          <ScalarProperty Name="VatGroup" ColumnName="VatGroup" />
+          <ScalarProperty Name="TaxStatus" ColumnName="TaxStatus" />
+          <ScalarProperty Name="DistrbMthd" ColumnName="DistrbMthd" />
+          <ScalarProperty Name="LogInstanc" ColumnName="LogInstanc" />
+          <ScalarProperty Name="ObjType" ColumnName="ObjType" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="PaidSys" ColumnName="PaidSys" />
+          <ScalarProperty Name="PaidFC" ColumnName="PaidFC" />
+          <ScalarProperty Name="PaidToDate" ColumnName="PaidToDate" />
+          <ScalarProperty Name="TotalSumSy" ColumnName="TotalSumSy" />
+          <ScalarProperty Name="TotalFrgn" ColumnName="TotalFrgn" />
+          <ScalarProperty Name="LineTotal" ColumnName="LineTotal" />
+          <ScalarProperty Name="ExpnsCode" ColumnName="ExpnsCode" />
+          <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

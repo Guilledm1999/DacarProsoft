@@ -277,6 +277,9 @@
     <Compile Include="Datos\INV1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\INV3.cs">
+      <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\ITM1.cs">
       <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>

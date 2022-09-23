@@ -1,0 +1,243 @@
+﻿@using DacarDatos.Datos
+
+    @{
+        ViewBag.Title = "CrearUsuarios";
+        Layout = "~/Views/Compartida/_Layout.cshtml";
+    }
+    
+                      @{
+                          var usu = (List<TipoUsuario>)ViewBag.usuario;
+                      }
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Add padding to containers */
+        .container {
+            padding: 12px;
+            background-color: white;
+        }
+
+        /* Full-width input fields */
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+
+            input[type=text]:focus, input[type=password]:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+
+        /* Overwrite default styles of hr */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        /* Set a style for the submit button */
+        .registerbtn {
+            background-color: #0275d8;
+            color: white;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+            .registerbtn:hover {
+                opacity: 1;
+            }
+
+        /* Add a blue text color to links */
+        a {
+            color: dodgerblue;
+        }
+    </style>
+
+<style>
+    .dx-datagrid {
+        font: 11px arial;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        /*background-color: #007bff ;*/
+        /*background-color: #3355FF;*/
+        color: black;
+    }
+</style>
+<br />
+<div class="card shadow">
+    <div class="card-header">
+        <button class="btn btn-light" onclick="ModalCrearUsuario()">
+        <h5>Crear Usuario</h5>
+        </button>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="ActualizacionRealizada" class="alert alert-primary collapse">
+            <button id="LinkClose2" type="button" class="close">&times;</button>
+            <strong>Actualizacion correcta!</strong>
+        </div>
+        <div id="EliminacionCorrecta" class="alert alert-danger collapse">
+            <button id="LinkClose3" type="button" class="close">&times;</button>
+            <strong>Eliminacion Correcta!</strong>
+        </div>
+        <div id="IngresoCorrecto" class="alert alert-primary collapse">
+            <button id="LinkClose4" type="button" class="close">&times;</button>
+            <strong>Ingreso Correcto!</strong>
+        </div>
+        <div id="tblTiposUsuarios"> </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalTipoUsuario">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registrar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="row">
+                        <input type="hidden" value="0" id="txtIdTipoUsuario" />
+
+                        <div class="col-6 col-md-6">
+                            <label for="email"><b>Nombres Completos</b></label>
+                            <input type="text" placeholder="Ingresar Nombres" name="NombreCompleto" id="txtNombres" autocomplete="off" required>
+                        </div>
+                        <div class="col-6 col-md-6">
+                            <label for="email"><b>Usuario</b></label>
+                            <input type="text" placeholder="Ingresar Usuario" name="NombreUsuario" id="txtUsuario" autocomplete="off" required>
+
+                        </div>
+                        <div class="col-6 col-md-6">
+                            <label for="psw"><b>Contraseña</b></label>
+                            <input type="password" placeholder="Ingresar Contraseña" name="contrasena" id="txtContrasenia" autocomplete="off" required>
+
+                        </div>
+
+                        <div class="col-6 col-md-6">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1"><b>Tipo Usuario</b></label>
+                                <select class="form-control" id="selectTipoUsuario" name="TipoUsuario">
+                                    <option>--Seleccione--</option>
+                                    @{
+                                        foreach (var x in usu)
+                                        {
+                                            <option value="@x.TipoUsuarioId">@x.DescripcionTipoUsuario</option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"  onclick="CrearUsuario()">Registrar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalActualizarUsuario">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Actualizar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6 col-md-6">
+                        <label for="email"><b>Nombres Completos</b></label>
+                        <input type="text" placeholder="Ingresar Nombres" name="NombreCompleto" id="txtNombresAct" autocomplete="off" required>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <label for="email"><b>Usuario</b></label>
+                        <input type="text" placeholder="Ingresar Usuario" name="NombreUsuario" id="txtUsuarioAct" autocomplete="off" required>
+
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <label for="psw"><b>Contraseña</b></label>
+                        <input type="password" placeholder="Ingresar Contraseña" name="contrasena" id="txtContraseniaAct" autocomplete="off" required>
+
+                    </div>
+
+                    <div class="col-6 col-md-6">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1"><b>Tipo Usuario</b></label>
+                            <select class="form-control" id="selectTipoUsuarioAct" name="TipoUsuario">
+                                <option>--Seleccione--</option>
+                                @{
+                                    foreach (var x in usu)
+                                    {
+                                        <option value="@x.TipoUsuarioId">@x.DescripcionTipoUsuario</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="ActualizarUsuario()">Actualizar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="EliminarUsuario">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Esta Seguro de eliminar este usuario</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="ElminarUsuario()">Si</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+    <br />
+

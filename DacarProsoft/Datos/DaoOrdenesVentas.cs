@@ -394,16 +394,25 @@ namespace DacarProsoft.Datos
                                          {
                                              d.FrgnName
                                          }).FirstOrDefault();
-                    if (NombreForaneo.FrgnName != "" && NombreForaneo.FrgnName != null)
-                    {
-                        return NombreForaneo.FrgnName;
 
+                    if (NombreForaneo != null) {
+                        if (NombreForaneo.FrgnName != "" && NombreForaneo.FrgnName != null)
+                        {
+                            return NombreForaneo.FrgnName;
+
+                        }
+                        else
+                        {
+                            return "SIN ESPECIFICAR";
+
+                        }
                     }
                     else
                     {
                         return "SIN ESPECIFICAR";
 
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -424,10 +433,17 @@ namespace DacarProsoft.Datos
                                          {
                                              d.U_DAC_MARCA
                                          }).FirstOrDefault();
-                    if (Generico.U_DAC_MARCA != "" && Generico.U_DAC_MARCA != null)
-                    {
-                        return Generico.U_DAC_MARCA;
+                    if (Generico != null) {
+                        if (Generico.U_DAC_MARCA != "" && Generico.U_DAC_MARCA != null)
+                        {
+                            return Generico.U_DAC_MARCA;
 
+                        }
+                        else
+                        {
+                            return "SIN ESPECIFICAR";
+
+                        }
                     }
                     else
                     {
@@ -455,16 +471,23 @@ namespace DacarProsoft.Datos
                                     {
                                         d.EtiquetaDatosTecnicos
                                     }).FirstOrDefault();
-                    if (Generico.EtiquetaDatosTecnicos != "" && Generico.EtiquetaDatosTecnicos != null)
-                    {
-                        return Generico.EtiquetaDatosTecnicos;
+                    if (Generico!=null) {
+                        if (Generico.EtiquetaDatosTecnicos != "" && Generico.EtiquetaDatosTecnicos != null)
+                        {
+                            return Generico.EtiquetaDatosTecnicos;
 
+                        }
+                        else
+                        {
+                            return "SIN ESPECIFICAR";
+
+                        }
                     }
                     else
                     {
                         return "SIN ESPECIFICAR";
-
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -487,10 +510,15 @@ namespace DacarProsoft.Datos
                                     {
                                         d.Polaridad
                                     }).FirstOrDefault();
-                    if (Generico.Polaridad != "" && Generico.Polaridad != null)
+                    if (Generico != null)
                     {
-                        return Generico.Polaridad;
-
+                        if (Generico.Polaridad != null && Generico.Polaridad != "")
+                        {
+                            return Generico.Polaridad;
+                        }
+                        else {
+                            return "SIN ESPECIFICAR";
+                        }
                     }
                     else
                     {
@@ -501,7 +529,7 @@ namespace DacarProsoft.Datos
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);
-                    return "Sin Especificar";
+                    return "SIN ESPECIFICAR";
                 }
             }
         }

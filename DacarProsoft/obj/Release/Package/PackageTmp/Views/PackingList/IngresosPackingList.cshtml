@@ -1,0 +1,324 @@
+﻿
+@{
+    ViewBag.Title = "IngresosPackingList";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+
+@{
+    var pais = ViewBag.Paises;
+    var paisOrigen = ViewBag.PaisOrigen;
+}
+<link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<style>
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        color: black;
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        background-color: #D7F1FF;
+        /*background-color: #3355FF;*/
+        color: black;
+        font-weight: bold;
+    }
+
+    .dx-data-row {
+        font-size: 10pt;
+        padding: 2pt;
+    }
+
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
+        vertical-align: top;
+    }
+</style>
+<br />
+@*@{
+    if (Model != null)
+    {
+        <h3>QR Code Successfully Generated</h3>
+        <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(Model))" />
+    }
+}*@
+
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Registros de orden</h4>
+        <br />
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <h6>Busqueda:</h6>
+                    <select class="form-control" aria-label="Default select example" id="TipoBusqueda">
+                        <option value="1">Exportacion</option>
+                        <option value="2">Local</option>
+                        <option value="3">Facturas Reserva</option>
+                        @*<option value="4">Facturas </option>*@
+                        @*<option value="5">Facturas Reserva Canceladas</option>*@
+
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-primary" onclick="ConsultarIngresosPacking()">
+                        <i class="loading-icon fa fa-spinner fa-spin hide"></i>
+                        <span class="btn-txt">Consultar</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+     
+    </div>
+    <div class="card-body">
+        <div id="MensajePackingCompletos" class="alert alert-danger collapse">
+            <button id="LinkClose10" type="button" class="close">&times;</button>
+            <strong>Pallets completos, no puede ingresar más!</strong>
+        </div>
+        <div id="MensajeGuardado" class="alert alert-primary collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Guardado Exitosamente!!</strong>
+        </div>
+        <div id="MensajeErrorGuardado" class="alert alert-danger collapse">
+            <button id="LinkClose2" type="button" class="close">&times;</button>
+            <strong>Error de Guardad0!!</strong>
+        </div>
+        <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
+            <button id="LinkClose3" type="button" class="close">&times;</button>
+            <strong>Error General!!</strong>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-2">
+
+                </div>
+
+            </div>
+        </div>
+        <div id="tblOrdenesVentas"> </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="ModalDetalleOrdenVenta">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Detalle de Orden de despacho</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div id="MensajePackingCompletos" class="alert alert-danger collapse">
+                        <button id="LinkClose10" type="button" class="close">&times;</button>
+                        <strong>Pallets completos, no puede ingresar más!</strong>
+                    </div>
+                    <div id="MensajeGuardado" class="alert alert-primary collapse">
+                        <button id="LinkClose" type="button" class="close">&times;</button>
+                        <strong>Guardado Exitosamente!!</strong>
+                    </div>
+                    <div id="MensajeErrorGuardado" class="alert alert-danger collapse">
+                        <button id="LinkClose2" type="button" class="close">&times;</button>
+                        <strong>Error de Guardado!!</strong>
+                    </div>
+                    <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
+                        <button id="LinkClose3" type="button" class="close">&times;</button>
+                        <strong>Error General!!</strong>
+                    </div>
+                          <div id="tblDetalleOrdenesVentas"> </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="ModalIngresoPalletAct" class="modal fade" role="dialog" style="overflow-y: scroll;">
+
+    @*<div class="modal" tabindex="-1" role="dialog" id="ModalIngresoPalletAct">*@
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Registrar Orden</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="MensajeCompleteCamposNecesarios" class="alert alert-danger collapse">
+                        <button id="LinkCloseCompleteCampos" type="button" class="close">&times;</button>
+                        <strong>Complete todos los campos!!</strong>
+                    </div>
+                    <form>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label"><b># Documento:</b></label>
+                            <div class="col-sm-2">
+                                <input type="text" name="Orden" id="txtDocAct" autocomplete="off" readonly class="form-control">
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                            <label for="email" class="col-sm-2 col-form-label"><b>Orden:</b></label>
+                            <div class="col-sm-2">
+                                <input type="text" name="PalletNumber" id="txtOrdenAct" autocomplete="off" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="psw" class="col-sm-2 col-form-label"><b>Cliente:</b></label>
+                            <div class="col-sm-4">
+                                <input type="text" name="Cliente" id="txtClienteAct" autocomplete="off" readonly class="form-control">
+                            </div>
+                            <label for="psw" class="col-sm-2 col-form-label"><b># Contenedores:</b></label>
+                            <div class="col-sm-3">
+                                <input type="number" name="NumeroContenedores" id="txtNumeroContenedores" autocomplete="off" class="form-control" placeholder="Cantidad Contenedores">
+                                @*<select class="form-control" id="txtNumeroContenedores" onchange="NumeroContenedores();">
+                                    <option value="" selected style="text-align:center">--- Seleccione ---</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label"><b>Origen:</b></label>
+                            <div class="col-sm-4">
+                                <input type="text" name="NetWeight" value="ECU-Guayaquil" id="txtOrigenAct" autocomplete="off" readonly class="form-control">
+                            </div>
+                            <label for="psw" class="col-sm-2 col-form-label"><b>Destino:</b></label>
+                            <div class="col-sm-3">
+                                @Html.DropDownList("Pais", new SelectList(pais, "PaisId", "DescripcionPais"), new { @class = "form-control", id = "txtDestinoAct" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label"><b>Sucursal:</b></label>
+                            <div class="col-sm-4">
+                                <input type="text" name="NetWeight" id="txtSucursal" autocomplete="off" class="form-control" placeholder="Nombre Sucursal">
+                            </div>
+                         
+                        </div>
+                        @*<div class="form-group row">
+                            <div class="auto" id="OcultarContenidoDiv1" style="display: none">
+                                <label for="email" class="col-sm-10"><b>Cantidad Pallet Contenedor 1:</b></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtContenedorUno" />
+                                </div>
+                            </div>
+
+                            <div class="auto" id="OcultarContenidoDiv2" style="display: none">
+                                <label for="email" class="col-sm-10"><b>Cantidad Pallet Contenedor 2:</b></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtContenedorDos" />
+                                </div>
+                            </div>
+
+                            <div class="auto" id="OcultarContenidoDiv3" style="display: none">
+                                <label for="email" class="col-sm-10"><b>Cantidad Pallet Contenedor 3:</b></label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="txtContenedorTres" />
+                                </div>
+                            </div>
+                        </div>*@
+                        <br />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-secondary" id="RegistrarPaking">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ModalIngresoPallet" class="modal fade" role="dialog" style="overflow-y: scroll;">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="lblNumberPallet">Pallet Number</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label"><b>Largo(cm):</b></label>
+                            <div class="col-sm-2">
+                                <input type="number" name="Orden" id="txtLargoPallet" value=114 onchange="Volumen();" class="form-control">
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                            <label for="email" class="col-sm-2 col-form-label"><b>Ancho(cm):</b></label>
+                            <div class="col-sm-2">
+                                <input type="number" name="Orden" id="txtAnchoPallet" value="114" onchange="Volumen();" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label"><b>Alto(cm):</b></label>
+                            <div class="col-sm-2">
+                                <input type="number" name="PalletNumber" id="txtAltoPallet" value="114" onchange="Volumen();" class="form-control">
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                            <label for="email" class="col-sm-2 col-form-label"><b>Volumen(m³):</b></label>
+                            <div class="col-sm-2">
+                                <input type="number" name="PalletNumber" id="txtVolumenPallet" value="0"  onchange="Volumen();" autocomplete="off" readonly class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label"><b>Peso Neto(kg):</b></label>
+                            <div class="col-sm-2">
+                                <input type="number" name="Orden" id="txtPesoNeto" autocomplete="off" class="form-control">
+                            </div>
+                            <div class="col-sm-2">
+                            </div>
+                            <label for="email" class="col-sm-2 col-form-label"><b>Peso Bruto(kg):</b></label>
+                            <div class="col-sm-2">
+                                <input type="number" name="PalletNumber" id="txtPesoBruto" autocomplete="off" class="form-control">
+                            </div>
+                        </div>
+                        <div id="MensajePackingCompletos" class="alert alert-danger collapse">
+                            <button id="LinkClose10" type="button" class="close">&times;</button>
+                            <strong>Pallets completos, no puede ingresar más!</strong>
+                        </div>
+                        <div id="MensajeGuardado" class="alert alert-primary collapse">
+                            <button id="LinkClose" type="button" class="close">&times;</button>
+                            <strong>Guardado Exitosamente!!</strong>
+                        </div>
+                        <div id="MensajeErrorGuardado" class="alert alert-danger collapse">
+                            <button id="LinkClose2" type="button" class="close">&times;</button>
+                            <strong>Error de Guardad0!!</strong>
+                        </div>
+                        <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
+                            <button id="LinkClose3" type="button" class="close">&times;</button>
+                            <strong>Error General!!</strong>
+                        </div>
+                          <div id="tblDetallePallet"> </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    @*<button type="button" class="btn btn-secondary" onclick="GenerarQr()">Vizualizar</button>*@
+                    <button type="button" class="btn btn-secondary" id="BtnregistrarPallet" onclick="registrarPallet()">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<input type="hidden" id="txtNumeroPalle" />
+
+
+
+

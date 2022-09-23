@@ -1950,5 +1950,21 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        //modificar para obtener el detalle del pedido local
+        public JsonResult ObtenerModelosBatPalletLocal(int PackinkId, int PalletId)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+
+                var Result = daoCalidad.ConsultarModelosProPallet(PackinkId, PalletId);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
     }
 }

@@ -1280,7 +1280,8 @@ namespace DacarProsoft.Datos
                                           d.Destino,
                                           d.CantidadPallet,
                                           d.DetalleIngresado,
-                                          d.FechaRegistro
+                                          d.FechaRegistro,
+                                          d.NumeroContenedor
                                       };
 
                 foreach (var x in ListadoCabecera)
@@ -1321,7 +1322,8 @@ namespace DacarProsoft.Datos
                         DetalleIngresado = estadoPl,
                         Estado = estado,
                         FechaRegistro=fechaDocumento,
-                        Mes= textInfo.ToTitleCase(mesIngreso)
+                        Mes= textInfo.ToTitleCase(mesIngreso),
+                        NumeroContenedor=x.NumeroContenedor.Value
                     });
                 }
                 return lst;
@@ -1551,6 +1553,7 @@ namespace DacarProsoft.Datos
                                                        d.Dscription,
                                                        d.Quantity,
                                                        d.Price,
+                                                       d.ItemCode
                                                    };
 
                 foreach (var x in ListadoCabeceraOrdenesVentas)
@@ -1563,6 +1566,7 @@ namespace DacarProsoft.Datos
                         Description=x.Dscription,
                         Quantity=Convert.ToInt32(x.Quantity),
                         Price=Decimal.Round(x.Price.Value,2),
+                        itemCode=x.ItemCode,
                         TotalPrice=Decimal.Round(x.Price.Value*Convert.ToInt32(x.Quantity.Value),2)
                     }); ;
                     i = i + 1;
@@ -1636,6 +1640,62 @@ namespace DacarProsoft.Datos
                         FechaRegistro = fechaDocumento,
                         Mes = textInfo.ToTitleCase(mesIngreso)
                     });
+                }
+                return lst;
+            }
+        }
+        public List<DetalleAdicionalPackingFact> DetalleAdicionalFactPacking(int docEntry)
+        {
+            List<DetalleAdicionalPackingFact> lst = new List<DetalleAdicionalPackingFact>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                var ListadoCabeceraOrdenesVentas = from d in DB.OINV
+                                                   where d.DocEntry == docEntry
+                                                   select new
+                                                   {
+                                                       d.DiscPrcnt,
+                                                       d.DiscSum,
+                                                       d.PayToCode,
+                                                       d.Address,
+                                                       d.ShipToCode,
+                                                       d.Address2
+                                                   };
+
+                foreach (var x in ListadoCabeceraOrdenesVentas)
+                {
+                    lst.Add(new DetalleAdicionalPackingFact
+                    {
+                        PorcentajeDescuento=x.DiscPrcnt.Value,
+                        Descuento=x.DiscSum.Value,
+                        payToCode=x.PayToCode,
+                        direccionFact=x.Address,
+                        shipTo=x.ShipToCode,
+                        addressShipTo=x.Address2
+                    }); ;
+                }
+                return lst;
+            }
+        }
+        public List<DetalleAdicionalPackingFact> DetalleAdicionalFactPacking2(int docEntry)
+        {
+            List<DetalleAdicionalPackingFact> lst = new List<DetalleAdicionalPackingFact>();
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                var ListadoCabeceraOrdenesVentas = from d in DB.INV3
+                                                   where d.DocEntry == docEntry
+                                                   select new
+                                                   {
+                                                       d.ExpnsCode,
+                                                       d.PaidSys,
+                                                   };
+
+                foreach (var x in ListadoCabeceraOrdenesVentas)
+                {
+                    lst.Add(new DetalleAdicionalPackingFact
+                    {
+                        CodigoCostosAdicionales=x.ExpnsCode.Value,
+                        ValorCostoAdicional=x.PaidSys.Value
+                    }); ;
                 }
                 return lst;
             }

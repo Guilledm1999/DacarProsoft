@@ -676,6 +676,85 @@
     <Property Name="U_DC_PESOBRUTO" Type="nvarchar" MaxLength="50" />
     <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="INV3">
+    <Key>
+      <PropertyRef Name="DocEntry" />
+      <PropertyRef Name="LineNum" />
+    </Key>
+    <Property Name="DocEntry" Type="int" Nullable="false" />
+    <Property Name="ExpnsCode" Type="int" />
+    <Property Name="LineTotal" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="TotalFrgn" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="TotalSumSy" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="PaidToDate" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="PaidFC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="PaidSys" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="Comments" Type="nvarchar" MaxLength="100" />
+    <Property Name="ObjType" Type="nvarchar" MaxLength="20" />
+    <Property Name="LogInstanc" Type="int" />
+    <Property Name="DistrbMthd" Type="char" MaxLength="1" />
+    <Property Name="TaxStatus" Type="char" MaxLength="1" />
+    <Property Name="VatGroup" Type="nvarchar" MaxLength="8" />
+    <Property Name="VatPrcnt" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="VatSum" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="VatSumFrgn" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="VatSumSy" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="DedVatSum" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="DedVatSumF" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="DedVatSumS" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="IsAcquistn" Type="char" MaxLength="1" />
+    <Property Name="TaxCode" Type="nvarchar" MaxLength="8" />
+    <Property Name="TaxType" Type="char" MaxLength="1" />
+    <Property Name="WTLiable" Type="char" MaxLength="1" />
+    <Property Name="VatApplied" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="VatAppldFC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="VatAppldSC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="EquVatPer" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="EquVatSum" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="EquVatSumF" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="EquVatSumS" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="LineVat" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="LineVatF" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="LineVatS" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="BaseMethod" Type="char" MaxLength="1" />
+    <Property Name="Stock" Type="char" MaxLength="1" />
+    <Property Name="LstPchPrce" Type="char" MaxLength="1" />
+    <Property Name="AnalysRpt" Type="char" MaxLength="1" />
+    <Property Name="BaseAbsEnt" Type="int" />
+    <Property Name="BaseType" Type="int" />
+    <Property Name="BaseRef" Type="int" />
+    <Property Name="BaseLnNum" Type="int" />
+    <Property Name="LineNum" Type="int" Nullable="false" />
+    <Property Name="Status" Type="char" MaxLength="1" />
+    <Property Name="TrgType" Type="int" />
+    <Property Name="TrgAbsEnt" Type="int" />
+    <Property Name="StDstr" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="StDstrSC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="StDstrFC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="FixCurr" Type="nvarchar" MaxLength="3" />
+    <Property Name="VatDscntPr" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="OcrCode" Type="nvarchar" MaxLength="8" />
+    <Property Name="TaxDistMtd" Type="char" MaxLength="1" />
+    <Property Name="OcrCode2" Type="nvarchar" MaxLength="8" />
+    <Property Name="OcrCode3" Type="nvarchar" MaxLength="8" />
+    <Property Name="OcrCode4" Type="nvarchar" MaxLength="8" />
+    <Property Name="OcrCode5" Type="nvarchar" MaxLength="8" />
+    <Property Name="Project" Type="nvarchar" MaxLength="20" />
+    <Property Name="VatGrpSrc" Type="char" MaxLength="1" />
+    <Property Name="DrawnTotal" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="DrawnFC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="DrawnSC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="GrsAmount" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="GrsFC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="GrsSC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="BaseTotal" Type="char" MaxLength="1" />
+    <Property Name="RetReqLC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="RetReqFC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="RetReqSC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="RRVatLC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="RRVatFC" Type="numeric" Precision="19" Scale="6" />
+    <Property Name="RRVatSC" Type="numeric" Precision="19" Scale="6" />
+  </EntityType>
   <EntityType Name="ITM1">
     <Key>
       <PropertyRef Name="ItemCode" />
@@ -4673,6 +4752,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
     <EntitySet Name="ATC1" EntityType="Self.ATC1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IGN1" EntityType="Self.IGN1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="INV1" EntityType="Self.INV1" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV3" EntityType="Self.INV3" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ITM1" EntityType="Self.ITM1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OCRD" EntityType="Self.OCRD" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OCRG" EntityType="Self.OCRG" Schema="dbo" store:Type="Tables" />

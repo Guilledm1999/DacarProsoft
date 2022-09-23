@@ -1,0 +1,78 @@
+﻿@using DacarDatos.Datos
+
+@{
+    ViewBag.Title = "ConsultarArticulos2";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+
+
+@{
+    var art = ViewBag.articulos;
+}
+
+<br />
+<style>
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        color: black;
+        font-family: Montserrat;
+        font-size: 13px;
+    }
+
+    .dx-datagrid-headers .dx-header-row {
+        font: 12px arial;
+        background-color: #D7F1FF;
+        /*background-color: #3355FF;*/
+        color: black;
+        font-weight: bold;
+    }
+
+    .dx-data-row {
+        font-size: 10pt;
+        padding: 2pt;
+    }
+
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
+        vertical-align: top;
+    }
+</style>
+
+<div class="card shadow">
+    @*<div class="card-header">
+            <button class="btn btn-light" onclick="ModalCrearUsuario()">Crear Usuario</button>
+        </div>*@
+    <div class="card-header">
+        <h2 >Listado de Articulos</h2>
+      
+        @*<div class="form-group">
+            <label for="exampleFormControlSelect1"><h3>Buscar por Categoria</h3></label>
+            <select class="form-control" id="selectTipoUsuario" name="Buscar por Categoria">
+                <option>--Seleccione--</option>
+                @{
+                    foreach (var x in art)
+                    {
+                        <option >@x</option>
+                        @Html.DropDownList("EstadoOrden", new SelectList(art, "EstadoSap", "DescripcionEstado"), new { @class = "form-control", id = "EstadoOrden" })
+
+                    }
+
+                }
+            </select>
+
+        </div>*@
+
+        </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-primary collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div id="tblTiposArticulos"> </div>
+    </div>
+    <br />
+
+</div>
+

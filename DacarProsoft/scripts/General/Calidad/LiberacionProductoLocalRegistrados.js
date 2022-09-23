@@ -25,7 +25,6 @@ $('#LinkClose12').on("click", function (e) {
     $("#MensajeEliminacionIncorecta").hide('fade');
 });
 
-
 function ConsultarIngresoMaximoMedicion() {
     var res;
     $.ajax({
@@ -121,7 +120,6 @@ function mostrarIngresosPallet() {
 
                 ],
             });
-
         },
         error: function (msg) {
             $("#MensajeErrorGeneral").show('fade');
@@ -136,10 +134,7 @@ function mostrarIngresosPallet() {
     }
 }
 
-
-function generarInformePackingListPDF(modelo) {
-    
-    console.log("el modelo: "+JSON.stringify(modelo))
+function generarInformePackingListPDF(modelo) {    
     if (modelo.DetalleIngresado == "Incompleto" || modelo.Estado == "Incompleto") {
         $("#MensajePackingSinDetalle").show('fade');
         setTimeout(function () {
@@ -153,9 +148,6 @@ function generarInformePackingListPDF(modelo) {
 
 function ConfirmarLiberacion() {
     var cantMaxMed = ConsultarIngresoMaximoMedicion();
-    console.log("cant max" + cantMaxMed);
-    console.log("cant row" + resTempo.cantidadMediciones);
-
     if (resTempo.Estado == "Incompleto" || resTempo.cantidadMediciones > cantMaxMed || resTempo.cantidadMediciones <= 0) {
         $("#ModalAfirmacionLiberacion").modal("hide");
         $("#MensajePackingSinDetalle").show('fade');
@@ -200,7 +192,6 @@ function ConsultarPalletsIngresado(modelo) {
                 allowColumnResizing: true,
                 columnAutoWidth: true,
                 showBorders: true,
-
                 paging: {
                     pageSize: 10
                 },
@@ -249,7 +240,6 @@ function ConsultarPalletsIngresado(modelo) {
                 ],
             });
         },
-
         error: function (msg) {
             $("#MensajeErrorGeneral").show('fade');
             setTimeout(function () {

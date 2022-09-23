@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>Z:\Prosoft</_PublishTargetUrl>
-    <History>True|2022-09-15T15:56:57.0820394Z;True|2022-09-15T09:43:56.5304046-05:00;True|2022-09-15T09:38:02.0902301-05:00;True|2022-09-14T10:40:27.2008328-05:00;True|2022-09-14T10:29:42.1757580-05:00;True|2022-09-13T15:35:23.3118301-05:00;True|2022-09-13T13:46:13.8065772-05:00;True|2022-09-12T15:55:51.0041900-05:00;True|2022-09-12T15:44:04.5486675-05:00;True|2022-09-07T10:00:39.5406231-05:00;True|2022-09-07T08:31:16.7272448-05:00;True|2022-09-06T17:27:18.5899623-05:00;True|2022-09-06T12:02:20.8801479-05:00;True|2022-09-06T11:55:34.1214627-05:00;True|2022-09-06T11:49:44.4063107-05:00;True|2022-09-06T11:46:58.9696293-05:00;True|2022-09-06T11:35:47.6737682-05:00;True|2022-09-06T11:14:46.1308396-05:00;True|2022-09-06T10:30:19.7532908-05:00;True|2022-09-05T17:32:30.7603719-05:00;True|2022-08-29T16:04:38.6760631-05:00;True|2022-08-29T11:56:38.9477233-05:00;True|2022-08-26T13:32:11.7349819-05:00;True|2022-08-05T17:36:13.6355235-05:00;True|2022-08-04T11:15:07.7363348-05:00;True|2022-08-01T14:32:13.1695066-05:00;True|2022-08-01T12:52:15.4709616-05:00;True|2022-07-04T10:11:42.2250904-05:00;True|2022-07-01T17:20:01.7387434-05:00;True|2022-06-21T15:40:44.7040063-05:00;True|2022-06-15T16:30:28.8777459-05:00;True|2022-06-15T16:20:17.9550427-05:00;True|2022-06-15T16:13:02.7618539-05:00;True|2022-06-15T16:04:43.7260193-05:00;True|2022-06-15T15:59:56.3926743-05:00;True|2022-06-15T15:57:07.5295689-05:00;True|2022-06-15T15:54:23.9800149-05:00;True|2022-06-15T15:49:51.6951259-05:00;True|2022-05-24T10:11:07.5498388-05:00;True|2022-05-13T10:18:24.6503684-05:00;True|2022-05-03T11:22:40.9600217-05:00;True|2022-04-20T16:12:10.6619704-05:00;True|2022-04-12T10:25:30.4277269-05:00;True|2022-04-08T17:15:47.3324114-05:00;True|2022-04-06T17:04:08.1191115-05:00;True|2022-04-06T12:24:21.5781182-05:00;True|2022-04-04T16:30:06.8176658-05:00;True|2022-03-30T10:51:45.4731185-05:00;True|2022-03-24T15:53:03.7393892-05:00;True|2022-03-23T09:25:22.2458487-05:00;True|2022-03-21T10:03:06.8213491-05:00;True|2022-03-16T10:49:51.4799471-05:00;True|2022-03-11T13:26:58.3077850-05:00;True|2022-03-02T16:00:36.9884079-05:00;True|2022-02-25T09:15:31.6838636-05:00;True|2022-02-24T10:57:29.2553077-05:00;True|2022-02-22T17:23:03.8876746-05:00;True|2022-02-22T10:28:43.9906528-05:00;True|2022-02-16T10:42:40.8534768-05:00;True|2022-02-09T16:34:28.6583303-05:00;True|2022-02-09T12:25:31.7980110-05:00;True|2022-02-08T16:06:15.2276890-05:00;True|2022-02-08T09:39:42.6481201-05:00;True|2022-02-04T14:25:44.9854363-05:00;True|2022-01-31T14:31:38.8978480-05:00;True|2022-01-28T12:44:12.7277310-05:00;True|2021-12-20T16:04:11.5338795-05:00;True|2021-12-20T15:56:12.5793106-05:00;True|2021-12-02T09:33:51.9800181-05:00;True|2021-12-02T09:08:09.1257091-05:00;True|2021-11-24T10:46:48.5206815-05:00;True|2021-11-24T10:41:04.8497617-05:00;True|2021-11-23T13:11:58.3150925-05:00;True|2021-11-10T09:54:34.3674221-05:00;True|2021-11-10T09:50:20.9096699-05:00;False|2021-11-09T12:55:15.4637351-05:00;True|2021-09-22T14:09:46.1129774-05:00;True|2021-09-09T10:12:18.1856526-05:00;True|2021-09-08T17:40:12.1576998-05:00;True|2021-09-08T17:06:30.9278655-05:00;True|2021-09-03T10:51:54.0112230-05:00;</History>
+    <History>True|2022-09-23T16:22:44.6389481Z;True|2022-09-21T16:10:39.1713775-05:00;True|2022-09-21T14:05:49.7338771-05:00;True|2022-09-21T13:50:49.6556102-05:00;True|2022-09-21T13:09:10.1305072-05:00;True|2022-09-21T13:01:51.0465003-05:00;True|2022-09-19T13:19:54.5629054-05:00;True|2022-09-19T13:14:37.8232063-05:00;True|2022-09-19T11:55:05.6351735-05:00;True|2022-09-15T10:56:57.0820394-05:00;True|2022-09-15T09:43:56.5304046-05:00;True|2022-09-15T09:38:02.0902301-05:00;True|2022-09-14T10:40:27.2008328-05:00;True|2022-09-14T10:29:42.1757580-05:00;True|2022-09-13T15:35:23.3118301-05:00;True|2022-09-13T13:46:13.8065772-05:00;True|2022-09-12T15:55:51.0041900-05:00;True|2022-09-12T15:44:04.5486675-05:00;True|2022-09-07T10:00:39.5406231-05:00;True|2022-09-07T08:31:16.7272448-05:00;True|2022-09-06T17:27:18.5899623-05:00;True|2022-09-06T12:02:20.8801479-05:00;True|2022-09-06T11:55:34.1214627-05:00;True|2022-09-06T11:49:44.4063107-05:00;True|2022-09-06T11:46:58.9696293-05:00;True|2022-09-06T11:35:47.6737682-05:00;True|2022-09-06T11:14:46.1308396-05:00;True|2022-09-06T10:30:19.7532908-05:00;True|2022-09-05T17:32:30.7603719-05:00;True|2022-08-29T16:04:38.6760631-05:00;True|2022-08-29T11:56:38.9477233-05:00;True|2022-08-26T13:32:11.7349819-05:00;True|2022-08-05T17:36:13.6355235-05:00;True|2022-08-04T11:15:07.7363348-05:00;True|2022-08-01T14:32:13.1695066-05:00;True|2022-08-01T12:52:15.4709616-05:00;True|2022-07-04T10:11:42.2250904-05:00;True|2022-07-01T17:20:01.7387434-05:00;True|2022-06-21T15:40:44.7040063-05:00;True|2022-06-15T16:30:28.8777459-05:00;True|2022-06-15T16:20:17.9550427-05:00;True|2022-06-15T16:13:02.7618539-05:00;True|2022-06-15T16:04:43.7260193-05:00;True|2022-06-15T15:59:56.3926743-05:00;True|2022-06-15T15:57:07.5295689-05:00;True|2022-06-15T15:54:23.9800149-05:00;True|2022-06-15T15:49:51.6951259-05:00;True|2022-05-24T10:11:07.5498388-05:00;True|2022-05-13T10:18:24.6503684-05:00;True|2022-05-03T11:22:40.9600217-05:00;True|2022-04-20T16:12:10.6619704-05:00;True|2022-04-12T10:25:30.4277269-05:00;True|2022-04-08T17:15:47.3324114-05:00;True|2022-04-06T17:04:08.1191115-05:00;True|2022-04-06T12:24:21.5781182-05:00;True|2022-04-04T16:30:06.8176658-05:00;True|2022-03-30T10:51:45.4731185-05:00;True|2022-03-24T15:53:03.7393892-05:00;True|2022-03-23T09:25:22.2458487-05:00;True|2022-03-21T10:03:06.8213491-05:00;True|2022-03-16T10:49:51.4799471-05:00;True|2022-03-11T13:26:58.3077850-05:00;True|2022-03-02T16:00:36.9884079-05:00;True|2022-02-25T09:15:31.6838636-05:00;True|2022-02-24T10:57:29.2553077-05:00;True|2022-02-22T17:23:03.8876746-05:00;True|2022-02-22T10:28:43.9906528-05:00;True|2022-02-16T10:42:40.8534768-05:00;True|2022-02-09T16:34:28.6583303-05:00;True|2022-02-09T12:25:31.7980110-05:00;True|2022-02-08T16:06:15.2276890-05:00;True|2022-02-08T09:39:42.6481201-05:00;True|2022-02-04T14:25:44.9854363-05:00;True|2022-01-31T14:31:38.8978480-05:00;True|2022-01-28T12:44:12.7277310-05:00;True|2021-12-20T16:04:11.5338795-05:00;True|2021-12-20T15:56:12.5793106-05:00;True|2021-12-02T09:33:51.9800181-05:00;True|2021-12-02T09:08:09.1257091-05:00;True|2021-11-24T10:46:48.5206815-05:00;True|2021-11-24T10:41:04.8497617-05:00;True|2021-11-23T13:11:58.3150925-05:00;True|2021-11-10T09:54:34.3674221-05:00;True|2021-11-10T09:50:20.9096699-05:00;False|2021-11-09T12:55:15.4637351-05:00;True|2021-09-22T14:09:46.1129774-05:00;True|2021-09-09T10:12:18.1856526-05:00;True|2021-09-08T17:40:12.1576998-05:00;True|2021-09-08T17:06:30.9278655-05:00;True|2021-09-03T10:51:54.0112230-05:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">
@@ -30,19 +30,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/16/2017 06:51:42</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll">
-      <publishTime>09/15/2022 10:54:34</publishTime>
+      <publishTime>09/23/2022 11:19:58</publishTime>
     </File>
     <File Include="bin/DacarDatos.dll.config">
       <publishTime>08/10/2022 12:38:21</publishTime>
     </File>
     <File Include="bin/DacarDatos.pdb">
-      <publishTime>09/15/2022 10:54:34</publishTime>
+      <publishTime>09/23/2022 11:19:58</publishTime>
     </File>
     <File Include="bin/DacarProsoft.dll">
-      <publishTime>09/15/2022 10:54:48</publishTime>
+      <publishTime>09/23/2022 11:20:14</publishTime>
     </File>
     <File Include="bin/DacarProsoft.pdb">
-      <publishTime>09/15/2022 10:54:48</publishTime>
+      <publishTime>09/23/2022 11:20:14</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/11/2015 18:43:42</publishTime>
@@ -243,10 +243,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/13/2022 09:37:05</publishTime>
     </File>
     <File Include="Content/countUp.js/dist/countUp.d.ts">
-      <publishTime>09/15/2022 10:54:45</publishTime>
+      <publishTime>09/23/2022 11:20:10</publishTime>
     </File>
     <File Include="Content/countUp.js/dist/countUp.js">
-      <publishTime>09/15/2022 10:54:45</publishTime>
+      <publishTime>09/23/2022 11:20:10</publishTime>
     </File>
     <File Include="Content/countUp.js/dist/countUp.min.js">
       <publishTime>07/13/2022 09:37:05</publishTime>
@@ -1994,6 +1994,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Content/TemplateFalcon/assets/lib/flatpickr/flatpickr.min.js">
       <publishTime>07/12/2022 14:59:59</publishTime>
     </File>
+    <File Include="Content/TemplateFalcon/assets/lib/fortawesome/all.min.js">
+      <publishTime>07/12/2022 14:59:58</publishTime>
+    </File>
     <File Include="Content/TemplateFalcon/assets/lib/fullcalendar/main.min.css">
       <publishTime>07/12/2022 14:59:59</publishTime>
     </File>
@@ -3690,7 +3693,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/21/2022 17:04:55</publishTime>
     </File>
     <File Include="scripts/General/Calidad/ConsultaPruebasLaboratorio.js">
-      <publishTime>09/14/2022 10:26:35</publishTime>
+      <publishTime>09/23/2022 10:50:43</publishTime>
     </File>
     <File Include="scripts/General/Calidad/IngresosMedicionDeDescarga.js">
       <publishTime>03/28/2022 15:26:28</publishTime>
@@ -3702,7 +3705,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/06/2022 14:06:38</publishTime>
     </File>
     <File Include="scripts/General/Calidad/LiberacionProductoExportacion.js">
-      <publishTime>09/13/2022 10:07:39</publishTime>
+      <publishTime>09/16/2022 17:14:42</publishTime>
+    </File>
+    <File Include="scripts/General/Calidad/LiberacionProductoLocal.js">
+      <publishTime>09/16/2022 16:31:08</publishTime>
+    </File>
+    <File Include="scripts/General/Calidad/LiberacionProductoLocalRegistrados.js">
+      <publishTime>09/16/2022 17:18:44</publishTime>
     </File>
     <File Include="scripts/General/Calidad/PackingListLiberados.js">
       <publishTime>09/13/2022 10:04:57</publishTime>
@@ -3753,13 +3762,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/20/2022 14:20:30</publishTime>
     </File>
     <File Include="scripts/General/PackingList/ComextListadoPackingList.js">
-      <publishTime>08/30/2022 14:09:35</publishTime>
+      <publishTime>09/21/2022 09:24:48</publishTime>
     </File>
     <File Include="scripts/General/PackingList/IngresosPackingList.js">
-      <publishTime>06/09/2022 11:59:41</publishTime>
+      <publishTime>09/16/2022 12:09:28</publishTime>
     </File>
     <File Include="scripts/General/PackingList/ListadoPackingList.js">
-      <publishTime>07/21/2022 17:05:29</publishTime>
+      <publishTime>09/19/2022 13:06:27</publishTime>
     </File>
     <File Include="scripts/General/Pedidos/CronogramaExportacion.js">
       <publishTime>08/11/2022 17:29:53</publishTime>
@@ -3902,6 +3911,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/Calidad/LiberacionProductoExportacion.cshtml">
       <publishTime>09/13/2022 10:02:13</publishTime>
     </File>
+    <File Include="Views/Calidad/LiberacionProductoLocal.cshtml">
+      <publishTime>09/16/2022 15:25:18</publishTime>
+    </File>
+    <File Include="Views/Calidad/LiberacionProductoLocalRegistrados.cshtml">
+      <publishTime>09/16/2022 16:32:25</publishTime>
+    </File>
     <File Include="Views/Calidad/PackingListLiberados.cshtml">
       <publishTime>02/09/2022 11:10:05</publishTime>
     </File>
@@ -3927,7 +3942,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/07/2022 16:02:21</publishTime>
     </File>
     <File Include="Views/Compartida/_Layout.cshtml">
-      <publishTime>09/13/2022 13:43:58</publishTime>
+      <publishTime>09/22/2022 12:57:43</publishTime>
     </File>
     <File Include="Views/Compartida/_LayoutPage1.cshtml">
       <publishTime>02/11/2021 15:52:20</publishTime>
@@ -3960,7 +3975,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/20/2022 14:19:53</publishTime>
     </File>
     <File Include="Views/PackingList/ComextListadoPackingList.cshtml">
-      <publishTime>08/25/2022 09:21:19</publishTime>
+      <publishTime>09/21/2022 09:12:03</publishTime>
     </File>
     <File Include="Views/PackingList/IngresosPackingList.cshtml">
       <publishTime>09/13/2022 15:43:14</publishTime>
@@ -4029,7 +4044,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/12/2020 13:04:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/15/2022 10:54:54</publishTime>
+      <publishTime>09/23/2022 11:20:59</publishTime>
     </File>
   </ItemGroup>
 </Project>
