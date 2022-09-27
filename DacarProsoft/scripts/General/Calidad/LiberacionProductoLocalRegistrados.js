@@ -214,6 +214,8 @@ function ConsultarMedicionPallet(ident) {
         type: "GET",
         async: false
         , success: function (msg) {
+            const locale = getLocale();
+            DevExpress.localization.locale(locale);
             $("#tblListadoMedicionesPallets").dxDataGrid({
                 dataSource: msg,
                 keyExpr: "MedicionPalletPackingId",
@@ -247,7 +249,17 @@ function ConsultarMedicionPallet(ident) {
                         dataField: "NumeroLote", caption: "# Lote", allowEditing: true, allowHeaderFiltering: false, validationRules: [{ type: 'required' }], width: 150, alignment: "center"
                     },
                     {
-                        dataField: "Voltaje", caption: "Voltaje", allowEditing: true, allowHeaderFiltering: false, validationRules: [{ type: 'required' }], dataType: "number", alignment: "center", width: 130
+                        dataField: "Voltaje", caption: "Voltaje", allowEditing: true, allowHeaderFiltering: false, validationRules: [{ type: 'required' }], alignment: "center", width: 130,
+                       format: {
+                            type: "fixedPoint",
+                            precision: 2,
+
+                        },
+                       customizeText: function (cellInfo) {
+                        const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+
+                        return (cellInfo.value).toLocaleString('en-US', noTruncarDecimales);
+                    },
                     },
                     {
                         dataField: "nivel", caption: "nivel", allowEditing: true, allowHeaderFiltering: false, dataType: "boolean", width: 130
@@ -284,6 +296,10 @@ function ConsultarMedicionPallet(ident) {
             }, 3000);
         }
     })
+    function getLocale() {
+        const storageLocale = sessionStorage.getItem('locale');
+        return storageLocale != null ? storageLocale : 'es';
+    }
 }
 
 

@@ -15,6 +15,7 @@
         font-family: Montserrat;
         font-size: 13px;
     }
+
     .dx-datagrid-headers .dx-header-row {
         font: 12px arial;
         background-color: #D7F1FF;
@@ -22,20 +23,24 @@
         color: black;
         font-weight: bold;
     }
+
     .dx-data-row {
         font-size: 10pt;
         padding: 2pt;
-
     }
+
     .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
         vertical-align: top;
     }
+
     #tblPruebasLaboratorioRegistrados {
         height: 700px;
     }
+
     .dx-header-filter::before {
         color: dodgerblue;
     }
+
     .dx-header-filter-empty::before {
         color: rgba(149, 149, 149, 0.5);
     }
@@ -75,20 +80,20 @@
                             <div id="column-lines"></div>
                         </div>
                         @*
-                        <div class="option">
-                            <div id="row-lines"></div>
-                        </div>
-                        <div class="option">
-                            <div id="show-borders"></div>
-                        </div>
-                        <div class="option">
-                            <div id="row-alternation"></div>
-                        </div>*@
+                            <div class="option">
+                                <div id="row-lines"></div>
+                            </div>
+                            <div class="option">
+                                <div id="show-borders"></div>
+                            </div>
+                            <div class="option">
+                                <div id="row-alternation"></div>
+                            </div>*@
                     </div>
 
                     @*<div id="ContenidoDiv">
-                        <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
-                    </div>*@
+                            <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+                        </div>*@
 
 
                     <div id="tblPruebasLaboratorioRegistrados"> </div>
@@ -135,7 +140,7 @@
                 <div align="center">
                     <button type="button" class="btn btn-primary" onclick="DescargarAnexo();">Descargar</button>
 
-                </div>      
+                </div>
                 @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>*@
             </div>
         </div>
@@ -156,10 +161,10 @@
                     <strong>No existen anexos en el registro escogido!</strong>
                 </div>
                 <div class="form-row">
-                 
-                    <div class="form-group col-md-12">                   
-                                <label for="inputEmail4">Anexos</label>
-                                <input type="file" accept=".jpg,.png,.jpeg,.gif,.pdf,.xlsx,docx,.doc,pptx" class="form-control-file" id="txtRegistrarAnexos" multiple>      
+
+                    <div class="form-group col-md-12">
+                        <label for="inputEmail4">Anexos</label>
+                        <input type="file" accept=".jpg,.png,.jpeg,.gif,.pdf,.xlsx,docx,.doc,pptx" class="form-control-file" id="txtRegistrarAnexos" multiple>
                     </div>
                 </div>
             </div>
@@ -180,7 +185,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">           
+            <div class="modal-body">
                 <form>
                     <div class="form-group row">
                         <div class="col-sm-3">
@@ -290,3 +295,4 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<input type="hidden" id="txtNumeroPromedioNominal" />

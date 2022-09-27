@@ -143,6 +143,8 @@ function ConsultarMedicionPallet(modelo) {
         url: "../Calidad/ObtenerPalletListMedicionesLocales?identificador=" + modelo.EncabezadoPedidoLocal,
         type: "GET"
         , success: function (msg) {
+            const locale = getLocale();
+            DevExpress.localization.locale(locale);
             $("#tblListadoMedicionesPallets").dxDataGrid({
                 dataSource: msg,
                 keyExpr: "MedicionPalletPackingId",
@@ -179,7 +181,16 @@ function ConsultarMedicionPallet(modelo) {
                         dataField: "NumeroLote", caption: "# Lote", allowHeaderFiltering: false, width: 150, alignment: "center"
                     },
                     {
-                        dataField: "Voltaje", caption: "Voltaje",allowHeaderFiltering: false, dataType: "number", alignment: "center", width: 130
+                        dataField: "Voltaje", caption: "Voltaje", allowHeaderFiltering: false, alignment: "center", width: 130,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 2,
+                        },
+                        customizeText: function (cellInfo) {
+                            const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+
+                            return (cellInfo.value).toLocaleString('en-US', noTruncarDecimales);
+                        },
                     },
                     {
                         dataField: "nivel", caption: "nivel",  allowHeaderFiltering: false, dataType: "boolean", width: 130
@@ -204,4 +215,8 @@ function ConsultarMedicionPallet(modelo) {
             }, 3000);
         }
     })
+    function getLocale() {
+        const storageLocale = sessionStorage.getItem('locale');
+        return storageLocale != null ? storageLocale : 'es';
+    }
 }

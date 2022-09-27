@@ -527,9 +527,13 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             showInColumn: "DatoTeoricoPrueba",
                             customizeText: function (e) {
                                 if (e.value != 0 && e.value != "") {
+                                    var valorNom = (e.value).toFixed();
                                     const noTruncarDecimales = { maximumFractionDigits: 1 };
                                     ValTotal = (e.value).toLocaleString('en-US', noTruncarDecimales);
                                     valorteoricoPr = ValTotal;
+                                    $("#txtNumeroPromedioNominal").val(valorNom);
+
+                                    
                                     return ValTotal;
                                 }
                             }
@@ -747,10 +751,12 @@ function ChartResumenesGarantias() {
                         minimo.push((parseInt(valorTemp[i].DatoTeoricoPrueba) * 0.9).toFixed(0));
                         stock2.push(valorTemp[i].DatoTeoricoPrueba);
                         //stock2.push(result);
-                        $("#txtValorNominal").val(parseInt(result));
-                        $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
-                        nominal = (parseInt(result) * 0.9).toFixed(0);
-                        nominalReal = (parseInt(result)).toFixed(0);
+                        var valNom=$("#txtNumeroPromedioNominal").val();
+
+                        $("#txtValorNominal").val(parseInt(valNom));
+                        $("#txtValorObjetivo").val((parseInt(valNom) * 0.9).toFixed(0));
+                        nominal = (parseInt(valNom) * 0.9).toFixed(0);
+                        nominalReal = (parseInt(valNom)).toFixed(0);
                     }
                 },
             })
@@ -768,11 +774,13 @@ function ChartResumenesGarantias() {
                             stock.push(valorTemp[i].ResultadoFinal);
                             minimo.push((parseInt(valorTemp[i].DatoTeoricoPrueba) * 0.9).toFixed(0));
                             stock2.push(valorTemp[i].DatoTeoricoPrueba);
+                            var valNom = $("#txtNumeroPromedioNominal").val();
+
                             //stock2.push(result);
-                            $("#txtValorNominal").val(parseFloat(result));
-                            $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
-                            nominal = (parseInt(result) * 0.9).toFixed(0);
-                            nominalReal = (parseInt(result)).toFixed(0);
+                            $("#txtValorNominal").val(parseFloat(valNom));
+                            $("#txtValorObjetivo").val((parseInt(valNom) * 0.9).toFixed(0));
+                            nominal = (parseInt(valNom) * 0.9).toFixed(0);
+                            nominalReal = (parseInt(valNom)).toFixed(0);
                         }
                     },
                 })
@@ -789,11 +797,13 @@ function ChartResumenesGarantias() {
                         stock.push(valorTemp[i].ResultadoFinal);
                         minimo.push((parseInt(valorTemp[i].DatoTeoricoPrueba) * 0.9).toFixed(0));
                         stock2.push(valorTemp[i].DatoTeoricoPrueba);
+                        var valNom = $("#txtNumeroPromedioNominal").val();
+
                         //stock2.push(result);
-                        $("#txtValorNominal").val(parseInt(result));
-                        $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
-                        nominal = (parseInt(result) * 0.9).toFixed(0);
-                        nominalReal = (parseInt(result)).toFixed(0);
+                        $("#txtValorNominal").val(parseInt(valNom));
+                        $("#txtValorObjetivo").val((parseInt(valNom) * 0.9).toFixed(0));
+                        nominal = (parseInt(valNom) * 0.9).toFixed(0);
+                        nominalReal = (parseInt(valNom)).toFixed(0);
 
                     }
                 },
@@ -810,12 +820,14 @@ function ChartResumenesGarantias() {
                         nombre.push(valorTemp[i].CodigoIngreso);
                         stock.push(valorTemp[i].ResultadoFinal);
                         stock2.push(valorTemp[i].DatoTeoricoPrueba);
+                        var valNom = $("#txtNumeroPromedioNominal").val();
+
                         //stock2.push(result);
                         minimo.push((parseInt(valorTemp[i].DatoTeoricoPrueba) * 0.9).toFixed(0));
-                        $("#txtValorNominal").val(parseInt(result));
-                        $("#txtValorObjetivo").val((parseInt(result) * 0.9).toFixed(0));
-                        nominal = (parseInt(result)).toFixed(0);
-                        nominalReal = (parseInt(result)).toFixed(0);
+                        $("#txtValorNominal").val(parseInt(valNom));
+                        $("#txtValorObjetivo").val((parseInt(valNom) * 0.9).toFixed(0));
+                        nominal = (parseInt(valNom)).toFixed(0);
+                        nominalReal = (parseInt(valNom)).toFixed(0);
                     }
                 },
             })
