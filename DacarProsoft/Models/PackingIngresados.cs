@@ -8,6 +8,8 @@ namespace DacarProsoft.Models
     public class PackingIngresados
     {
         public int PackingId { set; get; }
+        public int EncabezadoPedidoLocal { set; get; }
+
         public int NumeroDocumento { set; get; }
         public string NumeroOrden { set; get; }
         public string NombreCliente { set; get; }

@@ -1,5 +1,6 @@
 ﻿var packingId = null;
 var palletId = null;
+var encabezadoIdentificador = null;
 var resTempo = null;
 var modelTemp = null;
 $(document).ready(function () {
@@ -23,6 +24,21 @@ $('#LinkClose11').on("click", function (e) {
 });
 $('#LinkClose12').on("click", function (e) {
     $("#MensajeEliminacionIncorecta").hide('fade');
+});
+$('#LinkClose10').on("click", function (e) {
+    $("#MensajeCompleteCampos").hide('fade');
+});
+$('#LinkClose11').on("click", function (e) {
+    $("#MensajeGuardadoMedicion").hide('fade');
+});
+$('#LinkClose12').on("click", function (e) {
+    $("#MensajeErrorGuardadoMedicion").hide('fade');
+});
+$('#LinkClose13').on("click", function (e) {
+    $("#MensajeEliminacionCorectaMedicion").hide('fade');
+});
+$('#LinkClose14').on("click", function (e) {
+    $("#MensajeErrorELiminacion").hide('fade');
 });
 
 function ConsultarIngresoMaximoMedicion() {
@@ -51,7 +67,6 @@ function mostrarIngresosPallet() {
         , success: function (msg) {
             const locale = getLocale();
             DevExpress.localization.locale(locale);
-
             $("#tblIngresosdePacking").dxDataGrid({
                 dataSource: msg,
                 keyExpr: 'PackingId',
@@ -77,7 +92,7 @@ function mostrarIngresosPallet() {
                     placeholder: "Buscar..."
                 },
                 columns: [
-                    { dataField: "PackingId", visible: false },
+                    { dataField: "EncabezadoPedidoLocal", visible: false },
                     {
                         dataField: "NumeroDocumento", caption: "# Secuencial Sap", allowEditing: false, allowHeaderFiltering: false
                     },
@@ -85,10 +100,13 @@ function mostrarIngresosPallet() {
                         dataField: "NumeroOrden", caption: "Numero Orden", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
                     },
                     {
+                        dataField: "PackingId", caption: "Codigo", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
+                    },  
+                    {
                         dataField: "NombreCliente", caption: "Cliente", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
                     },
                     {
-                        dataField: "NumeroContenedor", caption: "Cantidad Pallets", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
+                        dataField: "NumeroContenedor", caption: "Cantidad Pallets", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
                     },            
                     {
                         dataField: "cantidadMediciones", caption: "Cantidad Mediciones", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
@@ -112,12 +130,10 @@ function mostrarIngresosPallet() {
                             icon: "menu",
                             hint: "Detalle",
                             onClick: function (e) {
-                                // Execute your command here
-                                ModalConsultarPalletsIngresado(e.row.data);
+                                ModalConsultarMedicionesPallets(e.row.data);
                             }
                         }]
                     }
-
                 ],
             });
         },
@@ -147,21 +163,12 @@ function generarInformePackingListPDF(modelo) {
 }
 
 function ConfirmarLiberacion() {
-    var cantMaxMed = ConsultarIngresoMaximoMedicion();
-    if (resTempo.Estado == "Incompleto" || resTempo.cantidadMediciones > cantMaxMed || resTempo.cantidadMediciones <= 0) {
-        $("#ModalAfirmacionLiberacion").modal("hide");
-        $("#MensajePackingSinDetalle").show('fade');
-        setTimeout(function () {
-            $("#MensajePackingSinDetalle").fadeOut(1500);
-        }, 3000);
-    } else {
-        ActualizarEstadoPacking();
-        $("#ModalAfirmacionLiberacion").modal("hide");
-        $("#MensajeGuardado").show('fade');
-        setTimeout(function () {
-            $("#MensajeGuardado").fadeOut(1500);
-        }, 3000);
-    }
+    ActualizarEstadoPacking();
+    $("#ModalAfirmacionLiberacion").modal("hide");
+    $("#MensajeGuardado").show('fade');
+    setTimeout(function () {
+        $("#MensajeGuardado").fadeOut(1500);
+    }, 3000);
 }
 
 function ModalConfirmarLiberacion(modelo) {
@@ -176,103 +183,34 @@ function generarPDFPackingList(variable) {
     $("#ModalListadoDePallets").modal("hide");
 }
 
-function ModalConsultarPalletsIngresado(modelo) {
-    ConsultarPalletsIngresado(modelo);
-    $("#ModalListadoDePallets").modal("show");
-}
-function ConsultarPalletsIngresado(modelo) {
-    $.ajax({
-        url: "../Calidad/ObtenerPalletList?PackingId=" + modelo.PackingId,
-        type: "GET"
-        , success: function (msg) {
-            $("#tblListadoPalletsIngresados").dxDataGrid({
-                dataSource: msg,
-                keyExpr: "PalletPacking1",
-                allowColumnReordering: false,
-                allowColumnResizing: true,
-                columnAutoWidth: true,
-                showBorders: true,
-                paging: {
-                    pageSize: 10
-                },
-                pager: {
-                    visible: true,
-                    allowedPageSizes: [5, 10, 100],
-                    showPageSizeSelector: true,
-                    showNavigationButtons: true
-                },
-                columns: [
-                    {
-                        dataField: "PalletPacking1", visible: false
-                    },
-                    {
-                        dataField: "PackingId", visible: false
-                    },
-                    {
-                        dataField: "PalletNumber", caption: "Número Pallet", allowEditing: false, allowHeaderFiltering: false
-                    },
-                    {
-                        dataField: "AnchoPallet", visible: false
-                    },
-                    {
-                        dataField: "LargoPallet", visible: false
-                    },
-                    {
-                        dataField: "AltoPallet", visible: false
-                    },
-                    {
-                        dataField: "Cantidad", caption: "Cantidad Items", allowEditing: false, allowHeaderFiltering: false
-                    },
-                    {
-                        dataField: "CantidadMediciones", caption: "Cantidad Mediciones", allowEditing: false, allowHeaderFiltering: false
-                    },
-                    {
-                        caption: "Mediciones", type: "buttons", width: 100,
-                        buttons: [{
-                            text: "Agregar Medicion",
-                            icon: "add",
-                            hint: "Agregar Medicion",
-                            onClick: function (e) {
-                                ModalConsultarMedicionesPallets(e.row.data);
-                            }
-                        }]
-                    }
-                ],
-            });
-        },
-        error: function (msg) {
-            $("#MensajeErrorGeneral").show('fade');
-            setTimeout(function () {
-                $("#MensajeErrorGeneral").fadeOut(1500);
-            }, 3000);
-        }
-    })
-}
 function ModalConsultarMedicionesPallets(modelo) {
-    ConsultarMedicionPallet(modelo);
+    encabezadoIdentificador = modelo.EncabezadoPedidoLocal;
+    ConsultarMedicionPallet(modelo.EncabezadoPedidoLocal);
     $("#ModalListadoDePallets").modal("hide");
     $("#ModalAgregarMedicionPallets").modal("show");
 }
 
-function ConsultarMedicionPallet(modelo) {
-    modelTemp = modelo;
-    $("#lblPalletDetalle").text("Pallet #" + modelo.PalletNumber);
-    packingId = modelo.PackingId;
-    palletId = modelo.PalletPacking1;
-    var lookupDataSource = {
-        store: new DevExpress.data.CustomStore({
-            key: "ItemCode",
-            loadMode: "raw",
-            load: function () {
-                // Returns an array of objects that have the following structure:
-                // { id: 1, name: "John Doe" }
-                return $.getJSON("../Calidad/ObtenerModelosBatPallet?PackinkId=" + modelo.PackingId + "&PalletId=" + modelo.PalletPacking1);
-            }
-        }),
-        sort: "Modelo"
-    }
+function CargarModelosBaterias(identificador) {
+    $("#txtModelo").empty();
+        $("#txtModelo").append('<option value="">--Seleccione el modelo--</option>');
+        $.ajax({
+            type: 'POST',
+            url: "../Calidad/ObtenerModelosBatPalletLocal?identificador=" + identificador,
+            dataType: 'json',
+            data: { id: $("#txtTipoBateria option:selected").val() },
+            success: function (articulos) {
+                for (var x in articulos) {
+                    $("#txtModelo").append('<option value="' + articulos[x].ItemCode + '">' +
+                        articulos[x].DescriptionCode + '</option>');
+                }             
+            },
+        }) 
+}
+
+function ConsultarMedicionPallet(ident) {
+    CargarModelosBaterias(ident);
     $.ajax({
-        url: "../Calidad/ObtenerPalletListMediciones?PackinkId=" + modelo.PackingId + "&PalletId=" + modelo.PalletPacking1,
+        url: "../Calidad/ObtenerListMedicionesPalletLocal?identificador=" + ident,
         type: "GET",
         async: false
         , success: function (msg) {
@@ -283,7 +221,6 @@ function ConsultarMedicionPallet(modelo) {
                 allowColumnResizing: true,
                 columnAutoWidth: false,
                 showBorders: true,
-
                 paging: {
                     pageSize: 10
                 },
@@ -292,17 +229,7 @@ function ConsultarMedicionPallet(modelo) {
                     allowedPageSizes: [5, 10, 100],
                     showPageSizeSelector: true,
                     showNavigationButtons: true
-                },
-                editing: {
-                    mode: 'row',
-                    allowUpdating: false,
-                    allowDeleting: true,
-                    allowAdding: true,
-                    useIcons: true,
-                    texts: {
-                        confirmDeleteMessage: 'Esta seguro de eliminar este item?'
-                    }
-                },
+                },              
                 columns: [
                     {
                         dataField: "MedicionPalletPackingId", visible: false
@@ -312,20 +239,9 @@ function ConsultarMedicionPallet(modelo) {
                     },
                     {
                         dataField: "PalletId", visible: false, width: 70
-                    },
-                    //{
-                    //    dataField: "NumeroMedicion", caption: "# Medicion", allowEditing: true, allowHeaderFiltering: false, validationRules: [{ type: 'required' }], width: 90, alignment: "center"
-                    //},
-                   
+                    },                   
                     {
                         dataField: "Modelo", caption: "Modelo", allowEditing: true, allowHeaderFiltering: false, validationRules: [{ type: 'required' }], width: 200, alignment: "center"
-                        , lookup: {
-                        //dataSource: valorView,
-                        dataSource: lookupDataSource,
-                            valueExpr: "DescriptionCode",
-                            displayExpr: "DescriptionCode",
-                    }
-
                     },
                     {
                         dataField: "NumeroLote", caption: "# Lote", allowEditing: true, allowHeaderFiltering: false, validationRules: [{ type: 'required' }], width: 150, alignment: "center"
@@ -345,20 +261,19 @@ function ConsultarMedicionPallet(modelo) {
                     {
                         dataField: "CCA", caption: "CCA", allowEditing: true, allowHeaderFiltering: false, validationRules: [{ type: 'required' }], dataType: "number", alignment: "center", width: 130
                     },
-         
+                    {
+                        caption: "Acciones", type: "buttons", width: 70,
+                        buttons: [{
+                            text: "Eliminar",
+                            icon: "remove",
+                            hint: "Eliminar",
+                            onClick: function (e) {
+                                EliminarMedicion(e.row.data);
+                            }
+                        },
+                      ]
+                    }
                 ],
-                onRowUpdating: function (options) {
-                    this.oldData = Object.assign({}, options.oldData);
-                    ActualizarMedicion(options.newData, options.key);
-
-                },
-                onRowInserting: function (options) {
-                    InsertarMedicion((options.data));
-                }
-                ,
-                onRowRemoving: function (options) {
-                    EliminarMedicion(options.data);
-                }
             });
         },
 
@@ -382,7 +297,6 @@ function ActualizarMedicion(valor, key) {
             medicionModal: valor, Key: key
         },
         success: function (respuesta) {
-            console.log("respuesta:" + respuesta);
             ConsultarMedicionPallet(modelTemp);
 
         }
@@ -390,51 +304,145 @@ function ActualizarMedicion(valor, key) {
     mostrarIngresosPallet();
 }
 
-function InsertarMedicion(valor) {
-    $.ajax({
-        url: '../Calidad/InsertarMedicionPallet',
-        type: 'POST',
-        dataType: 'json',
-        async: false,
-        data: {
-            packingId: packingId, palletId: palletId,medicionModal: valor
-        },
-        success: function (respuesta) {
-            console.log("respuesta:" + respuesta);
-            ConsultarMedicionPallet(modelTemp);
+function RegistrarMedicion() {
+    var val1 = $("#txtNumeroLote").val();
+    var val2 = $("#txtVoltaje").val();
+    var val3 = $("#txtModelo option:selected").text();
+    var val4 = $("#txtNivel option:selected").text();
+    var val5 = $("#txtEtiquetado option:selected").text();
+    var val6 = $("#txtCCA").val();
+    var val7 = $("#txtLimpieza option:selected").text();
 
+    if (val1.length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (val2.length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (val6.length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (val3 == "----Seleccione el modelo----") {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (val4 == "--Seleccione--") {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (val5 == "--Seleccione--") {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    if (val7 == "--Seleccione--") {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+    InsertarMedicion();
+}
+
+function InsertarMedicion() {
+    var formdata = new FormData();
+    formdata.append("packingId", encabezadoIdentificador);
+    formdata.append("numeroLote", $("#txtNumeroLote").val());
+    formdata.append("Modelo", $("#txtModelo option:selected").text());
+    formdata.append("Voltaje", $("#txtVoltaje").val());
+    formdata.append("nivel", $("#txtNivel option:selected").text());
+    formdata.append("acabado", $("#txtEtiquetado option:selected").text());
+    formdata.append("limpieza", $("#txtLimpieza  option:selected").text());
+    formdata.append("cca", $("#txtCCA").val());
+    var files = $("#txtAnexos").get(0).files;
+    for (var i = 0; i < files.length; i++) {
+        formdata.append("archivos", files[i]);
+    }
+    $.ajax({
+        url: '../Calidad/InsertarMedicionPalletLocal',
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        data:
+            formdata,
+        success: function (respuesta) {
+            if (respuesta == "True") {
+                $("#txtNumeroLote").val("");
+                $("#txtVoltaje").val("");
+                $("#txtCCA").val("");
+                ConsultarMedicionPallet(encabezadoIdentificador);
+                $("#MensajeGuardadoMedicion").show('fade');
+                setTimeout(function () {
+                    $("#MensajeGuardadoMedicion").fadeOut(1500);
+                }, 3000);
+            
+                mostrarIngresosPallet();
+            } else {
+                $("#MensajeErrorGuardadoMedicion").show('fade');
+                setTimeout(function () {
+                    $("#MensajeErrorGuardadoMedicion").fadeOut(1500);
+                }, 3000);
+            }     
         }
     });
-    mostrarIngresosPallet();
+    //mostrarIngresosPallet();
 }
 
 function EliminarMedicion(valor) {
     $.ajax({
-        url: '../Calidad/EliminarMedicionPallet',
+        url: '../Calidad/EliminarMedicionPalletLocal',
         type: 'POST',
-        dataType: 'json',
-        async: false,
         data: {
             medicionModal: valor
         },
         success: function (respuesta) {
             console.log("respuesta:" + respuesta);
-            ConsultarMedicionPallet(modelTemp);
-
+            if (respuesta == "True") {
+                ConsultarMedicionPallet(encabezadoIdentificador);
+                $("#MensajeEliminacionCorectaMedicion").show('fade');
+                setTimeout(function () {
+                    $("#MensajeEliminacionCorectaMedicion").fadeOut(1500);
+                }, 3000);
+                mostrarIngresosPallet();
+            } else {
+                $("#MensajeErrorGuardadoMedicion").show('fade');
+                setTimeout(function () {
+                    $("#MensajeErrorGuardadoMedicion").fadeOut(1500);
+                }, 3000);
+            }           
         }
     });
-    mostrarIngresosPallet();
 }
 
 function ActualizarEstadoPacking() {
-    console.log("ingreso a actualizar");
     $.ajax({
-        url: '../Calidad/ActualizarEstadoPacking',
+        url: '../Calidad/ActualizarEstadoPackingLocal',
         type: 'post',
         async: false,
 
         data: {
-            packingId: packingId
+            identificador: packingId
         },
         success: function (respuesta) {
           

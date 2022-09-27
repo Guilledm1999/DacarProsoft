@@ -10,10 +10,6 @@
         <br />
     </div>
     <div class="card-body">
-        <div id="MensajeEliminacionCorecta" class="alert alert-danger collapse">
-            <button id="LinkClose11" type="button" class="close">&times;</button>
-            <strong>Eliminacion correcta!</strong>
-        </div>
         <div id="MensajeEliminacionIncorecta" class="alert alert-danger collapse">
             <button id="LinkClose12" type="button" class="close">&times;</button>
             <strong>Error al Eliminar!</strong>
@@ -68,42 +64,102 @@
     </div>
 </div>
 
-
-<div id="ModalListadoDePallets" class="modal fade" role="dialog" style="overflow-y: scroll;">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="lblPalletsIngresados">Listado Pallets</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="tblListadoPalletsIngresados"> </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="ModalAgregarMedicionPallets" class="modal fade" role="dialog" style="overflow-y: scroll;">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="lblPalletDetalle">Pallet</h4>
+                <h4 class="modal-title" id="lblPalletDetalle">Registro Medición</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div id="tblListadoMedicionesPallets"> </div>
+                <div id="MensajeCompleteCampos" class="alert alert-danger collapse">
+                    <button id="LinkClose10" type="button" class="close">&times;</button>
+                    <strong>Complete todos los campos!</strong>
+                </div>
+                <div id="MensajeGuardadoMedicion" class="alert alert-success collapse">
+                    <button id="LinkClose11" type="button" class="close">&times;</button>
+                    <strong>Guardado Éxitoso!</strong>
+                </div>
+                <div id="MensajeErrorGuardadoMedicion" class="alert alert-danger collapse">
+                    <button id="LinkClose12" type="button" class="close">&times;</button>
+                    <strong>Error de Guardado!</strong>
+                </div>
+                <div id="MensajeEliminacionCorectaMedicion" class="alert alert-danger collapse">
+                    <button id="LinkClose13" type="button" class="close">&times;</button>
+                    <strong>Eliminacion correcta!</strong>
+                </div>
+                <div id="MensajeErrorELiminacion" class="alert alert-danger collapse">
+                    <button id="LinkClose14" type="button" class="close">&times;</button>
+                    <strong>Ocurrio un error al tratar de eliminar la medición!</strong>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <label for="inputEmail4">Modelo</label>
+                        <select class="form-control" aria-label="Default select example" id="txtModelo" style="width:100%">
+                            <option value="" selected="selected">--Seleccione el modelo--</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputEmail4">Numero Lote</label>
+                        <input type="text" class="form-control" id="txtNumeroLote" placeholder="Numero Lote">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputEmail4">Voltaje</label>
+                        <input type="number" class="form-control" id="txtVoltaje" placeholder="Numero Lote">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputEmail4">CCA</label>
+                        <input type="number" class="form-control" id="txtCCA" placeholder="CCA">
+                    </div>
+                </div>
 
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <label for="inputPassword4">Nivel Electrolito</label>
+                        <select class="form-control" aria-label="Default select example" id="txtNivel" style="width:100%">
+                            <option value="" selected="selected">--Seleccione--</option>
+                            <option value="1">Si</option>
+                            <option value="2">No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputPassword4">Etiquetado</label>
+                        <select class="form-control" aria-label="Default select example" id="txtEtiquetado" style="width:100%">
+                            <option value="" selected="selected">--Seleccione--</option>
+                            <option value="1">Si</option>
+                            <option value="2">No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputPassword4">Limpieza</label>
+                        <select class="form-control" aria-label="Default select example" id="txtLimpieza" style="width:100%">
+                            <option value="" selected="selected">--Seleccione--</option>
+                            <option value="1">Si</option>
+                            <option value="2">No</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputEmail4">Anexos</label>
+                        <input type="file" accept=".jpg,.png,.jpeg,.gif,.pdf,.xlsx,docx,.doc,pptx" class="form-control-file" id="txtAnexos" @*onchange="ValidarTipoImagen(this);"*@ multiple>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-row">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" onclick="RegistrarMedicion()">Registrar</button>
+                    </div>
+                </div>
+                <br />
+                <div class="form-row">
+                    <div id="tblListadoMedicionesPallets"> </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
-        </div>
     </div>
 </div>

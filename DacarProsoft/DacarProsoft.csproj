@@ -786,6 +786,7 @@
     <Content Include="scripts\General\Calidad\LiberacionProductoLocalRegistrados.js" />
     <Content Include="scripts\General\Calidad\LiberacionProductoLocal.js" />
     <Content Include="scripts\General\Calidad\LiberacionProductoExportacion.js" />
+    <Content Include="scripts\General\Calidad\PackingListLiberadosLocales.js" />
     <Content Include="scripts\General\Calidad\PackingListLiberados.js" />
     <Content Include="scripts\General\Calidad\RegistrosVisuaLCN.js" />
     <Content Include="scripts\General\Chatarra\ReporteDashboardIngresosChatarraSap.js" />
@@ -1309,6 +1310,7 @@
     <Content Include="Views\Calidad\PackingListLiberados.cshtml" />
     <Content Include="Views\Calidad\LiberacionProductoLocal.cshtml" />
     <Content Include="Views\Calidad\LiberacionProductoLocalRegistrados.cshtml" />
+    <Content Include="Views\Calidad\PackingListLiberadosLocales.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

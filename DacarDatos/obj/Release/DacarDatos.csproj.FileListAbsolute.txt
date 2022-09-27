@@ -105,7 +105,6 @@ C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Release\itext.pdfa.xml
 C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Release\itext.sign.xml
 C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Release\itext.styledxmlparser.xml
 C:\RepositorioGit\DacarProsoft\DacarDatos\bin\Release\itext.svg.xml
-C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Release\DacarDatos.csproj.AssemblyReference.cache
 C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Release\DacarDatos.csproj.CoreCompileInputs.cache
 C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Release\DacarDatos.csproj.CopyComplete
 C:\RepositorioGit\DacarProsoft\DacarDatos\obj\Release\DacarDatos.dll

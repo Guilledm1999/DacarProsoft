@@ -211,18 +211,6 @@ function ModalConsultarMedicionesPallets(modelo) {
 function ConsultarMedicionPallet(modelo) {
     packingId = modelo.PackingId;
     palletId = modelo.PalletPacking1;
-    var lookupDataSource = {
-        store: new DevExpress.data.CustomStore({
-            key: "ItemCode",
-            loadMode: "raw",
-            load: function () {
-                // Returns an array of objects that have the following structure:
-                // { id: 1, name: "John Doe" }
-                return $.getJSON("../Calidad/ObtenerModelosBatPallet?PackinkId=" + modelo.PackingId + "&PalletId=" + modelo.PalletPacking1);
-            }
-        }),
-        sort: "Modelo"
-    }
     $.ajax({
         url: "../Calidad/ObtenerPalletListMediciones?PackinkId=" + modelo.PackingId + "&PalletId=" + modelo.PalletPacking1,
         type: "GET"
@@ -255,19 +243,8 @@ function ConsultarMedicionPallet(modelo) {
                     {
                         dataField: "PalletId", visible: false, width: 70
                     },
-                    //{
-                    //    dataField: "NumeroMedicion", caption: "# Medicion", allowEditing: true, allowHeaderFiltering: false, validationRules: [{ type: 'required' }], width: 90, alignment: "center"
-                    //},
-
                     {
-                        dataField: "Modelo", caption: "Modelo",allowHeaderFiltering: false, width: 200, alignment: "center"
-                        , lookup: {
-                            //dataSource: valorView,
-                            dataSource: lookupDataSource,
-                            valueExpr: "DescriptionCode",
-                            displayExpr: "DescriptionCode",
-                        }
-
+                        dataField: "Modelo", caption: "Modelo",allowHeaderFiltering: false, width: 200, alignment: "center"                     
                     },
                     {
                         dataField: "NumeroLote", caption: "# Lote", allowHeaderFiltering: false, width: 150, alignment: "center"

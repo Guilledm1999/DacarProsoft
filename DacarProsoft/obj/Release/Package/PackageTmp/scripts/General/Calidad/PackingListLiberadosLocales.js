@@ -26,7 +26,7 @@ $('#LinkClose12').on("click", function (e) {
 
 function mostrarIngresosPallet() {
     $.ajax({
-        url: "../Calidad/ObtenerPackingLiberados",
+        url: "../Calidad/ObtenerPackingLocalesLiberados",
         type: "GET"
         , success: function (msg) {
             const locale = getLocale();
@@ -34,7 +34,7 @@ function mostrarIngresosPallet() {
 
             $("#tblLiberadosPacking").dxDataGrid({
                 dataSource: msg,
-                keyExpr: 'PackingId',
+                keyExpr: 'EncabezadoPedidoLocal',
                 allowColumnReordering: true,
                 allowColumnResizing: true,
                 columnAutoWidth: true,
@@ -57,7 +57,7 @@ function mostrarIngresosPallet() {
                     placeholder: "Buscar..."
                 },
                 columns: [
-                    { dataField: "PackingId", visible: false },
+                    { dataField: "EncabezadoPedidoLocal", visible: false },
                     {
                         dataField: "NumeroDocumento", caption: "# Secuencial Sap", allowEditing: false, allowHeaderFiltering: false
                     },
@@ -65,10 +65,13 @@ function mostrarIngresosPallet() {
                         dataField: "NumeroOrden", caption: "Numero Orden", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
                     },
                     {
+                        dataField: "PackingId", caption: "Código", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
+                    },
+                    {
                         dataField: "NombreCliente", caption: "Cliente", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
                     },
                     {
-                        dataField: "Destino", caption: "Destino", allowEditing: false, headerFilter: true, allowHeaderFiltering: true
+                        dataField: "Destino", caption: "Destino", allowEditing: false, headerFilter: true, allowHeaderFiltering: true, visible: false
                     },
                     {
                         dataField: "cantidadMediciones", caption: "Cantidad Mediciones", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
@@ -77,7 +80,7 @@ function mostrarIngresosPallet() {
                         dataField: "CantidadPallet", caption: "Cantidad Pallet", allowEditing: false, headerFilter: false, allowHeaderFiltering: false
                     },
                     {
-                        dataField: "Estado", caption: "Estado Packing List", allowEditing: false
+                        dataField: "Estado", caption: "Estado Packing List", allowEditing: false, visible: false
                     },
                     {
                         dataField: "FechaRegistro", caption: "Fecha Actualizacion", allowEditing: false, allowHeaderFiltering: true, dataType: 'date',
@@ -98,7 +101,7 @@ function mostrarIngresosPallet() {
                             hint: "Detalle",
                             onClick: function (e) {
                                 // Execute your command here
-                                ModalConsultarPalletsIngresado(e.row.data);
+                                ModalConsultarMedicionesPallets(e.row.data);
                             }
                         }]
                     }
@@ -121,89 +124,14 @@ function mostrarIngresosPallet() {
 }
 
 function generarPDFLiberacion(modelo) {
-    var url = "../Calidad/ImprimirLiberacionProducto?packingId=" + modelo.PackingId;
+    var url = "../Calidad/ImprimirLiberacionProductoLocal?identificador=" + modelo.EncabezadoPedidoLocal;
     window.open(url);
     //$("#ModalListadoDePallets").modal("hide");
 }
 
-function ModalConsultarPalletsIngresado(modelo) {
-    ConsultarPalletsIngresado(modelo);
-    $("#ModalListadoDePallets").modal("show");
-}
-function ConsultarPalletsIngresado(modelo) {
-    $.ajax({
-        url: "../Calidad/ObtenerPalletList?PackingId=" + modelo.PackingId,
-        type: "GET"
-        , success: function (msg) {
-            $("#tblListadoPalletsIngresados").dxDataGrid({
-                dataSource: msg,
-                keyExpr: "PalletPacking1",
-                allowColumnReordering: false,
-                allowColumnResizing: true,
-                columnAutoWidth: true,
-                showBorders: true,
-
-                paging: {
-                    pageSize: 10
-                },
-                pager: {
-                    visible: true,
-                    allowedPageSizes: [5, 10, 100],
-                    showPageSizeSelector: true,
-                    showNavigationButtons: true
-                },
-                columns: [
-                    {
-                        dataField: "PalletPacking1", visible: false
-                    },
-                    {
-                        dataField: "PackingId", visible: false
-                    },
-                    {
-                        dataField: "PalletNumber", caption: "Número Pallet", allowEditing: false, allowHeaderFiltering: false
-                    },
-                    {
-                        dataField: "AnchoPallet", visible: false
-                    },
-                    {
-                        dataField: "LargoPallet", visible: false
-                    },
-                    {
-                        dataField: "AltoPallet", visible: false
-                    },
-                    {
-                        dataField: "Cantidad", caption: "Cantidad Items", allowEditing: false, allowHeaderFiltering: false
-                    },
-                    {
-                        dataField: "CantidadMediciones", caption: "Cantidad Mediciones", allowEditing: false, allowHeaderFiltering: false
-                    },
-                    {
-                        caption: "Mediciones", type: "buttons", width: 100,
-                        buttons: [{
-                            text: "Detalle",
-                            icon: "menu",
-                            hint: "Detalle",
-                            onClick: function (e) {
-                                ModalConsultarMedicionesPallets(e.row.data);
-                            }
-                        }]
-                    }
-                ],
-            });
-        },
-
-        error: function (msg) {
-            $("#MensajeErrorGeneral").show('fade');
-            setTimeout(function () {
-                $("#MensajeErrorGeneral").fadeOut(1500);
-            }, 3000);
-        }
-    })
-}
 function ModalConsultarMedicionesPallets(modelo) {
     ConsultarMedicionPallet(modelo);
-    console.log("Pallet # " + modelo.PalletNumber);
-    $("#lblPalletDetalle").text("Pallet # " + modelo.PalletNumber);
+    //$("#lblPalletDetalle").text("Pallet # " + modelo.PalletNumber);
     //$("#ModalListadoDePallets").modal("hide");
     $("#ModalAgregarMedicionPallets").modal("show");
 }
@@ -212,7 +140,7 @@ function ConsultarMedicionPallet(modelo) {
     packingId = modelo.PackingId;
     palletId = modelo.PalletPacking1;
     $.ajax({
-        url: "../Calidad/ObtenerPalletListMediciones?PackinkId=" + modelo.PackingId + "&PalletId=" + modelo.PalletPacking1,
+        url: "../Calidad/ObtenerPalletListMedicionesLocales?identificador=" + modelo.EncabezadoPedidoLocal,
         type: "GET"
         , success: function (msg) {
             $("#tblListadoMedicionesPallets").dxDataGrid({
@@ -243,8 +171,9 @@ function ConsultarMedicionPallet(modelo) {
                     {
                         dataField: "PalletId", visible: false, width: 70
                     },
+                 
                     {
-                        dataField: "Modelo", caption: "Modelo",allowHeaderFiltering: false, width: 200, alignment: "center"                     
+                        dataField: "Modelo", caption: "Modelo",allowHeaderFiltering: false, width: 200, alignment: "center"                      
                     },
                     {
                         dataField: "NumeroLote", caption: "# Lote", allowHeaderFiltering: false, width: 150, alignment: "center"
@@ -264,19 +193,7 @@ function ConsultarMedicionPallet(modelo) {
                     {
                         dataField: "CCA", caption: "CCA",  allowHeaderFiltering: false,  dataType: "number", alignment: "center", width: 130
                     },
-                ],
-                onRowUpdating: function (options) {
-                    this.oldData = Object.assign({}, options.oldData);
-                    ActualizarMedicion(options.newData, options.key);
-
-                },
-                onRowInserting: function (options) {
-                    InsertarMedicion((options.data));
-                }
-                ,
-                onRowRemoving: function (options) {
-                    EliminarMedicion(options.data);
-                }
+                ],              
             });
         },
 
