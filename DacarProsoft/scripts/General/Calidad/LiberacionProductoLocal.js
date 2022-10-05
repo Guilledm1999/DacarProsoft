@@ -33,7 +33,6 @@ function mostrarIngresosPallet() {
         , success: function (msg) {
             const locale = getLocale();
             DevExpress.localization.locale(locale);
-
             $("#tblIngresosdePacking").dxDataGrid({
                 dataSource: msg,
                 keyExpr: 'DocEntry',

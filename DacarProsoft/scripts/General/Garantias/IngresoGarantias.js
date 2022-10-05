@@ -202,9 +202,7 @@ function ConsultarNumeroGarantia() {
                 document.getElementById("txtNumeroFactura").readOnly = false;
                 document.getElementById("txtPorcentajeVentas").readOnly = true;
 
-
                 document.getElementById("OcultarContenidoDiv").style.display = ""; 	   //show
-
                 //$("#ContenidoDiv").show();
 
             } else {
@@ -214,9 +212,6 @@ function ConsultarNumeroGarantia() {
                 $("#txtProvincia").empty();
                 $("#txtDireccion").empty();
                 $("#txtCliente").empty();
-
-
-
 
                 document.getElementById("txtCliente").readOnly = true;
                 document.getElementById("txtCedula").readOnly = true;
@@ -383,13 +378,13 @@ function validarIngresos() {
         }, 3000);
         return;
     }
-    if (valor23.length == 0) {
-        $("#MensajeCompleteCampos").show('fade');
-        setTimeout(function () {
-            $("#MensajeCompleteCampos").fadeOut(1500);
-        }, 3000);
-        return;
-    }
+    //if (valor23.length == 0) {
+    //    $("#MensajeCompleteCampos").show('fade');
+    //    setTimeout(function () {
+    //        $("#MensajeCompleteCampos").fadeOut(1500);
+    //    }, 3000);
+    //    return;
+    //}
     if (valor24.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -507,12 +502,14 @@ function validarIngresos() {
 }
 
 $('#btnRegistrarRevision').on("click", function (e) {
-        if (document.getElementById("ImgFacturaIngresada").files.length == 0 && document.getElementById("ImgTestIngresada").files.length == 0) {
-            $("#MensajeCompleteCampos").show('fade');
-            setTimeout(function () {
-                $("#MensajeCompleteCampos").fadeOut(1500);
-            }, 3000);
-            return;
+        if (document.getElementById("ImgFacturaIngresada").files.length == 0 || document.getElementById("ImgTestIngresada").files.length == 0) {
+            validarIngresos();
+
+            //$("#MensajeCompleteCampos").show('fade');
+            //setTimeout(function () {
+            //    $("#MensajeCompleteCampos").fadeOut(1500);
+            //}, 3000);
+            //return;
         }
         else {
             if (ValiExt == "True") {
@@ -568,13 +565,13 @@ function validarPeso(datos) {
 }
 
 function RegistrarRevisionGarantiaCabecera() {
-    $("#pleaseWaitDialog").modal("show");
-    progreso = 0;
-    idIterval = setInterval(function () {
-        // Aumento en 5 el progeso
-        progreso += 5;
-        $('#BarraProceso').css('width', progreso + '%');
-    }, 1000);
+    //$("#pleaseWaitDialog").modal("show");
+    //progreso = 0;
+    //idIterval = setInterval(function () {
+    //    // Aumento en 5 el progeso
+    //    progreso += 6;
+    //    $('#BarraProceso').css('width', progreso + '%');
+    //}, 1000);
  
     var inputFileImage1 = $("#ImgFacturaIngresada")[0].files[0];
     var inputFileImage2 = $("#ImgTestIngresada")[0].files[0];
@@ -708,9 +705,10 @@ function RegistrarRevisionGarantiaDetalle(valor) {
         },
         type: 'post',
         success: function (respuesta) {
-            clearInterval(idIterval);
-            $("#pleaseWaitDialog").modal("hide");
-            $("#ModalDetallePedido").modal("hide");
+            //clearInterval(idIterval);
+            //$("#pleaseWaitDialog").modal("hide");
+            //$("#ModalDetallePedido").modal("hide");
+            document.getElementById("OcultarContenidoDiv").style.display = "none"; 	   //show
 
             if (respuesta == "True") {
                 $("#txtMsjGarantia").hide();

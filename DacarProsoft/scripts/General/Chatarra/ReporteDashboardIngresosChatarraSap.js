@@ -537,12 +537,8 @@ function calcularPorcentaje() {
 }
 
 function consultaInfoAnterior(val, tipo) {
-    //tempValoresHist
-    //const filteredLibraries = jsLibraries.filter((item) => item !== 'react')
-    if (tipo == 1) {
-        //resBusAnioAnt
-        //console.log("el val de la func es:" + JSON.stringify(val))
-        //console.log("el valor historico es:" + JSON.stringify(resBusAnioAnt))
+  
+    if (tipo == 1) {     
         var comprSelect = $("#selecTipoIngreso").dxTagBox('instance').option('value');
 
         const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
@@ -556,10 +552,8 @@ function consultaInfoAnterior(val, tipo) {
 
         let arrayFilter = [];
 
-
         if (val.length == 0) {
             if (comprSelect.length == 0) {
-                //tempValoresHist = resBusAnioAnt;
             }
             for (var y of tempValoresHist) {
                 arrayFilter.push(y);
@@ -567,7 +561,6 @@ function consultaInfoAnterior(val, tipo) {
                 peso = peso + y.Peso;
                 precio = precio + y.Precio;
             }
-            //tempValoresHist = arrayFilter;
         } else {
             for (var z of val) {
                 valMes = getNumericMonth(z);
@@ -580,7 +573,6 @@ function consultaInfoAnterior(val, tipo) {
                     }
                 }
             }
-            //tempValoresHist = arrayFilter;
         }
 
         var can = cantidad.toLocaleString('en-US', noTruncarDecimales2);
@@ -661,7 +653,7 @@ function InformeIngresosDeChatarra() {
     const tipoCliente = ['Todos','MARCAS PRIVADAS', 'MARCAS PROPIAS', 'Prov. Locales'];
     const tipoClienteLinea = ['Todos', 'COBERTURA', 'INSTITUCIONES', 'MARCAS PRIVADAS', 'RECICLAJE'];
     const tipoClienteClase = ['Todos', 'AUTOSERVICIO', 'COORPORATIVO', 'DETALLISTA', 'DISTRIBUIDOR ZONAL', 'MARCAS PRIVADAS', 'PUNTO DE FABRICA','RECICLAJE'];
-    const tipoIngreso = ['Compras (Kg)', 'Compras (Ud)', 'Garantia', 'Nota Credito'];
+    const tipoIngreso = ['Todos','Compras (Kg)', 'Compras (Ud)', 'Garantia', 'Nota Credito'];
 
     $("tbody").children().remove()
     var valorDesv = obtenerDesv();
@@ -735,10 +727,23 @@ function InformeIngresosDeChatarra() {
                         consultaInfoAnterior(e.value, 2);
                         dataGrid.clearFilter();
                     }
-                    //let filterValues = dataGrid.columnOption("Tipo_Cliente", "filterValues");
-                    //console.log("fil:" + filterValues);
                 },
             });
+            //$('#selecTipoIngreso').dxSelectBox({
+            //    dataSource: tipoIngreso,
+            //    value: tipoIngreso[0],
+            //    onValueChanged(data) {
+            //        if (data.value === 'Todos') {
+            //            valorTempCantProm = 0;
+            //            consultaInfoAnterior(data.value, 2);
+            //            dataGrid.clearFilter();
+            //        } else {
+            //            valorTempCantProm = 1;
+            //            dataGrid.filter(['Tipo_Ingreso', '=', data.value]);
+            //            consultaInfoAnterior(data.value, 2);
+            //        }
+            //    },
+            //});
             $('#selecTipoCliente').dxSelectBox({
                 dataSource: tipoCliente,
                 value: tipoCliente[0],

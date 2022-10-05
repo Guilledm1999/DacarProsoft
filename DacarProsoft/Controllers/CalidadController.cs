@@ -1680,7 +1680,7 @@ namespace DacarProsoft.Controllers
           
             pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaEvent));
 
-            document.SetMargins(92, 36, 110, 36);
+            document.SetMargins(92, 36, 135, 36);
             var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
 
@@ -1690,7 +1690,7 @@ namespace DacarProsoft.Controllers
             HeaderHandler headerHandler = new HeaderHandler();
             pdf.AddEventHandler(PdfDocumentEvent.START_PAGE, headerHandler);
 
-            Paragraph header = new Paragraph("REPORTE DE LIBERACION DEL PRODUCTO")
+            Paragraph header = new Paragraph("REPORTE DE LIBERACION DE PRODUCTO DE EXPORTACION")
                 .SetTextAlignment(TextAlignment.CENTER)
                 .SetFontSize(14).SetBold();
             PdfFont font = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);
@@ -1854,7 +1854,6 @@ namespace DacarProsoft.Controllers
             try
             {
                 daoCalidad = new DaoCalidad();
-
                 var Result = daoCalidad.ListadoCabeceraOrdenesVentasSap();
                 return Json(Result, JsonRequestBehavior.AllowGet);
             }
@@ -2121,7 +2120,7 @@ namespace DacarProsoft.Controllers
 
             pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaEvent));
 
-            document.SetMargins(92, 36, 110, 36);
+            document.SetMargins(92, 36, 135, 36);
             var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
 
@@ -2131,7 +2130,7 @@ namespace DacarProsoft.Controllers
             HeaderHandler headerHandler = new HeaderHandler();
             pdf.AddEventHandler(PdfDocumentEvent.START_PAGE, headerHandler);
 
-            Paragraph header = new Paragraph("REPORTE DE LIBERACION DEL PRODUCTO")
+            Paragraph header = new Paragraph("REPORTE DE LIBERACION DE PRODUCTO LOCAL")
                 .SetTextAlignment(TextAlignment.CENTER)
                 .SetFontSize(14).SetBold();
             PdfFont font = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);

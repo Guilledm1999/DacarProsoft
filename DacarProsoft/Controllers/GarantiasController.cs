@@ -93,17 +93,21 @@ namespace DacarProsoft.Controllers
         {
             var clienteCorregido = cliente.Replace("\"", "");
             string filename2 = null;
+            string filename = null;
             string destinoImg2 = null;
+            string destinoImg1 = null;
             try
             {
                 daoGarantias = new DaoGarantias();
-                            
-                string filename = Path.GetExtension(ImgFac.FileName);
 
-                var destinationPath = Path.Combine(Server.MapPath("~/Images/ImagenesGarantias/Facturas/"), numeroFactura + "-"+numeroGarantia+"-"+cedula);
-                ImgFac.SaveAs(destinationPath + filename);
-
-                string destinoImg1 = numeroFactura + "-" + numeroGarantia + "-" + cedula + filename;
+                if (ImgFac != null)
+                {
+                    filename = Path.GetExtension(ImgFac.FileName);
+                    var destinationPath = Path.Combine(Server.MapPath("~/Images/ImagenesGarantias/Facturas/"), numeroFactura + "-" + numeroGarantia + "-" + cedula);
+                    ImgFac.SaveAs(destinationPath + filename);
+                    destinoImg1 = numeroFactura + "-" + numeroGarantia + "-" + cedula + filename;
+                }
+                    
 
                 if (ImgTest!=null) {
                     filename2 = Path.GetExtension(ImgTest.FileName);

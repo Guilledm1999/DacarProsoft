@@ -835,6 +835,7 @@
     <Content Include="Styles\css\font-awesome.css" />
     <Content Include="Styles\css\style.css" />
     <Content Include="Styles\images\bg.jpg" />
+    <Content Include="Styles\images\FondoDacar.jpg" />
     <Content Include="Styles\Local\bootstrapLocal.min.css" />
     <Content Include="Styles\Local\bootstrapLocal.min.js" />
     <Content Include="Styles\Local\jqueryLocal.min.js" />

@@ -3,7 +3,6 @@
     window.location.hash = "no-back-button";
     window.location.hash = "Again-No-back-button";
     window.onhashchange = function () { window.location.hash = ""; }
-
 </script>
 @{
     ViewBag.Title = "Login";
@@ -64,7 +63,7 @@
 <!--copyright-->
 <div class="copy-wthree">
     <p>
-        © 2020 Dacar . All Rights Reserved | Design by Alexander Morán
+        © @DateTime.Now.Year Dacar . All Rights Reserved | Design by Alexander Morán
         <a href="http://bateriasdacar.com/" target="_blank">Industrias Dacar</a>
     </p>
 </div>

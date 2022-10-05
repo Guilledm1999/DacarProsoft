@@ -59,9 +59,9 @@ function RevisionesTecnicas() {
                 showColumnLines: true,
                 rowAlternationEnabled: false,
                 showRowLines: true,
-                //paging: {
-                //    pageSize: 10
-                //},
+                paging: {
+                    pageSize: 10
+                },
                 //selection: {
                 //    mode: 'multiple'
                 //},
@@ -73,22 +73,22 @@ function RevisionesTecnicas() {
                 loadPanel: {
                     enabled: false,
                 },
-                scrolling: {
-                    mode: 'infinite',
-                },
+                //scrolling: {
+                //    mode: 'infinite',
+                //},
                 //sorting: {
                 //    mode: 'none',
                 //},
                 headerFilter: {
                     visible: true
                 },
-                //pager: {
-                //    visible: true,
-                //    allowedPageSizes: [5, 10, 50],
-                //    showPageSizeSelector: true,
-                //    showInfo: true,
-                //    showNavigationButtons: true
-                //},
+                pager: {
+                    visible: true,
+                    allowedPageSizes: [5, 10, 50],
+                    showPageSizeSelector: true,
+                    showInfo: true,
+                    showNavigationButtons: true
+                },
                 searchPanel : {
                     visible: true,
                     width: 240,
