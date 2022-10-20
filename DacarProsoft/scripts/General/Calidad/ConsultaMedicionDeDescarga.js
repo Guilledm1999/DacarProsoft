@@ -344,6 +344,7 @@ function ConsultaDetalleRegistrosMedicionesDescarga(modelo) {
 
 function ChartDetalleAutodescarga(datos,modelo) {
     $("#lblDetalleMedicionDescarga").text("Registros de Autodescargas " + modelo);
+    const noTruncarDecimales = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
 
             if (char != null) {
                 char.destroy();
@@ -383,7 +384,10 @@ function ChartDetalleAutodescarga(datos,modelo) {
                         yAxes: [{
                             ticks: {
                                 fixedStepSize: 1,
-                                beginAtZero: true,
+                                beginAtZero: false,
+                                callback: function (valor, index, valores) {
+                                    return Number(valor).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                }
                             },
                             scaleLabel: {
                                 display: true,
@@ -399,6 +403,14 @@ function ChartDetalleAutodescarga(datos,modelo) {
                             },
                             display: false,
                         }],
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, chart) {
+                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                return datasetLabel + " " + (tooltipItem.yLabel).toLocaleString('en-US', noTruncarDecimales);
+                            }
+                        }
                     },
                     interaction: {
                         intersect: false,

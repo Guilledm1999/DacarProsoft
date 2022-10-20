@@ -27,9 +27,10 @@ namespace DacarDatos.Datos
         public Nullable<decimal> Voltaje { get; set; }
         public Nullable<decimal> DatoTeoricoPrueba { get; set; }
         public Nullable<decimal> ResultadoFinal { get; set; }
-        public Nullable<decimal> rendimiento { get; set; }
+        public Nullable<decimal> Rendimiento { get; set; }
         public string Observaciones { get; set; }
-        public Nullable<int> TipoPruebaCCA { get; set; }
-        public string NumeroOrden { get; set; }
+        public string RutaAnexo { get; set; }
+        public Nullable<System.DateTime> FechaRegistro { get; set; }
+        public Nullable<int> CodigoBateria { get; set; }
     }
 }

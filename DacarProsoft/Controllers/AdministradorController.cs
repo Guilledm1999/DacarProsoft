@@ -179,7 +179,6 @@ namespace DacarProsoft.Controllers
                 daoAdministrar = new DaoAdministrar();
                 daoIngreso = new DaoIngresoMercanciasSap();
                 var result = daoAdministrar.ConsultarHistoricoChatarra();
-
                 if (result.Count == 0)
                 {
                     var result1 = daoIngreso.ResumenAnioPosteriorCategoriaChatarra((DateTime.Now.Year - 1));
@@ -192,19 +191,16 @@ namespace DacarProsoft.Controllers
                 {
                     var result3 = daoAdministrar.EliminarHistoricoChatarra();
                     var result1 = daoIngreso.ResumenAnioPosteriorCategoriaChatarra((DateTime.Now.Year - 1));
-
                     foreach (var x in result1)
                     {
                         var result2 = daoAdministrar.IngresarHistoricoChatarra(x.mes, x.cantidad, x.peso, x.precio, x.tipoIngreso);
                     }
-
                 }
                 return true;
             }
             catch {
                 return false;
             }      
-
         }
     }
 }

@@ -416,7 +416,7 @@ namespace DacarProsoft.Controllers
                 }
                 if (valor == 2)
                 {
-                    result = daoCalidad.ObtenerCCABateria(modelo);
+                    result = Convert.ToString(daoCalidad.ObtenerCCABateria(modelo));
                 }
                 if (valor == 3)
                 {
@@ -860,7 +860,6 @@ namespace DacarProsoft.Controllers
         {
             Session["Grafico"] = chart;
             Session["Registros"] = registros;
-
             return null;
         }
 
@@ -1410,50 +1409,6 @@ namespace DacarProsoft.Controllers
                 return ex.Message;
             }
         }
-        public ActionResult IngresosPruebasCCALocal()
-        {
-            if (Session["usuario"] != null)
-            {
-                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
-                ViewBag.dxdevweb = "1";
-
-                ViewBag.MenuAcceso = Session["Menu"];
-
-                //ConexionAccess conexion = new ConexionAccess();
-
-                daoUtilitarios = new DaoUtilitarios();
-                daoCalidad = new DaoCalidad();
-
-                var datModelosMarcasPropias = daoCalidad.ConsultarModelosMarcasPropias();
-
-                var datMarcas = daoCalidad.MarcaBateria();
-                var datTipoNorma = daoCalidad.TipoNorma();
-                var Normativa = daoCalidad.Normativa();
-                var datSeparador = daoCalidad.Separador();
-                var datTipoEnsayo = daoCalidad.TipoEnsayo();
-
-                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
-                ViewBag.MenuPrincipal = datMenu;
-                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
-                ViewBag.MenuOpciones = datMenuOpciones;
-                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
-                ViewBag.SubMenuOpciones = datSubMenuOpciones;
-
-                ViewBag.MarcasPropias = datModelosMarcasPropias;
-
-                ViewBag.datMarcas = datMarcas;
-                ViewBag.datTipoNorma = datTipoNorma;
-                ViewBag.Normativa = Normativa;
-                ViewBag.datSeparador = datSeparador;
-                ViewBag.datTipoEnsayo = datTipoEnsayo;
-
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
-        }
         public int ConsultarCodigoRegistroPruebaCCALocal()
         {
             try
@@ -1463,6 +1418,22 @@ namespace DacarProsoft.Controllers
 
                 return result;
                 //return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public int ConsultarCCATeorico(string modelo)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                int result = daoCalidad.ObtenerCCABateria(modelo);
+
+                return result;
 
             }
             catch (Exception ex)
@@ -2212,6 +2183,541 @@ namespace DacarProsoft.Controllers
             stream.Write(bytesStreams, 0, bytesStreams.Length);
             stream.Position = 0;
             return new FileStreamResult(stream, "application/pdf");
+        }
+        public ActionResult ReporteLiberadosLocales()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                //ConexionAccess conexion = new ConexionAccess();
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ObtenerReporteLiberadosLocales()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+
+                var Result = daoCalidad.ReporteLiberadosLocales();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public ActionResult IngresosPruebasCCALocal()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                //ConexionAccess conexion = new ConexionAccess();
+
+                daoUtilitarios = new DaoUtilitarios();
+                daoCalidad = new DaoCalidad();
+
+                var datModelosMarcasPropias = daoCalidad.ConsultarModelosMarcasPropias();
+                var datMarcas = daoCalidad.MarcaBateria();
+                var datSeparador = daoCalidad.Separador();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                ViewBag.MenuPrincipal = datMenu;
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                ViewBag.MenuOpciones = datMenuOpciones;
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+
+                ViewBag.MarcasPropias = datModelosMarcasPropias;
+                ViewBag.datMarcas = datMarcas;
+                ViewBag.datSeparador = datSeparador;
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        public bool RegistrarPruebasLaboratorioCCA(DateTime FechaIngreso, int CodigoIngreso, string TipoBateria, string ModeloBateria, string Separador, string LoteEnsamble, string LoteCarga, decimal Temperatura,
+            decimal Peso, decimal Voltaje, decimal DatoTeorico, decimal Resultado, decimal Rendimiento, string Observaciones, HttpPostedFileBase[] archivos, int CodigoBateria)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                string rutaAnexo = "";
+
+                string path = Path.Combine(Server.MapPath("~/Images/AnexosCCA/"));
+
+                if (archivos != null)
+                {           
+                    string filename = Path.GetExtension(archivos[0].FileName);
+                    string nombreArchivo = Path.GetFileNameWithoutExtension(archivos[0].FileName);
+                    archivos[0].SaveAs(path + CodigoIngreso + "-" + nombreArchivo + filename);
+                    rutaAnexo = CodigoIngreso + "-" + nombreArchivo + filename;
+                }
+                
+                var result = daoCalidad.IngresarPruebaLaboratorioCCA(FechaIngreso, CodigoIngreso, TipoBateria, ModeloBateria, Separador, LoteEnsamble, LoteCarga, Temperatura,
+                Peso, Voltaje, DatoTeorico, Resultado, Rendimiento, Observaciones, rutaAnexo, CodigoBateria);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+
+            }
+        }
+        public ActionResult ConsultarPruebasCCALocal()
+        {
+            if (Session["usuario"] != null)
+            {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
+
+                ViewBag.MenuAcceso = Session["Menu"];
+
+                daoUtilitarios = new DaoUtilitarios();
+
+                var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
+                var datMenuOpciones = daoUtilitarios.ConsultarMenuOpciones();
+                var datSubMenuOpciones = daoUtilitarios.ConsultarSubMenuOpciones();
+
+                ViewBag.MenuPrincipal = datMenu;
+                ViewBag.MenuOpciones = datMenuOpciones;
+                ViewBag.SubMenuOpciones = datSubMenuOpciones;
+              
+
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        public JsonResult ConsultarRegistrosPruebasCCALaboratorio()
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                var result = daoCalidad.ConsultarPruebasCCALaboratorio();
+               
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public ActionResult GenerarPdfReporteCCaLocales(decimal Nominal)
+        {
+            string valoview = Session["Grafico"].ToString();
+            List<ModelPruebaLaboratorioCalidadCCA> lst = new List<ModelPruebaLaboratorioCalidadCCA>();
+            var valor = (List<ModelPruebaLaboratorioCalidadCCA>)Session["Registros"];
+            decimal Peso = 0;
+            decimal Voltaje = 0;
+            decimal ValorObjetivo = 0;
+            decimal ResultadoFinal = 0;
+            decimal Calificacion = 0;
+            decimal Temperatura = 0;
+            int contador = 0;
+            iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
+
+            //Session["Registros"]
+            //try
+            //{
+            var base64arr = valoview.Split(',');
+            Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER);
+            byte[] bytes = Convert.FromBase64String(base64arr[1]);
+
+            MemoryStream stream = new MemoryStream();
+            PdfWriter writer = new PdfWriter(stream);
+
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4, true);
+            iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
+             .Create(bytes))
+             .SetTextAlignment(TextAlignment.CENTER).SetWidth(480).SetHeight(240).SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            document.SetMargins(112, 36, 90, 36);
+
+            Paragraph header = new Paragraph("ANÁLISIS PRUEBAS LABORATORIO ")
+         .SetTextAlignment(TextAlignment.CENTER)
+         .SetFontSize(16).SetBold();
+            Paragraph TipoEnsayo = new Paragraph("Tipo de ensayo: CCA | " + "Modelo de bateria: " + valor[0].Modelo)
+    .SetTextAlignment(TextAlignment.CENTER)
+    .SetFontSize(14);
+
+            string tipEnsayo = "CCA";
+
+           
+
+            var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
+            iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
+
+
+            float[] columnWidth2 = { 60f, 55f,55f, 65f, 55f, 55f, 55f };
+            Table tabla2 = new Table(columnWidth2);
+
+            tabla2.AddCell(new Cell(1, 9).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE PRUEBAS DE LABORATORIO").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Código").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Separador").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Ensamble").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Carga").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado" + tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            foreach (var x in valor)
+            {
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.FechaPrueba).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.CodigoIngreso).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.Separador).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.LoteEnsamble).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.LoteCarga).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.Voltaje).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.ResultadoFinal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+             
+                if (x.Peso != null)
+                {
+                    Peso = Peso + x.Peso.Value;
+                }
+                if (x.Voltaje != null)
+                {
+                    Voltaje = Voltaje + x.Voltaje.Value;
+                }
+                if (x.DatoTeoricoPrueba != null)
+                {
+                    ValorObjetivo = ValorObjetivo + Convert.ToDecimal(x.DatoTeoricoPrueba);
+                }
+                if (x.ResultadoFinal != null)
+                {
+                    ResultadoFinal = ResultadoFinal + x.ResultadoFinal.Value;
+                }
+                if (x.Rendimiento != null)
+                {
+                    Calificacion = Calificacion + x.Rendimiento.Value;
+                }
+                if (x.Temperatura != null)
+                {
+                    Temperatura = Temperatura + x.Temperatura.Value;
+                }
+
+
+                contador = contador + 1;
+            }
+
+            if ((Calificacion / contador) > 90)
+            {
+                var pathVistoBueno = System.IO.Path.Combine(Server.MapPath("~/Images/Visto_Bueno.png"));
+                iText.Layout.Element.Image VistoBueno = new iText.Layout.Element.Image(ImageDataFactory.Create(pathVistoBueno));
+                //PdfFont font = PdfFontFactory.CreateFont(FONT, iText.IO.Font.PdfEncodings.IDENTITY_H);
+                VistoBueno.SetFixedPosition(435, 585);
+                ////img.SetFixedPosition(25, 100);
+                VistoBueno.SetHeight(10);
+                VistoBueno.SetWidth(10);
+                document.Add(VistoBueno);
+
+            }
+            else
+            {
+                var pathVistoBueno = System.IO.Path.Combine(Server.MapPath("~/Images/xmal.png"));
+                iText.Layout.Element.Image VistoBueno = new iText.Layout.Element.Image(ImageDataFactory.Create(pathVistoBueno));
+                //PdfFont font = PdfFontFactory.CreateFont(FONT, iText.IO.Font.PdfEncodings.IDENTITY_H);
+                VistoBueno.SetFixedPosition(435, 585);
+                ////img.SetFixedPosition(25, 100);
+                VistoBueno.SetHeight(10);
+                VistoBueno.SetWidth(10);
+                document.Add(VistoBueno);
+
+            }
+
+            float[] columnWidth = { 100f, 102f, 106f};
+            Table tabla = new Table(columnWidth);
+
+            tabla.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("PROMEDIOS GENERALES").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso(kg)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje(OCV)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Temperatura").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Peso / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Voltaje / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Temperatura / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Nominal").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado Final" + tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Calificación").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Nominal / contador, 3)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(ResultadoFinal / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+            tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Calificacion / contador, 1) + "%").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+           
+
+            document.Add(header);
+            document.Add(TipoEnsayo);
+            document.Add(tabla.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+            document.Add(Espacio);
+            document.Add(img);
+            document.Add(Espacio);
+            document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+
+            document.Close();
+
+
+            byte[] bytesStreams = stream.ToArray();
+            stream = new MemoryStream();
+            stream.Write(bytesStreams, 0, bytesStreams.Length);
+            stream.Position = 0;
+
+            return new FileStreamResult(stream, "application/pdf");
+        }
+
+        public string GuardarViewBagTempPruebasCCA(string chart, List<ModelPruebaLaboratorioCalidadCCA> registros)
+        {
+            Session["Grafico"] = chart;
+            Session["Registros"] = registros;
+            return null;
+        }
+        public string EnviarPdfReporteCCALocal(decimal Nominal, string Correo, string CorreoCopia)
+        {
+            try
+            {
+                daoUtilitarios = new DaoUtilitarios();
+                string valoview = Session["Grafico"].ToString();
+                List<ModelPruebaLaboratorioCalidadCCA> lst = new List<ModelPruebaLaboratorioCalidadCCA>();
+                var valor = (List<ModelPruebaLaboratorioCalidadCCA>)Session["Registros"];
+                decimal Peso = 0;
+                decimal Voltaje = 0;
+                decimal ValorObjetivo = 0;
+                decimal ResultadoFinal = 0;
+                decimal Calificacion = 0;
+                decimal Temperatura = 0;
+
+                int contador = 0;
+
+                string DirCorreo = "";
+                string ClavCorreo = "";
+                iText.Kernel.Colors.Color lineColor = new DeviceRgb(164, 164, 164);
+
+                //Session["Registros"]
+                //try
+                //{
+                var base64arr = valoview.Split(',');
+                Paragraph Espacio = new Paragraph(" ").SetTextAlignment(TextAlignment.CENTER);
+                byte[] bytes = Convert.FromBase64String(base64arr[1]);
+
+                MemoryStream stream = new MemoryStream();
+                PdfWriter writer = new PdfWriter(stream);
+
+                PdfDocument pdf = new PdfDocument(writer);
+                Document document = new Document(pdf, iText.Kernel.Geom.PageSize.A4, true);
+                iText.Layout.Element.Image img = new iText.Layout.Element.Image(ImageDataFactory
+                 .Create(bytes))
+                 .SetTextAlignment(TextAlignment.CENTER).SetWidth(480).SetHeight(240).SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+                document.SetMargins(112, 36, 90, 36);
+
+                Paragraph header = new Paragraph("ANÁLISIS PRUEBAS LABORATORIO ")
+             .SetTextAlignment(TextAlignment.CENTER)
+             .SetFontSize(16).SetBold();
+                Paragraph TipoEnsayo = new Paragraph("Tipo de ensayo: CCA | " + "Modelo de bateria: " + valor[0].Modelo)
+        .SetTextAlignment(TextAlignment.CENTER)
+        .SetFontSize(14);
+
+                string tipEnsayo = "CCA";
+
+
+
+                var path = System.IO.Path.Combine(Server.MapPath("~/Images/HojaMembretada.jpg"));
+                iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path))/*.SetOpacity(0.1f)*/;
+                pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new BackgroundPageEvent(BackPack));
+
+
+                float[] columnWidth2 = { 60f, 55f, 55f, 65f, 55f, 55f, 55f };
+                Table tabla2 = new Table(columnWidth2);
+
+                tabla2.AddCell(new Cell(1, 9).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("REGISTROS DE PRUEBAS DE LABORATORIO").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Fecha").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Código").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Separador").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Ensamble").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("L. Carga").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado" + tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+                foreach (var x in valor)
+                {
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.FechaPrueba).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.CodigoIngreso).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.Separador).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.LoteEnsamble).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.LoteCarga).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.Voltaje).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                    tabla2.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + x.ResultadoFinal).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+                    if (x.Peso != null)
+                    {
+                        Peso = Peso + x.Peso.Value;
+                    }
+                    if (x.Voltaje != null)
+                    {
+                        Voltaje = Voltaje + x.Voltaje.Value;
+                    }
+                    if (x.DatoTeoricoPrueba != null)
+                    {
+                        ValorObjetivo = ValorObjetivo + Convert.ToDecimal(x.DatoTeoricoPrueba);
+                    }
+                    if (x.ResultadoFinal != null)
+                    {
+                        ResultadoFinal = ResultadoFinal + x.ResultadoFinal.Value;
+                    }
+                    if (x.Rendimiento != null)
+                    {
+                        Calificacion = Calificacion + x.Rendimiento.Value;
+                    }
+                    if (x.Temperatura != null) {
+                        Temperatura = Temperatura + x.Temperatura.Value;
+                    }
+
+
+                    contador = contador + 1;
+                }
+
+                if ((Calificacion / contador) > 90)
+                {
+                    var pathVistoBueno = System.IO.Path.Combine(Server.MapPath("~/Images/Visto_Bueno.png"));
+                    iText.Layout.Element.Image VistoBueno = new iText.Layout.Element.Image(ImageDataFactory.Create(pathVistoBueno));
+                    //PdfFont font = PdfFontFactory.CreateFont(FONT, iText.IO.Font.PdfEncodings.IDENTITY_H);
+                    VistoBueno.SetFixedPosition(435, 585);
+                    ////img.SetFixedPosition(25, 100);
+                    VistoBueno.SetHeight(10);
+                    VistoBueno.SetWidth(10);
+                    document.Add(VistoBueno);
+
+                }
+                else
+                {
+                    var pathVistoBueno = System.IO.Path.Combine(Server.MapPath("~/Images/xmal.png"));
+                    iText.Layout.Element.Image VistoBueno = new iText.Layout.Element.Image(ImageDataFactory.Create(pathVistoBueno));
+                    //PdfFont font = PdfFontFactory.CreateFont(FONT, iText.IO.Font.PdfEncodings.IDENTITY_H);
+                    VistoBueno.SetFixedPosition(435, 585);
+                    ////img.SetFixedPosition(25, 100);
+                    VistoBueno.SetHeight(10);
+                    VistoBueno.SetWidth(10);
+                    document.Add(VistoBueno);
+
+                }
+
+                float[] columnWidth = { 100f, 102f, 106f };
+                Table tabla = new Table(columnWidth);
+
+                tabla.AddCell(new Cell(1, 4).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("PROMEDIOS GENERALES").SetFontSize(10)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(iText.Layout.Borders.Border.NO_BORDER));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Peso(kg)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Voltaje(OCV)").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Temperatura").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Peso / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Voltaje / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Temperatura / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Valor Nominal").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Resultado Final" + tipEnsayo).SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Calificación").SetFontSize(9)).SetBold().SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Nominal / contador, 3)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(ResultadoFinal / contador, 2)).SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+                tabla.AddCell(new Cell().SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + Decimal.Round(Calificacion / contador, 1) + "%").SetFontSize(9)).SetHeight(16f).SetHeight(12f).SetBorder(new SolidBorder(lineColor, 1)));
+
+
+
+
+                document.Add(header);
+                document.Add(TipoEnsayo);
+                document.Add(tabla.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+                document.Add(Espacio);
+                document.Add(img);
+                document.Add(Espacio);
+                document.Add(tabla2.SetHorizontalAlignment(HorizontalAlignment.CENTER));
+                document.Close();
+
+                byte[] bytesStreams = stream.ToArray();
+                stream = new MemoryStream();
+                stream.Write(bytesStreams, 0, bytesStreams.Length);
+                stream.Position = 0;
+
+                var CorreoBase = daoUtilitarios.ConsultarCorreoElectronico();
+
+
+                foreach (var x in CorreoBase)
+                {
+                    DirCorreo = x.DireccionCorreo;
+                    ClavCorreo = x.ClaveCorreo;
+                }
+
+                //foreach (var address in addresses.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+                //{
+                //    mailMessage.To.Add(address);
+                //}
+
+                MailMessage mm = new MailMessage("bateriasdacar1975@gmail.com", Correo);
+                mm.Subject = "ANALISIS PRUEBAS LABORATORIO CCA";
+
+                //MailAddress copy = new MailAddress("Notification_List@contoso.com");
+                mm.CC.Add(CorreoCopia);
+
+                mm.Body = "Resultado de ensayo de baterias " + valor[0].Modelo + ", con fecha: " + DateTime.Now;
+                mm.Attachments.Add(new Attachment(new MemoryStream(bytesStreams), "PruebaLaboratorio" + valor[0].Modelo + ".pdf"));
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 25;
+                smtp.EnableSsl = true;
+                NetworkCredential NetworkCred = new NetworkCredential();
+                NetworkCred.UserName = DirCorreo;
+                NetworkCred.Password = ClavCorreo;
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+
+                smtp.Send(mm);
+                return "El envío fue realizado con éxito!";
+            }
+            catch (Exception ex)
+            {
+                //throw new Exception("No se ha podido enviar el email", ex.InnerException);
+                return ex.Message;
+            }
         }
     }
 }

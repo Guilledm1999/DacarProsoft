@@ -1195,6 +1195,7 @@
           <Property Name="U_U_DAC_ASOLICITANTE" Type="nvarchar" MaxLength="10" />
           <Property Name="U_MV_LATITUD" Type="nvarchar" MaxLength="20" />
           <Property Name="U_MV_LONGITUD" Type="nvarchar" MaxLength="20" />
+          <Property Name="U_DC_LineCare" Type="nvarchar" MaxLength="2" />
         </EntityType>
         <EntityType Name="OCRG">
           <Key>
@@ -5284,6 +5285,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <Property Name="U_U_DAC_ASOLICITANTE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="U_MV_LATITUD" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="U_MV_LONGITUD" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="U_DC_LineCare" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="vConsultaArticulos">
           <Key>
@@ -9644,6 +9646,7 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
           <EntitySetMapping Name="OCRD">
             <EntityTypeMapping TypeName="SBODACARPRODModel.OCRD">
               <MappingFragment StoreEntitySet="OCRD">
+                <ScalarProperty Name="U_DC_LineCare" ColumnName="U_DC_LineCare" />
                 <ScalarProperty Name="U_MV_LONGITUD" ColumnName="U_MV_LONGITUD" />
                 <ScalarProperty Name="U_MV_LATITUD" ColumnName="U_MV_LATITUD" />
                 <ScalarProperty Name="CardCode" ColumnName="CardCode" />

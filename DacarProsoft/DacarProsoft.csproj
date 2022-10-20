@@ -780,12 +780,14 @@
     <Content Include="scripts\General\Articulos\ConsultarArticulos.js" />
     <Content Include="scripts\General\Calidad\ConsultaMedicionDeDescarga.js" />
     <Content Include="scripts\General\Calidad\ConsultaPruebasLaboratorio.js" />
+    <Content Include="scripts\General\Calidad\ConsultarPruebasCCALocal.js" />
     <Content Include="scripts\General\Calidad\IngresosMedicionDeDescarga.js" />
     <Content Include="scripts\General\Calidad\IngresosPruebasCCALocal.js" />
     <Content Include="scripts\General\Calidad\IngresosPruebasLaboratorio.js" />
     <Content Include="scripts\General\Calidad\LiberacionProductoLocalRegistrados.js" />
     <Content Include="scripts\General\Calidad\LiberacionProductoLocal.js" />
     <Content Include="scripts\General\Calidad\LiberacionProductoExportacion.js" />
+    <Content Include="scripts\General\Calidad\ReporteLiberadosLocales.js" />
     <Content Include="scripts\General\Calidad\PackingListLiberadosLocales.js" />
     <Content Include="scripts\General\Calidad\PackingListLiberados.js" />
     <Content Include="scripts\General\Calidad\RegistrosVisuaLCN.js" />
@@ -926,11 +928,13 @@
     <Compile Include="Models\ModelAnalisisGarantia.cs" />
     <Compile Include="Models\ModelChartGarantias.cs" />
     <Compile Include="Models\ModeloPivotAnalisisGarantiasAnio.cs" />
+    <Compile Include="Models\ModelPruebaLaboratorioCalidadCCA.cs" />
     <Compile Include="Models\ModelPruebaLaboratorioCalidad.cs" />
     <Compile Include="Models\Moign.cs" />
     <Compile Include="Models\MdlOpdn.cs" />
     <Compile Include="Models\OrdenesProduccion.cs" />
     <Compile Include="Models\NumeroPallet.cs" />
+    <Compile Include="Models\LiberadosMediciones.cs" />
     <Compile Include="Models\PackingIngresados.cs" />
     <Compile Include="Models\PalletPackingCant.cs" />
     <Compile Include="Models\PedidoCabecera.cs" />
@@ -1312,6 +1316,8 @@
     <Content Include="Views\Calidad\LiberacionProductoLocal.cshtml" />
     <Content Include="Views\Calidad\LiberacionProductoLocalRegistrados.cshtml" />
     <Content Include="Views\Calidad\PackingListLiberadosLocales.cshtml" />
+    <Content Include="Views\Calidad\ReporteLiberadosLocales.cshtml" />
+    <Content Include="Views\Calidad\ConsultarPruebasCCALocal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1322,6 +1328,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\font-awesome-5.15.3\svgs\" />
+    <Folder Include="Images\AnexosCCA\" />
     <Folder Include="Images\AnexosLaboratorio\" />
     <Folder Include="Images\ImagenesGarantias\Facturas\" />
     <Folder Include="Images\ImagenesGarantias\Test\" />

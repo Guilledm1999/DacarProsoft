@@ -4,6 +4,7 @@
     <EntitySetMapping Name="OCRD">
       <EntityTypeMapping TypeName="SBODACARPRODModel.OCRD">
         <MappingFragment StoreEntitySet="OCRD">
+          <ScalarProperty Name="U_DC_LineCare" ColumnName="U_DC_LineCare" />
           <ScalarProperty Name="U_MV_LONGITUD" ColumnName="U_MV_LONGITUD" />
           <ScalarProperty Name="U_MV_LATITUD" ColumnName="U_MV_LATITUD" />
           <ScalarProperty Name="CardCode" ColumnName="CardCode" />

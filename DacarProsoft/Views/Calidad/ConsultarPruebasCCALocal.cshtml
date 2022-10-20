@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ConsultaPruebasLaboratorio";
+    ViewBag.Title = "ConsultarPruebasCCALocal";
     Layout = "~/Views/Compartida/_Layout.cshtml";
 }
 
@@ -48,7 +48,7 @@
 <br />
 <div class="card shadow align-top">
     <div class="card-header">
-        <h2> Registros de Pruebas de Laboratorio</h2>
+        <h2> Registros de Pruebas CCA de Laboratorio </h2>
     </div>
     <div class="card-body">
         <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
@@ -67,7 +67,11 @@
             <button id="LinkClose6" type="button" class="close">&times;</button>
             <strong>No se puede escoger diferentes tipos de ensayos para el analisis!</strong>
         </div>
-        <div id="MensajeRespuestaEnvio" class="alert alert-danger collapse">
+        <div id="MensajeSinImagenRegistrada" class="alert alert-danger collapse">
+            <button id="LinkClose9" type="button" class="close">&times;</button>
+            <strong>El análisis no tiene foto registrada!</strong>
+        </div>
+        <div id="MensajeRespuestaEnvio" class="alert alert-success collapse">
             <button id="LinkClose8" type="button" class="close">&times;</button>
             <strong></strong>
         </div>
@@ -75,27 +79,10 @@
             <div class="dx-viewport">
                 <div class="demo-container">
                     <div class="options">
-                        @*<div class="caption">Promedios:</div>*@
                         <div class="option">
                             <div id="column-lines"></div>
-                        </div>
-                        @*
-                            <div class="option">
-                                <div id="row-lines"></div>
-                            </div>
-                            <div class="option">
-                                <div id="show-borders"></div>
-                            </div>
-                            <div class="option">
-                                <div id="row-alternation"></div>
-                            </div>*@
+                        </div>                 
                     </div>
-
-                    @*<div id="ContenidoDiv">
-                            <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
-                        </div>*@
-
-
                     <div id="tblPruebasLaboratorioRegistrados"> </div>
                     <button type="button" class="btn btn-primary" onclick="ChartResumenesGarantias();">Resultados</button>
                 </div>
@@ -206,25 +193,15 @@
                                     </div>
 
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="formGroupExampleInput">CCA(Electronic Tester)</label>
-                                        <input type="text" class="form-control" id="txtPromedioCCA" placeholder="CCA" readonly>
-                                    </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label for="formGroupExampleInput">Densidad Promedio</label>
-                                        <input type="text" class="form-control" id="txtDensidadPromedio" placeholder="Valor Objetivo" readonly>
-                                    </div>
-                                </div>
                                 <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="formGroupExampleInput2">Temperatura</label>
+                                        <input type="text" class="form-control" id="txtTemperatura" placeholder="Resultado Final" readonly>
+                                    </div>
                                     <div class="form-group col-md-6">
                                         <label for="formGroupExampleInput2">Valor Nominal</label>
                                         <input type="text" class="form-control" id="txtValorNominal" placeholder="Resultado Final" readonly>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="formGroupExampleInput">Valor Minimo</label>
-                                        <input type="text" class="form-control" id="txtValorObjetivo" placeholder="Valor Objetivo" readonly>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -290,8 +267,40 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
+
+    </div>
+</div>
+<div id="ModalImagenReferencia" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblFotoPrueba">Foto de prueba realizada</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                    </div>
+
+                    <div class="col-sm-8">
+                        <div align='center'>
+                            <img style="max-width:120%;width:auto;height:auto" id="ImagenPruebaLaboratorio">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <input type="hidden" id="txtNumeroPromedioNominal" />
+

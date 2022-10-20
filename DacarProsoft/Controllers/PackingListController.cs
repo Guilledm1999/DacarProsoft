@@ -1318,7 +1318,7 @@ namespace DacarProsoft.Controllers
                         polaridad = daoOrdenesVentas.ConsultarPolaridad(y.ItemCode);
                         generico = daoOrdenesVentas.ConsultarGenerico(y.ItemCode);
 
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.PalletNumber).SetFontSize(7)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + x.PalletNumber).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         tabla2.AddCell(new Cell().Add(new Paragraph("" + nombreForaneo).SetFixedLeading(8).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         tabla2.AddCell(new Cell().Add(new Paragraph("" + generico).SetFixedLeading(8).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFixedLeading(10).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
@@ -1346,8 +1346,8 @@ namespace DacarProsoft.Controllers
                         if (i == 1)
                         {
                             tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.PalletNumber).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
-                            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + nombreForaneo).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
-                            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + generico).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + nombreForaneo).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                            tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + generico).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
                             tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
                             tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
                             tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.LargoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
@@ -1418,7 +1418,6 @@ namespace DacarProsoft.Controllers
         private class TableFooterEventHandler : IEventHandler
         {
             private Table table;
-
             public TableFooterEventHandler(Table table)
             {
                 this.table = table;

@@ -422,5 +422,6 @@ namespace DacarDatos.Datos
         public string U_U_DAC_ASOLICITANTE { get; set; }
         public string U_MV_LATITUD { get; set; }
         public string U_MV_LONGITUD { get; set; }
+        public string U_DC_LineCare { get; set; }
     }
 }

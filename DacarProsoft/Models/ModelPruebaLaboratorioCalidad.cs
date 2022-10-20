@@ -35,7 +35,5 @@ namespace DacarProsoft.Models
         public string FechaRegistro { get; set; }
         public int ContadorRegistros { get; set; }
         public string CodigoBateria { get; set; }
-
-
     }
 }

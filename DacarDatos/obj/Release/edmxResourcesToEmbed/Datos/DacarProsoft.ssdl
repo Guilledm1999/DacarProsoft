@@ -767,6 +767,7 @@
     <Property Name="FechaZarpe" Type="datetime" />
     <Property Name="FechaArribo" Type="datetime" />
     <Property Name="FechaEntrega" Type="datetime" />
+    <Property Name="NombreListaPrecio" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="PedidoClienteDetalle">
     <Key>
@@ -867,10 +868,11 @@
     <Property Name="Voltaje" Type="decimal" Precision="10" Scale="2" />
     <Property Name="DatoTeoricoPrueba" Type="decimal" Precision="10" Scale="2" />
     <Property Name="ResultadoFinal" Type="decimal" Precision="10" Scale="2" />
-    <Property Name="rendimiento" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="Rendimiento" Type="decimal" Precision="10" Scale="2" />
     <Property Name="Observaciones" Type="varchar" MaxLength="200" />
-    <Property Name="TipoPruebaCCA" Type="int" />
-    <Property Name="NumeroOrden" Type="varchar" MaxLength="100" />
+    <Property Name="RutaAnexo" Type="varchar" MaxLength="250" />
+    <Property Name="FechaRegistro" Type="datetime" />
+    <Property Name="CodigoBateria" Type="int" />
   </EntityType>
   <EntityType Name="RutaBasesAccessCalidad">
     <Key>

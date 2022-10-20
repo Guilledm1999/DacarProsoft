@@ -67,7 +67,7 @@ function ConsultarUsuariosPortal() {
                         dataField: "ReferenciaUsuario", caption: "Identificacion"
                     },
                     {
-                        dataField: "Validaciones", caption: "Sin Validaciones"
+                        dataField: "Validaciones", caption: "Validaciones"
                     },{
                         caption: "Actions",
                         cellTemplate: function (container, options) {

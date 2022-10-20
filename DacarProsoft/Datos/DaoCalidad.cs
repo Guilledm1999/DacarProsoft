@@ -287,7 +287,6 @@ namespace DacarProsoft.Datos
                     result.ValorObjetivo = ValorObjetivo;
                     result.ResultadoFinal = ResultadoFinal;
                     result.Observaciones = Observaciones;
-                    result.ResultadoFinal = ResultadoFinal;
                     result.Calificacion = Calificacion;
                     result.CodigoBateria = CodigoBateria;
                     result.FechaRegistro = DateTime.Now;
@@ -469,9 +468,9 @@ namespace DacarProsoft.Datos
             }
         }
 
-        public string ObtenerCCABateria(string modeloBateria)
+        public int ObtenerCCABateria(string modeloBateria)
         {
-            string result = "";
+            int result=0;
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
                 try
@@ -484,8 +483,9 @@ namespace DacarProsoft.Datos
                                        d.CCA
                                    }).FirstOrDefault();
 
-
-                    result = Listado.CCA;
+                    if (Listado!=null) {
+                        result = Convert.ToInt32(Listado.CCA);
+                    }
 
                     return result;
                 }
@@ -1489,8 +1489,9 @@ namespace DacarProsoft.Datos
             List<CabeceraOrdenVenta> lst = new List<CabeceraOrdenVenta>();
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
-                var ListadoCabeceraOrdenesVentas = from d in DB.ORDR
-                                                   where d.U_BPP_MDMT == "OFICINA" && d.DocDate >= fechaCorte && d.DocDate <= fechaActual
+                var ListadoCabeceraOrdenesVentas = from d in DB.ORDR join
+                                                   e in DB.OCRD on d.CardCode equals e.CardCode
+                                                   where d.U_BPP_MDMT == "OFICINA" && d.DocDate >= fechaCorte && d.DocDate <= fechaActual && e.U_DC_LineCare=="SI"
                                                    orderby d.DocDate descending
                                                    select new
                                                    {
@@ -1622,8 +1623,7 @@ namespace DacarProsoft.Datos
                                           d.NumeroDocumento,
                                           d.NumeroOrden,
                                           d.NombreCliente,
-                                          d.FechaRegistro,
-                                          
+                                          d.FechaRegistro,     
                                       };
                 foreach (var x in ListadoCabecera)
                 {
@@ -1672,7 +1672,6 @@ namespace DacarProsoft.Datos
                     Console.WriteLine(ex);
                     return Total;
                 }
-
             }
         }
         //modificar para obtener el detalle del pedido local
@@ -1693,7 +1692,6 @@ namespace DacarProsoft.Datos
                               };
                     foreach (var x in res)
                     {
-
                         lst.Add(new PalletPackingDetalle
                         {
                             PalletPackingDetalleId = x.PalletPackingDetalleId,
@@ -1712,7 +1710,6 @@ namespace DacarProsoft.Datos
         }
         public List<PalletPackingDetalle> ConsultarModelosPedidoMedicionesLocal(int cabecera)
         {
-
             List<PalletPackingDetalle> lst = new List<PalletPackingDetalle>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -1728,7 +1725,6 @@ namespace DacarProsoft.Datos
                               };
                     foreach (var x in res)
                     {
-
                         lst.Add(new PalletPackingDetalle
                         {
                             PalletPackingDetalleId = x.PackingDtlLocalId,
@@ -1747,7 +1743,6 @@ namespace DacarProsoft.Datos
         }
         public List<MedicionPalletPacking> ConsultarMedicionPalletLocal(int identificador)
         {
-
             List<MedicionPalletPacking> lst = new List<MedicionPalletPacking>();
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -1771,7 +1766,6 @@ namespace DacarProsoft.Datos
                               };
                     foreach (var x in res)
                     {
-
                         lst.Add(new MedicionPalletPacking
                         {
                             MedicionPalletPackingId = x.MedicionPalletPackingLocalId,
@@ -1979,6 +1973,170 @@ namespace DacarProsoft.Datos
                         CantidadPallet = 1,
                         FechaRegistro = fechaDocumento,
                         cantidadMediciones = cantMediciones
+                    });
+                }
+                return lst;
+            }
+        }
+        public List<LiberadosMediciones> ReporteLiberadosLocales()
+        {
+            CultureInfo ci = new CultureInfo("es-MX");
+            ci = new CultureInfo("es-MX");
+            TextInfo textInfo = ci.TextInfo;
+            List<LiberadosMediciones> lst = new List<LiberadosMediciones>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoCabecera = from d in DB.EncabezadoMedicionPalletLocal join
+                                      e in DB.MedicionPalletPackingLocal on d.EncabezadoMedicionPalletLocalId equals e.PackingId
+                                      orderby d.FechaRegistro descending
+                                      where d.Liberacion == true
+                                      select new
+                                      {
+                                          d.EncabezadoMedicionPalletLocalId,
+                                          d.DocEntry,
+                                          d.NumeroDocumento,
+                                          d.NumeroOrden,
+                                          d.NombreCliente,
+                                          d.FechaLiberacion,
+                                          e.MedicionPalletPackingLocalId,
+                                          e.NumeroMedicion,
+                                          e.NumeroLote,
+                                          e.Modelo,
+                                          e.Voltaje,
+                                          e.Limpieza,
+                                          e.Acabado,
+                                          e.nivel,
+                                          e.CCA,
+                                          e.FechaRegistro
+                                      };
+
+                foreach (var x in ListadoCabecera)
+                {
+                    DateTime fechaLib = Convert.ToDateTime(x.FechaLiberacion, CultureInfo.InvariantCulture);
+                    string fechaLiberacion = fechaLib.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime fechaDoc = Convert.ToDateTime(x.FechaLiberacion, CultureInfo.InvariantCulture);
+                    string fechaDocumento = fechaDoc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime fechaRegMed = Convert.ToDateTime(x.FechaLiberacion, CultureInfo.InvariantCulture);
+                    string fechaRegistroMedicion = fechaRegMed.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    lst.Add(new LiberadosMediciones
+                    {
+                        PackingId = x.EncabezadoMedicionPalletLocalId,
+                        DocEntry=x.DocEntry.Value,
+                        MedicionId=x.MedicionPalletPackingLocalId,
+                        NumeroDocumento = x.NumeroDocumento.Value,
+                        NumeroOrden = x.NumeroOrden,
+                        NombreCliente = x.NombreCliente,
+                        //FechaLiberacion = fechaLiberacion,
+                        //FechaDocumento=fechaDocumento,
+                        NumeroMedicion=x.NumeroMedicion.Value,
+                        NumeroLote=x.NumeroLote,
+                        Modelo=x.Modelo,
+                        Voltaje=x.Voltaje.Value,
+                        Limpieza=x.Limpieza.Value,
+                        Acabado=x.Acabado.Value,
+                        Nivel=x.nivel.Value,
+                        CCA=x.CCA.Value,
+                        FechaMedicion= fechaRegistroMedicion
+                    });
+                }
+                return lst;
+            }
+        }
+        public bool IngresarPruebaLaboratorioCCA(DateTime FechaIngreso, int CodigoIngreso, string TipoBateria, string ModeloBateria, string Separador, string LoteEnsamble, string LoteCarga, decimal Temperatura,
+            decimal Peso, decimal Voltaje, decimal DatoTeorico, decimal Resultado, decimal Rendimiento, string Observaciones, string RutaAnexo, int CodigoBateria)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new PruebasLaboratorioCCA();
+                    result.FechaPrueba = FechaIngreso;
+                    result.CodigoIngreso = CodigoIngreso;
+                    result.CodigoBateria = CodigoBateria;
+                    result.TipoBateria = TipoBateria;
+                    result.Modelo = ModeloBateria;
+                    result.Separador = Separador;
+                    result.LoteEnsamble = LoteEnsamble;
+                    result.LoteCarga = LoteCarga;
+                    result.Temperatura = Temperatura;
+                    result.Peso = Peso;
+                    result.Voltaje = Voltaje;      
+                    result.DatoTeoricoPrueba = DatoTeorico;
+                    result.ResultadoFinal = Resultado;
+                    result.Observaciones = Observaciones;
+                    result.Rendimiento = Rendimiento;
+                    result.RutaAnexo = RutaAnexo;
+                    result.FechaRegistro = DateTime.Now;
+                    DB.PruebasLaboratorioCCA.Add(result);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+        public List<ModelPruebaLaboratorioCalidadCCA> ConsultarPruebasCCALaboratorio()
+        {
+            string fechaIngreso;
+            string fechaRegistro;
+            List<ModelPruebaLaboratorioCalidadCCA> lst = new List<ModelPruebaLaboratorioCalidadCCA>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.PruebasLaboratorioCCA
+                               orderby d.FechaRegistro ascending
+                               orderby d.CodigoIngreso descending
+                               select new
+                               {
+                                   d.PruebasLaboratorioCCAId,
+                                   d.FechaPrueba,
+                                   d.CodigoIngreso,                                
+                                   d.TipoBateria,
+                                   d.Modelo,
+                                   d.Separador,
+                                   d.LoteEnsamble,
+                                   d.LoteCarga,
+                                   d.Peso,
+                                   d.Temperatura,
+                                   d.Voltaje,
+                                   d.DatoTeoricoPrueba,
+                                   d.ResultadoFinal,
+                                   d.Observaciones,
+                                   d.FechaRegistro,
+                                   d.CodigoBateria,
+                                   d.RutaAnexo,
+                                   d.Rendimiento,
+                               }).ToList();
+
+                foreach (var x in Listado.Distinct())
+                {
+                    DateTime fecha = Convert.ToDateTime(x.FechaPrueba, CultureInfo.InvariantCulture);
+                    fechaIngreso = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    DateTime fecha2 = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
+                    fechaRegistro = fecha2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    lst.Add(new ModelPruebaLaboratorioCalidadCCA
+                    {
+                        PruebasLaboratorioCCAId = x.PruebasLaboratorioCCAId,
+                        FechaPrueba = fechaIngreso,
+                        CodigoIngreso = x.CodigoIngreso,                     
+                        TipoBateria = x.TipoBateria,
+                        Modelo = x.Modelo,
+                        Separador = x.Separador,
+                        LoteEnsamble = x.LoteEnsamble,
+                        LoteCarga = x.LoteCarga,
+                        Peso = x.Peso,
+                        Voltaje = x.Voltaje,
+                        DatoTeoricoPrueba = Convert.ToString(Decimal.Round(Convert.ToDecimal(x.DatoTeoricoPrueba), 0)),
+                        ResultadoFinal = x.ResultadoFinal,
+                        Observaciones = x.Observaciones,
+                        FechaRegistro = fechaRegistro,
+                        CodigoBateria = x.CodigoBateria.ToString(),
+                        Temperatura=x.Temperatura,
+                        Rendimiento=x.Rendimiento,
+                        RutaAnexo=x.RutaAnexo
                     });
                 }
                 return lst;

@@ -96,7 +96,6 @@
         <AssociationConnector Association="DacarProsoftModel.fk_Packing" />
         <AssociationConnector Association="DacarProsoftModel.fk_PackingPallet" />
         <EntityTypeShape EntityType="DacarProsoftModel.GuiaPackingList" Width="1.5" PointX="3.375" PointY="25.75" />
-        <EntityTypeShape EntityType="DacarProsoftModel.PruebasLaboratorioCCA" Width="1.5" PointX="5.375" PointY="25.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.GenericosItem" Width="1.5" PointX="14.375" PointY="25.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.DireccionesClientes" Width="1.5" PointX="16.375" PointY="25.75" />
         <EntityTypeShape EntityType="DacarProsoftModel.MaestrosUtilitarios" Width="1.5" PointX="26.375" PointY="5.75" />
@@ -108,6 +107,7 @@
         <EntityTypeShape EntityType="DacarProsoftModel.PackingDtlLocal" Width="1.5" PointX="28.625" PointY="22" />
         <AssociationConnector Association="DacarProsoftModel.fk_DetalleDtl" />
         <EntityTypeShape EntityType="DacarProsoftModel.MedicionPalletPackingLocal" Width="1.5" PointX="26.375" PointY="25.75" />
+        <EntityTypeShape EntityType="DacarProsoftModel.PruebasLaboratorioCCA" Width="1.5" PointX="5.375" PointY="25.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

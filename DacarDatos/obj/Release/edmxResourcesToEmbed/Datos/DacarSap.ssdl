@@ -1190,6 +1190,7 @@
     <Property Name="U_U_DAC_ASOLICITANTE" Type="nvarchar" MaxLength="10" />
     <Property Name="U_MV_LATITUD" Type="nvarchar" MaxLength="20" />
     <Property Name="U_MV_LONGITUD" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DC_LineCare" Type="nvarchar" MaxLength="2" />
   </EntityType>
   <EntityType Name="OCRG">
     <Key>
