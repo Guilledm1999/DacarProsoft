@@ -23,6 +23,9 @@ using iText.Kernel.Geom;
 using System.Text;
 using System.Security.Cryptography;
 using System.Globalization;
+using Org.BouncyCastle.X509;
+using Org.BouncyCastle.Crypto;
+using iText.Signatures;
 
 namespace DacarProsoft.Controllers
 {
@@ -221,7 +224,6 @@ namespace DacarProsoft.Controllers
             {
                 Console.WriteLine(ex);
                 return 0;
-
             }
         }
         //Obtiene el detalle del pallet
@@ -632,7 +634,6 @@ namespace DacarProsoft.Controllers
                     AES.BlockSize = 128;
                     AES.Key = key.GetBytes(AES.KeySize / 8);
                     AES.IV = key.GetBytes(AES.BlockSize / 8);
-
                     AES.Mode = CipherMode.CBC;
 
                     using (var cs = new CryptoStream(ms, AES.CreateEncryptor(), CryptoStreamMode.Write))
@@ -762,7 +763,6 @@ namespace DacarProsoft.Controllers
 
             byte[] bytes = Convert.FromBase64String(CodigoQr);
 
-
             foreach (var x in Detalle)
             {
                 lst.Add(new ItemsPallet
@@ -773,12 +773,10 @@ namespace DacarProsoft.Controllers
                 });
             }
 
-
             MemoryStream stream = new MemoryStream();
             PdfWriter writer = new PdfWriter(stream);
 
             var path = System.IO.Path.Combine(Server.MapPath("~/Images/PackingNe.png"));
-
             iText.Layout.Element.Image BackPack = new iText.Layout.Element.Image(ImageDataFactory.Create(path));
 
             PdfDocument pdf = new PdfDocument(writer);
@@ -1319,8 +1317,8 @@ namespace DacarProsoft.Controllers
                         generico = daoOrdenesVentas.ConsultarGenerico(y.ItemCode);
 
                         tabla2.AddCell(new Cell().Add(new Paragraph("" + x.PalletNumber).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + nombreForaneo).SetFixedLeading(8).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
-                        tabla2.AddCell(new Cell().Add(new Paragraph("" + generico).SetFixedLeading(8).SetFontSize(7)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + nombreForaneo).SetFixedLeading(8).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                        tabla2.AddCell(new Cell().Add(new Paragraph("" + generico).SetFixedLeading(8).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFixedLeading(10).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         tabla2.AddCell(new Cell().Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
                         tabla2.AddCell(new Cell().Add(new Paragraph("" + x.LargoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
@@ -1720,8 +1718,6 @@ namespace DacarProsoft.Controllers
             decimal contadorTotal = 0;
             decimal subtotalPedido = 0;
 
-
-
             foreach (var x in ResultDetalle)
             {
                 nombreForaneo = daoPackilist.ConsultarNombreForaneo(x.itemCode);
@@ -1750,8 +1746,6 @@ namespace DacarProsoft.Controllers
             Paragraph TerminoPago = new Paragraph();
             TerminoPago.Add(text2);
             //TerminoPago.Add(text3);
-
-
 
             subtotalFob = subtotalPedido - valorDescuento + localShipping;
             subtotalCfr = subtotalFob + fleteImpor;
@@ -2253,8 +2247,7 @@ namespace DacarProsoft.Controllers
             string elaboradoPor = "";
             string autorizadoPor = "";
             int totalUnidades = 0;
-
-        
+ 
             foreach (var y in detGuia) {
                 DateTime fecAct = Convert.ToDateTime(y.FechaActualizacion, CultureInfo.InvariantCulture);
                 fechaEmision = fecAct.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
@@ -2375,7 +2368,6 @@ namespace DacarProsoft.Controllers
             tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("Sello D").SetBold().SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
             tablaEncabezadoDetalleSellos.AddCell(new Cell(1, 1).SetTextAlignment(TextAlignment.LEFT).SetVerticalAlignment(VerticalAlignment.MIDDLE).Add(new Paragraph("" + selloD).SetFontSize(10)).SetHeight(14f).SetBorder(Border.NO_BORDER));
 
-
             var pallet = daoPackilist.ConsultarPalletPackingCompleto(packingId);
 
             float[] columnWidthItems = { 10f, 100f, 100f, 100f};
@@ -2461,7 +2453,6 @@ namespace DacarProsoft.Controllers
             tablaDescripcionItems.AddCell(new Cell(1, 3).Add(new Paragraph("Total").SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
             tablaDescripcionItems.AddCell(new Cell(1, 1).Add(new Paragraph(""+ totalUnidades).SetFontSize(8).SetBold()).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
 
-
             document.Add(header);
             document.Add(Espacio);
             document.Add(Espacio);
@@ -2484,10 +2475,30 @@ namespace DacarProsoft.Controllers
             stream = new MemoryStream();
             stream.Write(bytesStreams, 0, bytesStreams.Length);
             stream.Position = 0;
+
             return new FileStreamResult(stream, "application/pdf");
+        }
+        public void Sign(String src, String dest, X509Certificate[] chain, ICipherParameters pk,
+          String digestAlgorithm, PdfSigner.CryptoStandard subfilter, String reason, String location)
+        {
+            PdfReader reader = new PdfReader(src);
+            PdfSigner signer = new PdfSigner(reader, new FileStream(dest, FileMode.Create), new StampingProperties());
+            // Create the signature appearance
+            iText.Kernel.Geom.Rectangle rect = new iText.Kernel.Geom.Rectangle(36, 648, 200, 100);
+            PdfSignatureAppearance appearance = signer.GetSignatureAppearance();
+            appearance
+                .SetReason(reason)
+                .SetLocation(location)
+                // Specify if the appearance before field is signed will be used
+                // as a background for the signed field. The "false" value is the default value.
+                .SetReuseAppearance(false)
+                .SetPageRect(rect)
+                .SetPageNumber(1);
+            signer.SetFieldName("sig");
+
+            IExternalSignature pks = new PrivateKeySignature(pk, digestAlgorithm);
+            // Sign the document using the detached mode, CMS or CAdES equivalent.
+            signer.SignDetached(pks, chain, null, null, null, 0, subfilter);
         }
     }
 }
-
-
-

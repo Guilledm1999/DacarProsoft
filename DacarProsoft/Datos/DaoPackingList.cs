@@ -1532,7 +1532,7 @@ namespace DacarProsoft.Datos
                            vendedor= Vendedor,
                            terminoPago=terminosPagos.PymntGroup
                           
-                });;
+                });
                     
                 return lst;
             }

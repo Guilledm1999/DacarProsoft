@@ -65,6 +65,15 @@
     <Property Name="canton" Type="varchar" MaxLength="255" />
     <Property Name="id_provincia" Type="int" />
   </EntityType>
+  <EntityType Name="CategoriaDatosBaterias">
+    <Key>
+      <PropertyRef Name="CategoriaDatosBateriasId" />
+    </Key>
+    <Property Name="CategoriaDatosBateriasId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DescripcionCategoria" Type="varchar" MaxLength="255" />
+    <Property Name="IdentificadorCategoria" Type="varchar" MaxLength="255" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="CausalesGarantias">
     <Key>
       <PropertyRef Name="CausalesGarantiasId" />
@@ -186,6 +195,24 @@
     <Property Name="CardCode" Type="varchar" MaxLength="50" />
     <Property Name="Destino" Type="varchar" MaxLength="150" />
     <Property Name="FechaZarpe" Type="datetime" />
+  </EntityType>
+  <EntityType Name="DatosTecnicosBatExpor">
+    <Key>
+      <PropertyRef Name="DatosTecnicosBatExporId" />
+    </Key>
+    <Property Name="DatosTecnicosBatExporId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Modelo" Type="varchar" MaxLength="255" />
+    <Property Name="C20" Type="int" />
+    <Property Name="CAP" Type="int" />
+    <Property Name="CCAMenos18CLocal" Type="int" />
+    <Property Name="CA0C" Type="int" />
+    <Property Name="CCAMenos18CExpo" Type="int" />
+    <Property Name="PesoSellada" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="PesoHumedaKg" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="CantidadPiso" Type="int" />
+    <Property Name="Pisos" Type="int" />
+    <Property Name="CantidadPorPallet" Type="int" />
+    <Property Name="Estado" Type="bit" />
   </EntityType>
   <EntityType Name="DatosTecnicosCalidadBaterias">
     <Key>
@@ -517,6 +544,54 @@
     <Property Name="Identificador" Type="int" />
     <Property Name="Estado" Type="bit" />
   </EntityType>
+  <EntityType Name="ListaPrecioCliente">
+    <Key>
+      <PropertyRef Name="ListaPrecioClienteId" />
+    </Key>
+    <Property Name="ListaPrecioClienteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreListaId" Type="int" />
+    <Property Name="CustomerReference" Type="varchar" MaxLength="255" />
+    <Property Name="DacarPartNumber" Type="varchar" MaxLength="255" />
+    <Property Name="ModeloGenerico" Type="varchar" MaxLength="255" />
+    <Property Name="DimensionsLenght" Type="int" />
+    <Property Name="DimensionWidth" Type="int" />
+    <Property Name="DimensionsHeight" Type="int" />
+    <Property Name="AssemblyBci" Type="varchar" MaxLength="255" />
+    <Property Name="SpecificationsNominalCapacity" Type="int" />
+    <Property Name="ReserveCap" Type="int" />
+    <Property Name="CCAMenos18" Type="int" />
+    <Property Name="CA0" Type="int" />
+    <Property Name="WeightKg" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="QuantityXLayer" Type="int" />
+    <Property Name="Categoria" Type="int" />
+    <Property Name="Estado" Type="bit" />
+    <Property Name="CardCode" Type="varchar" MaxLength="50" />
+    <Property Name="PrecioProducto" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="PrecioEnvio" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="FechaRegistro" Type="datetime" />
+    <Property Name="FechaActualizacion" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ListaPrecioGenerica">
+    <Key>
+      <PropertyRef Name="ListaPrecioGenericaId" />
+    </Key>
+    <Property Name="ListaPrecioGenericaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerReference" Type="varchar" MaxLength="255" />
+    <Property Name="DacarPartNumber" Type="varchar" MaxLength="255" />
+    <Property Name="ModeloGenerico" Type="varchar" MaxLength="255" />
+    <Property Name="DimensionsLenght" Type="int" />
+    <Property Name="DimensionWidth" Type="int" />
+    <Property Name="DimensionsHeight" Type="int" />
+    <Property Name="AssemblyBci" Type="varchar" MaxLength="255" />
+    <Property Name="SpecificationsNominalCapacity" Type="int" />
+    <Property Name="ReserveCap" Type="int" />
+    <Property Name="CCAMenos18" Type="int" />
+    <Property Name="CA0" Type="int" />
+    <Property Name="WeightKg" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="QuantityXLayer" Type="int" />
+    <Property Name="Categoria" Type="int" />
+    <Property Name="Estado" Type="bit" />
+  </EntityType>
   <EntityType Name="MaestrosUtilitarios">
     <Key>
       <PropertyRef Name="MaestrosUtilitariosId" />
@@ -625,6 +700,16 @@
     <Property Name="Referencia" Type="varchar" MaxLength="255" />
     <Property Name="Grupo" Type="varchar" MaxLength="255" />
     <Property Name="Linea" Type="int" />
+  </EntityType>
+  <EntityType Name="NombreListaPrecioCliente">
+    <Key>
+      <PropertyRef Name="NombreListaPrecioClienteId" />
+    </Key>
+    <Property Name="NombreListaPrecioClienteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreLista" Type="varchar" MaxLength="100" />
+    <Property Name="FechaRegistro" Type="datetime" />
+    <Property Name="Estado" Type="bit" />
+    <Property Name="CardCode" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="NormativaPruebaLaboratorio">
     <Key>
@@ -1159,6 +1244,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_ListaPreciosCliente">
+    <End Role="NombreListaPrecioCliente" Type="Self.NombreListaPrecioCliente" Multiplicity="0..1" />
+    <End Role="ListaPrecioCliente" Type="Self.ListaPrecioCliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NombreListaPrecioCliente">
+        <PropertyRef Name="NombreListaPrecioClienteId" />
+      </Principal>
+      <Dependent Role="ListaPrecioCliente">
+        <PropertyRef Name="NombreListaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_MedicionCarga">
     <End Role="IngresosMedicionCarga" Type="Self.IngresosMedicionCarga" Multiplicity="0..1" />
     <End Role="IngresosDetallesMedicionCarga" Type="Self.IngresosDetallesMedicionCarga" Multiplicity="*" />
@@ -1287,6 +1384,7 @@
     <EntitySet Name="AutorizacionPackingList" EntityType="Self.AutorizacionPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Bodega" EntityType="Self.Bodega" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CantonesEcuador" EntityType="Self.CantonesEcuador" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CategoriaDatosBaterias" EntityType="Self.CategoriaDatosBaterias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CausalesGarantias" EntityType="Self.CausalesGarantias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Chatarra" EntityType="Self.Chatarra" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChatarraDetalle" EntityType="Self.ChatarraDetalle" Schema="dbo" store:Type="Tables" />
@@ -1297,6 +1395,7 @@
     <EntitySet Name="ControlCambios" EntityType="Self.ControlCambios" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CorreoElectronicoEnviosReportes" EntityType="Self.CorreoElectronicoEnviosReportes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CronogramaExportacion" EntityType="Self.CronogramaExportacion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DatosTecnicosBatExpor" EntityType="Self.DatosTecnicosBatExpor" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DatosTecnicosCalidadBaterias" EntityType="Self.DatosTecnicosCalidadBaterias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DetalleGeneralPackingList" EntityType="Self.DetalleGeneralPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DiasBusqueda" EntityType="Self.DiasBusqueda" Schema="dbo" store:Type="Tables" />
@@ -1321,6 +1420,8 @@
     <EntitySet Name="IngresosDetallesMedicionCarga" EntityType="Self.IngresosDetallesMedicionCarga" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IngresosMedicionCarga" EntityType="Self.IngresosMedicionCarga" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LineasMarcasPropias" EntityType="Self.LineasMarcasPropias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ListaPrecioCliente" EntityType="Self.ListaPrecioCliente" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ListaPrecioGenerica" EntityType="Self.ListaPrecioGenerica" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MaestrosUtilitarios" EntityType="Self.MaestrosUtilitarios" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarcaBateriaPruebaLaboratorio" EntityType="Self.MarcaBateriaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
@@ -1331,6 +1432,7 @@
     <EntitySet Name="Meses" EntityType="Self.Meses" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Modelos" EntityType="Self.Modelos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ModelosMarcasPropias" EntityType="Self.ModelosMarcasPropias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NombreListaPrecioCliente" EntityType="Self.NombreListaPrecioCliente" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NormativaPruebaLaboratorio" EntityType="Self.NormativaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NumeroMedicionesPackingList" EntityType="Self.NumeroMedicionesPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Packing" EntityType="Self.Packing" Schema="dbo" store:Type="Tables" />
@@ -1415,6 +1517,10 @@
     <AssociationSet Name="fk_detallePedido" Association="Self.fk_detallePedido">
       <End Role="PedidoClienteCabecera" EntitySet="PedidoClienteCabecera" />
       <End Role="PedidoClienteDetalle" EntitySet="PedidoClienteDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_ListaPreciosCliente" Association="Self.fk_ListaPreciosCliente">
+      <End Role="NombreListaPrecioCliente" EntitySet="NombreListaPrecioCliente" />
+      <End Role="ListaPrecioCliente" EntitySet="ListaPrecioCliente" />
     </AssociationSet>
     <AssociationSet Name="fk_MedicionCarga" Association="Self.fk_MedicionCarga">
       <End Role="IngresosMedicionCarga" EntitySet="IngresosMedicionCarga" />

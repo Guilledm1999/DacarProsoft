@@ -201,6 +201,15 @@
     </AssociationSet>
     <EntitySet Name="MedicionPalletPackingLocal" EntityType="DacarProsoftModel.MedicionPalletPackingLocal" />
     <EntitySet Name="PruebasLaboratorioCCA" EntityType="DacarProsoftModel.PruebasLaboratorioCCA" />
+    <EntitySet Name="CategoriaDatosBaterias" EntityType="DacarProsoftModel.CategoriaDatosBaterias" />
+    <EntitySet Name="DatosTecnicosBatExpor" EntityType="DacarProsoftModel.DatosTecnicosBatExpor" />
+    <EntitySet Name="ListaPrecioGenerica" EntityType="DacarProsoftModel.ListaPrecioGenerica" />
+    <EntitySet Name="ListaPrecioCliente" EntityType="DacarProsoftModel.ListaPrecioCliente" />
+    <EntitySet Name="NombreListaPrecioCliente" EntityType="DacarProsoftModel.NombreListaPrecioCliente" />
+    <AssociationSet Name="fk_ListaPreciosCliente" Association="DacarProsoftModel.fk_ListaPreciosCliente">
+      <End Role="NombreListaPrecioCliente" EntitySet="NombreListaPrecioCliente" />
+      <End Role="ListaPrecioCliente" EntitySet="ListaPrecioCliente" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="spConsultaUsuarios">
     <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -1502,4 +1511,103 @@
     <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
     <Property Name="CodigoBateria" Type="Int32" />
   </EntityType>
+  <EntityType Name="CategoriaDatosBaterias">
+    <Key>
+      <PropertyRef Name="CategoriaDatosBateriasId" />
+    </Key>
+    <Property Name="CategoriaDatosBateriasId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DescripcionCategoria" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="IdentificadorCategoria" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="DatosTecnicosBatExpor">
+    <Key>
+      <PropertyRef Name="DatosTecnicosBatExporId" />
+    </Key>
+    <Property Name="DatosTecnicosBatExporId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Modelo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="C20" Type="Int32" />
+    <Property Name="CAP" Type="Int32" />
+    <Property Name="CCAMenos18CLocal" Type="Int32" />
+    <Property Name="CA0C" Type="Int32" />
+    <Property Name="CCAMenos18CExpo" Type="Int32" />
+    <Property Name="PesoSellada" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="PesoHumedaKg" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="CantidadPiso" Type="Int32" />
+    <Property Name="Pisos" Type="Int32" />
+    <Property Name="CantidadPorPallet" Type="Int32" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="ListaPrecioGenerica">
+    <Key>
+      <PropertyRef Name="ListaPrecioGenericaId" />
+    </Key>
+    <Property Name="ListaPrecioGenericaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerReference" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DacarPartNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ModeloGenerico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DimensionsLenght" Type="Int32" />
+    <Property Name="DimensionWidth" Type="Int32" />
+    <Property Name="DimensionsHeight" Type="Int32" />
+    <Property Name="AssemblyBci" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="SpecificationsNominalCapacity" Type="Int32" />
+    <Property Name="ReserveCap" Type="Int32" />
+    <Property Name="CCAMenos18" Type="Int32" />
+    <Property Name="CA0" Type="Int32" />
+    <Property Name="WeightKg" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="QuantityXLayer" Type="Int32" />
+    <Property Name="Categoria" Type="Int32" />
+    <Property Name="Estado" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="ListaPrecioCliente">
+    <Key>
+      <PropertyRef Name="ListaPrecioClienteId" />
+    </Key>
+    <Property Name="ListaPrecioClienteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreListaId" Type="Int32" />
+    <Property Name="CustomerReference" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DacarPartNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ModeloGenerico" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DimensionsLenght" Type="Int32" />
+    <Property Name="DimensionWidth" Type="Int32" />
+    <Property Name="DimensionsHeight" Type="Int32" />
+    <Property Name="AssemblyBci" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="SpecificationsNominalCapacity" Type="Int32" />
+    <Property Name="ReserveCap" Type="Int32" />
+    <Property Name="CCAMenos18" Type="Int32" />
+    <Property Name="CA0" Type="Int32" />
+    <Property Name="WeightKg" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="QuantityXLayer" Type="Int32" />
+    <Property Name="Categoria" Type="Int32" />
+    <Property Name="Estado" Type="Boolean" />
+    <Property Name="CardCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PrecioProducto" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="PrecioEnvio" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+    <Property Name="FechaActualizacion" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="NombreListaPrecioCliente" Relationship="DacarProsoftModel.fk_ListaPreciosCliente" FromRole="ListaPrecioCliente" ToRole="NombreListaPrecioCliente" />
+  </EntityType>
+  <EntityType Name="NombreListaPrecioCliente">
+    <Key>
+      <PropertyRef Name="NombreListaPrecioClienteId" />
+    </Key>
+    <Property Name="NombreListaPrecioClienteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreLista" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="FechaRegistro" Type="DateTime" Precision="3" />
+    <Property Name="Estado" Type="Boolean" />
+    <NavigationProperty Name="ListaPrecioCliente" Relationship="DacarProsoftModel.fk_ListaPreciosCliente" FromRole="NombreListaPrecioCliente" ToRole="ListaPrecioCliente" />
+    <Property Name="CardCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="fk_ListaPreciosCliente">
+    <End Type="DacarProsoftModel.NombreListaPrecioCliente" Role="NombreListaPrecioCliente" Multiplicity="0..1" />
+    <End Type="DacarProsoftModel.ListaPrecioCliente" Role="ListaPrecioCliente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NombreListaPrecioCliente">
+        <PropertyRef Name="NombreListaPrecioClienteId" />
+      </Principal>
+      <Dependent Role="ListaPrecioCliente">
+        <PropertyRef Name="NombreListaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
