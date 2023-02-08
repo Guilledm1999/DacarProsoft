@@ -15,6 +15,8 @@ $('#LinkClose5').on("click", function (e) {
 });
 
 function RegistrarPrueba() {
+   // var Positivo = 'danger-outlined';
+    //var Negativo = 'success-outlined';
     var formdata = new FormData();
     formdata.append("FechaIngreso", $("#txtFechaIngreso").val());
     formdata.append("CodigoIngreso", $("#txtCodigoIngreso").val());
@@ -41,7 +43,10 @@ function RegistrarPrueba() {
     formdata.append("Observaciones", $("#txtObservaciones").val());
     formdata.append("Calificacion", $("#txtCalificacion").val());
     formdata.append("CodigoBateria", $("#txtCodigoBateria").val());
-
+    formdata.append("TipoPlaca", $("#txtPlaca").val());
+    formdata.append("TipoPlacaNegativo", $("#txtPlacaNegativo").val());
+    formdata.append("IntensidadDescarga", $("#txtIntensidadDescarga").val());
+   
     var files = $("#txtAnexos").get(0).files;
 
     for (var i = 0; i < files.length; i++) {
@@ -109,6 +114,7 @@ function LimpiarResultados() {
     $("#txtCalificacion").val("");
     $("#txtCodigoBateria").val("");
 
+
     $("#txtAnexos").val("");
 }
 
@@ -140,8 +146,37 @@ $('#btnRegistrarPrueba').on("click", function (e) {
     var val23 = $("#txtObservaciones").val();
     var val24 = $("#txtCalificacion").val();
     var val25 = $("#txtCodigoBateria").val();
-
+    var val26 = $("#txtPlaca option:selected").val();
+    var val27 = $("#txtIntensidadDescarga").val();
+    
+    var val28 = $("#txtPlacaNegativo option:selected").val();
     //var Image = $("#txtAnexos").files;
+
+
+    if (val28.length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+ 
+    if (val27.length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
+   
+
+    if (val26.length == 0) {
+        $("#MensajeCompleteCampos").show('fade');
+        setTimeout(function () {
+            $("#MensajeCompleteCampos").fadeOut(1500);
+        }, 3000);
+        return;
+    }
 
     if (val1.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
@@ -348,6 +383,7 @@ function CargarModelosBateriasVehiculos() {
     }
 }
 
+const priorities = ['Low', 'Normal', 'Urgent', 'High'];
 
 function ObtenerCodigoIngreso() {
     $.ajax({
@@ -365,6 +401,16 @@ function ObtenerCodigoIngreso() {
         }
     });
     $("#ModalAnexos").modal("show");
+
+    $('#radio-group-with-template').dxRadioGroup({
+        items: priorities,
+        value: priorities[2],
+        itemTemplate(itemData, _, itemElement) {
+            itemElement
+                .parent().addClass(itemData.toLowerCase())
+                .text(itemData);
+        },
+    });
 }
 
 

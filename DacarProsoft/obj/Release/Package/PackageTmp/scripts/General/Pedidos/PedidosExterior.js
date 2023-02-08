@@ -261,10 +261,10 @@ function DetallePedido(NumeroPedido, estado) {
                         dataField: "ModeloBateria", caption: "Modelo",allowEditing: false
                     },
                     {
-                        dataField: "Marca", caption: "Marca",allowEditing: false
+                        dataField: "Marca", caption: "Marca Dacar",allowEditing: false
                     },
                     {
-                        dataField: "NumeroParteCliente", caption: "Numero Parte", allowEditing: false
+                        dataField: "NumeroParteCliente", caption: "Referencia Cliente"    , allowEditing: false
                     },
 
                     {
@@ -275,6 +275,9 @@ function DetallePedido(NumeroPedido, estado) {
                     },
                     {
                         dataField: "TipoTerminal", caption: "Tipo Terminal", allowEditing: false
+                    },
+                    {
+                        dataField: "MarcaBateria", caption: "Marca Bateria", allowEditing: false
                     },
                     {
                         dataField: "Cantidad", caption: "Cantidad Solicitada", allowEditing: false,
@@ -567,6 +570,15 @@ function enviarRegistro() {
         progreso += 5;
         $('#BarraProceso').css('width', progreso + '%');
     }, 1000);
+    /*
+    $.ajax({
+        url: "../Pedidos/BuscarItemCode",
+        type: "POST",
+        data: {
+             array: temp, 
+        },
+        success: function (e) { }
+    })*/
 
     $.ajax({
         url: "../Pedidos/RegistrarPedidoEnSap",

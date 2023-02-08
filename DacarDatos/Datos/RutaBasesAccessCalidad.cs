@@ -16,6 +16,6 @@ namespace DacarDatos.Datos
     {
         public int RutaBasesAccessCalidadId { get; set; }
         public string RutaFisica { get; set; }
-        public Nullable<bool> Estado { get; set; }
+        public bool Estado { get; set; }
     }
 }

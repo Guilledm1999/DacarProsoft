@@ -16,6 +16,6 @@ namespace DacarDatos.Datos
     {
         public int AutorizacionPackingListId { get; set; }
         public string Nombres { get; set; }
-        public Nullable<bool> Estado { get; set; }
+        public Nullable<bool> estado { get; set; }
     }
 }

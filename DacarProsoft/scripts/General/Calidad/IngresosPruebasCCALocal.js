@@ -67,6 +67,8 @@ function CargarValorTeorico() {
             }, 3000); return;
         }
     });
+
+    CalcularResultado();
 }
 
 function CalcularResultado() {
@@ -85,14 +87,14 @@ function RegistrarMedicionCCA() {
     formdata.append("Separador", $("#txtSeparador option:selected").text());
     formdata.append("LoteEnsamble", $("#txtLoteEnsamble").val());
     formdata.append("LoteCarga", $("#txtLoteCarga").val());
-    formdata.append("Temperatura", $("#txtTemperaturaPrueba").val());
-    formdata.append("Peso", $("#txtPeso").val());
+    formdata.append("Temperatura", 0);
+    formdata.append("Peso", 0);
     formdata.append("Voltaje", $("#txtVoltaje").val());
     formdata.append("DatoTeorico", $("#txtDatoTeoricoPrueba").val());
     formdata.append("Resultado", $("#txtResultadoFinal").val());
     formdata.append("Rendimiento", $("#txtCalificacion").val());
     formdata.append("Observaciones", $("#txtObservaciones").val());
-    formdata.append("CodigoBateria", $("#txtCodigoBateria").val());
+    formdata.append("CodigoBateria",0);
 
     var files = $("#txtAnexos").get(0).files;
 
@@ -158,14 +160,14 @@ function comprobarCampos() {
     var val5 = $("#txtSeparador option:selected").text();
     var val6 = $("#txtLoteEnsamble").val();
     var val7 = $("#txtLoteCarga").val();
-    var val8 = $("#txtTemperaturaPrueba").val();
-    var val9 = $("#txtPeso").val();
+   // var val8 = $("#txtTemperaturaPrueba").val();
+   // var val9 = $("#txtPeso").val();
     var val10 = $("#txtVoltaje").val();
     var val11= $("#txtDatoTeoricoPrueba").val();
     var val12 = $("#txtResultadoFinal").val();
     //var val13 = $("#txtObservaciones").val();
     var val14 = $("#txtCalificacion").val();
-    var val15 = $("#txtCodigoBateria").val();
+   // var val15 = $("#txtCodigoBateria").val();
     if (val1.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -173,6 +175,7 @@ function comprobarCampos() {
         }, 3000);
         return;
     }
+    
     if (val2.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -214,7 +217,7 @@ function comprobarCampos() {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    }
+    }/*
     if (val8.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -228,7 +231,7 @@ function comprobarCampos() {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    }
+    }*/
     if (val10.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
@@ -263,13 +266,13 @@ function comprobarCampos() {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    }
+    }/*
     if (val15.length == 0) {
         $("#MensajeCompleteCampos").show('fade');
         setTimeout(function () {
             $("#MensajeCompleteCampos").fadeOut(1500);
         }, 3000);
         return;
-    }
+    }*/
     RegistrarMedicionCCA();
 }

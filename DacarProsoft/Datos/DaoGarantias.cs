@@ -40,13 +40,19 @@ namespace DacarProsoft.Datos
                                        //d.NumeroBateria,
                                        d.NumeroGarantia,
                                        d.RegistroGarantia,
+                                       d.Provincia,
+                                       
 
                                    });
-                    foreach (var x in Listado)
+                CultureInfo ci = new CultureInfo("es-MX");
+                foreach (var x in Listado)
                 {
-                    DateTime fecha = Convert.ToDateTime(x.RegistroGarantia, CultureInfo.InvariantCulture);
+                    DateTime fecha = Convert.ToDateTime(x.RegistroGarantia, ci);
+                    
                     //FechaCargaLista = fechaCargaLista.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    fechaRegistro = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    fechaRegistro = fecha.ToString("yyyy-MM-dd",ci);
+                    var mes = fecha.ToString("MMMM");
+                    var anio = fecha.ToString("yyyy");
                     lst.Add(new GarantiaDetalle
                         {
                            IngresoGarantiaId=x.IngresoGarantiaId,
@@ -60,12 +66,259 @@ namespace DacarProsoft.Datos
                            //NumeroBateria=x.NumeroBateria,
                            NumeroGarantia=x.NumeroGarantia,
                            RegistroGarantia= fechaRegistro,
+                           Mes= mes,
+                           Anio = anio,
+                           Provincia = x.Provincia,
+
 
                     });
+
+                   
                     }
                     return lst;
 
                 }
+
+        }
+
+        public GarantiaDetalle ReporteIdGarnatia(int Id)
+        {
+
+
+
+            GarantiaDetalle Registro = new GarantiaDetalle();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                Registro = (from d in DB.IngresoGarantias
+                            where d.IngresoGarantiaId == Id 
+                            orderby d.IngresoGarantiaId descending
+                            select new GarantiaDetalle
+                            {
+                                IngresoGarantiaId = d.IngresoGarantiaId,
+                                Cedula = d.Cedula,
+                                Nombre = d.Nombre,
+                                Apellido = d.Apellido,
+                                Email = d.Email,
+                                Distribuidor = d.Distribuidor,
+                                Ciudad = d.Ciudad,
+                                ModeloBateria = d.ModeloBateria,
+                                NumeroGarantia = d.NumeroGarantia,
+                                RegistroGarantia = d.RegistroGarantia.ToString(),
+                                Celular = d.Celular,
+                                Provincia = d.Provincia,
+                                MarcaVehiculo = d.MarcaVehiculo,
+                                AnioFabricacion = d.AnioFabricacion ?? 0,
+                                Kilometraje = d.KilometrajeVehiculo ?? 0,
+                              ModeloVehiculo = d.ModeloVehiculo,
+                                NumeroFactura = d.NumeroFactura ?? ""
+
+                            }).FirstOrDefault();
+                
+
+                return Registro;
+
+            }
+
+        }
+
+        public List<PieChart> PieLinea()
+        {
+
+
+            List<PieChart> lst = new List<PieChart>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = (from d in DB.IngresoGarantias
+                                   join M in DB.ModelosMarcasPropias on d.ModeloBateria equals M.Referencia
+                                   join L in DB.LineasMarcasPropias on M.Linea equals L.Identificador
+                               select new
+                               {
+                                  L.Referencia,
+                               }).ToList();
+
+                var pl = (from r in Listado
+                         orderby r.Referencia
+                         group r by r.Referencia into grp
+                         select new { key = grp.Key, cnt = grp.Count() }).ToList();
+
+                foreach (var item in pl)
+                {
+                    var pie = new PieChart();
+                    pie.Total = item.cnt;
+                        pie.Linea = item.key;
+                        lst.Add(pie);
+                }
+
+                
+                return lst;
+
+            }
+
+        }
+
+        public List<PieChart> PieLineaActualizacion(List<GarantiaDetalle> Linea)
+        {
+
+
+            List<PieChart> lst = new List<PieChart>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+                var Listado = (from d in Linea
+                               join M in DB.ModelosMarcasPropias on d.ModeloBateria equals M.Referencia
+                               join L in DB.LineasMarcasPropias on M.Linea equals L.Identificador
+                               select new
+                               {
+                                   L.Referencia,
+                               }).ToList();
+
+                var pl = (from r in Listado
+                          orderby r.Referencia
+                          group r by r.Referencia into grp
+                          select new { key = grp.Key, cnt = grp.Count() }).ToList();
+
+                foreach (var item in pl)
+                {
+                    var pie = new PieChart();
+                    pie.Total = item.cnt;
+                    pie.Linea = item.key;
+                    lst.Add(pie);
+                }
+
+
+                return lst;
+
+            }
+
+        }
+        public Provincias Provincia()
+        {
+
+
+            Provincias lst = new Provincias();
+           
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                
+                var Listado = (from d in DB.IngresoGarantias
+
+                               select new
+                               {
+                                   d.Provincia,
+                               }).ToList();
+
+                var pl = (from r in Listado
+                          orderby r.Provincia
+                          group r by r.Provincia into grp
+                          select new { key = grp.Key, cnt = grp.Count() }).ToList();
+
+                foreach (var item in pl)
+                {
+                    if (item.key=="Azuay")
+                    {
+                        lst.az = item.cnt;
+                    }
+                    if (item.key == "Bolívar")
+                    {
+                        lst.bo = item.cnt;
+                    }
+                    if (item.key == "Cañar")
+                    {
+                        lst.cn = item.cnt;
+                    }
+                    if (item.key == "Carchi")
+                    {
+                        lst.cr = item.cnt;
+                    }
+                    if (item.key == "Cotopaxi")
+                    {
+                        lst.ct = item.cnt;
+                    }
+                    if (item.key == "Chimborazo")
+                    {
+                        lst.cb = item.cnt;
+                    }
+                    if (item.key == "El Oro")
+                    {
+                        lst.eo = item.cnt;
+                    }
+                    if (item.key == "Esmeraldas")
+                    {
+                        lst.es = item.cnt;
+                    }
+                    if (item.key == "Guayas")
+                    {
+                        lst.gu = item.cnt;
+                    }
+                    if (item.key == "Imbabura")
+                    {
+                        lst.im = item.cnt;
+                    }
+                    if (item.key == "Loja")
+                    {
+                        lst.lj = item.cnt;
+                    }
+                    if (item.key == "Los Rios")
+                    {
+                        lst.lr = item.cnt;
+                    }
+                    if (item.key == "Manabi")
+                    {
+                        lst.mn = item.cnt;
+                    }
+                    if (item.key == "Morona Santiago")
+                    {
+                        lst.ms = item.cnt;
+                    }
+                    if (item.key == "Napo")
+                    {
+                        lst.numero = item.cnt;
+                    }
+                    if (item.key == "Pastaza")
+                    {
+                        lst.pa = item.cnt;
+                    }
+                    if (item.key == "Pichincha")
+                    {
+                        lst.pi = item.cnt;
+                    }
+                    if (item.key == "Tungurahua")
+                    {
+                        lst.tu = item.cnt;
+                    }
+                    if (item.key == "Zamora Chinchipe")
+                    {
+                        lst.zc = item.cnt;
+                    }
+                    if (item.key == "Galápagos")
+                    {
+                        lst.ga = item.cnt;
+                    }
+                    if (item.key == "Sucumbíos")
+                    {
+                        lst.su = item.cnt;
+                    }
+                    if (item.key == "Orellana")
+                    {
+                       lst.na = item.cnt;
+                    }
+                    if (item.key == "Santo Domingo de Los Tsáchilas")
+                    {
+                        lst.sd = item.cnt;
+                    }
+                    if (item.key == "Santa Elena")
+                    {
+                        lst.se = item.cnt;
+                    }
+                }
+
+
+
+                return lst;
+
+            }
 
         }
 

@@ -85,5 +85,33 @@ namespace DacarProsoft.Datos
 
             }
         }
+
+        public bool RevisarDiasContrasena(string Usuario)
+        {
+            
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                bool respuesta = false;
+                var TiempoContrasena = DB.SeguridadUsuario.Where(x=> x.Estado=="A").Select(x => x.CambioContrasenaDias).FirstOrDefault();
+                if (TiempoContrasena!=null)
+                {
+                    int IdUsuario = DB.Usuarios.Where(x => x.NombreUsuario == Usuario).Select(x => x.IdUsuario).FirstOrDefault();
+                    DateTime FechaContrasena = DB.Contrasena.Where(x => x.IdUsuario == IdUsuario && x.Estado == "A").Select(x => x.FechaCreacion).FirstOrDefault();
+                    var dias = ((DateTime.Now - FechaContrasena).TotalHours) / 24;
+                    if (dias >= TiempoContrasena)
+                    {
+                        respuesta = true;
+                    }
+                    if (TiempoContrasena == -1)
+                    {
+                        respuesta = false;
+                    }
+                }
+
+
+                return respuesta;
+
+            }
+        }
     }
 }

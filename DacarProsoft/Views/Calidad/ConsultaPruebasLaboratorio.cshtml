@@ -293,5 +293,173 @@
     </div>
 </div>
 
+
+
+
+<div id="ModalDetalleItem" class="modal fade" role="dialog" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="lblNumberPallet">Pruebas de Laboratorio</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+        
+                <div class="form-row">
+                    <div class="form-group col-md-9">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Fecha Prueba</label>
+                                <input type="text" class="form-control" id="txtFechaIngreso" placeholder="Codigo Ingreso" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputPassword4">Codigo Ingreso</label>
+                                <input type="text" class="form-control" id="txtCodigoIngreso" placeholder="Codigo Ingreso" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Marca</label>
+                                <input type="email" class="form-control" id="txtMarca" placeholder="Marca" readonly>
+                              
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Tipo de Norma</label>
+                                <input type="email" class="form-control" id="txtTipoNorma" placeholder="Norma" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4"><br />Version </label>
+                                
+                                <input type="email" class="form-control" id="txtVersion" placeholder="Version" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputPassword4">Pre-Acondicionamiento</label>
+                                <input type="email" class="form-control" id="txtPreAcondicionamiento" placeholder="Marca" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4"><br />Tipo Bateria</label>
+
+                                <input type="email" class="form-control" id="txtTipoBateria" placeholder="Marca" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4"><br />Modelo</label>
+                                <input type="email" class="form-control" id="txtModelo" placeholder="Modelo" readonly>
+                              
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Separador</label>
+                                <input type="email" class="form-control" id="txtSeparador" placeholder="Marca" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Tipo de Ensayo</label>
+                                <input type="email" class="form-control" id="txtTipoEnsayo" placeholder="Marca" readonly>
+
+
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Lote de Ensamble</label>
+                                <input type="text" class="form-control" id="txtLoteEnsamble" placeholder="Lote de Ensamble" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Lote de Carga</label>
+                                <input type="text" class="form-control" id="txtLoteCarga" placeholder="Lote de Carga"readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="inputPassword4">CCA-MID</label>
+                                <input type="number" class="form-control" id="txtCCA" placeholder="CCA-MID"readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Peso (Kg)</label>
+                                <input type="number" class="form-control" id="txtPeso" placeholder="Peso (Kg)"readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Voltaje</label>
+                                <input type="number" class="form-control" id="txtVoltaje" placeholder="Voltaje"readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Densidad Ingreso</label>
+                                <input type="number" class="form-control" id="txtDensidadIngreso" placeholder="Densidad Ingreso"readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Temperatura Ingreso (ºC)</label>
+                                <input type="number" class="form-control" id="txtTemperaturaIngreso" placeholder="Temperatura Ingreso (ºC)" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Temperatura de Prueba (ºC)</label>
+                                <input type="number" class="form-control" id="txtTemperaturaPrueba" placeholder="Temperatura de Prueba (ºC)" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Dato Teorico de Prueba</label>
+                                <input type="number" class="form-control" id="txtDatoTeoricoPrueba" placeholder="Dato Teorico de Prueba" onchange="CalcularResultado();" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4"><br />Resultado Final</label>
+                                <input type="number" class="form-control" id="txtResultadoFinal" placeholder="Resultado Final" onchange="CalcularResultado();" readonly>
+                            </div>
+                           
+                        </div>
+                        <div class="form-row">
+
+
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Observaciones </label>
+                                <input type="text" class="form-control" id="txtObservaciones" placeholder="Observaciones" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Rendimiento (%)</label>
+                                <input type="number" class="form-control" id="txtCalificacion" placeholder="Rendimiento" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Código Bateria</label>
+                                <input type="text" class="form-control" id="txtCodigoBateria" placeholder="Codigo Bateria" readonly>
+                            </div>
+                            
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Placa Positiva</label>
+                                <input type="text" class="form-control" id="txtTipoPlaca" placeholder="TipoPlaca" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4"><br/>Placa Negativa</label>
+                                <input type="text" class="form-control" id="txtTipoPlacaNegativo" placeholder="TipoPlaca" readonly>
+
+                            </div>
+                            <div class="form-group col-md-3">
+
+                                <label for="inputEmail4">Intensidad de  Descarga</label>
+                                <input type="text" class="form-control" id="txtIntensidadDescarga" placeholder="Intensidad de Descarga" readonly>
+
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+
+                          
+
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <img src="~/Images/dacaritoo.png" style="max-width:100%;width:525px;height:auto;" />
+                    </div>
+                </div>
+
+                
+                <div id="tblDetalleItem"> </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <input type="hidden" id="txtNumeroPromedioNominal" />

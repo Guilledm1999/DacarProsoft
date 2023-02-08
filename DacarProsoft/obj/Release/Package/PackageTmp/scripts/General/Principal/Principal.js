@@ -1,6 +1,8 @@
 ﻿
 
-
+$(document).ready(function () {
+    ConsultarArticulos();
+});
 
 
 function Menu() {

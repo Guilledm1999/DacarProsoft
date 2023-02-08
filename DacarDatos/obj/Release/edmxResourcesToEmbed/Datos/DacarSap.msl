@@ -1016,6 +1016,8 @@
     <EntitySetMapping Name="OITM">
       <EntityTypeMapping TypeName="SBODACARPRODModel.OITM">
         <MappingFragment StoreEntitySet="OITM">
+          <ScalarProperty Name="U_DAC_MERCA" ColumnName="U_DAC_MERCA" />
+          <ScalarProperty Name="U_DAC_POLARI" ColumnName="U_DAC_POLARI" />
           <ScalarProperty Name="U_DAC_COMENT3" ColumnName="U_DAC_COMENT3" />
           <ScalarProperty Name="U_DAC_COMENT2" ColumnName="U_DAC_COMENT2" />
           <ScalarProperty Name="U_DAC_COMENT1" ColumnName="U_DAC_COMENT1" />
@@ -4746,6 +4748,18 @@
           <ScalarProperty Name="LineTotal" ColumnName="LineTotal" />
           <ScalarProperty Name="ExpnsCode" ColumnName="ExpnsCode" />
           <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Matriz_Inventario_Baterias_RN">
+      <EntityTypeMapping TypeName="SBODACARPRODModel.Matriz_Inventario_Baterias_RN">
+        <MappingFragment StoreEntitySet="Matriz_Inventario_Baterias_RN">
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="Marca" ColumnName="Marca" />
+          <ScalarProperty Name="Polaridad" ColumnName="Polaridad" />
+          <ScalarProperty Name="Refencia" ColumnName="Refencia" />
+          <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

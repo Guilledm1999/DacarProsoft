@@ -53,6 +53,46 @@ namespace DacarProsoft.Datos
                 return lst;
             }
         }
+
+        public List<EDatosTecnicosCalidadBateria> ConsultarDatosTecnicosCalidadBateria()
+        {
+            List<EDatosTecnicosCalidadBateria> lst = new List<EDatosTecnicosCalidadBateria>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                 lst = (from d in DB.DatosTecnicosCalidadBaterias
+                             select new EDatosTecnicosCalidadBateria
+                             {
+                               DatosTecnicosCalidadBateriasId=  d.DatosTecnicosCalidadBateriasId,
+                               Modelo = d.Modelo,
+                               CAP = d.CAP,
+                               RC = d.RC,
+                               CCA = d.CCA,
+                               CACeroGrados= d.CACeroGrados,
+                               CCAMenosDiescochoExpo= d.CCAMenosDiescochoExpo,
+                               C20xDiseno = d.C20xDiseno,
+                               CCAxDisenoSeparadorFibra = d.CCAxDisenoSeparadorFibra,
+                               CAxDisenoSeparadorFibra = d.CAxDisenoSeparadorFibra,
+                               HCAxDisenoSeparadorFibra =d.HCAxDisenoSeparadorFibra,
+                               CCAxDisenoSeparadorPE = d.CCAxDisenoSeparadorPE,
+                               CAxDisenoSeparadorPE = d.CAxDisenoSeparadorPE,
+                               HCAxDisenoSeparadorPE = d.HCAxDisenoSeparadorPE,
+                               CantPlacas = d.CantPlacas,
+                                 CapResxDiseno = d.CapResxDiseno,
+                               PesoSellada = d.PesoSellada,
+                               PesoHumedaKg = d.PesoHumedaKg,
+                               Linea = d.Linea,
+                               C100 =d.C100,
+                               C10 = d.C10,
+                               C5 = d.C5
+                                
+                             }).ToList();
+
+                return lst;
+            }
+        }
+
+
+
         public bool IngresarGenericoItem(string GrupoGenericoItem, string ModeloDacar, string NumeroParteCliente,string EtiquetaDatosTecnicos, string Polaridad, string TipoTerminal, int CantidadPiso,
             int PisoMaximo, int BateriasPallet, decimal PesoTara)
         {
@@ -74,6 +114,48 @@ namespace DacarProsoft.Datos
                     result.FechaRegistro = DateTime.Now;
 
                     DB.GenericosItem.Add(result);
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        public bool IngresarDatosTecnicosCalidadBateria(EDatosTecnicosCalidadBateria PoObject)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = new DatosTecnicosCalidadBaterias();
+                    result.Modelo = PoObject.Modelo;
+                    result.CAP = PoObject.CAP;
+                    result.RC = PoObject.RC;
+                    result.CCA = PoObject.CCA;
+                    result.CACeroGrados = PoObject.CACeroGrados;
+                    result.C20xDiseno = PoObject.C20xDiseno;
+                    result.CapResxDiseno = PoObject.CapResxDiseno;
+                    result.CCAMenosDiescochoExpo = PoObject.CCAMenosDiescochoExpo;
+                    result.CCAxDisenoSeparadorFibra = PoObject.CCAxDisenoSeparadorFibra;
+                    result.CAxDisenoSeparadorFibra = PoObject.CAxDisenoSeparadorFibra;
+                    result.HCAxDisenoSeparadorFibra = PoObject.HCAxDisenoSeparadorFibra;
+                    result.CAxDisenoSeparadorPE = PoObject.CAxDisenoSeparadorPE;
+                    result.CCAxDisenoSeparadorPE = PoObject.CCAxDisenoSeparadorPE;
+                    result.HCAxDisenoSeparadorPE = PoObject.HCAxDisenoSeparadorPE;
+                    result.CantPlacas = PoObject.CantPlacas;
+                    result.PesoSellada = PoObject.PesoSellada;
+                    result.PesoHumedaKg = PoObject.PesoHumedaKg;
+                    result.Linea = PoObject.Linea;
+                    result.C100 = PoObject.C100;
+                    result.C10 = PoObject.C10;
+                    result.C5 = PoObject.C5;
+
+                    DB.DatosTecnicosCalidadBaterias.Add(result);
                     DB.SaveChanges();
 
                     return true;
@@ -153,6 +235,102 @@ namespace DacarProsoft.Datos
                 }
             }
         }
+        public bool ActualizarDatosTecnicosCalidadBateria(EDatosTecnicosCalidadBateria generico, int Key)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var result = (from a in DB.DatosTecnicosCalidadBaterias
+                                  where a.DatosTecnicosCalidadBateriasId == Key
+                                  select a).FirstOrDefault();
+
+                    if (generico.Modelo != null)
+                    {
+                        result.Modelo = generico.Modelo;
+                    }
+                    if (generico.CAP != null)
+                    {
+                        result.CAP = generico.CAP;
+                    }
+                    if (generico.C5 != null)
+                    {
+                        result.C5 = generico.C5;
+                    }
+                    if (generico.C10 != null)
+                    {
+                        result.C10 = generico.C10;
+                    }
+                    if (generico.C100 != null)
+                    {
+                        result.C100 = generico.C100;
+                    }
+                    if (generico.RC != null)
+                    {
+                        result.RC = generico.RC;
+                    }
+                    if (generico.CCA != null)
+                    {
+                        result.CCA = generico.CCA;
+                    }
+                    if (generico.CACeroGrados != null)
+                    {
+                        result.CACeroGrados = generico.CACeroGrados;
+                    }
+                    if (generico.CCAMenosDiescochoExpo != null)
+                    {
+                        result.CCAMenosDiescochoExpo = generico.CCAMenosDiescochoExpo;
+                    }
+                    if (generico.C20xDiseno != null)
+                    {
+                        result.C20xDiseno = generico.C20xDiseno;
+                    }
+                    if (generico.CapResxDiseno != null)
+                    {
+                        result.CapResxDiseno = generico.CapResxDiseno;
+                    }
+                    if (generico.CCAxDisenoSeparadorFibra != null)
+                    {
+                        result.CCAxDisenoSeparadorFibra = generico.CCAxDisenoSeparadorFibra;
+                    }
+                    if (generico.CAxDisenoSeparadorFibra != null)
+                    {
+                        result.CAxDisenoSeparadorFibra = generico.CAxDisenoSeparadorFibra;
+                    }
+                    if (generico.HCAxDisenoSeparadorFibra != null)
+                    {
+                        result.HCAxDisenoSeparadorFibra = generico.HCAxDisenoSeparadorFibra;
+                    }
+                    if (generico.CantPlacas != null)
+                    {
+                        result.CantPlacas = generico.CantPlacas;
+                    }
+                    if (generico.PesoSellada != null)
+                    {
+                        result.PesoSellada = generico.PesoSellada;
+                    }
+                    if (generico.PesoHumedaKg != null)
+                    {
+                        result.PesoHumedaKg = generico.PesoHumedaKg;
+                    }
+                    if (generico.Linea != null)
+                    {
+                        result.Linea = generico.Linea;
+                    }
+
+
+                    DB.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+
         public bool EliminarGenericoItem(int GenericoItemId)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
@@ -162,6 +340,27 @@ namespace DacarProsoft.Datos
                     DB.GenericosItem.RemoveRange(DB.GenericosItem.Where(x => x.GenericoItemId == GenericoItemId));
                     DB.SaveChanges();
                   
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return false;
+
+                }
+            }
+
+        }
+
+        public bool EliminarDatosTecnicosCalidadBateria(int GenericoItemId)
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    DB.DatosTecnicosCalidadBaterias.RemoveRange(DB.DatosTecnicosCalidadBaterias.Where(x => x.DatosTecnicosCalidadBateriasId == GenericoItemId));
+                    DB.SaveChanges();
+
                     return true;
                 }
                 catch (Exception ex)

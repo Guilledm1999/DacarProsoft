@@ -17,6 +17,7 @@ namespace DacarDatos.Datos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NombreListaPrecioCliente()
         {
+            this.DatosTecnicosBatExporListCli = new HashSet<DatosTecnicosBatExporListCli>();
             this.ListaPrecioCliente = new HashSet<ListaPrecioCliente>();
         }
     
@@ -26,6 +27,8 @@ namespace DacarDatos.Datos
         public Nullable<bool> Estado { get; set; }
         public string CardCode { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DatosTecnicosBatExporListCli> DatosTecnicosBatExporListCli { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ListaPrecioCliente> ListaPrecioCliente { get; set; }
     }

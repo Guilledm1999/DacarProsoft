@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "PruebaVista";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+@{var prueba = ViewBag.prueba;
+    var Genero = ViewBag.datGenero;
+    var Provincia = ViewBag.datProvincia;}
+
+
+<br />
+
+<div class="card shadow align-top">
+    <div class="card-header">
+        <h2>Prueba de Ingreso</h2>
+        <br />
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorGeneral" class="alert alert-danger collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error General!!</strong>
+        </div>
+        <div id="MensajeCompleteCampos" class="alert alert-danger collapse">
+            <button id="LinkClose5" type="button" class="close">&times;</button>
+            <strong>Complete todos los campos!</strong>
+        </div>
+        <div id="MensajeGuardado" class="alert alert-primary collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Guardado Exitosamente!!</strong>
+        </div>
+
+        <form>
+            <div class="form-row">
+
+                <div class="form-group col-md-5">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="inputEmail4">Nombre</label>
+                            <input type="text" class="form-control" id="txtNombre" placeholder="Nombre">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputPassword4">Cedula</label>
+                            <input type="number" maxlength="10" class="form-control" id="txtCedula" placeholder="Cedula" required>
+
+                        </div>
+                        <div class="invalid-tooltip">
+                            Elije un nombre de usuario único y válido.
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputPassword4">Correo</label>
+                            <input type="email" class="form-control" id="txtCorreo" placeholder="Correo">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputEmail4">Genero</label>
+                            <select class="form-control" aria-label="Default select example" id="txtGenero" style="width:100%">
+                                <option value="" selected="selected">--Seleccione--</option>
+                                <option value="F">Masculino</option>
+                                <option value="M">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputEmail4">Provincia</label>
+                            @Html.DropDownList("Provincia", new SelectList(Provincia, "Value", "Text"), "--Seleccione--", new { @class = "form-control", id = "txtProvincia" })
+                            @*  @Html.DropDownList("Separador", new SelectList(Separador, "Value", "Text"), "--Seleccione--", new { @class = "form-control", id = "txtSeparador" })*@
+                        </div>
+                        <button style="margin-top:31px" type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+
+                    </div>
+                </div>
+                <div class="form-group col-md-7">
+                    <div style="margin-top:-14px" id="tblMostrarDatos"></div>
+                </div>
+
+            </div>
+        </form>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div id="PieGenero"> </div>
+                </div>
+                <div class="col">
+                    <div id="PieProvincia"> </div>
+                </div>
+            </div>
+        </div>
+      
+
+
+    </div>
+</div>
+
+
+<button class="btn-primary" onclick="ImprimirPdf()">Imprimir</button>
+@*<button class="btn-primary" onclick="ActualizarTabla();">Actualizar</button>*@
+
+
+

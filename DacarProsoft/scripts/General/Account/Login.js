@@ -16,3 +16,13 @@ function InicioSesion() {
         }
     })
 }
+
+   
+
+
+
+    function onSubmit(token) {
+        document.getElementById("Login").submit();
+}
+
+

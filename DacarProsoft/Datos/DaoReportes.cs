@@ -924,7 +924,7 @@ namespace DacarProsoft.Datos
                 var Listado = from d in DB.AnalisisRegistrosGarantias
                               where d.FechaRegistroAnalisis >= FechaInicio && d.FechaRegistroAnalisis <= nuevaFechaFin
 
-                              group d by new {d.FechaRegistroAnalisis.Month } into ut
+                              group d by new {d.FechaRegistroAnalisis.Value.Month } into ut
                                 select new
                                 {
                                     Contador = ut.Count(),
@@ -995,9 +995,9 @@ namespace DacarProsoft.Datos
             {
 
                 var Listado = from d in DB.AnalisisRegistrosGarantias
-                              where d.FechaRegistroAnalisis.Year == Anio
+                              where d.FechaRegistroAnalisis.Value.Year == Anio
 
-                              group d by new { d.FechaRegistroAnalisis.Month } into ut
+                              group d by new { d.FechaRegistroAnalisis.Value.Month } into ut
                               select new
                               {
                                   Contador = ut.Count(),
@@ -1032,9 +1032,9 @@ namespace DacarProsoft.Datos
             {
 
                 var Listado = from d in DB.AnalisisRegistrosGarantias
-                              where d.FechaRegistroAnalisis.Year == Anio
+                              where d.FechaRegistroAnalisis.Value.Year == Anio
 
-                              group d by new { d.FechaRegistroAnalisis.Month } into ut
+                              group d by new { d.FechaRegistroAnalisis.Value.Month } into ut
                               select new
                               {
                                   Contador = ut.Count(),
@@ -1072,7 +1072,7 @@ namespace DacarProsoft.Datos
             {
                 var Listado = from d in DB.AnalisisRegistrosGarantias
                               orderby d.AnalisisRegistrosGarantiasId
-                              where d.FechaRegistroAnalisis.Year==anio && d.FechaRegistroAnalisis.Month==numeromes
+                              where d.FechaRegistroAnalisis.Value.Year==anio && d.FechaRegistroAnalisis.Value.Month==numeromes
                               group d by d.ResumenAnalisis into grp
                               select new
                               {
@@ -1111,7 +1111,7 @@ namespace DacarProsoft.Datos
             {
                 var Listado = from d in DB.AnalisisRegistrosGarantias
                               orderby d.AnalisisRegistrosGarantiasId
-                              where d.FechaRegistroAnalisis.Year == anio && d.FechaRegistroAnalisis.Month == numeromes
+                              where d.FechaRegistroAnalisis.Value.Year == anio && d.FechaRegistroAnalisis.Value.Month == numeromes
                               group d by d.ModeloBateria into grp
                               select new
                               {
@@ -1178,8 +1178,8 @@ namespace DacarProsoft.Datos
 
                 var Listado = from d in DB.AnalisisRegistrosGarantias join
                               e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
-                              where d.FechaRegistroAnalisis.Year==AnioConsulta && e.Cliente== cadena
-                              group d by new { d.FechaRegistroAnalisis.Month } into ut
+                              where d.FechaRegistroAnalisis.Value.Year ==AnioConsulta && e.Cliente== cadena
+                              group d by new { d.FechaRegistroAnalisis.Value.Month } into ut
                               select new
                               {
                                   Contador = ut.Count(),
@@ -1221,7 +1221,7 @@ namespace DacarProsoft.Datos
                 var Listado = from d in DB.AnalisisRegistrosGarantias join
                               e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
                               orderby d.AnalisisRegistrosGarantiasId
-                              where d.FechaRegistroAnalisis.Year == anio && d.FechaRegistroAnalisis.Month == numeromes && e.Cliente== cadena
+                              where d.FechaRegistroAnalisis.Value.Year == anio && d.FechaRegistroAnalisis.Value.Month == numeromes && e.Cliente== cadena
                               group d by d.ResumenAnalisis into grp
                               select new
                               {
@@ -1263,7 +1263,7 @@ namespace DacarProsoft.Datos
                               join
 e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
                               orderby d.AnalisisRegistrosGarantiasId
-                              where d.FechaRegistroAnalisis.Year == anio && d.FechaRegistroAnalisis.Month == numeromes && e.Cliente == cadena
+                              where d.FechaRegistroAnalisis.Value.Year == anio && d.FechaRegistroAnalisis.Value.Month == numeromes && e.Cliente == cadena
                               group d by d.ModeloBateria into grp
                               select new
                               {
@@ -1370,8 +1370,8 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
                 var Listado = from d in DB.AnalisisRegistrosGarantias
                               join
                               e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
-                               where d.FechaRegistroAnalisis.Year == Anio && e.TipoCliente == tipoCliente && e.ClienteClase == ClienteClase && e.ClienteLinea == ClienteLinea
-                               group d by new { d.FechaRegistroAnalisis.Month } into ut
+                               where d.FechaRegistroAnalisis.Value.Year == Anio && e.TipoCliente == tipoCliente && e.ClienteClase == ClienteClase && e.ClienteLinea == ClienteLinea
+                               group d by new { d.FechaRegistroAnalisis.Value.Month } into ut
                               select new
                               {
                                   Contador = ut.Count(),
@@ -1415,7 +1415,7 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
                               join
                               e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
                               orderby d.AnalisisRegistrosGarantiasId
-                              where d.FechaRegistroAnalisis.Year == Anio && d.FechaRegistroAnalisis.Month == numeromes && e.TipoCliente==tipoCliente && e.ClienteClase==ClienteClase && e.ClienteLinea==ClienteLinea 
+                              where d.FechaRegistroAnalisis.Value.Year == Anio && d.FechaRegistroAnalisis.Value.Month == numeromes && e.TipoCliente==tipoCliente && e.ClienteClase==ClienteClase && e.ClienteLinea==ClienteLinea 
                               group d by d.ResumenAnalisis into grp
                               select new
                               {
@@ -1456,7 +1456,7 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
                               join
                               e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.IngresoRevisionGarantiaId
                               orderby d.AnalisisRegistrosGarantiasId
-                              where d.FechaRegistroAnalisis.Year == Anio && d.FechaRegistroAnalisis.Month == numeromes && e.TipoCliente == tipoCliente && e.ClienteClase == ClienteClase && e.ClienteLinea == ClienteLinea
+                              where d.FechaRegistroAnalisis.Value.Year == Anio && d.FechaRegistroAnalisis.Value.Month == numeromes && e.TipoCliente == tipoCliente && e.ClienteClase == ClienteClase && e.ClienteLinea == ClienteLinea
                               group d by d.ModeloBateria into grp
                               select new
                               {
@@ -1627,9 +1627,9 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
 
                 var Listado = from d in DB.AnalisisRegistrosGarantias
                               join e in DB.ModelosMarcasPropias on d.ModeloBateria equals e.Referencia
-                              where d.FechaRegistroAnalisis.Year == Anio1 && d.FechaRegistroAnalisis.Month== Mes && d.AreaResponsable==AreaResponsable && d.ResumenAnalisis == Causales && e.Grupo==GrupoBateria
+                              where d.FechaRegistroAnalisis.Value.Year == Anio1 && d.FechaRegistroAnalisis.Value.Month == Mes && d.AreaResponsable==AreaResponsable && d.ResumenAnalisis == Causales && e.Grupo==GrupoBateria
 
-                              group d by new { d.FechaRegistroAnalisis.Year, d.ResumenAnalisis } into ut
+                              group d by new { d.FechaRegistroAnalisis.Value.Year, d.ResumenAnalisis } into ut
                               select new
                               {
                                   Contador = ut.Count(),
@@ -1639,9 +1639,9 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
 
                 var Listado2 = from d in DB.AnalisisRegistrosGarantias
                                join e in DB.ModelosMarcasPropias on d.ModeloBateria equals e.Referencia
-                               where d.FechaRegistroAnalisis.Year == Anio2 && d.FechaRegistroAnalisis.Month == Mes && d.AreaResponsable == AreaResponsable && d.ResumenAnalisis == Causales && e.Grupo == GrupoBateria
+                               where d.FechaRegistroAnalisis.Value.Year == Anio2 && d.FechaRegistroAnalisis.Value.Month == Mes && d.AreaResponsable == AreaResponsable && d.ResumenAnalisis == Causales && e.Grupo == GrupoBateria
 
-                               group d by new { d.FechaRegistroAnalisis.Year, d.ResumenAnalisis } into ut
+                               group d by new { d.FechaRegistroAnalisis.Value.Year, d.ResumenAnalisis } into ut
 
                                select new
                                {
@@ -1695,7 +1695,7 @@ e in DB.IngresoRevisionGarantiaCabecera on d.IngresoRevisionGarantiaId equals e.
 
                 var Listado = (from d in DB.AnalisisRegistrosGarantias join
                                e in DB.ModelosMarcasPropias on d.ModeloBateria equals e.Referencia
-                               where d.FechaRegistroAnalisis.Year==anio || d.FechaRegistroAnalisis.Year == anio2
+                               where d.FechaRegistroAnalisis.Value.Year ==anio || d.FechaRegistroAnalisis.Value.Year == anio2
                                select new
                                {
                                    d.AnalisisRegistrosGarantiasId,

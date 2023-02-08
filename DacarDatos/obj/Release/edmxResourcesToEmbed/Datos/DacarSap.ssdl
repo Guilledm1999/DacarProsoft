@@ -2850,6 +2850,8 @@
     <Property Name="U_DAC_COMENT1" Type="nvarchar" MaxLength="20" />
     <Property Name="U_DAC_COMENT2" Type="nvarchar" MaxLength="20" />
     <Property Name="U_DAC_COMENT3" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_POLARI" Type="nvarchar" MaxLength="20" />
+    <Property Name="U_DAC_MERCA" Type="nvarchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="OPDN">
     <Key>
@@ -4633,6 +4635,20 @@
     <Property Name="U_DC_PESOREAL" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.Matriz_Inventario_Baterias_RN' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="Matriz_Inventario_Baterias_RN">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Ubicacion" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Ubicacion" Type="varchar" MaxLength="18" Nullable="false" />
+    <Property Name="Refencia" Type="nvarchar" MaxLength="100" />
+    <Property Name="Polaridad" Type="varchar" MaxLength="9" />
+    <Property Name="Marca" Type="nvarchar" MaxLength="150" />
+    <Property Name="Stock" Type="numeric" Precision="38" Scale="6" />
+  </EntityType>
+  <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.ReporteIngresoChatarraConDesviacionRN' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="ReporteIngresoChatarraConDesviacionRN">
     <Key>
@@ -4767,6 +4783,16 @@ advertencia 6002: La tabla o vista 'SBODACARPROD.dbo.VU_REPORTEPRODUCCION' no ti
     <EntitySet Name="OSLP" EntityType="Self.OSLP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PDN1" EntityType="Self.PDN1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RDR1" EntityType="Self.RDR1" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Matriz_Inventario_Baterias_RN" EntityType="Self.Matriz_Inventario_Baterias_RN" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Matriz_Inventario_Baterias_RN].[Id] AS [Id], 
+    [Matriz_Inventario_Baterias_RN].[Ubicacion] AS [Ubicacion], 
+    [Matriz_Inventario_Baterias_RN].[Refencia] AS [Refencia], 
+    [Matriz_Inventario_Baterias_RN].[Polaridad] AS [Polaridad], 
+    [Matriz_Inventario_Baterias_RN].[Marca] AS [Marca], 
+    [Matriz_Inventario_Baterias_RN].[Stock] AS [Stock]
+    FROM [dbo].[Matriz_Inventario_Baterias_RN] AS [Matriz_Inventario_Baterias_RN]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="ReporteIngresoChatarraConDesviacionRN" EntityType="Self.ReporteIngresoChatarraConDesviacionRN" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [ReporteIngresoChatarraConDesviacionRN].[DocEntry] AS [DocEntry], 

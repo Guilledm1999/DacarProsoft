@@ -1126,7 +1126,7 @@ namespace DacarProsoft.Datos
                 //if (codigos == "--Todos--") {
                     var ListadoModelos = from d in DB.Chatarra
                                          join e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
-                                         where (d.FechaRegistro != null) && ((d.FechaRegistro).Year == anio)
+                                         where (d.FechaRegistro != null) && ((d.FechaRegistro).Value.Year == anio)
                                          orderby d.FechaRegistro descending
 
                                          select new
@@ -1251,8 +1251,8 @@ namespace DacarProsoft.Datos
                 //{
                     var ListadoModelos = from d in DB.Chatarra
                                          join e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
-                                         where (d.FechaRegistro != null) && ((d.FechaRegistro).Year == anio)
-                                         orderby d.FechaRegistro.Month
+                                         where (d.FechaRegistro != null) && ((d.FechaRegistro).Value.Year == anio)
+                                         orderby d.FechaRegistro.Value.Month
 
                                          select new
                                          {
@@ -1831,8 +1831,8 @@ namespace DacarProsoft.Datos
                               e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry 
                               where 
                               d.Cliente==NombreCliente &&
-                              d.FechaRegistro.Year == anioBusqueda
-                              group new { d, e } by new { d.FechaRegistro.Month} into ut
+                              d.FechaRegistro.Value.Year == anioBusqueda
+                              group new { d, e } by new { d.FechaRegistro.Value.Month } into ut
                               orderby ut.Key.Month
                               select new
                               {
@@ -1863,8 +1863,8 @@ namespace DacarProsoft.Datos
                               join
                               e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
                               where                           
-                              d.FechaRegistro.Year == anioBusqueda
-                              group new { d, e } by new { d.FechaRegistro.Month } into ut
+                              d.FechaRegistro.Value.Year == anioBusqueda
+                              group new { d, e } by new { d.FechaRegistro.Value.Month } into ut
                               orderby ut.Key.Month
                               select new
                               {
@@ -1894,8 +1894,8 @@ namespace DacarProsoft.Datos
                               join
                               e in DB.ChatarraPesos on d.DocEntry equals e.DocEntry
                               where
-                              d.FechaRegistro.Year == anioBusqueda && d.TipoIngreso == tipo
-                              group new { d, e } by new { d.FechaRegistro.Month } into ut
+                              d.FechaRegistro.Value.Year == anioBusqueda && d.TipoIngreso == tipo
+                              group new { d, e } by new { d.FechaRegistro.Value.Month } into ut
                               orderby ut.Key.Month
                               select new
                               {
@@ -1929,8 +1929,8 @@ namespace DacarProsoft.Datos
                               join 
                               f in DB.GrupoClientes on d.CardCode equals f.GroupCode
                               where
-                              d.FechaRegistro.Year == anioBusqueda && f.GroupCode == cardCode
-                              group new { d, e } by new { d.FechaRegistro.Month } into ut
+                              d.FechaRegistro.Value.Year == anioBusqueda && f.GroupCode == cardCode
+                              group new { d, e } by new { d.FechaRegistro.Value.Month } into ut
                               orderby ut.Key.Month
                               select new
                               {

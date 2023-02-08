@@ -54,6 +54,10 @@ var cantHisAnt = 0;
 var pesoPromHistAnt = 0;
 var precioPromHistAnt = 0;
 var tempValoresHist = null;
+var filtro = [];
+var filter;
+var filterTipoIngreso = [];
+var filterMes=[];
 
 $(document).ready(function () {
     $(".loading-icon").css("display", "none");
@@ -81,6 +85,9 @@ function ResetOpciones() {
     selectBox3.option('value', 'Todos');
     //$("#selecTipoCliente").data('dxselectbox').value === 'Todos';
     //.value === 'Todos'
+    filtro = [];
+    filterMes = [];
+    filterTipoIngreso = [];
 }
 function ConsultarIngresoAnterior() {
     var select = $("#anioClass option:selected").text();
@@ -101,6 +108,7 @@ function ConsultarIngresoAnterior() {
     })
     return res;
 }
+
 
 function ConsultaDeIngresos() {
     $(".result").text("");
@@ -383,7 +391,7 @@ function crearTablaDescriptivaAndChart(val) {
             cantidadAproxCompKg = $("#cardTextCanNc").text();
             var temVa = parseInt(cantidadAproxCompKg.replace(/,/g, ""));
             pesProComKg = $("#cardTextCanPesProm").text();
-            precioProIngresoCoKg = precioIngresoCoKg / temVa;
+            //precioProIngresoCoKg = precioIngresoCoKg / temVa;
 
         }
         var fila = '<tr id="filaTemp">\n\
@@ -647,6 +655,37 @@ function consultaInfoAnterior(val, tipo) {
     }
 }
 
+//
+function filtracion() {
+      //Hay todo
+    if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length > 0) {
+        dataGrid.filter(filtro, "and", [filterMes], "and", [filterTipoIngreso]);
+        //Hay Filtro y Mes
+    }  if (filterTipoIngreso.length <= 0 && filterMes.length > 0 && filtro.length > 0) {
+        dataGrid.filter(filtro, "and", [filterMes]);
+        //Hay Filtro y TipoIngreso
+    }  if (filterTipoIngreso.length > 0 && filterMes.length <= 0 && filtro.length > 0) {
+        dataGrid.filter(filtro, "and", [filterTipoIngreso]);
+        //Hay TipoIngreso y Mes
+    }  if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length <= 0) {
+        dataGrid.filter([filterMes], "and", [filterTipoIngreso]);
+        
+        //Hay Mes
+    }  if (filterMes.length > 0) {
+        dataGrid.filter([filterMes]);
+        //Hay Filtro
+    } if (filtro.length > 0) {
+        dataGrid.filter([filtro]);
+    }
+    //Hay TipoIngreso
+    if (filterTipoIngreso.length > 0) {
+        dataGrid.filter(filterTipoIngreso);
+        
+    }
+
+}
+
+//Tagbox para filtrar en la tabla
 function InformeIngresosDeChatarra() {
     var select = $("#anioClass option:selected").text();
     const meses = ['enero','febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']; 
@@ -682,19 +721,49 @@ function InformeIngresosDeChatarra() {
                 dataSource: meses,
                 searchEnabled: true,
                 onValueChanged: function (e) {
+                    filterMes = [];
                     var tbl = $("#IngresosdeChatarras").dxDataGrid("instance");
                     console.log(dataGrid);
                     if (e.value.length != 0) {
-                        var filter = [];
+                        
                         for (var i = 0; i < e.value.length; i++) {
-                            filter.push(["NombreMes", "=", e.value[i]]);
-                            filter.push("or");
+                            filterMes.push(["NombreMes", "=", e.value[i]]);
+                            filterMes.push("or");
                         }
-                        filter.pop();
+                        filterMes.pop();
                         //dataGrid.getCombinedFilter(true);
-                        dataGrid.filter(filter);
-                        //dataGrid.filter(filter);
-                        consultaInfoAnterior(e.value,1);
+                      //  dataGrid.filter(filterMes);
+
+                        // dataGrid.filter(filtro, "and", [filterMes]);
+                        //filtracion();
+                        if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes], "and", [filterTipoIngreso]);
+                            //Hay Filtro y Mes
+                        } if (filterTipoIngreso.length <= 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes]);
+                            //Hay Filtro y TipoIngreso
+                        } if (filterTipoIngreso.length > 0 && filterMes.length <= 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterTipoIngreso]);
+                            //Hay TipoIngreso y Mes
+                        } if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length <= 0) {
+                            dataGrid.filter([filterMes], "and", [filterTipoIngreso]);
+                            //Hay Mes
+                        } if (filterMes.length > 0 && filtro.length <= 0 && filterTipoIngreso <= 0) {
+                            dataGrid.filter([filterMes]);
+                            //Hay Filtro
+                        } if (filtro.length > 0 && filterTipoIngreso.length <= 0 && filterMes.length <= 0) {
+                            dataGrid.filter([filtro]);
+                        }
+                        //Hay TipoIngreso
+                        if (filterTipoIngreso.length > 0 && filtro.length <= 0 && filterMes <= 0) {
+                            dataGrid.filter(filterTipoIngreso);
+                        }
+                        //No hay ninguno
+                        if (filterTipoIngreso.length == 0 && filtro.length == 0 && filterMes == 0) {
+                            dataGrid.clearFilter();
+                        }
+                        consultaInfoAnterior(e.value, 1);
+
                     }
                     else {
                         consultaInfoAnterior(e.value,1);
@@ -711,16 +780,45 @@ function InformeIngresosDeChatarra() {
                 searchEnabled: true,
                 onValueChanged: function (e) {
                     console.log(dataGrid);
+                    filterTipoIngreso = [];
                     if (e.value.length != 0) {
                         valorTempCantProm = 1;
-                        var filter = [];
+                         
                         for (var i = 0; i < e.value.length; i++) {
-                            filter.push(["Tipo_Ingreso", "=", e.value[i]]);
-                            filter.push("or");
+                            filterTipoIngreso.push(["Tipo_Ingreso", "=", e.value[i]]);
+                            filterTipoIngreso.push("or");
                         }
-                        filter.pop();
-                        dataGrid.filter(filter);
+                        filterTipoIngreso.pop();
+                       //filtracion();
+                        if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes], "and", [filterTipoIngreso]);
+                            //Hay Filtro y Mes
+                        } if (filterTipoIngreso.length <= 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes]);
+                            //Hay Filtro y TipoIngreso
+                        } if (filterTipoIngreso.length > 0 && filterMes.length <= 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterTipoIngreso]);
+                            //Hay TipoIngreso y Mes
+                        } if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length <= 0) {
+                            dataGrid.filter([filterMes], "and", [filterTipoIngreso]);
+                            //Hay Mes
+                        } if (filterMes.length > 0 && filtro.length<=0 && filterTipoIngreso<=0) {
+                            dataGrid.filter([filterMes]);
+                            //Hay Filtro
+                        } if (filtro.length > 0 && filterTipoIngreso.length <= 0 && filterMes.length <=0) {
+                            dataGrid.filter([filtro]);
+                        }
+                        //Hay TipoIngreso
+                        if (filterTipoIngreso.length > 0 && filtro.length <= 0 && filterMes <=0) {
+                            dataGrid.filter(filterTipoIngreso);
+                        }
+                        //No hay ninguno
+                        if (filterTipoIngreso.length == 0 && filtro.length == 0 && filterMes == 0) {
+                            dataGrid.clearFilter();
+                        }
+                      // dataGrid.filter(filterTipoIngreso);
                         consultaInfoAnterior(e.value, 2);
+
                     }
                     else {
                         valorTempCantProm = 0;
@@ -747,22 +845,141 @@ function InformeIngresosDeChatarra() {
             $('#selecTipoCliente').dxSelectBox({
                 dataSource: tipoCliente,
                 value: tipoCliente[0],
-                onValueChanged(data) {                
-                    if (data.value === 'Todos') { dataGrid.clearFilter(); } else { dataGrid.filter(['Tipo_Cliente', '=',data.value]); }
+                onValueChanged(data) {
+                    
+                    eliminarFiltroPorName("Tipo_Cliente");
+                    if (data.value != 'Todos') {
+                        //dataGrid.clearFilter();
+                        
+                        filtro.push(['Tipo_Cliente', '=', data.value]);
+                    }
+                   
+                        
+                        
+                       // dataGrid.filter(filtro);
+                       // filtracion();
+                        if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes], "and", [filterTipoIngreso]);
+                            //Hay Filtro y Mes
+                        } if (filterTipoIngreso.length <= 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes]);
+                            
+                            //Hay Filtro y TipoIngreso
+                        } if (filterTipoIngreso.length > 0 && filterMes.length <= 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterTipoIngreso]);
+                            //Hay TipoIngreso y Mes
+                        } if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length <= 0) {
+                            dataGrid.filter([filterMes], "and", [filterTipoIngreso]);
+                            //Hay Mes
+                        } if (filterMes.length > 0 && filtro.length <= 0 && filterTipoIngreso <= 0) {
+                            dataGrid.filter([filterMes]);
+                            //Hay Filtro
+                        } if (filtro.length > 0 && filterTipoIngreso.length <= 0 && filterMes.length <= 0) {
+                            dataGrid.filter([filtro]);
+                        }
+                        //Hay TipoIngreso
+                        if (filterTipoIngreso.length > 0 && filtro.length <= 0 && filterMes <= 0) {
+                            dataGrid.filter(filterTipoIngreso);
+                        }
+                        //No hay ninguno
+                        if (filterTipoIngreso.length == 0 && filtro.length == 0 && filterMes == 0) {
+                            dataGrid.clearFilter();
+                    }
+                   // dataGrid.repaint();
+                    dataGrid.refresh();
                 },
             });
             $('#selecClienteLinea').dxSelectBox({
                 dataSource: tipoClienteLinea,
                 value: tipoClienteLinea[0],
-                onValueChanged(data) {                   
-                    if (data.value === 'Todos') { dataGrid.clearFilter(); } else { dataGrid.filter(['Cliente_Linea', '=', data.value]); }
+                onValueChanged(data) {
+
+                    eliminarFiltroPorName("Cliente_Linea");
+                    if (data.value != 'Todos') {
+                        //dataGrid.clearFilter();
+                        filtro.push(['Cliente_Linea', '=', data.value]);
+                       
+                    }
+                    
+                       
+                        
+                        //dataGrid.filter(filtro);
+                        //filtracion();
+                        if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes], "and", [filterTipoIngreso]);
+                            //Hay Filtro y Mes
+                        } if (filterTipoIngreso.length <= 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes]);
+                            //Hay Filtro y TipoIngreso
+                        } if (filterTipoIngreso.length > 0 && filterMes.length <= 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterTipoIngreso]);
+                            //Hay TipoIngreso y Mes
+                        } if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length <= 0) {
+                            dataGrid.filter([filterMes], "and", [filterTipoIngreso]);
+                            //Hay Mes
+                        } if (filterMes.length > 0 && filtro.length <= 0 && filterTipoIngreso <= 0) {
+                            dataGrid.filter([filterMes]);
+                            //Hay Filtro
+                        } if (filtro.length > 0 && filterTipoIngreso.length <= 0 && filterMes.length <= 0) {
+                            dataGrid.filter([filtro]);
+                        }
+                        //Hay TipoIngreso
+                        if (filterTipoIngreso.length > 0 && filtro.length <= 0 && filterMes <= 0) {
+                            dataGrid.filter(filterTipoIngreso);
+                        }
+                        //No hay ninguno
+                        if (filterTipoIngreso.length == 0 && filtro.length == 0 && filterMes == 0) {
+                            dataGrid.clearFilter();
+                    }
+                    dataGrid.repaint();
+                    dataGrid.refresh();
+                    
                 },
             });
             $('#selecClienteClase').dxSelectBox({
                 dataSource: tipoClienteClase,
                 value: tipoClienteClase[0],
-                onValueChanged(data) {                 
-                    if (data.value === 'Todos') { dataGrid.clearFilter(); } else { dataGrid.filter(['Cliente_Clase', '=', data.value]); }
+                onValueChanged(data) {
+                    eliminarFiltroPorName("Cliente_Clase");
+                    if (data.value != 'Todos') {
+                        //dataGrid.clearFilter();
+                       
+                        filtro.push(['Cliente_Clase', '=', data.value]);
+                    }
+                 
+                       
+                      
+                        //filtro.push(['Cliente_Clase', '=', data.value]);
+                        // dataGrid.filter(filtro);
+                        //filtracion();
+                        if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes], "and", [filterTipoIngreso]);
+                            //Hay Filtro y Mes
+                        } if (filterTipoIngreso.length <= 0 && filterMes.length > 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterMes]);
+                            //Hay Filtro y TipoIngreso
+                        } if (filterTipoIngreso.length > 0 && filterMes.length <= 0 && filtro.length > 0) {
+                            dataGrid.filter(filtro, "and", [filterTipoIngreso]);
+                            //Hay TipoIngreso y Mes
+                        } if (filterTipoIngreso.length > 0 && filterMes.length > 0 && filtro.length <= 0) {
+                            dataGrid.filter([filterMes], "and", [filterTipoIngreso]);
+                            //Hay Mes
+                        } if (filterMes.length > 0 && filtro.length <= 0 && filterTipoIngreso <= 0) {
+                            dataGrid.filter([filterMes]);
+                            //Hay Filtro
+                        } if (filtro.length > 0 && filterTipoIngreso.length <= 0 && filterMes.length <= 0) {
+                            dataGrid.filter([filtro]);
+                        }
+                        //Hay TipoIngreso
+                        if (filterTipoIngreso.length > 0 && filtro.length <= 0 && filterMes <= 0) {
+                            dataGrid.filter(filterTipoIngreso);
+                    }
+                        if (filterTipoIngreso.length == 0 && filtro.length == 0 && filterMes == 0) {
+                            dataGrid.clearFilter();
+                        }
+                       
+                    dataGrid.repaint();
+                    dataGrid.refresh();
                 },
             });
             const dataGrid =$("#IngresosdeChatarras").dxDataGrid({
@@ -824,7 +1041,7 @@ function InformeIngresosDeChatarra() {
                         dataField: "FechaRegistro", caption: "Mes Ingreso", allowEditing: false, dataType: 'date', format: 'month'
                     },
                     {
-                        dataField: "N_Documento", caption: "# Documento", allowEditing: false, fixed: false, allowFiltering: false, visible: false
+                        dataField: "N_Documento", caption: "# Documento", allowEditing: false, fixed: false,  visible: true
                     },
 
                     {
@@ -1069,6 +1286,18 @@ function InformeIngresosDeChatarra() {
         return storageLocale != null ? storageLocale : 'es';
     }
 //    consultarResAnterior();
+}
+
+function eliminarFiltroPorName(name,) {
+    
+    for (var i = 0; i < filtro.length; i++) {
+        if (filtro[i].includes(name)) {
+           
+                filtro.splice(i, 1)
+           
+            
+        }
+    }
 }
 
 function graficoMesesGeneral(valgeneral) {

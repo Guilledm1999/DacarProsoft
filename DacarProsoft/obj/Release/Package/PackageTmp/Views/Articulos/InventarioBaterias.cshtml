@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "InventarioBateriaPlantas";
+    Layout = "~/Views/Compartida/_Layout.cshtml";
+}
+@{
+    var SelectFechaPedido = ViewBag.FechasPedido;
+    var SelectStatus = ViewBag.EstadosPedido;
+
+}
+
+<br />
+<style>
+    .dx-datagrid {
+        font: 12px Montserrat;
+    }
+
+    
+
+    .dx-datagrid-headers .dx-header-row {
+        font: 14px arial;
+        background-color: #D7F1FF;
+        /*background-color: #3355FF;*/
+        color: black;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .dx-data-row {
+        font-size: 11pt;
+        padding: 2pt;
+    }
+
+    .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell {
+        vertical-align: middle;
+    }
+
+    .dx-datagrid-headers {
+        background-color: yellow;
+    }
+
+        .dx-datagrid-headers .dx-datagrid-text-content {
+            text-align: center;
+        }
+</style>
+
+<div class="card shadow">
+    
+    <div class="card-header">
+        <h2>Inventario de Baterias en Planta</h2>
+    </div>
+    <div class="card-body">
+        <div id="MensajeErrorInesperado" class="alert alert-primary collapse">
+            <button id="LinkClose" type="button" class="close">&times;</button>
+            <strong>Error Inesperado!</strong>
+        </div>
+        <div class="container-fluid">
+            <div id="tblTiposArticulos"> </div>
+        </div>
+        
+
+    </div>
+        
+    </div>
+    <br />
+
+</div>
+

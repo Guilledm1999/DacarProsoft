@@ -83,17 +83,12 @@ namespace DacarDatos.Datos
         public virtual DbSet<IngresoRevisionGarantiaCabecera> IngresoRevisionGarantiaCabecera { get; set; }
         public virtual DbSet<ClienteClase> ClienteClase { get; set; }
         public virtual DbSet<ClienteLinea> ClienteLinea { get; set; }
-        public virtual DbSet<RutaBasesAccessCalidad> RutaBasesAccessCalidad { get; set; }
         public virtual DbSet<MarcaBateriaPruebaLaboratorio> MarcaBateriaPruebaLaboratorio { get; set; }
         public virtual DbSet<NormativaPruebaLaboratorio> NormativaPruebaLaboratorio { get; set; }
         public virtual DbSet<SeparadorPruebaLaboratorio> SeparadorPruebaLaboratorio { get; set; }
         public virtual DbSet<TipoEnsayoPruebaLaboratorio> TipoEnsayoPruebaLaboratorio { get; set; }
         public virtual DbSet<TipoNormaPruebaLaboratorio> TipoNormaPruebaLaboratorio { get; set; }
         public virtual DbSet<RutaInstalacionSoftware> RutaInstalacionSoftware { get; set; }
-        public virtual DbSet<PruebaLaboratorioCalidad> PruebaLaboratorioCalidad { get; set; }
-        public virtual DbSet<AutorizacionPackingList> AutorizacionPackingList { get; set; }
-        public virtual DbSet<DatosTecnicosCalidadBaterias> DatosTecnicosCalidadBaterias { get; set; }
-        public virtual DbSet<CorreoElectronicoEnviosReportes> CorreoElectronicoEnviosReportes { get; set; }
         public virtual DbSet<IngresosDetallesMedicionCarga> IngresosDetallesMedicionCarga { get; set; }
         public virtual DbSet<IngresosMedicionCarga> IngresosMedicionCarga { get; set; }
         public virtual DbSet<Chatarra> Chatarra { get; set; }
@@ -112,11 +107,23 @@ namespace DacarDatos.Datos
         public virtual DbSet<PruebasLaboratorioCCA> PruebasLaboratorioCCA { get; set; }
         public virtual DbSet<CategoriaDatosBaterias> CategoriaDatosBaterias { get; set; }
         public virtual DbSet<DatosTecnicosBatExpor> DatosTecnicosBatExpor { get; set; }
-        public virtual DbSet<ListaPrecioGenerica> ListaPrecioGenerica { get; set; }
-        public virtual DbSet<ListaPrecioCliente> ListaPrecioCliente { get; set; }
         public virtual DbSet<NombreListaPrecioCliente> NombreListaPrecioCliente { get; set; }
+        public virtual DbSet<DatosTecnicosBatExporListCli> DatosTecnicosBatExporListCli { get; set; }
+        public virtual DbSet<ListaPrecioCliente> ListaPrecioCliente { get; set; }
+        public virtual DbSet<TipoPlacaPruebaLaboratorio> TipoPlacaPruebaLaboratorio { get; set; }
+        public virtual DbSet<DatosTecnicosCalidadBaterias> DatosTecnicosCalidadBaterias { get; set; }
+        public virtual DbSet<MatrizInventarioBaterias> MatrizInventarioBaterias { get; set; }
+        public virtual DbSet<RutaBasesAccessCalidad> RutaBasesAccessCalidad { get; set; }
+        public virtual DbSet<AutorizacionPackingList> AutorizacionPackingList { get; set; }
+        public virtual DbSet<CorreoElectronicoEnviosReportes> CorreoElectronicoEnviosReportes { get; set; }
+        public virtual DbSet<ListaPrecioGenerica> ListaPrecioGenerica { get; set; }
+        public virtual DbSet<MarcaPortal> MarcaPortal { get; set; }
+        public virtual DbSet<MarcaClientePortal> MarcaClientePortal { get; set; }
+        public virtual DbSet<PruebaLaboratorioCalidad> PruebaLaboratorioCalidad { get; set; }
+        public virtual DbSet<Contrasena> Contrasena { get; set; }
+        public virtual DbSet<SeguridadUsuario> SeguridadUsuario { get; set; }
     
-        public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo)
+        public virtual int RegistrarNuevoUsuario(string nombres, string username, string llave, Nullable<int> tipo, string usuarioCreacion)
         {
             var nombresParameter = nombres != null ?
                 new ObjectParameter("nombres", nombres) :
@@ -134,7 +141,11 @@ namespace DacarDatos.Datos
                 new ObjectParameter("tipo", tipo) :
                 new ObjectParameter("tipo", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarNuevoUsuario", nombresParameter, usernameParameter, llaveParameter, tipoParameter);
+            var usuarioCreacionParameter = usuarioCreacion != null ?
+                new ObjectParameter("UsuarioCreacion", usuarioCreacion) :
+                new ObjectParameter("UsuarioCreacion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarNuevoUsuario", nombresParameter, usernameParameter, llaveParameter, tipoParameter, usuarioCreacionParameter);
         }
     
         public virtual ObjectResult<spConsultaUsuarios> spConsultaUsuarios()
@@ -153,31 +164,6 @@ namespace DacarDatos.Datos
                 new ObjectParameter("llave", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LoginUsuario_Result>("LoginUsuario", usernameParameter, llaveParameter);
-        }
-    
-        public virtual int spActualizarUsuario(Nullable<int> idUsuario, string usuario, string nombre, string clave, Nullable<int> tipoUsuario)
-        {
-            var idUsuarioParameter = idUsuario.HasValue ?
-                new ObjectParameter("IdUsuario", idUsuario) :
-                new ObjectParameter("IdUsuario", typeof(int));
-    
-            var usuarioParameter = usuario != null ?
-                new ObjectParameter("usuario", usuario) :
-                new ObjectParameter("usuario", typeof(string));
-    
-            var nombreParameter = nombre != null ?
-                new ObjectParameter("nombre", nombre) :
-                new ObjectParameter("nombre", typeof(string));
-    
-            var claveParameter = clave != null ?
-                new ObjectParameter("clave", clave) :
-                new ObjectParameter("clave", typeof(string));
-    
-            var tipoUsuarioParameter = tipoUsuario.HasValue ?
-                new ObjectParameter("tipoUsuario", tipoUsuario) :
-                new ObjectParameter("tipoUsuario", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spActualizarUsuario", idUsuarioParameter, usuarioParameter, nombreParameter, claveParameter, tipoUsuarioParameter);
         }
     
         public virtual ObjectResult<spLoginUsuarioPortal_Result> spLoginUsuarioPortal(string username, string clave)
@@ -245,6 +231,31 @@ namespace DacarDatos.Datos
                 new ObjectParameter("validar", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spRegistrarNuevoUsuarioPortal", nombreParameter, usuarioParameter, claveParameter, referenciaParameter, estadoParameter, validarParameter);
+        }
+    
+        public virtual int spActualizarUsuario(Nullable<int> idUsuario, string usuario, string nombre, string clave, Nullable<int> tipoUsuario)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("usuario", usuario) :
+                new ObjectParameter("usuario", typeof(string));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("nombre", nombre) :
+                new ObjectParameter("nombre", typeof(string));
+    
+            var claveParameter = clave != null ?
+                new ObjectParameter("clave", clave) :
+                new ObjectParameter("clave", typeof(string));
+    
+            var tipoUsuarioParameter = tipoUsuario.HasValue ?
+                new ObjectParameter("tipoUsuario", tipoUsuario) :
+                new ObjectParameter("tipoUsuario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("spActualizarUsuario", idUsuarioParameter, usuarioParameter, nombreParameter, claveParameter, tipoUsuarioParameter);
         }
     }
 }

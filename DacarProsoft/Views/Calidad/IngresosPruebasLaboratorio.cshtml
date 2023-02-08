@@ -9,11 +9,12 @@
     var marcasPropias = ViewBag.MarcasPropias;
     var models = ViewBag.Models;
 
-    var Marcas=ViewBag.datMarcas;
-    var TipoNorma=ViewBag.datTipoNorma;
-    var Normativa=ViewBag.Normativa;
-    var Separador=ViewBag.datSeparador;
-    var TipoEnsayo=ViewBag.datTipoEnsayo;
+    var Marcas = ViewBag.datMarcas;
+    var TipoNorma = ViewBag.datTipoNorma;
+    var Normativa = ViewBag.Normativa;
+    var Separador = ViewBag.datSeparador;
+    var TipoEnsayo = ViewBag.datTipoEnsayo;
+    var TipoPlaca = ViewBag.datTipoPlaca;
 
 }
 <br />
@@ -131,9 +132,9 @@
                     </div>
                     <div class="form-row">
                         @*<div class="form-group col-md-3">
-            <label for="inputPassword4">Densidad Pre-Acondiciomiento</label>
-            <input type="number" class="form-control" id="txtDensidadPreAcondiciamiento" placeholder="Densidad Pre-Acondiciomiento">
-        </div>*@
+                                <label for="inputPassword4">Densidad Pre-Acondiciomiento</label>
+                                <input type="number" class="form-control" id="txtDensidadPreAcondiciamiento" placeholder="Densidad Pre-Acondiciomiento">
+                            </div>*@
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Temperatura Ingreso (ºC)</label>
                             <input type="number" class="form-control" id="txtTemperaturaIngreso" placeholder="Temperatura Ingreso (ºC)">
@@ -153,9 +154,9 @@
                     </div>
                     <div class="form-row">
                         @*<div class="form-group col-md-3">
-            <label for="inputPassword4">Valor Objetivo Minimo</label>
-            <input type="number" class="form-control" id="txtValorObjetivo" placeholder="Valor Objetivo Minimo">
-        </div>*@
+                                <label for="inputPassword4">Valor Objetivo Minimo</label>
+                                <input type="number" class="form-control" id="txtValorObjetivo" placeholder="Valor Objetivo Minimo">
+                            </div>*@
 
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Observaciones </label>
@@ -168,6 +169,27 @@
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Código Bateria</label>
                             <input type="number" class="form-control" id="txtCodigoBateria" placeholder="Codigo Bateria">
+                        </div>
+                      
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Tipo de Placa Positivo</label>
+                                @Html.DropDownList("Placa", new SelectList(TipoPlaca, "Value", "Text"), "--Seleccione--", new { @class = "form-control", id = "txtPlaca" })
+                            </div>
+
+
+                        
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4">Tipo de Placa Negativo</label>
+                            @Html.DropDownList("Placa", new SelectList(TipoPlaca, "Value", "Text"), "--Seleccione--", new { @class = "form-control", id = "txtPlacaNegativo" })
+                        </div>
+                        <div class="form-group col-md-3">
+
+                            <label for="inputEmail4">Intendidad de Descarga </label>
+                            <input type="number" class="form-control" id="txtIntensidadDescarga" placeholder="Intensidad de Descarga">
+
                         </div>
                         <div class="form-group col-md-4">
                             <label for="inputEmail4">Anexos</label>
@@ -187,6 +209,8 @@
             </div>
         </form>
 
-    </div>
-</div>
 
+
+    </div>
+
+</div>

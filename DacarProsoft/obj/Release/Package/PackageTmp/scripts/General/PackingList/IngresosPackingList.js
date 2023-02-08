@@ -826,7 +826,9 @@ function AbrirPalletPrue() {
 
 
 $('#RegistrarPakingLocal').on("click", function (e) {
+    document.getElementById("#RegistrarPakingLocal").disabled = true;
     registrarPallet();
+    document.getElementById("#RegistrarPakingLocal").disabled = false;
 });
 
 
@@ -846,6 +848,7 @@ function registrarPallet() {
             setTimeout(function () {
                 $("#MensajeErrorGuardado").fadeOut(1500);
             }, 3000);
+            document.getElementById("#RegistrarPakingLocal").disabled = false;
 
         }
     })

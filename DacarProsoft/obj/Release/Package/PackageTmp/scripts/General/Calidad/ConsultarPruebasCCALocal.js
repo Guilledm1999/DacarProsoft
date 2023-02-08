@@ -9,6 +9,9 @@ var calificacionPr = null;
 
 $(document).ready(function () {
     ConsultaRegistrosPruebasLaboratorio();
+  //  $("#dataGridContainer").dxDataGrid("columnOption", "CodigoIngreso", "visible", false);
+   
+  //  $("#dataGridContainer").dxDataGrid("columnOption", "CodigoBateria", "visible", false);
 });
 
 $('#LinkClose').on("click", function (e) {
@@ -136,13 +139,13 @@ function ConsultaRegistrosPruebasLaboratorio() {
                        
                     },
                     {
-                        dataField: "CodigoIngreso", caption: "Codigo Ingreso", alignment: "left", allowHeaderFiltering: true, allowSearch: true,
+                        dataField: "CodigoIngreso", caption: "Codigo Ingreso", alignment: "left", allowHeaderFiltering: true, allowSearch: true, visible : false,
                        
                     },
                     {
-                        dataField: "CodigoBateria", caption: "Codigo Bateria", alignment: "left", allowHeaderFiltering: true, allowSearch: true, 
+                        dataField: "CodigoBateria", caption: "Codigo Bateria", alignment: "left", allowHeaderFiltering: true, allowSearch: true, visible: false,
                       
-                    },          
+                    },        
                     {
                         dataField: "TipoBateria", caption: "Tipo Bateria", alignment: "left", allowHeaderFiltering: true, allowSearch: true,
                       
@@ -164,7 +167,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                     {
                         dataField: "LoteCarga", caption: "Lote de Carga", alignment: "right", allowHeaderFiltering: false, allowSearch: true,
                        
-                    },
+                    },/*
                     {
                         dataField: "Peso", caption: "Peso", alignment: "right", allowHeaderFiltering: false, allowSearch: false,
                         format: {
@@ -173,7 +176,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
 
                         },
                        
-                    },
+                    },*/
                     {
                         dataField: "Voltaje", caption: "Voltaje", alignment: "right", allowHeaderFiltering: false, allowSearch: false,
                         format: {
@@ -182,7 +185,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
 
                         },
                        
-                    },
+                    },/*
                     {
                         dataField: "Temperatura", caption: "Temperatura", alignment: "right", allowHeaderFiltering: false, allowSearch: false,
                         format: {
@@ -191,21 +194,29 @@ function ConsultaRegistrosPruebasLaboratorio() {
 
                         },
                        
-                    },
+                    },*/
                     {
-                        dataField: "DatoTeoricoPrueba", caption: "Dato Teorico Prueba", alignment: "right", allowHeaderFiltering: false, allowSearch: false,
+                        dataField: "DatoTeoricoPrueba", caption: "Valor Nominal", alignment: "right", allowHeaderFiltering: false, allowSearch: false,
                         format: {
                             type: "fixedPoint",
                             precision: 2,
                         },
+                        
                        
                     },
                     {
-                        dataField: "ResultadoFinal", caption: "Resultado Final", alignment: "right", allowHeaderFiltering: false, allowSearch: false,
+                        dataField: "ResultadoFinal", caption: "Resultado de Prueba", alignment: "right", allowHeaderFiltering: false, allowSearch: false,
                         
                     },
                     {
                         dataField: "Rendimiento", caption: "Rendimiento", alignment: "right", allowHeaderFiltering: false, allowSearch: false,
+                        format: {
+                            type: "fixedPoint",
+                            precision: 1,
+                        },
+                        customizeText: function (cellInfo) {
+                            return cellInfo.valueText + " %";
+                        },
                         
                     },
                     {
@@ -227,7 +238,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                             customizeText: function (e) {
                                 return "Promedios: ";
                             }
-                        },
+                        },/*
                         {
                             column: "Temperatura",
                             summaryType: "avg",
@@ -240,7 +251,7 @@ function ConsultaRegistrosPruebasLaboratorio() {
                                     return ValTotal;
                                 }
                             }
-                        }, {
+                        },*/ {
                             column: "Peso",
                             summaryType: "avg",
                             showInColumn: "Peso",

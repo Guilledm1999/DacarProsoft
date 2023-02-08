@@ -365,5 +365,7 @@ namespace DacarDatos.Datos
         public string U_DAC_COMENT1 { get; set; }
         public string U_DAC_COMENT2 { get; set; }
         public string U_DAC_COMENT3 { get; set; }
+        public string U_DAC_POLARI { get; set; }
+        public string U_DAC_MERCA { get; set; }
     }
 }

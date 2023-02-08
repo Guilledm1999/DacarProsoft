@@ -13,6 +13,7 @@ namespace DacarProsoft.Models
         public string NombreUsuario { get; set; }
         public string Contrasena { get; set; }
         public string TipoUsuario { get; set; }
+        public int Intentos { get; set; }
 
     }
 }

@@ -17,6 +17,8 @@ namespace DacarProsoft.Controllers
           
             if (Session["usuario"] != null)
             {
+                ViewBag.JavaScript = "General/" + RouteData.Values["controller"] + "/" + RouteData.Values["action"];
+                ViewBag.dxdevweb = "1";
                 daoUtilitarios = new DaoUtilitarios();
             var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
 
@@ -64,5 +66,27 @@ namespace DacarProsoft.Controllers
             }
 
         }
+
+        public JsonResult RevisarContrasena( )
+        {
+            try
+            {
+                var daoIngresoMercancias = new DaoMenu();
+                
+                    var Result = daoIngresoMercancias.RevisarDiasContrasena(Convert.ToString(Session["usuarioIng"]));
+                    return Json(Result, JsonRequestBehavior.AllowGet);
+         
+                
+              
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+
+
     }
 }

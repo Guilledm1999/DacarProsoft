@@ -123,16 +123,20 @@
 
                         <div class="col-6 col-md-6">
                             <label for="email"><b>Nombres Completos</b></label>
-                            <input type="text" placeholder="Ingresar Nombres" name="NombreCompleto" id="txtNombres" autocomplete="off" required>
+                            <input type="text" class="form-control" placeholder="Ingresar Nombres" name="NombreCompleto" id="txtNombres" autocomplete="off" required>
                         </div>
                         <div class="col-6 col-md-6">
                             <label for="email"><b>Usuario</b></label>
-                            <input type="text" placeholder="Ingresar Usuario" name="NombreUsuario" id="txtUsuario" autocomplete="off" required>
+                            <input type="text" class="form-control" placeholder="Ingresar Usuario" name="NombreUsuario" id="txtUsuario" autocomplete="off" required>
 
                         </div>
                         <div class="col-6 col-md-6">
                             <label for="psw"><b>Contraseña</b></label>
-                            <input type="password" placeholder="Ingresar Contraseña" name="contrasena" id="txtContrasenia" autocomplete="off" required>
+                            <input type="password" class="form-control" placeholder="Ingresar Contraseña" name="contrasena" id="txtContrasenia" autocomplete="off" required onkeyup="checkPasswordStrength();">
+                            <div class="progress" style="height: 5px;" >
+                                <div id="passwordbar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div id="password-strength-status"></div>
 
                         </div>
 
@@ -155,7 +159,7 @@
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary"  onclick="CrearUsuario()">Registrar</button>
+                <button id="btnRegistrar" type="button" class="btn btn-primary"  onclick="CrearUsuario()"  disabled>Registrar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
@@ -186,7 +190,11 @@
                     </div>
                     <div class="col-6 col-md-6">
                         <label for="psw"><b>Contraseña</b></label>
-                        <input type="password" placeholder="Ingresar Contraseña" name="contrasena" id="txtContraseniaAct" autocomplete="off" required>
+                        <input type="password" placeholder="Ingresar Contraseña" name="contrasena" id="txtContraseniaAct" autocomplete="off" required onkeyup="checkPasswordStrengthAct();">
+                        <div class="progress" style="height: 5px;">
+                            <div id="passwordbarAct" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div id="password-strength-statusAct"></div>
 
                     </div>
 

@@ -30,7 +30,7 @@
     <Property Name="ResumenAnalisis" Type="varchar" MaxLength="100" />
     <Property Name="AreaResponsable" Type="varchar" MaxLength="30" />
     <Property Name="Observaciones" Type="varchar" MaxLength="100" />
-    <Property Name="FechaRegistroAnalisis" Type="datetime" Nullable="false" />
+    <Property Name="FechaRegistroAnalisis" Type="datetime" />
   </EntityType>
   <EntityType Name="AreaResponsableGarantias">
     <Key>
@@ -46,7 +46,7 @@
     </Key>
     <Property Name="AutorizacionPackingListId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombres" Type="varchar" MaxLength="255" />
-    <Property Name="Estado" Type="bit" />
+    <Property Name="estado" Type="bit" />
   </EntityType>
   <EntityType Name="Bodega">
     <Key>
@@ -99,7 +99,7 @@
     <Property Name="TipoIngreso" Type="varchar" MaxLength="150" />
     <Property Name="Comentarios" Type="varchar" MaxLength="200" />
     <Property Name="BodegaId" Type="varchar" MaxLength="70" />
-    <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
+    <Property Name="FechaRegistro" Type="datetime" />
   </EntityType>
   <EntityType Name="ChatarraDetalle">
     <Key>
@@ -162,6 +162,19 @@
     <Property Name="Codigo" Type="varchar" MaxLength="255" />
     <Property Name="Nombre" Type="varchar" MaxLength="255" />
   </EntityType>
+  <EntityType Name="Contrasena">
+    <Key>
+      <PropertyRef Name="IdContraseña" />
+    </Key>
+    <Property Name="IdContraseña" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdUsuario" Type="int" Nullable="false" />
+    <Property Name="Contrasena" Type="varbinary" MaxLength="8000" Nullable="false" />
+    <Property Name="FechaCreacion" Type="datetime" Nullable="false" />
+    <Property Name="UsuarioCreacion" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="200" />
+    <Property Name="Estado" Type="varchar" MaxLength="3" />
+  </EntityType>
   <EntityType Name="ControlCambios">
     <Key>
       <PropertyRef Name="ControlCambioId" />
@@ -179,7 +192,6 @@
     <Property Name="DireccionCorreo" Type="varchar" MaxLength="100" />
     <Property Name="ClaveCorreo" Type="varchar" MaxLength="50" />
     <Property Name="Estado" Type="bit" />
-    <Property Name="ClaveLoginCorreo" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="CronogramaExportacion">
     <Key>
@@ -214,6 +226,27 @@
     <Property Name="CantidadPorPallet" Type="int" />
     <Property Name="Estado" Type="bit" />
   </EntityType>
+  <EntityType Name="DatosTecnicosBatExporListCli">
+    <Key>
+      <PropertyRef Name="DatosTecnicosBatExporListCliId" />
+    </Key>
+    <Property Name="DatosTecnicosBatExporListCliId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreListaId" Type="int" />
+    <Property Name="Modelo" Type="varchar" MaxLength="100" />
+    <Property Name="C20" Type="int" />
+    <Property Name="CAP" Type="int" />
+    <Property Name="CCAMenos18CLocal" Type="int" />
+    <Property Name="CA0C" Type="int" />
+    <Property Name="CCAMenos18CExpo" Type="int" />
+    <Property Name="PesoSellada" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="PesoHumedaKg" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="CantidadPiso" Type="int" />
+    <Property Name="Pisos" Type="int" />
+    <Property Name="CantidadPorPallet" Type="int" />
+    <Property Name="Estado" Type="bit" />
+    <Property Name="FechaRegistro" Type="datetime" />
+    <Property Name="FechaActualizacion" Type="datetime" />
+  </EntityType>
   <EntityType Name="DatosTecnicosCalidadBaterias">
     <Key>
       <PropertyRef Name="DatosTecnicosCalidadBateriasId" />
@@ -237,6 +270,9 @@
     <Property Name="PesoSellada" Type="varchar" MaxLength="255" />
     <Property Name="PesoHumedaKg" Type="varchar" MaxLength="255" />
     <Property Name="Linea" Type="varchar" MaxLength="255" />
+    <Property Name="C5" Type="varchar" MaxLength="100" />
+    <Property Name="C100" Type="varchar" MaxLength="100" />
+    <Property Name="C10" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="DetalleGeneralPackingList">
     <Key>
@@ -570,6 +606,11 @@
     <Property Name="PrecioEnvio" Type="decimal" Precision="10" Scale="2" />
     <Property Name="FechaRegistro" Type="datetime" />
     <Property Name="FechaActualizacion" Type="datetime" />
+    <Property Name="Pisos" Type="int" />
+    <Property Name="CantidadPorPallet" Type="int" />
+    <Property Name="Marca" Type="varchar" MaxLength="100" />
+    <Property Name="ItemCode" Type="varchar" MaxLength="100" />
+    <Property Name="Version" Type="varchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="ListaPrecioGenerica">
     <Key>
@@ -611,6 +652,23 @@
     <Property Name="Descripcion" Type="varchar" MaxLength="255" />
     <Property Name="Estado" Type="bit" />
   </EntityType>
+  <EntityType Name="MarcaClientePortal">
+    <Key>
+      <PropertyRef Name="IdMarcaCliente" />
+    </Key>
+    <Property Name="IdMarcaCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdMarca" Type="int" Nullable="false" />
+    <Property Name="CardCode" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="varchar" MaxLength="3" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MarcaPortal">
+    <Key>
+      <PropertyRef Name="IdMarca" />
+    </Key>
+    <Property Name="IdMarca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="varchar" MaxLength="3" Nullable="false" />
+  </EntityType>
   <EntityType Name="Marcas">
     <Key>
       <PropertyRef Name="MarcaID" />
@@ -618,6 +676,17 @@
     <Property Name="MarcaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="MatrizInventarioBaterias">
+    <Key>
+      <PropertyRef Name="IdMatriz" />
+    </Key>
+    <Property Name="IdMatriz" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Modelo" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Referencia" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="Polaridad" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Linea" Type="int" />
   </EntityType>
   <EntityType Name="MedicionPalletPacking">
     <Key>
@@ -879,6 +948,7 @@
     <Property Name="PesoBateria" Type="decimal" Precision="18" Scale="2" />
     <Property Name="PesoNeto" Type="decimal" Precision="18" Scale="2" />
     <Property Name="PesoBruto" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="MarcaBateria" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="PedidoClienteDetalleFinal">
     <Key>
@@ -934,7 +1004,11 @@
     <Property Name="Observaciones" Type="varchar" MaxLength="255" />
     <Property Name="Calificacion" Type="decimal" Precision="18" Scale="2" />
     <Property Name="FechaRegistro" Type="datetime" />
-    <Property Name="CodigoBateria" Type="int" />
+    <Property Name="CodigoBateria" Type="varchar" MaxLength="100" />
+    <Property Name="PlacaPositivoNegativo" Type="bit" />
+    <Property Name="TipoPlaca" Type="varchar" MaxLength="100" />
+    <Property Name="IntensidadDescarga" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="TipoPlacaNegativo" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="PruebasLaboratorioCCA">
     <Key>
@@ -964,8 +1038,8 @@
       <PropertyRef Name="RutaBasesAccessCalidadId" />
     </Key>
     <Property Name="RutaBasesAccessCalidadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="RutaFisica" Type="varchar" MaxLength="255" />
-    <Property Name="Estado" Type="bit" />
+    <Property Name="RutaFisica" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="RutaInstalacionSoftware">
     <Key>
@@ -980,6 +1054,16 @@
     </Key>
     <Property Name="SecuencialRevisionTecnicaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="InicioSecuencia" Type="int" />
+  </EntityType>
+  <EntityType Name="SeguridadUsuario">
+    <Key>
+      <PropertyRef Name="IdSeguridad" />
+    </Key>
+    <Property Name="IdSeguridad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CambioContrasenaDias" Type="int" />
+    <Property Name="DificultadContrasena" Type="int" />
+    <Property Name="Intentos" Type="int" />
+    <Property Name="Estado" Type="varchar" MaxLength="3" />
   </EntityType>
   <EntityType Name="SeparadorPruebaLaboratorio">
     <Key>
@@ -1035,6 +1119,14 @@
     <Property Name="TipoNormaPruebaLaboratorioId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Descripcion" Type="varchar" MaxLength="255" />
     <Property Name="Estado" Type="bit" />
+  </EntityType>
+  <EntityType Name="TipoPlacaPruebaLaboratorio">
+    <Key>
+      <PropertyRef Name="IdTipoPlaca" />
+    </Key>
+    <Property Name="IdTipoPlaca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoUsuario">
     <Key>
@@ -1208,6 +1300,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Contraseña_Contraseña">
+    <End Role="Contrasena" Type="Self.Contrasena" Multiplicity="1" />
+    <End Role="Contrasena1" Type="Self.Contrasena" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Contrasena">
+        <PropertyRef Name="IdContraseña" />
+      </Principal>
+      <Dependent Role="Contrasena1">
+        <PropertyRef Name="IdContraseña" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_DensidadCeldas">
     <End Role="IngresoRevisionGarantiaInspeccionInicial" Type="Self.IngresoRevisionGarantiaInspeccionInicial" Multiplicity="0..1" />
     <End Role="IngresoInspeccionInicialDensidadCelda" Type="Self.IngresoInspeccionInicialDensidadCelda" Multiplicity="*" />
@@ -1265,6 +1369,18 @@
       </Principal>
       <Dependent Role="IngresosDetallesMedicionCarga">
         <PropertyRef Name="IngresosMedicionCargaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_NomListClie">
+    <End Role="NombreListaPrecioCliente" Type="Self.NombreListaPrecioCliente" Multiplicity="0..1" />
+    <End Role="DatosTecnicosBatExporListCli" Type="Self.DatosTecnicosBatExporListCli" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NombreListaPrecioCliente">
+        <PropertyRef Name="NombreListaPrecioClienteId" />
+      </Principal>
+      <Dependent Role="DatosTecnicosBatExporListCli">
+        <PropertyRef Name="NombreListaId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1349,6 +1465,7 @@
     <Parameter Name="username" Type="varchar" Mode="In" />
     <Parameter Name="llave" Type="varchar(max)" Mode="In" />
     <Parameter Name="tipo" Type="int" Mode="In" />
+    <Parameter Name="UsuarioCreacion" Type="varchar" Mode="In" />
   </Function>
   <Function Name="spActualizarUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdUsuario" Type="int" Mode="In" />
@@ -1392,10 +1509,12 @@
     <EntitySet Name="ChatarraPesos" EntityType="Self.ChatarraPesos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClienteClase" EntityType="Self.ClienteClase" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ClienteLinea" EntityType="Self.ClienteLinea" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contrasena" EntityType="Self.Contrasena" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ControlCambios" EntityType="Self.ControlCambios" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CorreoElectronicoEnviosReportes" EntityType="Self.CorreoElectronicoEnviosReportes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CronogramaExportacion" EntityType="Self.CronogramaExportacion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DatosTecnicosBatExpor" EntityType="Self.DatosTecnicosBatExpor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DatosTecnicosBatExporListCli" EntityType="Self.DatosTecnicosBatExporListCli" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DatosTecnicosCalidadBaterias" EntityType="Self.DatosTecnicosCalidadBaterias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DetalleGeneralPackingList" EntityType="Self.DetalleGeneralPackingList" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DiasBusqueda" EntityType="Self.DiasBusqueda" Schema="dbo" store:Type="Tables" />
@@ -1424,7 +1543,10 @@
     <EntitySet Name="ListaPrecioGenerica" EntityType="Self.ListaPrecioGenerica" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MaestrosUtilitarios" EntityType="Self.MaestrosUtilitarios" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MarcaBateriaPruebaLaboratorio" EntityType="Self.MarcaBateriaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MarcaClientePortal" EntityType="Self.MarcaClientePortal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MarcaPortal" EntityType="Self.MarcaPortal" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Marcas" EntityType="Self.Marcas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MatrizInventarioBaterias" EntityType="Self.MatrizInventarioBaterias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MedicionPalletPacking" EntityType="Self.MedicionPalletPacking" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MedicionPalletPackingLocal" EntityType="Self.MedicionPalletPackingLocal" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MenuOpciones" EntityType="Self.MenuOpciones" Schema="dbo" store:Type="Tables" />
@@ -1453,6 +1575,7 @@
     <EntitySet Name="RutaBasesAccessCalidad" EntityType="Self.RutaBasesAccessCalidad" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RutaInstalacionSoftware" EntityType="Self.RutaInstalacionSoftware" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SecuencialRevisionTecnica" EntityType="Self.SecuencialRevisionTecnica" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SeguridadUsuario" EntityType="Self.SeguridadUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SeparadorPruebaLaboratorio" EntityType="Self.SeparadorPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SubMenuOpciones" EntityType="Self.SubMenuOpciones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoCliente" EntityType="Self.TipoCliente" Schema="dbo" store:Type="Tables" />
@@ -1460,6 +1583,7 @@
     <EntitySet Name="TipoEnsayoPruebaLaboratorio" EntityType="Self.TipoEnsayoPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoIngreso" EntityType="Self.TipoIngreso" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoNormaPruebaLaboratorio" EntityType="Self.TipoNormaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoPlacaPruebaLaboratorio" EntityType="Self.TipoPlacaPruebaLaboratorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoUsuario" EntityType="Self.TipoUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UrlImprimirPdfPallet" EntityType="Self.UrlImprimirPdfPallet" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
@@ -1506,6 +1630,10 @@
       <End Role="Chatarra" EntitySet="Chatarra" />
       <End Role="ChatarraDetalleIndividual" EntitySet="ChatarraDetalleIndividual" />
     </AssociationSet>
+    <AssociationSet Name="FK_Contraseña_Contraseña" Association="Self.FK_Contraseña_Contraseña">
+      <End Role="Contrasena" EntitySet="Contrasena" />
+      <End Role="Contrasena1" EntitySet="Contrasena" />
+    </AssociationSet>
     <AssociationSet Name="fk_DensidadCeldas" Association="Self.fk_DensidadCeldas">
       <End Role="IngresoRevisionGarantiaInspeccionInicial" EntitySet="IngresoRevisionGarantiaInspeccionInicial" />
       <End Role="IngresoInspeccionInicialDensidadCelda" EntitySet="IngresoInspeccionInicialDensidadCelda" />
@@ -1525,6 +1653,10 @@
     <AssociationSet Name="fk_MedicionCarga" Association="Self.fk_MedicionCarga">
       <End Role="IngresosMedicionCarga" EntitySet="IngresosMedicionCarga" />
       <End Role="IngresosDetallesMedicionCarga" EntitySet="IngresosDetallesMedicionCarga" />
+    </AssociationSet>
+    <AssociationSet Name="fk_NomListClie" Association="Self.fk_NomListClie">
+      <End Role="NombreListaPrecioCliente" EntitySet="NombreListaPrecioCliente" />
+      <End Role="DatosTecnicosBatExporListCli" EntitySet="DatosTecnicosBatExporListCli" />
     </AssociationSet>
     <AssociationSet Name="fk_Packing" Association="Self.fk_Packing">
       <End Role="Packing" EntitySet="Packing" />

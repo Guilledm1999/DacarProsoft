@@ -26,6 +26,7 @@ using System.Globalization;
 using Org.BouncyCastle.X509;
 using Org.BouncyCastle.Crypto;
 using iText.Signatures;
+using Image = iText.Layout.Element.Image;
 
 namespace DacarProsoft.Controllers
 {
@@ -1113,6 +1114,138 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        /*
+        public JsonResult ListarPackingList()
+        {
+            try
+            {
+                daoPackilist = new DaoPackingList();
+                var IdPackingList = daoPackilist.numeroLista();
+                foreach (var item in IdPackingList)
+                {
+                    int totalUnidades = 0;
+                    decimal totalVolumen = 0;
+                    decimal totalPBruto = 0;
+                    decimal totalPNeto = 0;
+                    daoPackilist = new DaoPackingList();
+                    string nombreForaneo = null;
+                    string nombreCliente = null;
+                    string contenedor = null;
+                    string fecha = null;
+                    string reserva = null;
+                    string factura = null;
+                    string pedido = null;
+                    string embarcacion = null;
+                    string intercambioEir = null;
+                    string referencia = null;
+                    string productos = null;
+                    string datosTecnicos = null;
+                    string polaridad = null;
+                    string generico = null;
+                    var detalleGeneralPackingList = daoPackilist.ConsultarDetalleGeneralPackingList(item);
+                    var pallet = daoPackilist.ConsultarPalletPackingCompleto(item);
+                    var nombreAutorizado = daoPackilist.ConsultarNombreAutorizado();
+                    foreach (var x in detalleGeneralPackingList)
+                    {
+                        nombreCliente = x.ClientePackingList;
+                        contenedor = x.ContenedorPackingList;
+                        fecha = x.FechaDePackingList;
+                        reserva = x.ReservaPackingList;
+                        factura = x.FacturaPedido;
+                        pedido = x.PedidoPackingList;
+                        embarcacion = x.EmbarcacionPackingList;
+                        intercambioEir = x.IntercambioEirPackingList;
+                        referencia = x.ReferenciasPackingList;
+                        productos = x.ProductosPackingList;
+                    }
+                    var NumCont = daoPackilist.numeroContenedor(item);
+
+                    var NumContTotales = daoPackilist.numeroContenedores(pedido);
+
+                    foreach (var x in pallet)
+                    {
+                        var palletDetalle = daoPackilist.ConsultarPalletPalletDetalleItemsCompleto(item, x.PalletPacking1);
+                        totalVolumen = totalVolumen + x.VolumenPallet.Value;
+                        totalPBruto = totalPBruto + x.PesoBruto.Value;
+                        totalPNeto = totalPNeto + x.PesoNeto.Value;
+
+                        if (palletDetalle.Count == 1)
+                        {
+                            foreach (var y in palletDetalle)
+                            {
+                                nombreForaneo = daoPackilist.ConsultarNombreForaneo(y.ItemCode);
+                                datosTecnicos = daoOrdenesVentas.ConsultarDatosTecnicos(y.ItemCode);
+                                polaridad = daoOrdenesVentas.ConsultarPolaridad(y.ItemCode);
+                                generico = daoOrdenesVentas.ConsultarGenerico(y.ItemCode);
+
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + x.PalletNumber).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + nombreForaneo).SetFixedLeading(8).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + generico).SetFixedLeading(8).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFixedLeading(10).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + x.LargoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + x.AnchoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + x.AltoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + x.VolumenPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + String.Format("{0:n}", x.PesoBruto)).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                tabla2.AddCell(new Cell().Add(new Paragraph("" + String.Format("{0:n}", x.PesoNeto)).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(lineColor, 1)));
+                                totalUnidades = totalUnidades + y.CantidadItem.Value;
+                            }
+                        }
+                        else
+                        {
+                            int i = 1;
+                            foreach (var y in palletDetalle)
+                            {
+                                nombreForaneo = daoPackilist.ConsultarNombreForaneo(y.ItemCode);
+                                datosTecnicos = daoOrdenesVentas.ConsultarDatosTecnicos(y.ItemCode);
+                                polaridad = daoOrdenesVentas.ConsultarPolaridad(y.ItemCode);
+                                generico = daoOrdenesVentas.ConsultarGenerico(y.ItemCode);
+                                int contador = palletDetalle.Count;
+
+                                if (i == 1)
+                                {
+                                    tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.PalletNumber).SetFontSize(8)).SetBold().SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + nombreForaneo).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + generico).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.LargoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.AnchoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.AltoPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + x.VolumenPallet).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + String.Format("{0:n}", x.PesoBruto)).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(contador, 1).Add(new Paragraph("" + String.Format("{0:n}", x.PesoNeto)).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                }
+                                if (i > 1)
+                                {
+                                    tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + nombreForaneo).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + generico).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(1, 2).Add(new Paragraph("" + datosTecnicos + " - " + polaridad).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                    tabla2.AddCell(new Cell(1, 1).Add(new Paragraph("" + y.CantidadItem).SetFontSize(8)).SetHeight(16f).SetTextAlignment(TextAlignment.CENTER).SetVerticalAlignment(VerticalAlignment.MIDDLE).SetBorder(new SolidBorder(lineColor, 1)));
+                                }
+                                i = i + 1;
+                                totalUnidades = totalUnidades + y.CantidadItem.Value;
+                            }
+                        }
+                    }
+
+
+                }
+                
+
+
+
+                
+                return Json(daoPackilist, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        */
 
         [HttpGet]
         public ActionResult InformePackingList(int PackingId, string Fondo)
@@ -1182,8 +1315,30 @@ namespace DacarProsoft.Controllers
 
             float[] cellWidth = { 20f, 20f };
             Table tablaEvent = new Table(UnitValue.CreatePercentArray(3)).UseAllAvailableWidth();
+            
+            //Insertar Firma
+            if (nombreAutorizado == "Ing. Alex Cajas")
+            {
+                String imageFile = Server.MapPath("~/Images/FirmaACAJAS.png");
+                ImageData imageData = ImageDataFactory.Create(imageFile);
+                // Create layout image object and provide parameters. Page number = 1
+                Image image = new Image(imageData).ScaleAbsolute(110, 110).SetFixedPosition(1, 420, 50);
+                document.Add(image);
+            }
+            if (referencia == "Luis Sauce")
+            {
+                String imageFile = Server.MapPath("~/Images/FirmaLSAUCES.png");
+                ImageData imageData = ImageDataFactory.Create(imageFile);
+                // Create layout image object and provide parameters. Page number = 1
+                Image image = new Image(imageData).ScaleAbsolute(225, 85).SetFixedPosition(1, 10, 77);
+                document.Add(image);
+            }
+           
 
 
+
+            // This adds the image to the page
+            
             Cell cell5 = new Cell().Add(new Paragraph("_________________________"));
             tablaEvent.AddCell(cell5.SetTextAlignment(TextAlignment.LEFT).SetBorder(Border.NO_BORDER));
             Cell cell9 = new Cell().Add(new Paragraph(""));
@@ -1218,7 +1373,7 @@ namespace DacarProsoft.Controllers
             // Paragraph header = new Paragraph("PACKING LIST")
             //.SetTextAlignment(TextAlignment.CENTER)
             //.SetFontSize(16).SetFontColor(ColorConstants.BLACK).SetFont(bold);
-            Paragraph header = new Paragraph("PACKING LIST")
+            Paragraph header = new Paragraph("\n\nPACKING LIST")
          .SetTextAlignment(TextAlignment.CENTER)
          .SetFontSize(16).SetBold();
             PdfFont font = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);
@@ -1390,6 +1545,117 @@ namespace DacarProsoft.Controllers
             stream.Position = 0;
             return new FileStreamResult(stream, "application/pdf");
         }
+        public JsonResult ImprimirTodoslosDetalles()
+        {
+            try
+            {
+                var Result = new List<ListadoPacking>();
+                var daoPack = new DaoPackingList();
+                var daOrdenes = new DaoOrdenesVentas();
+                var TodoslosPacking = daoPack.ConsultarPackingIngreseadosComextList();
+                
+                foreach (var item in TodoslosPacking)
+                {
+                    string nombreForaneo = null;
+                    decimal totalVolumen = 0;
+                    decimal totalPBruto = 0;
+                    decimal totalPNeto = 0;
+                    string nombreCliente = null;
+                    string contenedor = null;
+                    string fecha = null;
+                    string reserva = null;
+                    string factura = null;
+                    string pedido = null;
+                    string embarcacion = null;
+                    string intercambioEir = null;
+                    string referencia = null;
+                    string productos = null;
+                    string datosTecnicos = null;
+                    string polaridad = null;
+                    string generico = null;
+
+                    var PackingId = item;
+                    var detalleGeneralPackingList = daoPack.ConsultarDetalleGeneralPackingList(PackingId);
+                    var pallet = daoPack.ConsultarPalletPackingCompleto(PackingId);
+                    
+                    foreach (var x in detalleGeneralPackingList)
+                    {
+                        nombreCliente = x.ClientePackingList;
+                        contenedor = x.ContenedorPackingList;
+                        fecha = x.FechaDePackingList;
+                        reserva = x.ReservaPackingList;
+                        factura = x.FacturaPedido;
+                        pedido = x.PedidoPackingList;
+                        embarcacion = x.EmbarcacionPackingList;
+                        intercambioEir = x.IntercambioEirPackingList;
+                        referencia = x.ReferenciasPackingList;
+                        productos = x.ProductosPackingList;
+                    }
+                   
+                    
+                    foreach (var x in pallet)
+                    {
+                        var palletDetalle = daoPack.ConsultarPalletPalletDetalleItemsCompleto(PackingId, x.PalletPacking1);
+                        totalVolumen = totalVolumen + x.VolumenPallet.Value;
+                        totalPBruto = totalPBruto + x.PesoBruto.Value;
+                        totalPNeto = totalPNeto + x.PesoNeto.Value;
+
+                        if (palletDetalle.Count == 1)
+                        {
+                            foreach (var y in palletDetalle)
+                            {
+                                var NewPacking = new ListadoPacking();
+                                nombreForaneo = daoPack.ConsultarNombreForaneo(y.ItemCode);
+                                datosTecnicos = daOrdenes.ConsultarDatosTecnicos(y.ItemCode);
+                                polaridad = daOrdenes.ConsultarPolaridad(y.ItemCode);
+                                generico = daOrdenes.ConsultarGenerico(y.ItemCode);
+                                
+                                NewPacking.CUSTOMER = nombreCliente;
+                                NewPacking.DATE = fecha;
+                                NewPacking.INVOICE = factura;
+                                NewPacking.CONTAINER = contenedor;
+                                NewPacking.PO = pedido;
+                                NewPacking.BOOKING = reserva;
+                                NewPacking.VESSEL = embarcacion;
+                                NewPacking.INTERCHANGE = intercambioEir;
+                                NewPacking.PRODUCT = productos;
+
+                                NewPacking.CUSTOMER = nombreForaneo;
+
+                                NewPacking.DacarPartNumber = generico;
+
+                                NewPacking.Description = datosTecnicos + " - " + polaridad;
+
+                                NewPacking.Qty = y.CantidadItem.ToString();
+
+                                NewPacking.L = x.LargoPallet.ToString();
+
+                                NewPacking.W = x.AnchoPallet.ToString();
+
+                                NewPacking.H = x.AltoPallet.ToString();
+
+                                NewPacking.Volume = x.VolumenPallet.ToString();
+
+                                NewPacking.Gross = x.PesoBruto.ToString();
+
+                                NewPacking.Net = x.PesoNeto.ToString();
+                                Result.Add(NewPacking);
+                            }
+
+                        }
+                        
+                    }
+                }
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+
         public class BackgroundPageEvent2 : IEventHandler
         {
             iText.Layout.Element.Image imgBack;

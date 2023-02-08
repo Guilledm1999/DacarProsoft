@@ -160,6 +160,9 @@
     <Compile Include="Datos\ClienteLinea.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\Contrasena.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\ControlCambios.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
@@ -206,6 +209,9 @@
       <DependentUpon>DacarSap.edmx</DependentUpon>
     </Compile>
     <Compile Include="Datos\DatosTecnicosBatExpor.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\DatosTecnicosBatExporListCli.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\DatosTecnicosCalidadBaterias.cs">
@@ -307,8 +313,23 @@
     <Compile Include="Datos\MarcaBateriaPruebaLaboratorio.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\MarcaClientePortal.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\MarcaPortal.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\Marcas.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\MatrizInventarioBaterias.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\Matriz_Inventario_Baterias_RN.cs">
+      <DependentUpon>DacarSap.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\Matriz_Inventario_Baterias_RN1.cs">
+      <DependentUpon>DacarSap.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\MedicionPalletPacking.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
@@ -433,6 +454,9 @@
     <Compile Include="Datos\SecuencialRevisionTecnica.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\SeguridadUsuario.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\SeparadorPruebaLaboratorio.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
@@ -458,6 +482,9 @@
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\TipoNormaPruebaLaboratorio.cs">
+      <DependentUpon>DacarProsoft.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\TipoPlacaPruebaLaboratorio.cs">
       <DependentUpon>DacarProsoft.tt</DependentUpon>
     </Compile>
     <Compile Include="Datos\TipoUsuario.cs">

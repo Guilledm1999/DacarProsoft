@@ -48,7 +48,7 @@ namespace DacarProsoft.Controllers
         public JsonResult GuardarModificarUsuarios(Account acc)
         {     
             daousuario = new DaoUsuarios();
-            bool crearUsuario = daousuario.ingresarUsuarios(acc.NombreCompleto, acc.NombreUsuario, acc.Contrasena, Int32.Parse(acc.TipoUsuario));
+            bool crearUsuario = daousuario.ingresarUsuarios(acc.NombreCompleto, acc.NombreUsuario, acc.Contrasena, Int32.Parse(acc.TipoUsuario), Convert.ToString(Session["usuarioIng"]));
             return Json(crearUsuario, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -120,7 +120,7 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-        public bool IngresarUsuarioClientesSap(string NombreCliente, string Usuario, string Clave, string Referencia, bool validacion, List<ListaPrecioCliente> listaProductos)
+        public bool IngresarUsuarioClientesSap(string NombreCliente, string Usuario, string Clave, string Referencia, bool validacion, List<ListaPrecioCliente> listaProductos, string Version)
         {
             try
             {
@@ -134,8 +134,8 @@ namespace DacarProsoft.Controllers
                     {
                         if (x.PrecioProducto != 0)
                         {
-                            daousuario.RegistrarListaPrecio(x.CustomerReference, x.DacarPartNumber, x.ModeloGenerico, x.DimensionsLenght.Value, x.DimensionWidth.Value, x.DimensionsHeight.Value, x.AssemblyBci,
-                                x.SpecificationsNominalCapacity.Value, x.ReserveCap.Value, x.CCAMenos18.Value, x.CA0.Value, x.WeightKg.Value, x.QuantityXLayer.Value, x.Categoria.Value, Referencia, x.PrecioProducto.Value, x.PrecioEnvio.Value, identificador);
+                            daousuario.RegistrarListaPrecio(x.ItemCode, x.Marca,x.CustomerReference, x.DacarPartNumber, x.ModeloGenerico, x.DimensionsLenght.Value, x.DimensionWidth.Value, x.DimensionsHeight.Value, x.AssemblyBci,
+                                x.SpecificationsNominalCapacity.Value, x.ReserveCap.Value, x.CCAMenos18.Value, x.CA0.Value, x.WeightKg.Value, x.QuantityXLayer.Value, x.Categoria.Value, Referencia, x.PrecioProducto.Value, x.PrecioEnvio.Value, identificador, x.CantidadPorPallet.Value,x.Pisos.Value, Version);
                         }
                     }
                 }
@@ -215,6 +215,101 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+        public JsonResult EncontrarItemCode(string Foraneo, string Modelo, string Marca)
+        {
+            try
+            {
+                daousuario = new DaoUsuarios();
+                var Result = daousuario.EncontrarItemCode(Foraneo, Modelo, Marca);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public JsonResult ConsultarListaPreciosGenericaCompleta()
+        {
+            try
+            {
+                daousuario = new DaoUsuarios();
+                var Result = daousuario.ConsutarListaPrecioGenerica();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public JsonResult ConsultarMarcasItems(string CardCode)
+        {
+            try
+            {
+                daousuario = new DaoUsuarios();
+                var Result = daousuario.ConsutarMarca(CardCode);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public JsonResult ConsultarVersion(string Version)
+        {
+            try
+            {
+                daousuario = new DaoUsuarios();
+                var Result = daousuario.ConsultarVersion(Version);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public JsonResult ConsultarModelo()
+        {
+            try
+            {
+                daousuario = new DaoUsuarios();
+                var Result = daousuario.ConsutarModelo();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        public JsonResult ConsutarMarcaModeloGenerico(string CardCode, string Foraneo)
+        {
+            try
+            {
+                daousuario = new DaoUsuarios();
+                var Result = daousuario.ConsutarMarcaModeloGenerico(CardCode, Foraneo);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public JsonResult ConsultarDatosGenericosBateria()
+        {
+            try
+            {
+                daousuario = new DaoUsuarios();
+                var Result = daousuario.ConsutarDatosGenericosBateria();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public JsonResult ConsultarListaPreciosCliente(string CardCode)
         {
             try
@@ -228,14 +323,15 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
-        public bool ActualizarValores(ListaPrecioCliente generico, int Key)
+        public bool ActualizarValores(List<ListaPrecioCliente> generico,  string Version, string CardCode)
+        
         {
             daousuario = new DaoUsuarios();
                      
-            var result = daousuario.ActualizarRegistroBateria(generico, Key);
+            var result = daousuario.ActualizarRegistroBateria(generico, Version, CardCode);
 
             var r = true;
-            return r;
+            return result;
         }
     }
 }

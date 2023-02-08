@@ -2,6 +2,7 @@
 using DacarProsoft.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -238,7 +239,7 @@ namespace DacarProsoft.Datos
                                    d.Descripcion,
                                    d.TipoEnsayoPruebaLaboratorioId,
                                    d.Estado
-                               }).ToList();
+                               }).ToList().OrderBy(x => x.Descripcion); 
 
                 foreach (var x in Listado)
                 {
@@ -255,9 +256,42 @@ namespace DacarProsoft.Datos
                 return lst;
             }
         }
+
+        public List<SelectListItem> TipoPlaca()
+        {
+
+            List<SelectListItem> lst = new List<SelectListItem>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.TipoPlacaPruebaLaboratorio
+                               where d.Estado == true
+                               select new
+                               {
+                                   d.Descripcion,
+                                   d.IdTipoPlaca,
+                                   d.Estado
+                               }).ToList().OrderBy(x => x.Descripcion);
+
+                foreach (var x in Listado)
+                {
+                    if (x.Estado == true)
+                    {
+                        lst.Add(new SelectListItem()
+                        {
+                            Text = x.Descripcion,
+                            Value = x.IdTipoPlaca.ToString()
+                        });
+                    }
+
+                }
+                return lst;
+            }
+        }
+
+
         public int IngresarPruebaLaboratorio(DateTime FechaIngreso, int CodigoIngreso, string Marca, string TipoNorma, string Normativa, string PreAcondicionamiento, string TipoBateria, string Modelo, string Separador, string TipoEnsayo, string LoteEnsamble,
             string LoteCarga, int CCA, decimal Peso, decimal Voltaje, decimal DensidadIngreso, decimal DensidadPreAcondicionamiento, decimal TemperaturaIngreso, decimal TemperaturaPrueba, string DatoTeoricoPrueba, decimal ValorObjetivo, decimal ResultadoFinal,
-            string Observaciones, decimal Calificacion, int CodigoBateria)
+            string Observaciones, decimal Calificacion, string CodigoBateria,  string TipoPlaca, decimal IntensidadDescarga, string TipoPlacaNegativo)
         {
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
@@ -290,6 +324,11 @@ namespace DacarProsoft.Datos
                     result.Calificacion = Calificacion;
                     result.CodigoBateria = CodigoBateria;
                     result.FechaRegistro = DateTime.Now;
+                   
+                    result.IntensidadDescarga =  IntensidadDescarga;
+                    result.TipoPlaca = TipoPlaca;
+                    result.TipoPlacaNegativo = TipoPlacaNegativo;
+
 
                     DB.PruebaLaboratorioCalidad.Add(result);
                     DB.SaveChanges();
@@ -312,9 +351,10 @@ namespace DacarProsoft.Datos
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
                 var Listado = (from d in DB.PruebaLaboratorioCalidad
+                              
                                orderby d.FechaRegistro ascending
                                orderby d.CodigoIngreso descending
-                               select new
+                               select new  
                                {
                                    d.PruebaLaboratorioCalidadId,
                                    d.FechaIngreso,
@@ -342,8 +382,14 @@ namespace DacarProsoft.Datos
                                    d.Observaciones,
                                    d.Calificacion,
                                    d.FechaRegistro,
-                                   d.CodigoBateria
+                                   d.CodigoBateria,
+                                   d.TipoPlaca,
+                                   d.PlacaPositivoNegativo,
+                                   d.IntensidadDescarga,
+                                   d.TipoPlacaNegativo
+
                                }).ToList();
+            
 
                 foreach (var x in Listado.Distinct())
                 {
@@ -351,38 +397,117 @@ namespace DacarProsoft.Datos
                     fechaIngreso = fecha.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                     DateTime fecha2 = Convert.ToDateTime(x.FechaRegistro, CultureInfo.InvariantCulture);
                     fechaRegistro = fecha2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                    string TipoPlacaPos = null;
+                    string TipoPlacaNeg = null;
+                    if (x.TipoPlaca!=null)
+                    {
+                         TipoPlacaPos = DB.TipoPlacaPruebaLaboratorio.Where(y => y.IdTipoPlaca.ToString() == x.TipoPlaca).Select(y => y.Descripcion).FirstOrDefault();
+                    }
+                    if (x.TipoPlacaNegativo!=null)
+                    {
+                         TipoPlacaNeg = DB.TipoPlacaPruebaLaboratorio.Where(y => y.IdTipoPlaca.ToString() == x.TipoPlacaNegativo).Select(y => y.Descripcion).FirstOrDefault();
+                    }
+                    
+
                     lst.Add(new ModelPruebaLaboratorioCalidad
                     {
-                        PruebaLaboratorioCalidadId=x.PruebaLaboratorioCalidadId,
-                        FechaIngreso= fechaIngreso,
-                        CodigoIngreso=x.CodigoIngreso,
-                        Marca=x.Marca,
-                        TipoNorma=x.TipoNorma,
-                        Normativa=x.Normativa,
-                        PreAcondicionamiento=x.PreAcondicionamiento,
-                        TipoBateria=x.TipoBateria,
-                        Modelo=x.Modelo,
-                        Separador=x.Separador,
-                        TipoEnsayo=x.TipoEnsayo,
-                        LoteEnsamble=x.LoteEnsamble,
-                        LoteCarga=x.LoteCarga,
-                        CCA=x.CCA,
-                        Peso=x.Peso,
-                        Voltaje=x.Voltaje,
-                        DensidadIngreso=x.DensidadIngreso,
-                        DensidadPreAcondicionamiento=x.DensidadPreAcondicionamiento,
-                        TemperaturaIngreso=x.TemperaturaIngreso,
-                        TemperaturaPrueba=x.TemperaturaPrueba,
-                        DatoTeoricoPrueba=Convert.ToString(Decimal.Round(Convert.ToDecimal(x.DatoTeoricoPrueba),2)),
-                        ValorObjetivo=x.ValorObjetivo,
-                        ResultadoFinal=x.ResultadoFinal,
-                        Observaciones=x.Observaciones,
-                        Calificacion=x.Calificacion,
-                        FechaRegistro= fechaRegistro,
-                        CodigoBateria=x.CodigoBateria.ToString()
-                    });
+                        PruebaLaboratorioCalidadId = x.PruebaLaboratorioCalidadId,
+                        FechaIngreso = fechaIngreso,
+                        CodigoIngreso = x.CodigoIngreso,
+                        Marca = x.Marca,
+                        TipoNorma = x.TipoNorma,
+                        Normativa = x.Normativa,
+                        PreAcondicionamiento = x.PreAcondicionamiento,
+                        TipoBateria = x.TipoBateria,
+                        Modelo = x.Modelo,
+                        Separador = x.Separador,
+                        TipoEnsayo = x.TipoEnsayo,
+                        LoteEnsamble = x.LoteEnsamble,
+                        LoteCarga = x.LoteCarga,
+                        CCA = x.CCA,
+                        Peso = x.Peso,
+                        Voltaje = x.Voltaje,
+                        DensidadIngreso = x.DensidadIngreso,
+                        DensidadPreAcondicionamiento = x.DensidadPreAcondicionamiento,
+                        TemperaturaIngreso = x.TemperaturaIngreso,
+                        TemperaturaPrueba = x.TemperaturaPrueba,
+                        DatoTeoricoPrueba = Convert.ToString(Decimal.Round(Convert.ToDecimal(x.DatoTeoricoPrueba), 2)),
+                        ValorObjetivo = x.ValorObjetivo,
+                        ResultadoFinal = x.ResultadoFinal,
+                        Observaciones = x.Observaciones,
+                        Calificacion = x.Calificacion,
+                        FechaRegistro = fechaRegistro,
+                        CodigoBateria = x.CodigoBateria ?? 0.ToString(),
+                        IntensidadDescarga = x.IntensidadDescarga ?? 0,
+                        TipoPlaca = TipoPlacaPos??" ",
+                        TipoPlacaNegativo = TipoPlacaNeg??" ",
+
+
+
+
+                    }) ;
                 }
                 return lst;
+            }
+        }
+
+        public ModelPruebaLaboratorioCalidad ConsultarUnaPruebasLaboratorioId(int Id)
+        {
+      
+            
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var Listado = (from d in DB.PruebaLaboratorioCalidad
+                               where d.PruebaLaboratorioCalidadId == Id
+                             
+                               select new ModelPruebaLaboratorioCalidad
+                               {
+                                 PruebaLaboratorioCalidadId=  d.PruebaLaboratorioCalidadId,
+                                   //FechaIngreso= string.Format("{0}", d.FechaIngreso),
+                                   Fechai = d.FechaIngreso,
+                                   CodigoIngreso =  d.CodigoIngreso,
+                                 Marca=  d.Marca,
+                                 TipoNorma= d.TipoNorma,
+                                 Normativa= d.Normativa,
+                                 PreAcondicionamiento= d.PreAcondicionamiento,
+                                 TipoBateria=  d.TipoBateria,
+                                 Modelo=  d.Modelo,
+                                 Separador=  d.Separador,
+                                 TipoEnsayo = d.TipoEnsayo,
+                                 LoteEnsamble = d.LoteEnsamble,
+                                 LoteCarga = d.LoteCarga,
+                                   CCA = d.CCA,
+                                   Peso = d.Peso,
+                                   Voltaje = d.Voltaje,
+                                   DensidadIngreso = d.DensidadIngreso,
+                                   DensidadPreAcondicionamiento = d.DensidadPreAcondicionamiento,
+                                   TemperaturaIngreso = d.TemperaturaIngreso,
+                                   TemperaturaPrueba = d.TemperaturaPrueba,
+                                   DatoTeoricoPrueba = d.DatoTeoricoPrueba,
+                                   ValorObjetivo = d.ValorObjetivo,
+                                   ResultadoFinal = d.ResultadoFinal,
+                                   Observaciones = d.Observaciones,
+                                   Calificacion = d.Calificacion,
+                                 //FechaRegistro= string.Format("{0}", d.FechaRegistro),
+                                CodigoBateria= d.CodigoBateria,
+                                   TipoPlaca = d.TipoPlaca,
+                                 Placa= d.PlacaPositivoNegativo ?? false,
+                                 IntensidadDescarga=  d.IntensidadDescarga??0,
+                                 TipoPlacaNegativo = d.TipoPlacaNegativo
+                               }).FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(Listado.TipoPlaca))
+                {
+                    Listado.TipoPlaca = DB.TipoPlacaPruebaLaboratorio.Where(y => y.IdTipoPlaca.ToString() == Listado.TipoPlaca).Select(y => y.Descripcion).FirstOrDefault();
+                }
+                if (!string.IsNullOrEmpty(Listado.TipoPlacaNegativo))
+                {
+                    Listado.TipoPlacaNegativo = DB.TipoPlacaPruebaLaboratorio.Where(y => y.IdTipoPlaca.ToString() == Listado.TipoPlacaNegativo).Select(y => y.Descripcion).FirstOrDefault();
+                }
+
+                Listado.FechaIngreso = Listado.Fechai.Value.ToString("MM/dd/yyyy");
+                return Listado;
             }
         }
 
@@ -540,6 +665,87 @@ namespace DacarProsoft.Datos
 
 
                     result = Listado.CAP;
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return result;
+                }
+            }
+        }
+        public string ObtenerC10Bateria(string modeloBateria)
+        {
+            string result = "";
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.DatosTecnicosCalidadBaterias
+                                   where d.Modelo == modeloBateria
+
+                                   select new
+                                   {
+                                       d.C10
+                                   }).FirstOrDefault();
+
+
+                    result = Listado.C10;
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return result;
+                }
+            }
+        }
+        public string ObtenerC100Bateria(string modeloBateria)
+        {
+            string result = "";
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.DatosTecnicosCalidadBaterias
+                                   where d.Modelo == modeloBateria
+
+                                   select new
+                                   {
+                                       d.C100
+                                   }).FirstOrDefault();
+
+
+                    result = Listado.C100;
+
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return result;
+                }
+            }
+        }
+        public string ObtenerC5Bateria(string modeloBateria)
+        {
+            string result = "";
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                try
+                {
+                    var Listado = (from d in DB.DatosTecnicosCalidadBaterias
+                                   where d.Modelo == modeloBateria
+
+                                   select new
+                                   {
+                                       d.C5
+                                   }).FirstOrDefault();
+
+
+                    result = Listado.C5;
 
                     return result;
                 }

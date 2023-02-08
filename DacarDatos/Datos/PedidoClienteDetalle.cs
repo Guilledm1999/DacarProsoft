@@ -35,6 +35,7 @@ namespace DacarDatos.Datos
         public Nullable<decimal> PesoBateria { get; set; }
         public Nullable<decimal> PesoNeto { get; set; }
         public Nullable<decimal> PesoBruto { get; set; }
+        public string MarcaBateria { get; set; }
     
         public virtual PedidoClienteCabecera PedidoClienteCabecera { get; set; }
     }

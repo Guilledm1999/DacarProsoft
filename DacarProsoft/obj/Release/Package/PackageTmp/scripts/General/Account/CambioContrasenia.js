@@ -1,5 +1,8 @@
 ﻿var contrasenaAntigua = null;
 var contrasenaNueva = null;
+let timeout;
+
+var NvlDificultadContrasena = null;
 
 $(document).ready(function () {
 });
@@ -19,6 +22,18 @@ $('#LinkCloseCuatro').on("click", function (e) {
 });
 
 function AbrirModalCambioPass() {
+    $.ajax({
+        url: "../Account/ConsultarNivelDificultadContrasena",
+        type: "POST",
+        async: false,
+        success: function (res) {
+            NvlDificultadContrasena = res;
+        },
+        error: function (msg) {
+            NvlDificultadContrasena = 3;
+        }
+    })
+
     $("#ModalCambioContraseniaUser").modal("show");
 }
 
@@ -89,4 +104,113 @@ function cambiarClaveUsuario() {
                 $("#MsjCambioNoExitoso").fadeOut(1500);
             }, 3000);        }
     })
+}
+
+/*
+function checkPasswordStrengthAct() {
+    var number = /([0-9])/;
+    var alphabets = /([a-zA-Z])/;
+    var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+    var password = $('#txtContraseniaAct').val().trim();
+    if (password.length < 6) {
+        $('#passwordbarAct').removeClass();
+        $('#passwordbarAct').addClass('progress-bar bg-danger');
+        document.getElementById("passwordbarAct").style.width = "25%";
+        $('#password-strength-statusAct').removeClass();
+        $('#password-strength-statusAct').addClass('weak-password');
+        $('#password-strength-statusAct').removeClass();
+        $('#password-strength-statusAct').addClass('weak-password');
+        $('#password-strength-statusAct').html("Débil (Debe tener al menos 6 caracteres.)");
+        document.getElementById("btnConfirmarCambio").disabled = true;
+    } else {
+        if (password.match(number) && password.match(alphabets) && password.match(special_characters)) {
+            $('#passwordbarAct').removeClass();
+            $('#passwordbarAct').addClass('progress-bar bg-success');
+            document.getElementById("passwordbarAct").style.width = "100%";
+            $('#password-strength-statusAct').removeClass();
+            $('#password-strength-statusAct').addClass('strong-password');
+            $('#password-strength-statusAct').html("Fuerte");
+            document.getElementById("btnConfirmarCambio").disabled = false;
+            $('#btnConfirmarCambio').removeAttr('disabled');
+        }
+        else {
+            $('#passwordbarAct').removeClass();
+            $('#passwordbarAct').addClass('progress-bar bg-warning');
+            document.getElementById("passwordbarAct").style.width = "50%";
+            $('#password-strength-statusAct').removeClass();
+            $('#password-strength-statusAct').addClass('medium-password');
+            $('#password-strength-statusAct').html("Medio (debe incluir letras, numeros y caracteres especiales.)");
+            document.getElementById("btnConfirmarCambio").disabled = true;
+        }
+    }
+
+    if (password.length == 0) {
+        $('#passwordbarAct').removeClass();
+        ('#passwordbarAct').addClass('progress-bar bg-warning');
+        document.getElementById("passwordbarAct").style.width = "0%";
+    }
+}
+*/
+
+function checkPasswordStrength() {
+    var number = /([0-9])/;
+    var alphabets = /([a-zA-Z])/;
+    var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+    var password = $('#txtPassNuevaUser').val().trim();
+    if (password.length < 6) {
+        $('#passwordbar').removeClass();
+        $('#passwordbar').addClass('progress-bar bg-danger');
+        document.getElementById("passwordbar").style.width = "25%";
+        $('#password-strength-status').removeClass();
+        $('#password-strength-status').addClass('weak-password');
+        $('#password-strength-status').removeClass();
+        $('#password-strength-status').addClass('weak-password');
+        $('#password-strength-status').html("Débil (Debe tener al menos 6 caracteres.)");
+       
+        if (NvlDificultadContrasena==1) {
+            document.getElementById("btnConfirmarCambio").disabled = false;
+        } else {
+            document.getElementById("btnConfirmarCambio").disabled = true;
+        }
+    } else {
+        if (password.match(number) && password.match(alphabets) && password.match(special_characters)) {
+            $('#passwordbar').removeClass();
+            $('#passwordbar').addClass('progress-bar bg-success');
+            document.getElementById("passwordbar").style.width = "100%";
+            $('#password-strength-status').removeClass();
+            $('#password-strength-status').addClass('strong-password');
+            $('#password-strength-status').html("Fuerte");
+            document.getElementById("btnConfirmarCambio").disabled = false;
+           
+        }
+        else {
+            $('#passwordbar').removeClass();
+            $('#passwordbar').addClass('progress-bar bg-warning');
+            document.getElementById("passwordbar").style.width = "50%";
+            $('#password-strength-status').removeClass();
+            $('#password-strength-status').addClass('medium-password');
+            $('#password-strength-status').html("Medio (debe incluir letras, numeros y caracteres especiales.)");
+            if (NvlDificultadContrasena <= 2) {
+                document.getElementById("btnConfirmarCambio").disabled = false;
+            } else {
+                document.getElementById("btnConfirmarCambio").disabled = true;
+            }
+        }
+    }
+
+    if (password.length ==0) {
+        $('#passwordbar').removeClass();
+        ('#passwordbar').addClass('progress-bar bg-warning');
+        document.getElementById("passwordbar").style.width = "0%";
+    }
+}
+function myFunction() {
+    
+
+
+    grecaptcha.ready(function () {
+        grecaptcha.execute('reCAPTCHA_site_key', { action: 'submit' }).then(function (token) {
+            // Add your logic to submit to your backend server here.
+        });
+    });
 }

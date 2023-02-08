@@ -22,4 +22,30 @@ namespace DacarProsoft.Models
 
 
     }
+    public class ListadoPacking
+    {
+        public string CUSTOMER { get; set; }
+        public string DATE { get; set; }
+        public string CONTAINER { get; set; }
+        public string BOOKING { get; set; }
+        public string INTERCHANGE { get; set; }
+        public string INVOICE { get; set; }
+        public string PO { get; set; }
+        public string VESSEL { get; set; }
+        public string PRODUCT { get; set; }
+        public string CustomerReference { get; set; }
+        public string DacarPartNumber { get; set; }
+        public string Description { get; set; }
+        public string Qty { get; set; }
+        public string L { get; set; }
+        public string W { get; set; }
+        public string H { get; set; }
+        public string Volume { get; set; }
+       
+        public string Gross { get; set; }
+        public string Net { get; set; }
+
+
+
+    }
 }

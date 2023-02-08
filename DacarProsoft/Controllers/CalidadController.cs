@@ -141,6 +141,7 @@ namespace DacarProsoft.Controllers
                 var Normativa = daoCalidad.Normativa();
                 var datSeparador = daoCalidad.Separador();
                 var datTipoEnsayo = daoCalidad.TipoEnsayo();
+                var datTipoPlaca = daoCalidad.TipoPlaca();
 
                 var datMenu = daoUtilitarios.ConsultarMenuPrincipal();
                 ViewBag.MenuPrincipal = datMenu;
@@ -151,11 +152,13 @@ namespace DacarProsoft.Controllers
 
                 ViewBag.MarcasPropias = datModelosMarcasPropias;
 
+                
                 ViewBag.datMarcas = datMarcas;
                 ViewBag.datTipoNorma = datTipoNorma;
                 ViewBag.Normativa = Normativa;
                 ViewBag.datSeparador = datSeparador;
                 ViewBag.datTipoEnsayo = datTipoEnsayo;
+                ViewBag.datTipoPlaca = datTipoPlaca;
 
                 return View();
             }
@@ -174,14 +177,14 @@ namespace DacarProsoft.Controllers
         }
         public bool RegistrarPruebasLaboratorio(DateTime FechaIngreso, int CodigoIngreso, string Marca, string TipoNorma, string Normativa, string PreAcondicionamiento, string TipoBateria, string Modelo, string Separador, string TipoEnsayo, string LoteEnsamble,
             string LoteCarga, int CCA, decimal Peso, decimal Voltaje, decimal DensidadIngreso,/* decimal DensidadPreAcondicionamiento,*/ decimal TemperaturaIngreso, decimal TemperaturaPrueba, string DatoTeoricoPrueba/*, decimal ValorObjetivo*/, decimal ResultadoFinal,
-            string Observaciones, decimal Calificacion, HttpPostedFileBase[] archivos, int CodigoBateria)
+            string Observaciones, decimal Calificacion, HttpPostedFileBase[] archivos, string CodigoBateria, string TipoPlaca, decimal IntensidadDescarga, string TipoPlacaNegativo)
         {
             try
             {
                 daoCalidad = new DaoCalidad();
                 var result = daoCalidad.IngresarPruebaLaboratorio(FechaIngreso, CodigoIngreso, Marca, TipoNorma, Normativa, PreAcondicionamiento, TipoBateria, Modelo, Separador, TipoEnsayo, LoteEnsamble,
                 LoteCarga, CCA, Peso, Voltaje, DensidadIngreso, 0, TemperaturaIngreso, TemperaturaPrueba, DatoTeoricoPrueba, 0, ResultadoFinal,
-                Observaciones, Calificacion, CodigoBateria);
+                Observaciones, Calificacion, CodigoBateria,    TipoPlaca,  IntensidadDescarga, TipoPlacaNegativo);
 
                 string path = Path.Combine(Server.MapPath("~/Images/AnexosLaboratorio/" + Modelo + "/"));
 
@@ -275,6 +278,85 @@ namespace DacarProsoft.Controllers
                 var result = daoCalidad.ConsultarPruebasLaboratorio();
                 var json = Json(result, JsonRequestBehavior.AllowGet);
                 json.MaxJsonLength = 50000000;
+                return json;
+                //return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+
+        public JsonResult ConsultarRegistrosPruebasLaboratorioFiltrado(List<ModelPruebaLaboratorioCalidad> Prueba)
+        {
+            try
+            {
+                var result = new List<ModelPruebaLaboratorioCalidad>();
+                daoCalidad = new DaoCalidad();
+                if (Prueba!= null)
+                {
+                     result = Prueba;
+                    var bateriasagregar = new List<ModelPruebaLaboratorioCalidad>();
+
+                    //Saber cuales son los id con el REsultado final mas alto
+                    var CodigoBateriaAltas = (from s in Prueba
+                                              where s.CodigoBateria != null
+                                              group s by s.CodigoBateria into stugrp
+                                              let topp = stugrp.Max(x => x.ResultadoFinal)
+
+                                              select new
+                                              {
+                                                  CodigoBateria = stugrp.Key,
+                                                  id = stugrp.First(y => y.ResultadoFinal == topp).PruebaLaboratorioCalidadId,
+                                                  ResultadoFinal = topp
+                                              }).ToList();
+                    //Crear Objeto de items sin repetir
+                    foreach (var item in CodigoBateriaAltas)
+                    {
+                        bateriasagregar.Add(result.Where(x => x.PruebaLaboratorioCalidadId == item.id).FirstOrDefault());
+                    }
+                    // Crear Lista para eliminar
+                    var bateriasEliminar = CodigoBateriaAltas.Select(x => x.CodigoBateria).ToList();
+                    //Eliminar item con el mismo Codigobateria
+                    foreach (var item in bateriasEliminar)
+                    {
+                        result.RemoveAll(s => s.CodigoBateria == item);
+                    }
+                    //Agregar los Items sin repetir
+                    result.AddRange(bateriasagregar);
+                }
+            
+               
+               
+                
+
+             
+
+                var json = Json(result, JsonRequestBehavior.AllowGet);
+                json.MaxJsonLength = 50000000;
+                return json;
+                //return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+       
+
+        public JsonResult ConsultarUnRegistroPruebasLaboratorio(int IdRegistro)
+        {
+            try
+            {
+                daoCalidad = new DaoCalidad();
+                var result = daoCalidad.ConsultarUnaPruebasLaboratorioId(IdRegistro);
+                var json = Json(result, JsonRequestBehavior.AllowGet);
+               // json.MaxJsonLength = 50000000;
                 return json;
                 //return Json(result, JsonRequestBehavior.AllowGet);
 
@@ -411,16 +493,34 @@ namespace DacarProsoft.Controllers
             {
                 daoCalidad = new DaoCalidad();
                 string result = "";
+                //C20
                 if (valor == 1) {
                     result = daoCalidad.ObtenerCapBateria(modelo);
                 }
+                //CCA
                 if (valor == 2)
                 {
                     result = Convert.ToString(daoCalidad.ObtenerCCABateria(modelo));
                 }
+                //Rc
                 if (valor == 3)
                 {
                     result = daoCalidad.ObtenerRcBateria(modelo);
+                }
+                //C10
+                if (valor == 4)
+                {
+                    result = daoCalidad.ObtenerC10Bateria(modelo);
+                }
+                //C5
+                if (valor == 5)
+                {
+                    result = daoCalidad.ObtenerC5Bateria(modelo);
+                }
+                //C100
+                if (valor == 6)
+                {
+                    result = daoCalidad.ObtenerC100Bateria(modelo);
                 }
                 return result;
             }

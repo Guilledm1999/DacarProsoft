@@ -1,71 +1,171 @@
-﻿<script>
-    //Script que impide el uso del botón atrás del navegador
-    window.location.hash = "no-back-button";
-    window.location.hash = "Again-No-back-button";
-    window.onhashchange = function () { window.location.hash = ""; }
-</script>
-@{
-    ViewBag.Title = "Login";
-    Layout = "~/Views/Compartida/_LayoutPage1.cshtml";
+﻿    <script>
+        //Script que impide el uso del botón atrás del navegador
+        window.location.hash = "no-back-button";
+        window.location.hash = "Again-No-back-button";
+        window.onhashchange = function () { window.location.hash = ""; }
 
-}
-@{
-    if (ViewBag.showSuccessAlert)
-    {
-        <script>
-            alert('Credenciales incorrectas');
-        </script>
+
+        let Intentos = @ViewBag.Intentos; +
+     
+
+    </script>
+    @{
+        ViewBag.Title = "Login";
+        Layout = "~/Views/Compartida/_LayoutPage1.cshtml";
+
+
+    }
+    @{
+        if (ViewBag.showSuccessAlert == true)
+        {
+            var Intentos = ViewBag.Intentos;
+            <script>
+
+                // alert('Credenciales incorrectas');
+
+            </script>
+        }
+
+
+
     }
 
-}
 
-<link href="~/Styles/css/font-awesome.css" rel="stylesheet" />
-<link href="~/Styles/css/style.css" rel="stylesheet" />
+    <link href="~/Styles/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Styles/css/style.css" rel="stylesheet" />
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
-<h1>DACAR PROSOFT 2.0</h1>
-<div class="clear-loading spinner">
-    <span></span>
-</div>
-<div class="w3ls-login box box--big">
-    <!-- form starts here -->
-    <form action="../Account/Verify" method="post">
-        <div class="agile-field-txt">
-            <label><i  aria-hidden="true"></i> Usuario </label>
-            <input type="text" name="NombreUsuario" placeholder="Ingrese su usuario" required="" />
-        </div>
-        <div class="agile-field-txt">
-            <label><i  aria-hidden="true"></i> Contraseña </label>
-            <input type="password" name="contrasena" placeholder="Ingrese su contraseña" required="" id="myInput" />
-            <div class="agile_label">
-                <input id="check3" name="check3" type="checkbox" value="show password" onclick="myFunction()">
-                <label class="check" for="check3">Ver Contraseña</label>
-            </div>
-            <div class="agile-right">
-                <!-- <a href="#">forgot password?</a>-->
-            </div>
-        </div>
-        <!-- script for show password -->
+     </head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <h1 class="display-2">DACAR PROSOFT 2.0</h1>
+
+    <div class="clear-loading spinner">
+        <span></span>
+    </div>
+    <div class="w3ls-login box box--big">
+        <!-- form starts here -->
+        <div class="row">
+
+            <form id="my_captcha_form" action="../Account/Verify" method="post">
+                <div class="agile-field-txt">
+                    
+                    <div id="txtCredencialesIncorrectas" class="alert alert-danger" style="display: none">
+                        Credenciales Incorrectas
+                    </div>
+                    @{
+                        if (ViewBag.showSuccessAlert == true)
+                        {
+                            <script>
+                                $("#txtCredencialesIncorrectas").stop().fadeIn(500);
+                            setTimeout(() => { $("#txtCredencialesIncorrectas").stop().fadeOut(1000); }, 4000);
+                            </script>
+                        }
+                    }
+                    <label><i aria-hidden="true"></i> Usuario </label>
+                    <input id="txtNombreUsuario" type="text" name="NombreUsuario" placeholder="Ingrese su usuario" required="" />
+                    <br>
+                    <div id="txtErrorUsuario" class="alert alert-warning" style="display: none">
+                        Campo requerido*
+                    </div>
+
+                </div>
+                <div class="agile-field-txt">
+                    <label><i aria-hidden="true"></i> Contraseña </label>
+                    <input type="password" name="contrasena" placeholder="Ingrese su contraseña" required="" id="myInput" />
+                    <div id="txtErrorContrasena" class="alert alert-warning" style="display: none" >
+                        Campo requerido*
+                    </div>
+                   
+                    <input type="hidden" name="Intentos" value="@ViewBag.Intentos" id="Intentos" />
+                    <div class="agile_label">
+                        <input id="check3" name="check3" type="checkbox" value="show password" onclick="myFunction()">
+                        <label class="check" for="check3">Ver Contraseña</label>
+                    </div>
+                    <div class="agile-right">
+                        <!-- <a href="#">forgot password?</a>-->
+                    </div>
+                </div>
+    <!-- script for show password -->
+    <script>
+        function myFunction() {
+    var x = document.getElementById("myInput");
+        if (x.type === "password") {
+            x.type = "text";
+    } else {
+            x.type = "password";
+    }
+    }
+    </script>
+    <!-- //end script -->
+
+
+    <div class="container">
+        <div id="recaptcha" align="center" class="g-recaptcha" data-sitekey="6LfvQUokAAAAAK1eKath-O9Cc3kzij5m1o192MCu" data-callback="verifyCaptcha"></div>
+        <div id="g-recaptcha-error"></div>
         <script>
-				function myFunction() {
-					var x = document.getElementById("myInput");
-					if (x.type === "password") {
-						x.type = "text";
-					} else {
-						x.type = "password";
-					}
-				}
-        </script>
-        <!-- //end script -->
-        <input type="submit" value="LOGIN">
-    </form>
-</div>
-<!-- //form ends here -->
-<!--copyright-->
-<div class="copy-wthree">
-    <p>
-        © @DateTime.Now.Year Dacar . All Rights Reserved | Design by Alexander Morán
-        <a href="http://bateriasdacar.com/" target="_blank">Industrias Dacar</a>
-    </p>
-</div>
-<!--//copyright-->
+                        var prueba = @(ViewBag.Intentos);
+                        if ( prueba < @(ViewBag.LimiteIntentos)) {
+                            var element = document.getElementById("recaptcha");
+                            element.style.display = "none";
+                        } else {
+                            var element = document.getElementById("recaptcha");
+                            element.style.display = "inline";
+                        };
 
+        </script>
+        <!--      <input type="submit"
+        value="LOGIN">              -->
+
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button type='button' onclick="submitUserForm()" value="LOGIN" class="btn btn-danger">Login</button>
+        </div>
+
+    </div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+
+
+    <!-- //form ends here -->
+    <!--copyright-->
+    <div class="copy-wthree">
+        <p>
+            © @DateTime.Now.Year Dacar . All Rights Reserved | Design by
+            <a href="http://bateriasdacar.com/" target="_blank">Industrias Dacar</a>
+        </p>
+    </div>
+    <!--//copyright-->
+    <!--Script para requerir el Recaptcha-->
+    <script>
+        function submitUserForm() {
+    var response = grecaptcha.getResponse();
+        if (document.getElementById("txtNombreUsuario").value == "") {
+            $("#txtErrorUsuario").stop().fadeIn(500);
+            setTimeout(() => { $("#txtErrorUsuario").stop().fadeOut(1000); }, 4000);
+        return false;
+    }
+        if (document.getElementById("myInput").value == "") {
+            $("#txtErrorContrasena").stop().fadeIn(500);
+            setTimeout(() => { $("#txtErrorContrasena").stop().fadeOut(1000); }, 4000);
+        return false;
+    }
+        if (response.length == 0 && document.getElementById("recaptcha").style.display == "inline") {
+            document.getElementById('g-recaptcha-error').innerHTML = '<span style="color:white;">Campo Requerido.</span>';
+
+    setTimeout(() => {document.getElementById("g-recaptcha-error").style.display = "none"}, 5000);
+        return false;
+    } else {
+            document.getElementById("my_captcha_form").submit();
+    }
+        return true;
+    }
+        function verifyCaptcha() {
+            document.getElementById('g-recaptcha-error').innerHTML = '';
+    }
+    </script>

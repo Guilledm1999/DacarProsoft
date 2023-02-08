@@ -31,6 +31,6 @@ namespace DacarDatos.Datos
         public string ResumenAnalisis { get; set; }
         public string AreaResponsable { get; set; }
         public string Observaciones { get; set; }
-        public System.DateTime FechaRegistroAnalisis { get; set; }
+        public Nullable<System.DateTime> FechaRegistroAnalisis { get; set; }
     }
 }

@@ -238,15 +238,26 @@ namespace DacarProsoft.Datos
                                          {
                                              d.FrgnName
                                          }).FirstOrDefault();
-                    if (NombreForaneo.FrgnName != "" && NombreForaneo.FrgnName != null)
+                    if (NombreForaneo!=null)
                     {
-                        return NombreForaneo.FrgnName;
+                        if (NombreForaneo.FrgnName != "" && NombreForaneo.FrgnName != null && NombreForaneo != null)
+                        {
+                            return NombreForaneo.FrgnName;
+
+                        }
+                        else
+                        {
+                            return "SIN ESPECIFICAR";
+
+                        }
 
                     }
-                    else {
+                    else
+                    {
                         return "SIN ESPECIFICAR";
 
                     }
+
                 }
                 catch (Exception ex) {
                     Console.WriteLine(ex);
@@ -976,6 +987,50 @@ namespace DacarProsoft.Datos
                 return lst;
             }
         }
+        public List<DetalleGeneralDePackingListcs> ConsultarDetalleGeneralPackingListTodos()
+        {
+
+            List<DetalleGeneralDePackingListcs> lst = new List<DetalleGeneralDePackingListcs>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoDetalle = from d in DB.DetalleGeneralPackingList
+                                     
+                                     select new
+                                     {
+                                         d.ClientePackingList,
+                                         d.ContenedorPackingList,
+                                         d.FechaPackingList,
+                                         d.ReservaPackingList,
+                                         d.FacturaPedido,
+                                         d.PedidoPackingList,
+                                         d.EmbarcacionPackingList,
+                                         d.IntercambioEirPackingList,
+                                         d.ReferenciasPackingList,
+                                         d.ProductosPackingList
+                                     };
+
+                foreach (var x in ListadoDetalle)
+                {
+                    DateTime fechaDoc = Convert.ToDateTime(x.FechaPackingList, CultureInfo.InvariantCulture);
+                    string fechaDocumento = fechaDoc.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                    lst.Add(new DetalleGeneralDePackingListcs
+                    {
+                        ClientePackingList = x.ClientePackingList,
+                        ContenedorPackingList = x.ContenedorPackingList,
+                        FechaDePackingList = fechaDocumento,
+                        ReservaPackingList = x.ReservaPackingList,
+                        FacturaPedido = x.FacturaPedido,
+                        PedidoPackingList = x.PedidoPackingList,
+                        EmbarcacionPackingList = x.EmbarcacionPackingList,
+                        IntercambioEirPackingList = x.IntercambioEirPackingList,
+                        ReferenciasPackingList = x.ReferenciasPackingList,
+                        ProductosPackingList = x.ProductosPackingList
+                    });
+                };
+                return lst;
+            }
+        }
         public string ConsultarDetalleGeneralPackingListContenedor(int PackingId)
         {
             string contenedor = "";
@@ -1008,6 +1063,20 @@ namespace DacarProsoft.Datos
                 numero = ListadoDetalle;
                                       
                 return numero;
+            }
+        }
+
+        public List<int> numeroLista()
+        {
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+                var ListadoDetalle = (from d in DB.Packing
+
+                                      select d.PackingId).ToList();
+
+                
+
+                return ListadoDetalle;
             }
         }
         public int numeroContenedor(int PackingId)
@@ -1247,7 +1316,7 @@ namespace DacarProsoft.Datos
             {
 
                 var NombreForaneo = (from d in DB.AutorizacionPackingList
-                                     where d.Estado==true
+                                     where d.estado==true
                                      select new
                                      {
                                          d.Nombres
@@ -1269,6 +1338,7 @@ namespace DacarProsoft.Datos
             using (DacarProsoftEntities DB = new DacarProsoftEntities())
             {
                 var ListadoCabecera = from d in DB.Packing
+                                      
                                       orderby d.FechaRegistro descending                                     
                                       select new
                                       {
@@ -1327,6 +1397,19 @@ namespace DacarProsoft.Datos
                     });
                 }
                 return lst;
+            }
+        }
+
+        public List<int> ConsultarPackingIngreseadosComextList()
+        {
+           
+            List<PackingIngresados> lst = new List<PackingIngresados>();
+            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            {
+
+
+                var ListadoCabecera = DB.Packing.Where(x=> x.FechaRegistro.ToString().Contains("2022") && x.NombreCliente== "ENERGY BATTERY GROUP, INC" && x.DetalleIngresado=="SI").Select(x => x.PackingId).ToList();
+                return ListadoCabecera;
             }
         }
         public string MonthName(int month)

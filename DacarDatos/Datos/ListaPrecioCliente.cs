@@ -36,6 +36,11 @@ namespace DacarDatos.Datos
         public Nullable<decimal> PrecioEnvio { get; set; }
         public Nullable<System.DateTime> FechaRegistro { get; set; }
         public Nullable<System.DateTime> FechaActualizacion { get; set; }
+        public Nullable<int> Pisos { get; set; }
+        public Nullable<int> CantidadPorPallet { get; set; }
+        public string Marca { get; set; }
+        public string ItemCode { get; set; }
+        public string Version { get; set; }
     
         public virtual NombreListaPrecioCliente NombreListaPrecioCliente { get; set; }
     }

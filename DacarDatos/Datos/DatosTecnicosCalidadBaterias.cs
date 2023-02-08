@@ -33,5 +33,8 @@ namespace DacarDatos.Datos
         public string PesoSellada { get; set; }
         public string PesoHumedaKg { get; set; }
         public string Linea { get; set; }
+        public string C100 { get; set; }
+        public string C10 { get; set; }
+        public string C5 { get; set; }
     }
 }

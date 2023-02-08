@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "IngresosPruebasCCALocal";
+    ViewBag.Title = "IngresosCCAElectronicos";
     Layout = "~/Views/Compartida/_Layout.cshtml";
 }
 
@@ -15,7 +15,7 @@
 
 <div class="card shadow align-top">
     <div class="card-header">
-        <h2>Ingresos Pruebas CCA Locales</h2>
+        <h2>Ingresos de CCA Electronicos</h2>
     </div>
     <div class="card-body" @*style="background-image: url('../../Images/Dacarito.png')"*@>
         <div id="MensajeErrorInesperado" class="alert alert-danger collapse">
@@ -33,6 +33,7 @@
         <form>
             <div class="form-row">
                 <div class="form-group col-md-9">
+                    @* Fila 1 *@
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Fecha Prueba</label>
@@ -41,83 +42,91 @@
                         <div class="form-group col-md-3">
                             <label for="inputPassword4">Codigo Ingreso</label>
                             <input type="number" class="form-control" id="txtCodigoIngreso" placeholder="Codigo Ingreso" readonly>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputPassword4">Codigo Bateria</label>
-                            <input type="number" class="form-control" id="txtCodigoBateria" placeholder="Codigo Ingreso">
-                        </div>
+                        </div>@*
+        <div class="form-group col-md-3">
+            <label for="inputPassword4">Codigo Bateria</label>
+            <input type="number" class="form-control" id="txtCodigoBateria" placeholder="Codigo Ingreso">
+        </div>*@
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Tipo Bateria</label>
                             @Html.DropDownList("marcasPropias", new SelectList(marcasPropias, "Identificador", "Referencia"), "--Seleccione--", new { @class = "form-control", id = "txtTipoBateria", onchange = "CargarModelosBateriasVehiculos();" })
-                        </div>                    
-                    </div>
-                    <div class="form-row">
+                        </div>
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Modelo</label>
-                            <select class="form-control" aria-label="Default select example" id="txtModelo" style="width:100%" onchange="CargarValorTeorico();">
+                            <select class="form-control" aria-label="Default select example" id="txtModelo" style="width:100%" onchange="CargarValorTeorico(); ">
                                 <option value="" selected="selected">--Seleccione--</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Separador</label>
-                            @Html.DropDownList("Separador", new SelectList(Separador, "Value", "Text"), "--Seleccione--", new { @class = "form-control", id = "txtSeparador" })
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Lote de Ensamble</label>
-                            <input type="text" class="form-control" id="txtLoteEnsamble" placeholder="Lote de Ensamble">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Lote de Carga</label>
-                            <input type="text" class="form-control" id="txtLoteCarga" placeholder="Lote de Carga">
-                        </div>         
                     </div>
+                    @* Fila 2 *@
+                <div class="form-row">
+
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Separador</label>
+                        @Html.DropDownList("Separador", new SelectList(Separador, "Value", "Text"), "--Seleccione--", new { @class = "form-control", id = "txtSeparador" })
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Lote de Ensamble</label>
+                        <input type="text" class="form-control" id="txtLoteEnsamble" placeholder="Lote de Ensamble">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Lote de Carga</label>
+                        <input type="text" class="form-control" id="txtLoteCarga" placeholder="Lote de Carga">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Voltaje</label>
+                        <input type="number" class="form-control" id="txtVoltaje" placeholder="Voltaje">
+                    </div>
+                </div>
+                    @* Fila 3 *@
+                <div class="form-row">
+                    @*
+        <div class="form-group col-md-3">
+            <label for="inputEmail4">Temperatura de Prueba (ºC)</label>
+            <input type="number" class="form-control" id="txtTemperaturaPrueba" placeholder="Temperatura de Prueba (ºC)">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputEmail4">Peso (Kg)</label>
+            <input type="number" class="form-control" id="txtPeso" placeholder="Peso (Kg)">
+        </div>*@
+
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Dato Teorico de Prueba</label>
+                        <input type="number" class="form-control" id="txtDatoTeoricoPrueba" placeholder="Dato Teorico de Prueba" onchange="CalcularResultado();" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Resultado Final</label>
+                        <input type="number" class="form-control" id="txtResultadoFinal" placeholder="Resultado Final" onchange="CalcularResultado();">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Rendimiento (%)</label>
+                        <input type="number" class="form-control" id="txtCalificacion" placeholder="Rendimiento" readonly>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputEmail4">Observaciones </label>
+                        <input type="text" class="form-control" id="txtObservaciones" placeholder="Observaciones">
+                    </div>
+                </div>
+
+                    @* Fila 4 *@
                     <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Temperatura de Prueba (ºC)</label>
-                            <input type="number" class="form-control" id="txtTemperaturaPrueba" placeholder="Temperatura de Prueba (ºC)">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Peso (Kg)</label>
-                            <input type="number" class="form-control" id="txtPeso" placeholder="Peso (Kg)">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Voltaje</label>
-                            <input type="number" class="form-control" id="txtVoltaje" placeholder="Voltaje">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Dato Teorico de Prueba</label>
-                            <input type="number" class="form-control" id="txtDatoTeoricoPrueba" placeholder="Dato Teorico de Prueba" onchange="CalcularResultado();" readonly>
-                        </div>
-                    </div>         
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Resultado Final</label>
-                            <input type="number" class="form-control" id="txtResultadoFinal" placeholder="Resultado Final" onchange="CalcularResultado();">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Rendimiento (%)</label>
-                            <input type="number" class="form-control" id="txtCalificacion" placeholder="Rendimiento" readonly>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="inputEmail4">Observaciones </label>
-                            <input type="text" class="form-control" id="txtObservaciones" placeholder="Observaciones">
-                        </div>
+                        
                         <div class="form-group col-md-3">
                             <label for="inputEmail4">Anexos</label>
                             <input type="file" accept=".jpg,.png,.jpeg,.gif" class="form-control-file" id="txtAnexos">
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-md-3">
-                    <img src="~/Images/dacaritoo.png" style="max-width:100%;width:350px;height:auto;" />
-                </div>
-            </div>
-            <div align="center">
-                <button type="button" class="btn btn-primary" onclick="comprobarCampos();">Registrar</button>
-            </div>
-        </form>
+                        <div class="form-group col-md-3">
+                            <img src="~/Images/dacaritoo.png" style="max-width:100%;width:350px;height:auto;" />
+                        </div>
+                    </div>
+                    <div align="center">
+                        <button type="button" class="btn btn-primary" onclick="comprobarCampos();">Registrar</button>
+                    </div>
+                </form>
 
-    </div>
-</div>
+            </div>
+        </div>
 
 

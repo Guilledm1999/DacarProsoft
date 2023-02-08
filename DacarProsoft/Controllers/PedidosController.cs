@@ -242,6 +242,8 @@ namespace DacarProsoft.Controllers
             return result;
         }
 
+
+
         [HttpPost]
         public string RegistrarPedidoEnSap(int PedidoId, string Orden, DateTime FechaDocumento, DateTime FechaDespacho,string TipoVenta, string Vendedor, 
             string Observaciones, List<PedidoClienteDetalle> array,int CantidadNueva, Decimal PrecioNuevo, Decimal PesoNuevo) {
@@ -269,7 +271,7 @@ namespace DacarProsoft.Controllers
                     incoterm = x.TerminoImportacion;
                 }
                 //var PedidoDetalle = daoPedidos.ConsultarPedidoDetalle(PedidoId);
-                var ComprobarOrden = daoPedidos.ComprobarExistenciaOrdenEnSap(Orden);
+                var ComprobarOrden = daoPedidos.ComprobarExistenciaOrdenEnSap(Orden, cardCode);
 
                 if (ComprobarOrden == false)
                 {
@@ -295,7 +297,17 @@ namespace DacarProsoft.Controllers
                         MyDoc.DocType = BoDocumentTypes.dDocument_Items;
                         foreach (var y in array)
                         {
-                            MyDoc.Lines.ItemCode = y.ItemCode;
+
+                            var ItemCode = BuscarItemCode(y.MarcaBateria, y.NumeroParteCliente);
+                            if (string.IsNullOrEmpty(ItemCode))
+                            {
+                                return "Registrar el Item: " + y.NumeroParteCliente+ " en SAP";
+                            }
+                            else
+                            {
+                                y.ItemCode = ItemCode;
+                            }
+                            MyDoc.Lines.ItemCode =  y.ItemCode;
                             MyDoc.Lines.ItemDescription = y.ModeloBateria;
                             MyDoc.Lines.Quantity = Convert.ToDouble(y.CantidadConfirmada);
                             MyDoc.Lines.UnitPrice = Convert.ToDouble(y.PrecioUnitario);
@@ -390,7 +402,7 @@ namespace DacarProsoft.Controllers
             catch(Exception ex) {
                 return ex.ToString();
             } 
-        }
+            }
         public ActionResult PedidosConfirmados()
         {
             if (Session["usuario"] != null)
@@ -588,6 +600,21 @@ namespace DacarProsoft.Controllers
             {
                 Console.WriteLine(ex);
                 return false;
+            }
+        }
+
+        public string BuscarItemCode(string Marca, string NombreForaneo)
+        {
+            try
+            {
+                daoPedidos = new DaoPedidos();
+                var Result = daoPedidos.BuscarItemCode(Marca, NombreForaneo);
+                return Result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return "";
             }
         }
         public ActionResult PedidosModificados()

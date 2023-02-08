@@ -126,6 +126,18 @@ namespace DacarProsoft.Datos
             }
         }
 
+        public string BuscarItemCode(string Marca,string Foraneo)
+        {
+            
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
+            {
+                var ListadoPedidos = DB.OITM.Where(x => x.FrgnName == Foraneo && x.U_MARCA == Marca && x.validFor == "Y").Select(x => x.ItemCode).FirstOrDefault();
+
+
+               
+                return ListadoPedidos;
+            }
+        }
         public List<PedidosRegistradosSap> ConsultarPedidosGeneral(int estado)
         {
             List<PedidosRegistradosSap> lst = new List<PedidosRegistradosSap>();
@@ -432,7 +444,8 @@ namespace DacarProsoft.Datos
                                              d.PrecioUnitario,
                                              d.PrecioTotal,
                                              d.PesoBateria,
-                                             d.PesoNeto
+                                             d.PesoNeto,
+                                             d.MarcaBateria
                                          };
 
                 foreach (var x in DetallePedido)
@@ -452,7 +465,8 @@ namespace DacarProsoft.Datos
                        PrecioUnitario=x.PrecioUnitario,
                        PrecioTotal=x.PrecioTotal,
                        PesoBateria=x.PesoBateria,
-                       PesoNeto=x.PesoNeto
+                       PesoNeto=x.PesoNeto,
+                       MarcaBateria = x.MarcaBateria,
                     });
                 }
                 return lst;
@@ -555,7 +569,7 @@ namespace DacarProsoft.Datos
             }
         }
 
-        public bool ComprobarExistenciaOrdenEnSap(string Orden)
+        public bool ComprobarExistenciaOrdenEnSap(string Orden, string CardCode)
         {
             bool comprobar = false;
             using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
@@ -563,11 +577,11 @@ namespace DacarProsoft.Datos
                 try
                 {
                     var Listado = (from d in DB.ORDR
-                                   where d.U_SYP_NUMOCCL== Orden 
+                                   where d.U_SYP_NUMOCCL== Orden && d.CardCode == CardCode
                                    select new
                                    {
                                        d.CardCode,
-                                   });
+                                   }).ToList();
                     foreach (var x in Listado)
                     {
                         if (x.CardCode != null)
@@ -742,10 +756,14 @@ namespace DacarProsoft.Datos
                             select d).FirstOrDefault();
                 try
                 {
-                    regi.CantidadConfirmada = CantidadNueva;
+                    if (regi!= null)
+                    {
+                        regi.CantidadConfirmada = CantidadNueva;
 
 
-                    DB.SaveChanges();
+                        DB.SaveChanges();
+                        
+                    }
                     return true;
 
                 }
@@ -851,18 +869,18 @@ namespace DacarProsoft.Datos
         public string ConsultarCorreoCliente(string CardCode, string Sucursal)
         {
             string result = "";
-            using (DacarProsoftEntities DB = new DacarProsoftEntities())
+            using (SBODACARPRODEntities1 DB = new SBODACARPRODEntities1())
             {
-                var FechaPedido = (from d in DB.DireccionesClientes join
-                                    e in DB.UsuariosPortal on d.UsuarioId equals e.UsuarioPortalId
-                                   where e.ReferenciaUsuario==CardCode && d.NombreSucursal==Sucursal
+                var FechaPedido = (from d in DB.OCRD 
+                                   
+                                   where d.CardCode==CardCode 
                                  
                                    select new
                                    {
-                                       d.Correo,
+                                       d.E_Mail,
                                    }).FirstOrDefault(); ;
 
-                result = FechaPedido.Correo;
+                result = FechaPedido.E_Mail;
                 return result;
             }
         }

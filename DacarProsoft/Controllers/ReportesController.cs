@@ -1,6 +1,8 @@
 ﻿using DacarProsoft.Datos;
+using DacarProsoft.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -149,6 +151,217 @@ namespace DacarProsoft.Controllers
                 throw;
             }
         }
+
+        public JsonResult ReporteIdGarantia(int Id)
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.ReporteIdGarnatia(Id);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult LineaMarca(/*DateTime FechaInicio, DateTime FechaFin*/)
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.PieLinea();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult LineaMarcaActualizacion(List<GarantiaDetalle>Linea)
+        {
+            try
+            {
+               
+                
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.PieLineaActualizacion(Linea);
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public JsonResult MesesFiltro(List<GarantiaDetalle> Meses)
+        {
+            try
+            {
+                
+
+                var groups = Meses.GroupBy(n => new { n.Mes, n.Anio })
+                         .Select(n => new
+                         {  MesNum = DateTime.ParseExact(n.Key.Mes, "MMMM", CultureInfo.CurrentCulture).Month,
+                             Mes = n.Key.Mes,
+                             Anio = n.Key.Anio,
+                             Total = n.Count()
+                         })
+                         .OrderBy(n => n.MesNum).ThenByDescending(n=> n.Anio).ToList();
+               
+                return Json(groups, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public JsonResult Provincias()
+        {
+            try
+            {
+                daoGarantias = new DaoGarantias();
+                var Result = daoGarantias.Provincia();
+                return Json(Result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+        public JsonResult ProvinciasActualizacion(List<GarantiaDetalle> Provincias)
+        {
+            try
+            {
+
+                Provincias lst = new Provincias();
+
+                var Listado = (from d in Provincias
+
+                               select new
+                               {
+                                   d.Provincia,
+                               }).ToList();
+
+                var pl = (from r in Listado
+                          orderby r.Provincia
+                          group r by r.Provincia into grp
+                          select new { key = grp.Key, cnt = grp.Count() }).ToList();
+
+                foreach (var item in pl)
+                {
+                    if (item.key == "Azuay")
+                    {
+                        lst.az = item.cnt;
+                    }
+                    if (item.key == "Bolívar")
+                    {
+                        lst.bo = item.cnt;
+                    }
+                    if (item.key == "Cañar")
+                    {
+                        lst.cn = item.cnt;
+                    }
+                    if (item.key == "Carchi")
+                    {
+                        lst.cr = item.cnt;
+                    }
+                    if (item.key == "Cotopaxi")
+                    {
+                        lst.ct = item.cnt;
+                    }
+                    if (item.key == "Chimborazo")
+                    {
+                        lst.cb = item.cnt;
+                    }
+                    if (item.key == "El Oro")
+                    {
+                        lst.eo = item.cnt;
+                    }
+                    if (item.key == "Esmeraldas")
+                    {
+                        lst.es = item.cnt;
+                    }
+                    if (item.key == "Guayas")
+                    {
+                        lst.gu = item.cnt;
+                    }
+                    if (item.key == "Imbabura")
+                    {
+                        lst.im = item.cnt;
+                    }
+                    if (item.key == "Loja")
+                    {
+                        lst.lj = item.cnt;
+                    }
+                    if (item.key == "Los Rios")
+                    {
+                        lst.lr = item.cnt;
+                    }
+                    if (item.key == "Manabi")
+                    {
+                        lst.mn = item.cnt;
+                    }
+                    if (item.key == "Morona Santiago")
+                    {
+                        lst.ms = item.cnt;
+                    }
+                    if (item.key == "Napo")
+                    {
+                        lst.numero = item.cnt;
+                    }
+                    if (item.key == "Pastaza")
+                    {
+                        lst.pa = item.cnt;
+                    }
+                    if (item.key == "Pichincha")
+                    {
+                        lst.pi = item.cnt;
+                    }
+                    if (item.key == "Tungurahua")
+                    {
+                        lst.tu = item.cnt;
+                    }
+                    if (item.key == "Zamora Chinchipe")
+                    {
+                        lst.zc = item.cnt;
+                    }
+                    if (item.key == "Galápagos")
+                    {
+                        lst.ga = item.cnt;
+                    }
+                    if (item.key == "Sucumbíos")
+                    {
+                        lst.su = item.cnt;
+                    }
+                    if (item.key == "Orellana")
+                    {
+                        lst.na = item.cnt;
+                    }
+                    if (item.key == "Santo Domingo de Los Tsáchilas")
+                    {
+                        lst.sd = item.cnt;
+                    }
+                    if (item.key == "Santa Elena")
+                    {
+                        lst.se = item.cnt;
+                    }
+                }
+                return Json(lst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
         public ActionResult ReporteAnalisisGarantias()
         {
             if (Session["usuario"] != null)

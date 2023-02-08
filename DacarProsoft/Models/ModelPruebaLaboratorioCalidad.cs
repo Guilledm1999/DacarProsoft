@@ -35,5 +35,11 @@ namespace DacarProsoft.Models
         public string FechaRegistro { get; set; }
         public int ContadorRegistros { get; set; }
         public string CodigoBateria { get; set; }
+        public bool Placa { get; set; }
+        public string TipoPlaca { get; set; }
+        public Nullable<decimal> IntensidadDescarga { get; set; }
+        public string TipoPlacaNegativo { get; set; }
+        public DateTime? Fechai { get; set; }
+
     }
 }

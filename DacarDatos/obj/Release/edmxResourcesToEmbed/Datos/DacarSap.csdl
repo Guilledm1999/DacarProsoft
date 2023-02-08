@@ -450,6 +450,7 @@
     <EntitySet Name="ReporteIngresoChatarraConDesviacionRN" EntityType="SBODACARPRODModel.ReporteIngresoChatarraConDesviacionRN" />
     <EntitySet Name="ATC1" EntityType="SBODACARPRODModel.ATC1" />
     <EntitySet Name="INV3" EntityType="SBODACARPRODModel.INV3" />
+    <EntitySet Name="Matriz_Inventario_Baterias_RN" EntityType="SBODACARPRODModel.Matriz_Inventario_Baterias_RN" />
   </EntityContainer>
   <EntityType Name="VU_REPORTEPRODUCCION">
     <Key>
@@ -1390,6 +1391,8 @@
     <Property Name="U_DAC_COMENT1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="U_DAC_COMENT2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="U_DAC_COMENT3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_POLARI" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="U_DAC_MERCA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="OPDN">
     <Key>
@@ -4763,5 +4766,17 @@
     <Property Name="RRVatLC" Type="Decimal" Precision="19" Scale="6" />
     <Property Name="RRVatFC" Type="Decimal" Precision="19" Scale="6" />
     <Property Name="RRVatSC" Type="Decimal" Precision="19" Scale="6" />
+  </EntityType>
+  <EntityType Name="Matriz_Inventario_Baterias_RN">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Ubicacion" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" />
+    <Property Name="Ubicacion" Type="String" Nullable="false" MaxLength="18" FixedLength="false" Unicode="false" />
+    <Property Name="Refencia" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Polaridad" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="Marca" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Stock" Type="Decimal" Precision="38" Scale="6" />
   </EntityType>
 </Schema>

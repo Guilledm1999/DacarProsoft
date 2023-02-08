@@ -34,7 +34,7 @@ namespace DacarDatos.Datos
         public string TipoIngreso { get; set; }
         public string Comentarios { get; set; }
         public string BodegaId { get; set; }
-        public System.DateTime FechaRegistro { get; set; }
+        public Nullable<System.DateTime> FechaRegistro { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChatarraDetalle> ChatarraDetalle { get; set; }

@@ -285,3 +285,24 @@ function consultarInfoFact(numeroPedido) {
         }
     })
 }
+
+
+function Imprimir() {
+    $.ajax({
+        url: "../PackingList/ImprimirTodoslosDetalles",
+        type: "POST",
+        async: false,
+       
+        success: function (msg) {
+            if (msg != null) {
+               
+            }
+        },
+        error: function (msg) {
+            $("#MensajeErrorGeneral").show('fade');
+            setTimeout(function () {
+                $("#MensajeErrorGeneral").fadeOut(1500);
+            }, 3000);
+        }
+    })
+}

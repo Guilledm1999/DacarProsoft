@@ -769,6 +769,7 @@
     <Content Include="Images\SeguridadIndustrialSinFondo.png" />
     <Content Include="Images\spinning-circles.svg" />
     <Content Include="Images\Visto_Bueno.png" />
+    <Content Include="Images\FirmaLSAUCES.png" />
     <Content Include="Images\xmal.png" />
     <Content Include="scripts\General\Accesos\Accesos.js" />
     <Content Include="scripts\General\Account\CambioContrasenia.js" />
@@ -776,8 +777,11 @@
     <Content Include="scripts\General\Administrador\AdministrarGenericosItem.js" />
     <Content Include="scripts\General\Administrador\AdministrarHistoricoChatarra.js" />
     <Content Include="scripts\General\Administrador\AdministrarMaestrosGenerales.js" />
+    <Content Include="scripts\General\Administrador\AdministrarDatosTecnicosCalidadBateria.js" />
     <Content Include="scripts\General\Articulos\ConsultarItemsChatarra.js" />
     <Content Include="scripts\General\Articulos\ConsultarArticulos.js" />
+    <Content Include="scripts\General\Articulos\InventarioBaterias.js" />
+    <Content Include="scripts\General\Articulos\InventarioBateriasAlmacenes.js" />
     <Content Include="scripts\General\Calidad\ConsultaMedicionDeDescarga.js" />
     <Content Include="scripts\General\Calidad\ConsultaPruebasLaboratorio.js" />
     <Content Include="scripts\General\Calidad\ConsultarPruebasCCALocal.js" />
@@ -814,8 +818,10 @@
     <Content Include="scripts\General\Pedidos\PedidosModificados.js" />
     <Content Include="scripts\General\Principal\Principal.js" />
     <Content Include="scripts\General\Garantias\ConsultaRevisionesTecnicas.js" />
+    <Content Include="scripts\General\Principal\VistaPrincipal.js" />
     <Content Include="scripts\General\Produccion\AnalisisRegistroGarantias.js" />
     <Content Include="scripts\General\Produccion\ConsultarRegistrosAnalisisGarantias.js" />
+    <Content Include="scripts\General\Prueba\PruebaVista.js" />
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantias.js" />
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantiasPorAnio.js" />
     <Content Include="scripts\General\Reportes\ReporteAnalisisGarantiasPorCliente.js" />
@@ -863,8 +869,10 @@
     <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
     <Compile Include="Controllers\ProduccionController.cs" />
+    <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
+    <Compile Include="Datos\DaoPruebaMVC.cs" />
     <Compile Include="Datos\Conexion.cs" />
     <Compile Include="Datos\ConexionAccess.cs" />
     <Compile Include="Datos\ConexionApiSap.cs" />
@@ -905,6 +913,7 @@
     <Compile Include="Models\DetallePallet.cs" />
     <Compile Include="Models\DetalleProrrateo.cs" />
     <Compile Include="Models\DetFactPackingList.cs" />
+    <Compile Include="Models\EDatosTecnicosCalidadBateria.cs" />
     <Compile Include="Models\EncaFactPackingList.cs" />
     <Compile Include="Models\EventoPagina .cs" />
     <Compile Include="Models\GarantiaDetalle.cs" />
@@ -917,7 +926,10 @@
     <Compile Include="Models\ItemsPackingList.cs" />
     <Compile Include="Models\DetalleAdicionalPackingFact.cs" />
     <Compile Include="Models\ItemsPallet.cs" />
+    <Compile Include="Models\ListadoPackingList.cs" />
     <Compile Include="Models\MaestrosGenerales.cs" />
+    <Compile Include="Models\Marca.cs" />
+    <Compile Include="Models\MatrizInventario.cs" />
     <Compile Include="Models\MdlPdn1.cs" />
     <Compile Include="Models\MdlPdn1Individual.cs" />
     <Compile Include="Models\MedicionPallet.cs" />
@@ -941,6 +953,7 @@
     <Compile Include="Models\PedidosRegistradosSap.cs" />
     <Compile Include="Models\PesoPrecioArticulo.cs" />
     <Compile Include="Models\IngresosChatarras.cs" />
+    <Compile Include="Models\PruebaMVC.cs" />
     <Compile Include="Models\ReporteChatarraConDesviacion.cs" />
     <Compile Include="Models\ReporteGarandiasDetalleFinal.cs" />
     <Compile Include="Models\ReporteGeneralDeControl.cs" />
@@ -1318,6 +1331,10 @@
     <Content Include="Views\Calidad\PackingListLiberadosLocales.cshtml" />
     <Content Include="Views\Calidad\ReporteLiberadosLocales.cshtml" />
     <Content Include="Views\Calidad\ConsultarPruebasCCALocal.cshtml" />
+    <Content Include="Views\Prueba\PruebaVista.cshtml" />
+    <Content Include="Views\Administrador\AdministrarDatosTecnicosCalidadBateria.cshtml" />
+    <Content Include="Views\Articulos\InventarioBaterias.cshtml" />
+    <Content Include="Views\Articulos\InventarioBateriasAlmacenes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
